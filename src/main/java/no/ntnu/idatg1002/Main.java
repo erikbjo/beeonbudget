@@ -1,4 +1,4 @@
-package no.ntnu.IDATG2001;
+package no.ntnu.idatg1002;
 
 public class Main {
 
