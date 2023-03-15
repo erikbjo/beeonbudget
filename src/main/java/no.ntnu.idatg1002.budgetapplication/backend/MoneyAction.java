@@ -1,6 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
-public class MoneyAction {
+public abstract class MoneyAction {
   private int amount;
   private String description;
   private Category category;
@@ -14,11 +14,13 @@ public class MoneyAction {
   }
 
   public int getAmount() {
-  return amount;
+    return amount;
   }
 
   public void setAmount(int amount) {
-    this.amount = amount;
+    if (amount >= 0) {
+      this.amount = amount;
+    }
   }
 
   public String getDescription() {
@@ -26,7 +28,9 @@ public class MoneyAction {
   }
 
   public void setDescription(String description) {
-    this.description = description;
+    if (!description.isEmpty() && !description.isBlank()) {
+      this.description = description;
+    }
   }
 
   public Category getCategory() {
