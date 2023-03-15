@@ -9,9 +9,9 @@ import java.util.List;
 public class Budget {
 
     private String budgetName;
-    private List<Expense> expenseList;
-    private List<Income> incomeList;
-    private List<Enum> categoryList;
+    private List<MoneyAction> expenseList;
+    private List<MoneyAction> incomeList;
+    private List<Category> categoryList;
 
     public Budget(String budgetName){
         this.budgetName = budgetName;
@@ -48,9 +48,9 @@ public class Budget {
 
     public int getTotalIncome(){
         int totalIncome = 0;
-        for (Income income: incomeList)
+        for (MoneyAction income: incomeList)
         {
-            totalIncome += income.getTotal();
+            totalIncome += income.getAmount();
         }
         return totalIncome;
     }
@@ -63,9 +63,9 @@ public class Budget {
 
     public int getTotalExpense(){
         int totalExpense = 0;
-        for (Expense expense: expenseList)
+        for (MoneyAction expense: expenseList)
         {
-            totalExpense += expense.getTotal();
+            totalExpense += expense.getAmount();
         }
         return totalExpense;
     }
@@ -79,8 +79,8 @@ public class Budget {
        return getTotalIncome() - getTotalExpense();
     }
 
-    public void addBudgetCategories(){
-        categoryList.add(Enum);
+    public void addBudgetCategories(Category category){
+        categoryList.add(category);
     }
 
 
@@ -89,7 +89,7 @@ public class Budget {
      *
      * @param expense The expense object that you want to add to the list.
      */
-    public void addBudgetExpenses(Expense expense){
+    public void addBudgetExpenses(MoneyAction expense){
         expenseList.add(expense);
     }
 
@@ -98,7 +98,7 @@ public class Budget {
      *
      * @param income The income object to be added to the list.
      */
-    public void addBudgetIncome(Income income){
+    public void addBudgetIncome(MoneyAction income){
         incomeList.add(income);
     }
 
@@ -107,7 +107,7 @@ public class Budget {
      *
      * @return A list of income objects.
      */
-    public List<Income> getIncomeList()
+    public List<MoneyAction> getIncomeList()
     {
         return incomeList;
     }
@@ -117,7 +117,7 @@ public class Budget {
      *
      * @return A list of expenses.
      */
-    public List<Expense> getExpenseList()
+    public List<MoneyAction> getExpenseList()
     {
         return expenseList;
     }
@@ -127,7 +127,7 @@ public class Budget {
      *
      * @return A list of Enum objects.
      */
-    public List<Enum> getCategoryList()
+    public List<Category> getCategoryList()
     {
         return categoryList;
     }
