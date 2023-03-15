@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import no.ntnu.idatg1002.budgetapplication.backend.Savings.SavingsPlan;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -18,7 +19,7 @@ public class Account {
   private String securityAnswer;
   private String accountNumber;
   private Map<String, SavingsPlan> savingsPlans;
-  private Budget budget;
+  private Map<String, Budget> budgets;
 
   Random rand = new Random();
 
@@ -42,7 +43,7 @@ public class Account {
     this.securityAnswer = securityAnswer;
     this.accountNumber = generateAccountNumber();
     this.savingsPlans = new HashMap<>();
-    this.budget = new Budget();
+    this.budgets = new HashMap<>();
   }
 
   /**
@@ -180,7 +181,7 @@ public class Account {
    * @param savingsPlan the savingsPlan to be added.
    */
   public void addSavingsPlan(SavingsPlan savingsPlan) {
-    //this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+    this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
   }
 
   /**
@@ -188,8 +189,17 @@ public class Account {
    *
    * @return the account's Budget.
    */
-  public Budget getBudget() {
-    return budget;
+  public Map<String, Budget> getBudgets() {
+    return budgets;
+  }
+
+  /**
+   * Adds a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void addBudget(Budget budget) {
+    this.budgets.put(budget.getBudgetName(), budget);
   }
 
   /**

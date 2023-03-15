@@ -10,7 +10,8 @@ public class BudgetApp {
 
   public static void main(String[] args) {
     //Code here
-    Account account = new Account("Simon", "s@com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
+    Account account = new Account("Simon", "s@com", "1234",
+        SecurityQuestion.CAR_BRAND, "BMW");
     System.out.println(account.getAccountNumber());
   }
 
