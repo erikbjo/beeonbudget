@@ -1,11 +1,9 @@
-package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
+package no.ntnu.idatg1002.budgetapplication.backend;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.Savings.SavingsPlan;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -21,7 +19,7 @@ public class Account {
   private String securityAnswer;
   private String accountNumber;
   private Map<String, SavingsPlan> savingsPlans;
-  private Budget budget;
+  private Map<String, Budget> budgets;
 
   Random rand = new Random();
 
@@ -39,13 +37,13 @@ public class Account {
   public Account(String name, String email, String pinCode, SecurityQuestion securityQuestion,
       String securityAnswer) {
     this.name = name;
-    setEmail(email);
-    setPinCode(pinCode);
+    this.email = email;
+    this.pinCode = pinCode;
     this.securityQuestion = securityQuestion;
     this.securityAnswer = securityAnswer;
     this.accountNumber = generateAccountNumber();
     this.savingsPlans = new HashMap<>();
-    this.budget = new Budget("testBudget");
+    this.budgets = new HashMap<>();
   }
 
   /**
@@ -81,7 +79,7 @@ public class Account {
    * @param email the email to be set.
    */
   public boolean setEmail(String email) {
-    if (!email.contains("@") && !Database.getEmails().contains(email)) {
+    if (!email.contains("@")) {
       return false;
     } else {
       this.email = email;
@@ -183,7 +181,7 @@ public class Account {
    * @param savingsPlan the savingsPlan to be added.
    */
   public void addSavingsPlan(SavingsPlan savingsPlan) {
-    //this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+    this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
   }
 
   /**
@@ -191,8 +189,17 @@ public class Account {
    *
    * @return the account's Budget.
    */
-  public Budget getBudget() {
-    return budget;
+  public Map<String, Budget> getBudgets() {
+    return budgets;
+  }
+
+  /**
+   * Adds a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void addBudget(Budget budget) {
+    this.budgets.put(budget.getBudgetName(), budget);
   }
 
   /**
@@ -202,33 +209,11 @@ public class Account {
    * @return the random AccountNumber as a String
    */
   private String generateAccountNumber() {
-    boolean idTaken = true;
-    StringBuilder id;
-    do {
-      id = new StringBuilder("ID-");
-
-      for (int i = 0; i < 14; i++) {
-        int n = rand.nextInt(10);
-        id.append(n);
-      }
-      if (!Database.getAccounts().containsKey(id.toString())) {
-        idTaken = false;
-      }
-    } while (idTaken);
+    StringBuilder id = new StringBuilder("ID-");
+    for (int i = 0; i < 14; i++) {
+      int n = rand.nextInt(10);
+      id.append(n);
+    }
     return id.toString();
-  }
-
-  @Override
-  public String toString() {
-    return "Account{"
-        + "name='" + name + '\''
-        + ", email='" + email + '\''
-        + ", pinCode='" + pinCode + '\''
-        + ", securityQuestion=" + securityQuestion
-        + ", securityAnswer='" + securityAnswer + '\''
-        + ", accountNumber='" + accountNumber + '\''
-        + ", savingsPlans=" + savingsPlans
-        + ", budgets=" + budgets
-        + '}';
   }
 }
