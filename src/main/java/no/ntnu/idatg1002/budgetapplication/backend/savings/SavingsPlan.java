@@ -16,8 +16,7 @@ public class SavingsPlan {
   }
 
   public void setGoalName(String goalName) {
-    boolean goalNameCheck;
-    goalNameCheck = true;
+    boolean goalNameCheck = true;
     if (goalName == null) {
       goalNameCheck = false;
       return;

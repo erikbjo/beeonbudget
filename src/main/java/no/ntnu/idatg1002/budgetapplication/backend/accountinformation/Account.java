@@ -39,7 +39,7 @@ public class Account {
   public Account(String name, String email, String pinCode, SecurityQuestion securityQuestion,
       String securityAnswer) {
     this.name = name;
-    this.email = email;
+    setEmail(email);
     this.pinCode = pinCode;
     this.securityQuestion = securityQuestion;
     this.securityAnswer = securityAnswer;
@@ -81,7 +81,7 @@ public class Account {
    * @param email the email to be set.
    */
   public boolean setEmail(String email) {
-    if (!email.contains("@")) {
+    if (!email.contains("@") && !Database.getEmails().contains(email)) {
       return false;
     } else {
       this.email = email;
@@ -211,11 +211,19 @@ public class Account {
    * @return the random AccountNumber as a String
    */
   private String generateAccountNumber() {
-    StringBuilder id = new StringBuilder("ID-");
-    for (int i = 0; i < 14; i++) {
-      int n = rand.nextInt(10);
-      id.append(n);
-    }
+    boolean idTaken = true;
+    StringBuilder id;
+    do {
+      id = new StringBuilder("ID-");
+
+      for (int i = 0; i < 14; i++) {
+        int n = rand.nextInt(10);
+        id.append(n);
+      }
+      if (!Database.getAccountNumbers().contains(id.toString())) {
+        idTaken = false;
+      }
+    } while (idTaken);
     return id.toString();
   }
 }
