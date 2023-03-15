@@ -1,11 +1,11 @@
 package no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 
-public class SavingsGoal {
+public class SavingsPlan {
   private String goalName;
   private int totalGoalAmount;
   private int totalSaved;
 
-  public SavingsGoal(String goalName, int totalGoalAmount, int totalSaved) {
+  public SavingsPlan(String goalName, int totalGoalAmount, int totalSaved) {
     this.goalName = goalName;
     this.totalGoalAmount = totalGoalAmount;
     this.totalSaved = totalSaved;
@@ -48,4 +48,6 @@ public class SavingsGoal {
   public void setTotalSaved(int totalSaved) {
     this.totalSaved = totalSaved;
   }
+
 }
+
