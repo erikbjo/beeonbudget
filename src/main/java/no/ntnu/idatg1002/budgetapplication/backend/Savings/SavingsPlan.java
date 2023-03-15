@@ -86,7 +86,7 @@ public class SavingsPlan {
     int estimatedSavTime = totalGoalAmount / wantedMonthlySavingAmount;
     return estimatedSavTime;
   }
-
+/*
   public int estimateMonthlySavingAmount() {
     int estimatedMonthlySavA = totalGoalAmount / wantedSavingTime;
     return estimatedMonthlySavA;
