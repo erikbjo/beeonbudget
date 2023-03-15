@@ -180,7 +180,7 @@ public class Account {
    * @param savingsPlan the savingsPlan to be added.
    */
   public void addSavingsPlan(SavingsPlan savingsPlan) {
-    //this.savingsPlans.put(savingsPlan.getName(), savingsPlan);
+    //this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
   }
 
   /**
