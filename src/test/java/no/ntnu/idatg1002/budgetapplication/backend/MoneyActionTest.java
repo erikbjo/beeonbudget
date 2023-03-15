@@ -1,13 +1,9 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 import static org.junit.jupiter.api.Assertions.*;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 class MoneyActionTest {
 
-  MoneyAction testAction =
-      new Expense(50, "Test description", Category.HOUSING, RecurringType.YEARLY);
+  MoneyAction testAction = new MoneyAction(50, "Test description", Category.HOUSING, RecurringType.YEARLY) {};
 
   @Test
   void checkThatGetAmountReturnsCorrectAmount() {
@@ -52,20 +48,20 @@ class MoneyActionTest {
     assertEquals("Test description", testAction.getDescription());
   }
   @Test
-  void getCategory() {
+  void checkThatGetCategoryReturnsCorrectCategory() {
     assertEquals(Category.HOUSING, testAction.getCategory());
   }
   @Test
-  void setCategory() {
+  void checkThatSetCategorySetsCategory() {
     testAction.setCategory(Category.HEALTHCARE);
     assertEquals(Category.HEALTHCARE, testAction.getCategory());
   }
   @Test
-  void getType() {
+  void checkThatGetTypeReturnsCorrectType() {
     assertEquals(RecurringType.YEARLY, testAction.getType());
   }
   @Test
-  void setType() {
+  void checkThatSetTypeSetsType() {
     testAction.setType(RecurringType.NONRECURRING);
     assertEquals(RecurringType.NONRECURRING, testAction.getType());
   }
