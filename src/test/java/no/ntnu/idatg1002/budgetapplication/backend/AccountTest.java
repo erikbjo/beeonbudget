@@ -16,7 +16,7 @@ Account account;
   }
 
   @Nested
-  class setEmailTest {
+  class SetEmailTest {
     @Test
     void emailHasAtSign() {
       assertTrue(account.setEmail("simon@gmail.com"));
@@ -31,7 +31,7 @@ Account account;
   }
 
   @Nested
-  class setPinCodeTest {
+  class SetPinCodeTest {
     @Test
     void pinCodeHasFourDigits() {
       assertTrue(account.setPinCode("0001"));
@@ -60,6 +60,15 @@ Account account;
     void pinCodeHasLettersAndDigits() {
       assertFalse(account.setPinCode("id09"));
       assertEquals("1234", account.getPinCode());
+    }
+  }
+
+  @Nested
+  class GenerateAccountNumberTest {
+    @Test
+    void accountNumberIsCorrectFormat() {
+      assertEquals("ID-", account.getAccountNumber().substring(0, 3));
+      assertEquals(17, account.getAccountNumber().length());
     }
   }
 }
