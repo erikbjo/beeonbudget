@@ -48,4 +48,6 @@ public class SavingsPlan {
   public void setTotalSaved(int totalSaved) {
     this.totalSaved = totalSaved;
   }
+
 }
+
