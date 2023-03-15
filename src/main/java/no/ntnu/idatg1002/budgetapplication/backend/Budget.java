@@ -45,7 +45,7 @@ public class Budget {
      *
      * @return The total income of the user.
      */
-    /**
+
     public int getTotalIncome(){
         int totalIncome = 0;
         for (Income income: incomeList)
@@ -53,14 +53,14 @@ public class Budget {
             totalIncome += income.getTotal();
         }
         return totalIncome;
-    }*/
+    }
 
     /**
      * This function returns the total expense of all the expenses in the expense list
      *
      * @return The total expense of the trip.
      */
-    /**
+
     public int getTotalExpense(){
         int totalExpense = 0;
         for (Expense expense: expenseList)
@@ -68,14 +68,13 @@ public class Budget {
             totalExpense += expense.getTotal();
         }
         return totalExpense;
-    }*/
+    }
 
     /**
      * This function returns the difference between the total income and the total expense
      *
      * @return The difference between the total income and the total expense.
      */
-
     public int getNetBalance(){
        return getTotalIncome() - getTotalExpense();
     }
@@ -83,7 +82,7 @@ public class Budget {
     public void addBudgetCategories(){
         categoryList.add(Enum);
     }
-    */
+
 
     /**
      * This function adds an expense to the expense list
