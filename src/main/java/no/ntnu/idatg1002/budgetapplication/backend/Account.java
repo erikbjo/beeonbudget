@@ -14,7 +14,7 @@ public class Account {
   private String name;
   private String email;
   private String pinCode;
-  private String securityQuestion;
+  private SecurityQuestion securityQuestion;
   private String securityAnswer;
   private String accountNumber;
   private Map<String, SavingsPlan> savingsPlans;
@@ -33,7 +33,7 @@ public class Account {
    * @param securityQuestion securityQuestion chosen by account owner.
    * @param securityAnswer answer to the securityQuestion.
    */
-  public Account(String name, String email, String pinCode, String securityQuestion,
+  public Account(String name, String email, String pinCode, SecurityQuestion securityQuestion,
       String securityAnswer) {
     this.name = name;
     this.email = email;
@@ -77,8 +77,13 @@ public class Account {
    *
    * @param email the email to be set.
    */
-  public void setEmail(String email) {
-    this.email = email;
+  public boolean setEmail(String email) {
+    if (!email.contains("@")) {
+      return false;
+    } else {
+      this.email = email;
+      return true;
+    }
   }
 
   /**
@@ -98,7 +103,7 @@ public class Account {
    * @return true if the provided pinCode is 4 digits, if not it returns false.
    */
   public boolean setPinCode(String pinCode) {
-    if (pinCode.length() != 4) {
+    if (pinCode.length() != 4 || !pinCode.matches("\\d+")) {
       return false;
     } else {
       this.pinCode = pinCode;
@@ -111,7 +116,7 @@ public class Account {
    *
    * @return the security question chosen by the account owner.
    */
-  public String getSecurityQuestion() {
+  public SecurityQuestion getSecurityQuestion() {
     return securityQuestion;
   }
 
@@ -120,7 +125,7 @@ public class Account {
    *
    * @param securityQuestion the securityQuestion to be set.
    */
-  public void setSecurityQuestion(String securityQuestion) {
+  public void setSecurityQuestion(SecurityQuestion securityQuestion) {
     this.securityQuestion = securityQuestion;
   }
 
