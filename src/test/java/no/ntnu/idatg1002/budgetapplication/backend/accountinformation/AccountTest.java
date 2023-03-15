@@ -1,7 +1,8 @@
-package no.ntnu.idatg1002.budgetapplication.backend;
+package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
