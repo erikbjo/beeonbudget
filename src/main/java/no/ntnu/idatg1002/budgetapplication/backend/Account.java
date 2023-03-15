@@ -192,6 +192,12 @@ public class Account {
     return budget;
   }
 
+  /**
+   * Generates a random 14-digit AccountNumber as a String. The AccountNumber will be formatted in
+   * this way: ID-**************
+   *
+   * @return the random AccountNumber as a String
+   */
   private String generateAccountNumber() {
     StringBuilder id = new StringBuilder("ID-");
     for (int i = 0; i < 14; i++) {
