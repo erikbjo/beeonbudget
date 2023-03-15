@@ -3,8 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 /**
  * The type Money action. Superclass of Expense and Income.
 
- * @author erbj
- *
+ * @author Erik Bjørnsen
  */
 public abstract class MoneyAction {
   private int amount;
