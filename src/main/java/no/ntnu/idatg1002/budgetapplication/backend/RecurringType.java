@@ -5,5 +5,5 @@ public enum RecurringType {
   MONTHLY,
   WEEKLY,
   DAILY,
-  NONRECURRING
+  NONRECURRING;
 }
