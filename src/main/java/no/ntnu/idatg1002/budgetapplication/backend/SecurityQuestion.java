@@ -2,6 +2,9 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 
 /**
  * The security questions that the users can choose from.
+ *
+ * @author Simon Husås Houmb
+ * @version 1.0 (2023-03-15)
  */
 public enum SecurityQuestion {
   NAME_OF_CITY("In what city were you born?"),
