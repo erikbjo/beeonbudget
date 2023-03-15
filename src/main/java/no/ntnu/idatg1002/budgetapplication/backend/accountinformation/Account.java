@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
+import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -40,7 +40,7 @@ public class Account {
       String securityAnswer) {
     this.name = name;
     setEmail(email);
-    this.pinCode = pinCode;
+    setPinCode(pinCode);
     this.securityQuestion = securityQuestion;
     this.securityAnswer = securityAnswer;
     this.accountNumber = generateAccountNumber();
@@ -211,10 +211,24 @@ public class Account {
         int n = rand.nextInt(10);
         id.append(n);
       }
-      if (!Database.getAccountNumbers().contains(id.toString())) {
+      if (!Database.getAccounts().containsKey(id.toString())) {
         idTaken = false;
       }
     } while (idTaken);
     return id.toString();
+  }
+
+  @Override
+  public String toString() {
+    return "Account{"
+        + "name='" + name + '\''
+        + ", email='" + email + '\''
+        + ", pinCode='" + pinCode + '\''
+        + ", securityQuestion=" + securityQuestion
+        + ", securityAnswer='" + securityAnswer + '\''
+        + ", accountNumber='" + accountNumber + '\''
+        + ", savingsPlans=" + savingsPlans
+        + ", budgets=" + budgets
+        + '}';
   }
 }
