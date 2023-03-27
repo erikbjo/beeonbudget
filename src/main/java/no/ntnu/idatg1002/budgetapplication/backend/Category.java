@@ -12,5 +12,7 @@ public enum Category {
   UTILITIES,
   CLOTHING,
   HEALTHCARE,
-  INSURANCE
+  INSURANCE,
+  OTHER,
+  ENERGY
 }
