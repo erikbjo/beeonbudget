@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
+import no.ntnu.idatg1002.budgetapplication.backend.Savings.SavingsPlan;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -42,7 +43,7 @@ public class Account {
     this.securityAnswer = securityAnswer;
     this.accountNumber = generateAccountNumber();
     this.savingsPlans = new HashMap<>();
-    this.budget = new Budget();
+    this.budget = new Budget("testBudget");
   }
 
   /**
