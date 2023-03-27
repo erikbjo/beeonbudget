@@ -19,7 +19,7 @@ public class Account {
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  private String accountNumber;
+  private final String accountNumber;
   private Map<String, SavingsPlan> savingsPlans;
   private Map<String, Budget> budgets;
 
@@ -63,7 +63,7 @@ public class Account {
    * @param name the name to be set.
    */
   public void setName(String name) {
-    this.name = name;
+    if (!name.isBlank() && !name.isEmpty()) this.name = name;
   }
 
   /**
@@ -159,14 +159,6 @@ public class Account {
     return accountNumber;
   }
 
-  /**
-   * Sets the accountNumber of the account to the provided name.
-   *
-   * @param accountNumber the accountNumber to be set.
-   */
-  public void setAccountNumber(String accountNumber) {
-    this.accountNumber = accountNumber;
-  }
 
   /**
    * Returns a collection of the account's savings plans.
@@ -194,6 +186,15 @@ public class Account {
   }
 
   /**
+   * Removes a savings plan to the account's savingsPlans collection.
+   *
+   * @param savingsPlan the savingsPlan to be added.
+   */
+  public void removeSavingsPlan(SavingsPlan savingsPlan) {
+    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
+  }
+
+  /**
    * Returns the account's Budget.
    *
    * @return the account's Budget.
@@ -216,6 +217,15 @@ public class Account {
       this.budgets.put(budget.getBudgetName(), budget);
       return true;
     }
+  }
+
+  /**
+   * Removes a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget.getBudgetName(), budget);
   }
 
   /**
