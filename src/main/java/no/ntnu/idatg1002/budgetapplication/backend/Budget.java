@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Budget is a class that contains a list of expenses, a list of incomes, and a list of categories
+ * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories
+ *
+ * @author Emil Klegvård-Slåttsveen
+ * @version 2.0 (2023-03-27)
  */
 public class Budget {
-
   private String budgetName;
   private final List<MoneyAction> expenseList;
   private final List<MoneyAction> incomeList;
