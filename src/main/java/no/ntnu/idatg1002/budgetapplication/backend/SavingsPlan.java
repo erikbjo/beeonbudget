@@ -1,4 +1,4 @@
-package no.ntnu.idatg1002.budgetapplication.backend.savings;
+package no.ntnu.idatg1002.budgetapplication.backend;
 
 public class SavingsPlan {
   private String goalName;
