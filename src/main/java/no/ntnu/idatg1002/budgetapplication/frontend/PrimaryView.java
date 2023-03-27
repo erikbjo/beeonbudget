@@ -14,9 +14,9 @@ public class PrimaryView extends Application {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/primary.fxml"));
     Parent root = loader.load();
     Scene scene = new Scene(root);
+    primaryStage.setTitle("Bee on Budget");
     primaryStage.getIcons().add(new Image(
         getClass().getResource("/images/simpleLogoBoY.png").openStream()));
-    //primaryStage.getIcons().add(image);
     primaryStage.setScene(scene);
     primaryStage.show();
   }
