@@ -2,8 +2,10 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -15,6 +17,11 @@ Account account;
   void setUp() {
     account = new Account("Test", "test@test.com", "1234",
         SecurityQuestion.CAR_BRAND, "BMW");
+  }
+
+  @AfterEach
+  void clearAccount() {
+
   }
 
   @Nested
@@ -62,6 +69,55 @@ Account account;
     void pinCodeHasLettersAndDigits() {
       assertFalse(account.setPinCode("id09"));
       assertEquals("1234", account.getPinCode());
+    }
+  }
+
+  @Nested
+  class addSavingsPlanTest {
+    @Test
+    void addNewSavingsPlanWithNotTakenName() {
+      assertTrue(account.addSavingsPlan(
+          new SavingsPlan("My goal", 100, 0)));
+    }
+
+    @Test
+    void addNewSavingsPlanWithTakenName() {
+      account.addSavingsPlan(new SavingsPlan("My goal", 100, 0));
+      assertFalse(account.addSavingsPlan(
+          new SavingsPlan("My goal", 100, 0)));
+    }
+
+    @Test
+    void addExistingSavingsPlan() {
+      SavingsPlan testSavingsPlan =
+          new SavingsPlan("My goal", 100, 0);
+      account.addSavingsPlan(testSavingsPlan);
+      assertFalse(account.addSavingsPlan(testSavingsPlan));
+    }
+  }
+
+  @Nested
+  class addBudgetTest {
+    @Test
+    void addNewBudgetWithNotTakenName() {
+      account.addBudget(new Budget("My First Budget"));
+      assertTrue(account.addBudget(
+          new Budget("My Second Budget")));
+    }
+
+    @Test
+    void addNewBudgetWithTakenName() {
+      account.addBudget(new Budget("My First Budget"));
+      assertFalse(account.addBudget(
+          new Budget("My First Budget")));
+    }
+
+    @Test
+    void addExistingBudget() {
+      Budget testBudget =
+          new Budget("My Budget");
+      account.addBudget(testBudget);
+      assertFalse(account.addBudget(testBudget));
     }
   }
 
