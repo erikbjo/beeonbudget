@@ -4,10 +4,12 @@ public class SavingsPlan {
   private String goalName;
   private int totalGoalAmount;
   private int totalSaved;
+  private int wantedSavingTime;
+  private int wantedMonthlySavingAmount;
 
   public SavingsPlan(String goalName, int totalGoalAmount, int totalSaved) {
-    this.goalName = goalName;
-    this.totalGoalAmount = totalGoalAmount;
+    setGoalName(goalName);
+    setTotalGoalAmount(totalGoalAmount);
     this.totalSaved = totalSaved;
   }
 
@@ -49,5 +51,45 @@ public class SavingsPlan {
     this.totalSaved = totalSaved;
   }
 
+  public int getWantedSavingTime() {
+    return wantedSavingTime;
+  }
+
+  public void setWantedSavingTime(int wantedSavingTime) {
+    boolean wantedTimeCheck;
+    wantedTimeCheck = true;
+    if (wantedSavingTime <= 1) {
+      wantedTimeCheck = false;
+      return;
+    } else {
+      this.wantedSavingTime = wantedSavingTime;
+    }
+  }
+
+  public int getWantedMonthlySavingAmount() {
+    return wantedMonthlySavingAmount;
+  }
+
+  public void setWantedMonthlySavingAmount(int wantedMonthlySavingAmount) {
+
+    boolean wantedMonthlySavAmCheck;
+    wantedMonthlySavAmCheck = true;
+    if (wantedMonthlySavingAmount <= 0) {
+      wantedMonthlySavAmCheck = false;
+      return;
+    } else {
+      this.wantedMonthlySavingAmount = wantedMonthlySavingAmount;
+    }
+  }
+
+  public int estimateSavingTime() {
+    int estimatedSavTime = totalGoalAmount / wantedMonthlySavingAmount;
+    return estimatedSavTime;
+  }
+
+  public int estimateMonthlySavingAmount() {
+    int estimatedMonthlySavA = totalGoalAmount / wantedSavingTime;
+    return estimatedMonthlySavA;
+  }
 }
 
