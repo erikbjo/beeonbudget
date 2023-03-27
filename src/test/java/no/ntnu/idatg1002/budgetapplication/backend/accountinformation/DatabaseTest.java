@@ -3,15 +3,15 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 import static org.junit.jupiter.api.Assertions.*;
 
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 class DatabaseTest {
-  Account account;
+  static Account account;
 
-  @BeforeEach
-  void setUp() {
+  @BeforeAll
+  static void setUp() {
      account = new Account("Test", "test@test.com", "1234",
         SecurityQuestion.CAR_BRAND, "BMW");
      Database.addAccount(account);
