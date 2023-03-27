@@ -1,4 +1,4 @@
-package no.ntnu.idatg1002.budgetapplication.backend.Savings;
+package no.ntnu.idatg1002.budgetapplication.backend.savings;
 
 public class SavingsPlan {
   private String goalName;
@@ -18,8 +18,7 @@ public class SavingsPlan {
   }
 
   public void setGoalName(String goalName) {
-    boolean goalNameCheck;
-    goalNameCheck = true;
+    boolean goalNameCheck = true;
     if (goalName == null) {
       goalNameCheck = false;
       return;
