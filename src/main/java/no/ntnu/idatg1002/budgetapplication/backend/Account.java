@@ -43,7 +43,6 @@ public class Account {
     this.securityAnswer = securityAnswer;
     this.accountNumber = generateAccountNumber();
     this.savingsPlans = new HashMap<>();
-    this.budget = new Budget("testBudget");
   }
 
   /**
