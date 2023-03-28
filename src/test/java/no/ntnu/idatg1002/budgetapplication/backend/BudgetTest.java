@@ -46,6 +46,12 @@ class BudgetTest {
     assertTrue(budget.getCategoryList().contains(income.getCategory()));
     assertTrue(budget.getCategoryList().contains(expense.getCategory()));
   }
+
+  @Test
+  void assertAddToListMethodsWorks() {
+    assertTrue(budget.getIncomeList().contains(income));
+    assertTrue(budget.getExpenseList().contains(expense));
+  }
   @Test
   void getNetBalanceSmallerThanZero() {
     int netBalance = budget.getNetBalance();

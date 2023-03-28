@@ -92,6 +92,7 @@ public class Budget {
    */
   public void addBudgetExpenses(Expense expense) {
     expenseList.add(expense);
+    addCategory(expense.getCategory());
   }
 
   /**
