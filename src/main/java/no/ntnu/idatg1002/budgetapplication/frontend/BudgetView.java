@@ -1,10 +1,13 @@
 package no.ntnu.idatg1002.budgetapplication.frontend;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.transform.Scale;
 import javafx.stage.Stage;
 
 public class BudgetView extends Application {
