@@ -1,4 +1,11 @@
-package no.ntnu.idatg1002.budgetapplication.backend.savings;
+package no.ntnu.idatg1002.budgetapplication.backend;
+
+/**
+ * This class represents the saving goal a user can make. It holds the required information
+ * and has methods that can estimate the time and/or money per month required to reach the goal
+ *
+ * @author Igor Mikolaj Dzugaj
+ */
 
 public class SavingsPlan {
   private String goalName;
@@ -7,6 +14,14 @@ public class SavingsPlan {
   private int wantedSavingTime;
   private int wantedMonthlySavingAmount;
 
+
+  /**
+   * The constructor creates a new instance of SavingsPlan and sets a new goal, with total amount saved
+   *
+   * @param goalName Name of the thing user wants to save money for
+   * @param totalGoalAmount Total money needed to reach the goal
+   * @param totalSaved Total money saved towards the goal
+   */
   public SavingsPlan(String goalName, int totalGoalAmount, int totalSaved) {
     setGoalName(goalName);
     setTotalGoalAmount(totalGoalAmount);
@@ -73,7 +88,7 @@ public class SavingsPlan {
 
     boolean wantedMonthlySavAmCheck;
     wantedMonthlySavAmCheck = true;
-    if (wantedMonthlySavingAmount <= 0) {
+    if (wantedMonthlySavingAmount <= 1) {
       wantedMonthlySavAmCheck = false;
       return;
     } else {
@@ -81,11 +96,23 @@ public class SavingsPlan {
     }
   }
 
+  /**
+   * Estimates amount of months needed to reach the goal, given a user.specified
+   * amount they want to save per month
+   *
+   * @return Estimated saving time in months
+   */
   public int estimateSavingTime() {
     int estimatedSavTime = totalGoalAmount / wantedMonthlySavingAmount;
     return estimatedSavTime;
   }
 
+  /**
+   * Estimates how much money per month is needed to reach the goal in a
+   * given amount of time
+   *
+   * @return Amount of money needed is savings per month
+   */
   public int estimateMonthlySavingAmount() {
     int estimatedMonthlySavA = totalGoalAmount / wantedSavingTime;
     return estimatedMonthlySavA;
