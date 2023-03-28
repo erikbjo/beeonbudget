@@ -8,7 +8,6 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 public abstract class MoneyAction {
   private int amount;
   private String description;
-  private Category category;
   private RecurringType type;
 
   /**
@@ -17,12 +16,11 @@ public abstract class MoneyAction {
    *
    * @param amount the amount
    * @param description the description
-   * @param category the category
    * @param type the type
    * @throws IllegalArgumentException "Amount must be non-negative." for amount < 0 and "Description
    *     must not be empty or blank." for description
    */
-  public MoneyAction(int amount, String description, Category category, RecurringType type)
+  public MoneyAction(int amount, String description, RecurringType type)
       throws IllegalArgumentException {
     if (amount < 0) {
       throw new IllegalArgumentException("Amount must be non-negative.");
@@ -32,7 +30,6 @@ public abstract class MoneyAction {
     }
     this.amount = amount;
     this.description = description;
-    this.category = category;
     this.type = type;
   }
 
@@ -78,24 +75,6 @@ public abstract class MoneyAction {
       throw new IllegalArgumentException("Description must not be empty or blank.");
     }
     this.description = description;
-  }
-
-  /**
-   * Gets category.
-   *
-   * @return the category
-   */
-  public Category getCategory() {
-    return category;
-  }
-
-  /**
-   * Sets category.
-   *
-   * @param category the category
-   */
-  public void setCategory(Category category) {
-    this.category = category;
   }
 
   /**

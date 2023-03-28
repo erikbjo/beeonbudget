@@ -8,10 +8,12 @@ import org.junit.jupiter.api.Test;
 
 class MoneyActionTest {
   MoneyAction testAction;
+  Expense testExpense;
 
   @BeforeEach
   void setUp() {
-    testAction = new Income(50, "Test description", Category.HOUSING, RecurringType.YEARLY);
+    testAction = new Income(50, "Test description", RecurringType.YEARLY);
+    testExpense = new Expense(50, "Test expense", RecurringType.DAILY, Category.HOUSING);
   }
 
   @AfterEach
@@ -21,8 +23,7 @@ class MoneyActionTest {
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownDescriptionError =
         assertThrows(
-            IllegalArgumentException.class,
-            () -> new Income(100, " ", Category.HOUSING, RecurringType.YEARLY));
+            IllegalArgumentException.class, () -> new Income(100, " ", RecurringType.YEARLY));
     assertEquals("Description must not be empty or blank.", thrownDescriptionError.getMessage());
   }
 
@@ -76,13 +77,13 @@ class MoneyActionTest {
 
   @Test
   void checkThatGetCategoryReturnsCorrectCategory() {
-    assertEquals(Category.HOUSING, testAction.getCategory());
+    assertEquals(Category.HOUSING, testExpense.getCategory());
   }
 
   @Test
   void checkThatSetCategorySetsCategory() {
-    testAction.setCategory(Category.HEALTHCARE);
-    assertEquals(Category.HEALTHCARE, testAction.getCategory());
+    testExpense.setCategory(Category.HEALTHCARE);
+    assertEquals(Category.HEALTHCARE, testExpense.getCategory());
   }
 
   @Test
