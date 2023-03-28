@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -83,7 +83,7 @@ public class Account {
    *
    * @param email the email to be set.
    */
-  public void setEmail(String email) {
+  public void setEmail(String email) throws IllegalArgumentException {
     if (!email.contains("@")) {
       throw new IllegalArgumentException("Email does not contain '@'.");
     } else if (Database.getEmails().contains(email)) {
