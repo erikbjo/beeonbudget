@@ -1,4 +1,4 @@
-package no.ntnu.idatg1002.budgetapplication.frontend;
+package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
