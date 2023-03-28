@@ -19,11 +19,11 @@ public class Budget {
    * Instantiates a new Budget.
    *
    * @param budgetName the budget name
-   * @throws IllegalArgumentException the illegal argument exception
+   * @throws IllegalArgumentException "Budget name must not be empty or blank."
    */
   public Budget(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
-      throw new IllegalArgumentException("Budget name must not be empty or blank");
+      throw new IllegalArgumentException("Budget name must not be empty or blank.");
     }
     this.budgetName = budgetName;
     incomeList = new ArrayList<>();
@@ -44,11 +44,11 @@ public class Budget {
    * This function sets the budget name.
    *
    * @param budgetName The name of the budget you want to create.
-   * @throws IllegalArgumentException the illegal argument exception
+   * @throws IllegalArgumentException "Budget name must not be empty or blank."
    */
   public void setBudgetName(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
-      throw new IllegalArgumentException("Budget name must not be empty or blank");
+      throw new IllegalArgumentException("Budget name must not be empty or blank.");
     }
     this.budgetName = budgetName;
   }
@@ -90,7 +90,8 @@ public class Budget {
 
   /**
    * This function updates the category list. It iterates through the expenses and incomes currently
-   * in the budget, and adds any category from them that is not currently in the budget, to the budget.
+   * in the budget, and adds any category from them that is not currently in the budget, to the
+   * budget.
    */
   private void updateCategoryList() {
     categoryList.clear();
@@ -130,14 +131,14 @@ public class Budget {
    * This function removes an expense from the expense list.
    *
    * @param expense The expense object that you want to remove from the list.
-   * @throws IndexOutOfBoundsException the index out of bounds exception
+   * @throws IndexOutOfBoundsException "There is no such expense in the budget."
    */
   public void removeBudgetExpenses(Expense expense) throws IndexOutOfBoundsException {
     if (expenseList.contains(expense)) {
       expenseList.remove(expense);
       updateCategoryList();
     } else {
-      throw new IndexOutOfBoundsException("There is no such expense in the budget");
+      throw new IndexOutOfBoundsException("There is no such expense in the budget.");
     }
   }
 
@@ -145,7 +146,7 @@ public class Budget {
    * This function removes an income from the incomeList.
    *
    * @param income The income object to be removed from the list.
-   * @throws IndexOutOfBoundsException the index out of bounds exception
+   * @throws IndexOutOfBoundsException "There is no such income in the budget"
    */
   public void removeBudgetIncome(Income income) throws IndexOutOfBoundsException {
     if (incomeList.contains(income)) {

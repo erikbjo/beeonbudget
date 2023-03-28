@@ -17,14 +17,15 @@ class MoneyActionTest {
   @AfterEach
   void tearDown() {}
 
-
   @Test
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownDescriptionError =
-        assertThrows(IllegalArgumentException.class, () -> new Income(
-            100, " ", Category.HOUSING, RecurringType.YEARLY));
-    assertEquals("Description must not be empty or blank", thrownDescriptionError.getMessage());
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> new Income(100, " ", Category.HOUSING, RecurringType.YEARLY));
+    assertEquals("Description must not be empty or blank.", thrownDescriptionError.getMessage());
   }
+
   @Test
   void checkThatGetAmountReturnsCorrectAmount() {
     assertEquals(50, testAction.getAmount());
@@ -39,7 +40,7 @@ class MoneyActionTest {
   @Test
   void checkThatSetAmountRequiresAboveZero() {
     Exception thrown = assertThrows(IllegalArgumentException.class, () -> testAction.setAmount(-1));
-    assertEquals("Amount must be non-negative", thrown.getMessage());
+    assertEquals("Amount must be non-negative.", thrown.getMessage());
   }
 
   @Test
@@ -63,14 +64,14 @@ class MoneyActionTest {
   void checkThatSetDescriptionNeedsNotBlankString() {
     Exception thrown =
         assertThrows(IllegalArgumentException.class, () -> testAction.setDescription(" "));
-    assertEquals("Description must not be empty or blank", thrown.getMessage());
+    assertEquals("Description must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
   void checkThatSetDescriptionNeedsNotEmptyString() {
     Exception thrown =
         assertThrows(IllegalArgumentException.class, () -> testAction.setDescription(""));
-    assertEquals("Description must not be empty or blank", thrown.getMessage());
+    assertEquals("Description must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
