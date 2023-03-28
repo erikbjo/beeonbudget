@@ -81,12 +81,13 @@ public class Account {
    *
    * @param email the email to be set.
    */
-  public boolean setEmail(String email) {
-    if (!email.contains("@") && !Database.getEmails().contains(email)) {
-      return false;
+  public void setEmail(String email) {
+    if (!email.contains("@")) {
+      throw new IllegalArgumentException("Email does not contain '@'.");
+    } else if (Database.getEmails().contains(email)) {
+      throw new IllegalArgumentException("Email already in use.");
     } else {
       this.email = email;
-      return true;
     }
   }
 
