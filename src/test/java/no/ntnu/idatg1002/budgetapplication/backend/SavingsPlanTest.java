@@ -25,6 +25,12 @@ public class SavingsPlanTest {
     assertEquals(100, goal.estimateMonthlySavingAmount());
   }
 
+  @Test
+  void testSetTotalGoalAmount(){
+    goal.setTotalGoalAmount(2000);
+    assertEquals(2000, goal.getTotalGoalAmount());
+  }
+
 
 
 

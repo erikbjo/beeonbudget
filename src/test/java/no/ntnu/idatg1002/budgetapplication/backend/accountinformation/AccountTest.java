@@ -4,7 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;import no.ntnu.idatg1002.budgetapplication.backend.Category;import no.ntnu.idatg1002.budgetapplication.backend.Expense;import no.ntnu.idatg1002.budgetapplication.backend.Income;import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;import org.junit.jupiter.api.BeforeEach;
+import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
