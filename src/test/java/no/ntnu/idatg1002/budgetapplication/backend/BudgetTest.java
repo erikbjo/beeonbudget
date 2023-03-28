@@ -52,6 +52,22 @@ class BudgetTest {
     assertTrue(budget.getIncomeList().contains(income));
     assertTrue(budget.getExpenseList().contains(expense));
   }
+
+  @Test
+  void assertRemoveFromListMethodsWorks() {
+    budget.removeBudgetIncome(income);
+    budget.removeBudgetExpenses(expense);
+    assertFalse(budget.getIncomeList().contains(income));
+    assertFalse(budget.getExpenseList().contains(expense));
+  }
+
+  @Test
+  void assertRemoveFromListAlsoRemovesCategory() {
+    budget.removeBudgetIncome(income);
+    budget.removeBudgetExpenses(expense);
+    assertFalse(budget.getCategoryList().contains(income.getCategory()));
+    assertFalse(budget.getCategoryList().contains(expense.getCategory()));
+  }
   @Test
   void getNetBalanceSmallerThanZero() {
     int netBalance = budget.getNetBalance();
@@ -61,16 +77,17 @@ class BudgetTest {
 
   @Test
   void getNetBalanceEqualToFifty() {
-    budget.getIncomeList().remove(income);
-    budget.getExpenseList().remove(expense);
+    budget.removeBudgetIncome(income);
+    budget.removeBudgetExpenses(expense);
     budget.addBudgetIncome(
-        new Income(200, "jbfgdfgui", Category.HOUSING, RecurringType.NONRECURRING));
+        new Income(200, "Test income 2", Category.HOUSING, RecurringType.NONRECURRING));
     budget.addBudgetExpenses(
-        new Expense(150, "JVhfyhkguug", Category.HEALTHCARE, RecurringType.MONTHLY));
+        new Expense(150, "Test expense 2", Category.HEALTHCARE, RecurringType.MONTHLY));
 
     int netBalance = budget.getNetBalance();
     assertEquals(50, netBalance);
   }
+
 
   @AfterEach
   void tearDown() {}

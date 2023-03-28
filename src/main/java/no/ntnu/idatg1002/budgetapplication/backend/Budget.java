@@ -81,9 +81,20 @@ public class Budget {
     return getTotalIncome() - getTotalExpense();
   }
 
-  public void addCategory(Category category) {
-    categoryList.add(category);
+  private void updateCategoryList() {
+    categoryList.clear();
+    for (Expense expense : expenseList) {
+        if (!categoryList.contains(expense.getCategory())) {
+          categoryList.add(expense.getCategory());
+        }
+    }
+    for (Income income : incomeList) {
+      if (!categoryList.contains(income.getCategory())) {
+        categoryList.add(income.getCategory());
+      }
+    }
   }
+
 
   /**
    * This function adds an expense to the expense list.
@@ -92,7 +103,7 @@ public class Budget {
    */
   public void addBudgetExpenses(Expense expense) {
     expenseList.add(expense);
-    addCategory(expense.getCategory());
+    updateCategoryList();
   }
 
   /**
@@ -102,7 +113,35 @@ public class Budget {
    */
   public void addBudgetIncome(Income income) {
     incomeList.add(income);
-    addCategory(income.getCategory());
+    updateCategoryList();
+  }
+
+  /**
+   * This function adds an expense to the expense list.
+   *
+   * @param expense The expense object that you want to add to the list.
+   */
+  public void removeBudgetExpenses(Expense expense) throws IndexOutOfBoundsException {
+    if (expenseList.contains(expense)) {
+      expenseList.remove(expense);
+      updateCategoryList();
+    } else {
+      throw new IndexOutOfBoundsException("There is no such expense in the budget");
+    }
+  }
+
+  /**
+   * This function adds an income to the incomeList.
+   *
+   * @param income The income object to be added to the list.
+   */
+  public void removeBudgetIncome(Income income) throws IndexOutOfBoundsException {
+    if (incomeList.contains(income)) {
+      incomeList.remove(income);
+      updateCategoryList();
+    } else {
+      throw new IndexOutOfBoundsException("There is no such income in the budget");
+    }
   }
 
   /**
