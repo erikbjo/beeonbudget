@@ -13,9 +13,9 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
    <children>
-      <Button fx:id="budgetButton" layoutX="63.0" layoutY="179.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="116.0" text="Budget" />
+      <Button fx:id="budgetButton" layoutX="62.0" layoutY="157.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="116.0" text="Budget" />
       <Button fx:id="savingsPlanButton" layoutX="62.0" layoutY="102.0" mnemonicParsing="false" onAction="#switchToSavingPlan" prefHeight="43.0" prefWidth="116.0" text="Savings Plan" />
-      <Button fx:id="addExpenseButton" layoutX="62.0" layoutY="257.0" mnemonicParsing="false" onAction="#onAddExpense" prefHeight="43.0" prefWidth="116.0" text="Add Expenses" />
+      <Button fx:id="addExpenseButton" layoutX="62.0" layoutY="219.0" mnemonicParsing="false" onAction="#onAddExpense" prefHeight="43.0" prefWidth="116.0" text="Add Expenses" />
       <TitledPane layoutX="373.0" layoutY="111.0" prefHeight="200.0" prefWidth="200.0" />
       <Text layoutX="34.0" layoutY="61.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome &quot;username&quot;" wrappingWidth="305.28173828125">
          <font>
@@ -51,5 +51,7 @@
             </Label>
          </children>
       </GridPane>
+      <Button fx:id="addIncomeButton" layoutX="62.0" layoutY="275.0" mnemonicParsing="false" onAction="#onAddIncome"
+              prefHeight="47.0" prefWidth="116.0" text="Add Income" />
    </children>
 </AnchorPane>
