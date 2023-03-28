@@ -100,11 +100,6 @@ public class Budget {
         categoryList.add(expense.getCategory());
       }
     }
-    for (Income income : incomeList) {
-      if (!categoryList.contains(income.getCategory())) {
-        categoryList.add(income.getCategory());
-      }
-    }
   }
 
   /**

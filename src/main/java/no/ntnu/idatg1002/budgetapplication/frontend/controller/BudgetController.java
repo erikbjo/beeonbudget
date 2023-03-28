@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -28,43 +29,42 @@ import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
-public class BudgetController{
+public class BudgetController {
   private Stage stage;
   private Scene scene;
   private Parent parent;
+  private final PrimaryController primaryController = new PrimaryController();
 
   @FXML private TableView<Budget> budgetView;
   @FXML private TableColumn<Budget, Expense> expenseColumn;
   @FXML private TableColumn<Budget, Income> incomeColumn;
-  @FXML private  TableColumn<Budget, String> categoryColumn;
-
+  @FXML private TableColumn<Budget, String> categoryColumn;
 
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
   }
 
   public void onNewIncome(ActionEvent event) throws IOException {
-    /**
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-     */
+    // Budget selectedBudget = budgetView.getSelectionModel().getSelectedItem();
+    // if (selectedBudget != null) {
+    //  selectedBudget.addBudgetExpenses(
+    //      new Expense(2, "dsafafsd", Category.HEALTHCARE, RecurringType.NONRECURRING));
+    //  budgetView.refresh();
+    // }
+    primaryController.onAddExpense(event);
   }
 
   public void onNewExpense(ActionEvent event) throws IOException {
     Budget selectedBudget = budgetView.getSelectionModel().getSelectedItem();
-    if (selectedBudget != null){
-      selectedBudget.addBudgetExpenses(new Expense(2,"dsafafsd",
-          Category.HEALTHCARE, RecurringType.NONRECURRING));
+    if (selectedBudget != null) {
+      selectedBudget.addBudgetExpenses(
+          new Expense(2, "Test expense", RecurringType.NONRECURRING, Category.HOUSING));
       budgetView.refresh();
     }
-
   }
 
   public void setBudgetView(Budget budget) {
@@ -76,6 +76,5 @@ public class BudgetController{
     expenseColumn.setCellValueFactory(new PropertyValueFactory<Budget, Expense>("expenses"));
     incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Income>("income"));
     categoryColumn.setCellValueFactory(new PropertyValueFactory<Budget, String>("category"));
-
   }
 }

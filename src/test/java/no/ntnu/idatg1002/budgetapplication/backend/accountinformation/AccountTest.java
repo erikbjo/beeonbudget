@@ -23,12 +23,11 @@ class AccountTest {
 
   @BeforeEach
   void setUp() {
-    account = new Account("Test", "test@test.com", "1234",
-        SecurityQuestion.CAR_BRAND, "BMW");
+    account = new Account("Test", "test@test.com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
 
     budget = new Budget("Test budget");
-    income = new Income(50, "Test income", Category.HOUSING, RecurringType.NONRECURRING);
-    expense = new Expense(50, "Test expense", Category.HOUSING, RecurringType.NONRECURRING);
+    income = new Income(50, "Test income", RecurringType.NONRECURRING);
+    expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, Category.HOUSING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
@@ -54,35 +53,33 @@ class AccountTest {
 
     @Test
     void emailHasNoAtSign() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setEmail("simon.gmail.com"));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setEmail("simon.gmail.com"));
       assertEquals("Email does not contain '@'.", thrown.getMessage());
       assertNotEquals("simon.gmail.com", account.getEmail());
     }
 
     @Test
     void emailIsEmpty() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setEmail(""));
+      Exception thrown = assertThrows(IllegalArgumentException.class, () -> account.setEmail(""));
       assertEquals("Email must not be empty or blank.", thrown.getMessage());
       assertNotEquals("", account.getEmail());
     }
 
     @Test
     void emailIsBlank() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setEmail(" "));
+      Exception thrown = assertThrows(IllegalArgumentException.class, () -> account.setEmail(" "));
       assertEquals("Email must not be empty or blank.", thrown.getMessage());
       assertNotEquals(" ", account.getEmail());
     }
 
     @Test
     void emailAlreadyInUse() {
-      Account account2 = new Account("Erik", "simon@gmail.com", "4444",
-          SecurityQuestion.FAVORITE_FOOD, "Pizza");
+      Account account2 =
+          new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
       Database.addAccount(account2);
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setEmail("simon@gmail.com"));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setEmail("simon@gmail.com"));
       assertEquals("Email already in use.", thrown.getMessage());
     }
   }
@@ -94,6 +91,7 @@ class AccountTest {
       account.setSecurityQuestion(SecurityQuestion.FIRST_PET);
       assertEquals(SecurityQuestion.FIRST_PET, account.getSecurityQuestion());
     }
+
     @Test
     void getAndSetSecurityAnswerPositive() {
       assertDoesNotThrow(() -> account.setSecurityAnswer("Test answer"));
@@ -111,16 +109,16 @@ class AccountTest {
 
     @Test
     void securityAnswerIsEmpty() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setSecurityAnswer(""));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setSecurityAnswer(""));
       assertEquals("Security answer must not be empty or blank.", thrown.getMessage());
       assertNotEquals("", account.getSecurityAnswer());
     }
 
     @Test
     void securityAnswerIsBlank() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setSecurityAnswer(" "));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setSecurityAnswer(" "));
       assertEquals("Security answer must not be empty or blank.", thrown.getMessage());
       assertNotEquals(" ", account.getSecurityAnswer());
     }
@@ -132,6 +130,7 @@ class AccountTest {
     void getNameReturnsCorrectName() {
       assertEquals("Test", account.getName());
     }
+
     @Test
     void getEmailReturnsCorrectEmail() {
       assertEquals("test@test.com", account.getEmail());
@@ -147,16 +146,14 @@ class AccountTest {
 
       @Test
       void nameIsEmpty() {
-        Exception thrown = assertThrows(IllegalArgumentException.class,
-            () -> account.setName(""));
+        Exception thrown = assertThrows(IllegalArgumentException.class, () -> account.setName(""));
         assertEquals("Account name must not be empty or blank.", thrown.getMessage());
         assertNotEquals("", account.getName());
       }
 
       @Test
       void nameIsBlank() {
-        Exception thrown = assertThrows(IllegalArgumentException.class,
-            () -> account.setName(" "));
+        Exception thrown = assertThrows(IllegalArgumentException.class, () -> account.setName(" "));
         assertEquals("Account name must not be empty or blank.", thrown.getMessage());
         assertNotEquals(" ", account.getName());
       }
@@ -173,32 +170,32 @@ class AccountTest {
 
     @Test
     void pinCodeHasLessThanFourDigits() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setPinCode("001"));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setPinCode("001"));
       assertEquals("Pin code must consist of 4 digits.", thrown.getMessage());
       assertNotEquals("001", account.getPinCode());
     }
 
     @Test
     void pinCodeHasMoreThanFourDigits() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setPinCode("00001"));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setPinCode("00001"));
       assertEquals("Pin code must consist of 4 digits.", thrown.getMessage());
       assertNotEquals("00001", account.getPinCode());
     }
 
     @Test
     void pinCodeHasOnlyLetters() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setPinCode("code"));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setPinCode("code"));
       assertEquals("Pin code must only consist of numbers.", thrown.getMessage());
       assertNotEquals("code", account.getPinCode());
     }
 
     @Test
     void pinCodeHasLettersAndDigits() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.setPinCode("id09"));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.setPinCode("id09"));
       assertEquals("Pin code must only consist of numbers.", thrown.getMessage());
       assertNotEquals("id09", account.getPinCode());
     }
@@ -217,8 +214,9 @@ class AccountTest {
     void addNewSavingsPlanWithTakenName() {
       account.addSavingsPlan(new SavingsPlan("My goal", 100, 0));
       SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.addSavingsPlan(testSavingsPlan));
+      Exception thrown =
+          assertThrows(
+              IllegalArgumentException.class, () -> account.addSavingsPlan(testSavingsPlan));
       assertEquals("Savings plan goal name is taken.", thrown.getMessage());
       assertFalse(account.getSavingsPlans().containsValue(testSavingsPlan));
     }
@@ -227,8 +225,9 @@ class AccountTest {
     void addExistingSavingsPlan() {
       SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
       account.addSavingsPlan(testSavingsPlan);
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.addSavingsPlan(testSavingsPlan));
+      Exception thrown =
+          assertThrows(
+              IllegalArgumentException.class, () -> account.addSavingsPlan(testSavingsPlan));
       assertEquals("An instance of the savings plan already exists.", thrown.getMessage());
     }
   }
@@ -253,8 +252,8 @@ class AccountTest {
     void addNewBudgetWithTakenName() {
       account.addBudget(new Budget("My budget"));
       Budget testBudget = new Budget("My budget");
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.addBudget(testBudget));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.addBudget(testBudget));
       assertEquals("Budget name is taken.", thrown.getMessage());
       assertFalse(account.getBudgets().containsValue(testBudget));
     }
@@ -263,14 +262,14 @@ class AccountTest {
     void addExistingBudget() {
       Budget testBudget = new Budget("My budget");
       account.addBudget(testBudget);
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> account.addBudget(testBudget));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> account.addBudget(testBudget));
       assertEquals("An instance of the budget already exists.", thrown.getMessage());
     }
   }
 
   @Test
-  void removeBudgetPositiveTest () {
+  void removeBudgetPositiveTest() {
     account.addBudget(budget);
     account.removeBudget(budget);
     assertFalse(account.getBudgets().containsValue(budget));
@@ -287,17 +286,26 @@ class AccountTest {
   }
 
   @Test
-  void toStringPositiveTest () {
+  void toStringPositiveTest() {
     System.out.println(account.toString());
-    String expected = "Account{name='" + account.getName()
-        + "', email='" + account.getEmail()
-        + "', pinCode='" + account.getPinCode()
-        + "', securityQuestion=" + account.getSecurityQuestion()
-        + ", securityAnswer='" + account.getSecurityAnswer()
-        + "', accountNumber='" + account.getAccountNumber()
-        + "', savingsPlans=" + account.getSavingsPlans()
-        + ", budgets=" + account.getBudgets()
-        + "}";
+    String expected =
+        "Account{name='"
+            + account.getName()
+            + "', email='"
+            + account.getEmail()
+            + "', pinCode='"
+            + account.getPinCode()
+            + "', securityQuestion="
+            + account.getSecurityQuestion()
+            + ", securityAnswer='"
+            + account.getSecurityAnswer()
+            + "', accountNumber='"
+            + account.getAccountNumber()
+            + "', savingsPlans="
+            + account.getSavingsPlans()
+            + ", budgets="
+            + account.getBudgets()
+            + "}";
     assertEquals(expected, account.toString());
   }
 }
