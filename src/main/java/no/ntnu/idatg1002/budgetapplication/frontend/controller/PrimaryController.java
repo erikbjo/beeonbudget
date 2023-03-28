@@ -32,24 +32,27 @@ public class PrimaryController extends Dialog<Budget> {
   public PrimaryController() {
     super();
     expenseField = new TextField();
-    expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+    expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
-    });
     descriptionField = new TextField();
     descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
     monthsField = new TextField();
     monthsField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+
+    ComboBox<Category> comboBox = new ComboBox<>();
+    comboBox.getItems().addAll(Category.values());
+
     grid = new GridPane();
     grid.add(new Label("Expense Amount"), 0, 0);
     grid.add(new Label("Description"), 0, 2);
     grid.add(new Label("Monthly Expense"), 0, 4);
-    grid.add(new CheckBox(),0,5);
-    grid.add(new Label("Category"),0,6);
+    grid.add(new CheckBox(), 0, 5);
+    grid.add(new Label("Category"), 0, 6);
 
     grid.add(expenseField, 0, 1);
     grid.add(descriptionField, 0, 3);
-    grid.add(monthsField,1,5);
-    grid.add(new ComboBox<Category>(),0,7);
+    grid.add(monthsField, 1, 5);
+    grid.add(comboBox, 0, 7);
     grid.setHgap(10);
     grid.setVgap(10);
 
@@ -69,11 +72,11 @@ public class PrimaryController extends Dialog<Budget> {
   }
 
   public void onAddExpense(ActionEvent event) throws IOException {
-     Optional<Budget> result = showAndWait();
-     if (result.isPresent()) {
-     Budget Budget = result.get();
-     // Do something with the input
-     }
+    Optional<Budget> result = showAndWait();
+    if (result.isPresent()) {
+      Budget Budget = result.get();
+      // Do something with the input
+    }
   }
 
   public void switchToSavingPlan(ActionEvent event) throws IOException {
