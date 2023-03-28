@@ -1,6 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import java.util.HashMap;
+import java.io.FileWriter;import java.io.IOException;import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
@@ -24,6 +24,7 @@ public class Account {
   private Map<String, Budget> budgets;
 
   Random rand = new Random();
+
 
   /**
    * Creates a new account with a name, email, 4 digit pinCode, chosen securityQuestion and
@@ -237,6 +238,21 @@ public class Account {
     return id.toString();
   }
 
+  // Currently not used
+  private boolean saveAccountNumberToFile(String accountNumber) {
+    String filename = "TakenAccountNumbers.txt";
+    try {
+      FileWriter writer = new FileWriter(filename, true);
+      writer.write(accountNumber + "\n");
+      writer.close();
+      System.out.println("Successfully wrote to file " + filename);
+      return true;
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+      return false;
+    }
+  }
   @Override
   public String toString() {
     return "Account{"
