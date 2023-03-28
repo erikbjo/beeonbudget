@@ -17,8 +17,12 @@ public class SavingsPlanController {
   private Stage stage;
   private Scene scene;
   private Parent parent;
-  private Popup popup;
-
+  @FXML TextField name;
+  @FXML TextField totAmount;
+  @FXML TextField savAmount;
+  @FXML DialogPane popup;
+  @FXML Label goalName;
+  private SavingsPlan example = new SavingsPlan("example", 100, 1);
 
 
   public void switchToPrimaryFromSavingPlan(ActionEvent event) throws IOException {
@@ -27,20 +31,28 @@ public class SavingsPlanController {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
+    start();
   }
 
-  public void examplePlan(){
-    SavingsPlan examplePlan = new SavingsPlan("SavingsPlan1", 100, 1);
-    examplePlan.setWantedSavingTime(1);
-    examplePlan.setWantedMonthlySavingAmount(1);
+  public void start(){
+  goalName.setText(example.getGoalName()); //TODO make it so that the text displayed on the tabs is taken from correct object
   }
+
+
 
   public void onNewSavingsPlan(){
-    Popup popup = new Popup();
-
+    popup.setVisible(true);
   }
 
-  public void onEstimateMonths(){
+  public void onAccept(){ //TODO make it add a new tab with data from created object
+    String goalName = name.getText();
+    int totalGoalAmount = Integer.parseInt(totAmount.getText());
+    int savedAmount = Integer.parseInt(savAmount.getText());
+    SavingsPlan plan = new SavingsPlan(goalName, totalGoalAmount, savedAmount);
+    popup.setVisible(false);
+  }
+
+  public void onEstimateMonths(){ //TODO move estimate inputs to popup window and only display results
 
   }
 
