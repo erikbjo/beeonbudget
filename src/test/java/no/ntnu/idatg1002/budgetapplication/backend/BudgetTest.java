@@ -42,6 +42,11 @@ class BudgetTest {
   }
 
   @Test
+  void testGetCategoriesContainsCategoriesFromMoneyActions() {
+    assertTrue(budget.getCategoryList().contains(income.getCategory()));
+    assertTrue(budget.getCategoryList().contains(expense.getCategory()));
+  }
+  @Test
   void getNetBalanceSmallerThanZero() {
     int netBalance = budget.getNetBalance();
 
