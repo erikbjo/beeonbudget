@@ -204,6 +204,15 @@ public class Account {
   }
 
   /**
+   * Removes a savings plan to the account's savingsPlans collection.
+   *
+   * @param savingsPlan the savingsPlan to be added.
+   */
+  public void removeSavingsPlan(SavingsPlan savingsPlan) {
+    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
+  }
+
+  /**
    * Returns the account's Budget.
    *
    * @return the account's Budget.
@@ -226,6 +235,15 @@ public class Account {
       this.budgets.put(budget.getBudgetName(), budget);
       return true;
     }
+  }
+
+  /**
+   * Removes a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget.getBudgetName(), budget);
   }
 
   /**
