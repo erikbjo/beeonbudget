@@ -11,8 +11,8 @@ import java.util.List;
  */
 public class Budget {
   private String budgetName;
-  private final List<MoneyAction> expenseList;
-  private final List<MoneyAction> incomeList;
+  private final List<Expense> expenseList;
+  private final List<Income> incomeList;
   private final List<Category> categoryList;
 
   public Budget(String budgetName) throws IllegalArgumentException {
@@ -90,7 +90,7 @@ public class Budget {
    *
    * @param expense The expense object that you want to add to the list.
    */
-  public void addBudgetExpenses(MoneyAction expense) {
+  public void addBudgetExpenses(Expense expense) {
     expenseList.add(expense);
   }
 
@@ -99,7 +99,7 @@ public class Budget {
    *
    * @param income The income object to be added to the list.
    */
-  public void addBudgetIncome(MoneyAction income) {
+  public void addBudgetIncome(Income income) {
     incomeList.add(income);
     addCategory(income.getCategory());
   }
@@ -109,7 +109,7 @@ public class Budget {
    *
    * @return A list of income objects.
    */
-  public List<MoneyAction> getIncomeList() {
+  public List<Income> getIncomeList() {
     return incomeList;
   }
 
@@ -118,7 +118,7 @@ public class Budget {
    *
    * @return A list of expenses.
    */
-  public List<MoneyAction> getExpenseList() {
+  public List<Expense> getExpenseList() {
     return expenseList;
   }
 

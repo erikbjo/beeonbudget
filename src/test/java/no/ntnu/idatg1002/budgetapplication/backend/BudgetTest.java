@@ -15,8 +15,8 @@ class BudgetTest {
   @BeforeEach
   void setUp() {
     budget = new Budget("Test");
-    income = new Income(200, "sdvdvdvs", Category.HOUSING, RecurringType.NONRECURRING);
-    expense = new Expense(300, "eseglerl", Category.HOUSING, RecurringType.NONRECURRING);
+    income = new Income(200, "Test income", Category.HOUSING, RecurringType.NONRECURRING);
+    expense = new Expense(300, "Test expense", Category.FOOD, RecurringType.NONRECURRING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
   }
