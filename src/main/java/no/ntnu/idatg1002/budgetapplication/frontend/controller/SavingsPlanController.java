@@ -18,6 +18,13 @@ public class SavingsPlanController {
   private Scene scene;
   private Parent parent;
   private PrimaryController primaryController;
+  @FXML TextField name;
+  @FXML TextField totAmount;
+  @FXML TextField savAmount;
+  @FXML DialogPane popup;
+  @FXML Label goalName;
+  private SavingsPlan example = new SavingsPlan("example", 100, 1);
+
 
   public SavingsPlanController() throws IOException {
     primaryController = new PrimaryController();
@@ -34,7 +41,7 @@ public class SavingsPlanController {
   }
 
   public void start(){
-  goalName.setText(example.getGoalName()); //TODO make it so that the text displayed on the tabs is taken from correct object
+    goalName.setText(example.getGoalName()); //TODO make it so that the text displayed on the tabs is taken from correct object
   }
 
 
