@@ -100,7 +100,7 @@ public class AccountTest {
       assertTrue(account.getSavingsPlans().containsValue(savingsPlan));
     }
     @Test
-    void removeSavingsPlanPostiveTest() {
+    void removeSavingsPlanPositiveTest() {
       account.addSavingsPlan(savingsPlan);
       account.removeSavingsPlan(savingsPlan);
       assertFalse(account.getSavingsPlans().containsValue(savingsPlan));
