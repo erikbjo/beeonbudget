@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -63,8 +63,10 @@ public class Account {
    *
    * @param name the name to be set.
    */
-  public void setName(String name) {
-    if (!name.isBlank() && !name.isEmpty()) {
+  public void setName(String name) throws IllegalArgumentException {
+    if (name.isBlank() || name.isEmpty()) {
+      throw new IllegalArgumentException("Account name must not be empty or blank.");
+    } else {
       this.name = name;
     }
   }
@@ -83,8 +85,10 @@ public class Account {
    *
    * @param email the email to be set.
    */
-  public void setEmail(String email) {
-    if (!email.contains("@")) {
+  public void setEmail(String email) throws IllegalArgumentException {
+    if (email.isBlank() || email.isEmpty()) {
+      throw new IllegalArgumentException("Email must not be empty or blank.");
+    } else if (!email.contains("@")) {
       throw new IllegalArgumentException("Email does not contain '@'.");
     } else if (Database.getEmails().contains(email)) {
       throw new IllegalArgumentException("Email already in use.");
@@ -107,14 +111,14 @@ public class Account {
    * pin code is not 4 digits, it returns false.
    *
    * @param pinCode the pinCode to be set.
-   * @return true if the provided pinCode is 4 digits, if not it returns false.
    */
-  public boolean setPinCode(String pinCode) {
-    if (pinCode.length() != 4 || !pinCode.matches("\\d+")) {
-      return false;
+  public void setPinCode(String pinCode) throws IllegalArgumentException {
+    if (!pinCode.matches("\\d+")) {
+      throw new IllegalArgumentException("Pin code must only consist of numbers.");
+    } else if (pinCode.length() != 4) {
+      throw new IllegalArgumentException("Pin code must consist of 4 digits.");
     } else {
       this.pinCode = pinCode;
-      return true;
     }
   }
 
@@ -150,8 +154,12 @@ public class Account {
    *
    * @param securityAnswer the securityAnswer to be set.
    */
-  public void setSecurityAnswer(String securityAnswer) {
-    this.securityAnswer = securityAnswer;
+  public void setSecurityAnswer(String securityAnswer) throws IllegalArgumentException {
+    if (securityAnswer.isBlank() || securityAnswer.isEmpty()) {
+      throw new IllegalArgumentException("Security answer must not be empty or blank.");
+    } else {
+      this.securityAnswer = securityAnswer;
+    }
   }
 
   /**
@@ -179,13 +187,13 @@ public class Account {
    *
    * @param savingsPlan the savingsPlan to be added.
    */
-  public boolean addSavingsPlan(SavingsPlan savingsPlan) {
-    if (savingsPlans.containsKey(savingsPlan.getGoalName())
-        || savingsPlans.containsValue(savingsPlan)) {
-      return false;
+  public void addSavingsPlan(SavingsPlan savingsPlan) throws IllegalArgumentException {
+    if (savingsPlans.containsValue(savingsPlan)) {
+      throw new IllegalArgumentException("An instance of the savings plan already exists.");
+    } else if (savingsPlans.containsKey(savingsPlan.getGoalName())) {
+      throw new IllegalArgumentException("Savings plan goal name is taken.");
     } else {
       this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
-      return true;
     }
   }
 
@@ -214,13 +222,13 @@ public class Account {
    *
    * @param budget the budget to be added.
    */
-  public boolean addBudget(Budget budget) {
-    if (budgets.containsKey(budget.getBudgetName())
-        || budgets.containsValue(budget)) {
-      return false;
+  public void addBudget(Budget budget) throws IllegalArgumentException {
+    if (budgets.containsValue(budget)) {
+      throw new IllegalArgumentException("An instance of the budget already exists.");
+    } else if (budgets.containsKey(budget.getBudgetName())) {
+      throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.put(budget.getBudgetName(), budget);
-      return true;
     }
   }
 

@@ -25,10 +25,10 @@ public class SavingsPlan {
       throws IllegalArgumentException {
 
     if (goalName == null || goalName.trim().isEmpty()) {
-      throw new IllegalArgumentException("Goal name must not be empty or blank");
+      throw new IllegalArgumentException("Goal name must not be empty or blank.");
     }
-    if (totalGoalAmount < 0) {
-      throw new IllegalArgumentException("Total goal amount must be non-negative");
+    if (totalGoalAmount <= 0) {
+      throw new IllegalArgumentException("Total goal amount must be above zero.");
     }
 
     this.goalName = goalName;
@@ -53,7 +53,7 @@ public class SavingsPlan {
    */
   public void setGoalName(String goalName) throws IllegalArgumentException {
     if (goalName == null || goalName.trim().isEmpty()) {
-      throw new IllegalArgumentException("Goal name must not be empty or blank");
+      throw new IllegalArgumentException("Goal name must not be empty or blank.");
     }
 
     this.goalName = goalName;
@@ -75,8 +75,8 @@ public class SavingsPlan {
    * @throws IllegalArgumentException the illegal argument exception
    */
   public void setTotalGoalAmount(int totalGoalAmount) throws IllegalArgumentException {
-    if (totalGoalAmount < 0) {
-      throw new IllegalArgumentException("Total goal amount must be non-negative");
+    if (totalGoalAmount <= 0) {
+      throw new IllegalArgumentException("Total goal amount must be above zero.");
     }
 
     this.totalGoalAmount = totalGoalAmount;
@@ -117,8 +117,8 @@ public class SavingsPlan {
    * @throws IllegalArgumentException the illegal argument exception
    */
   public void setWantedSavingTime(int wantedSavingTime) throws IllegalArgumentException {
-    if (wantedSavingTime < 0) {
-      throw new IllegalArgumentException("Wanted saving time amount must be non-negative");
+    if (wantedSavingTime <= 0) {
+      throw new IllegalArgumentException("Wanted saving time amount must be above zero.");
     }
     this.wantedSavingTime = wantedSavingTime;
   }
@@ -140,8 +140,8 @@ public class SavingsPlan {
    */
   public void setWantedMonthlySavingAmount(int wantedMonthlySavingAmount)
       throws IllegalArgumentException {
-    if (wantedMonthlySavingAmount < 0) {
-      throw new IllegalArgumentException("Wanted monthly saving amount must be non-negative");
+    if (wantedMonthlySavingAmount <= 0) {
+      throw new IllegalArgumentException("Wanted monthly saving amount must be above zero.");
     }
     this.wantedMonthlySavingAmount = wantedMonthlySavingAmount;
   }
@@ -151,9 +151,8 @@ public class SavingsPlan {
    *
    * @return the int
    */
-  public int estimateSavingTime() {
-    int estimatedSavTime = totalGoalAmount / wantedMonthlySavingAmount;
-    return estimatedSavTime;
+  public int getEstimatedSavingTime() {
+    return totalGoalAmount / wantedMonthlySavingAmount;
   }
 
   /**
@@ -161,8 +160,7 @@ public class SavingsPlan {
    *
    * @return the int
    */
-  public int estimateMonthlySavingAmount() {
-    int estimatedMonthlySaveAmount = totalGoalAmount / wantedSavingTime;
-    return estimatedMonthlySaveAmount;
+  public int getEstimatedMonthlySavingAmount() {
+    return totalGoalAmount / wantedSavingTime;
   }
 }
