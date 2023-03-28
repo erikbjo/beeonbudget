@@ -3,7 +3,8 @@ package no.ntnu.idatg1002.budgetapplication.backend.savings;
 /**
  * Represents a savings plan. Each savings plan holds some information about that plan.
  *
- * @author Erik Bjørnsen
+ * @author Igor Dzugaj, Erik Bjørnsen
+ * @version 2.0
  */
 public class SavingsPlan {
   private String goalName;
