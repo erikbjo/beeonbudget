@@ -14,7 +14,7 @@ public class SavingsPlanController {
   private Scene scene;
   private Parent parent;
   public void switchToPrimaryFromSavingPlan(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/primary.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);

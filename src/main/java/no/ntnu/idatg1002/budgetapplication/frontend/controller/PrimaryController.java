@@ -1,7 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
-import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -16,7 +15,7 @@ public class PrimaryController {
   private Parent parent;
 
   public void switchToBudget(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/budget.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
@@ -24,7 +23,7 @@ public class PrimaryController {
   }
 
   public void switchToPrimary(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/primary.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
@@ -32,7 +31,7 @@ public class PrimaryController {
   }
 
   public void switchToSavingPlan(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/savingsPlan.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);

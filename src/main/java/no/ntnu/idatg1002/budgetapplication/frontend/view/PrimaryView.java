@@ -11,9 +11,11 @@ public class PrimaryView extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/primary.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/primary.fxml"));
     Parent root = loader.load();
     Scene scene = new Scene(root);
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
+    scene.getStylesheets().add(css);
     primaryStage.setTitle("Bee on Budget");
     primaryStage.getIcons().add(new Image(
         getClass().getResource("/images/simpleLogoBoY.png").openStream()));
