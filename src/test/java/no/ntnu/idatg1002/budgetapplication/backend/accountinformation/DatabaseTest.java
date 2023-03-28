@@ -23,13 +23,15 @@ class DatabaseTest {
     void addAccountThatDoesNotExistAlready() {
       Account testAccount = new Account("newTest", "newTest@.com",
           "1234", SecurityQuestion.FATHER_BORN, "1969");
-      assertTrue(Database.addAccount(testAccount));
+      assertDoesNotThrow(() -> Database.addAccount(testAccount));
       assertTrue(Database.getAccounts().containsValue(testAccount));
     }
 
     @Test
     void addAccountThatAlreadyExists() {
-      assertFalse(Database.addAccount(account));
+      Exception thrown = assertThrows(IllegalArgumentException.class,
+          () -> Database.addAccount(account));
+      assertEquals("Instance of account already exists.", thrown.getMessage());
     }
   }
 

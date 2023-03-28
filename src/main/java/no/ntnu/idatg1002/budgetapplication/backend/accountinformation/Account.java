@@ -43,7 +43,7 @@ public class Account {
     setEmail(email);
     setPinCode(pinCode);
     this.securityQuestion = securityQuestion;
-    this.securityAnswer = securityAnswer;
+    setSecurityAnswer(securityAnswer);
     this.accountNumber = generateAccountNumber();
     this.savingsPlans = new HashMap<>();
     this.budgets = new HashMap<>();
@@ -62,6 +62,8 @@ public class Account {
    * Sets the name of the account owner to the provided name.
    *
    * @param name the name to be set.
+   * @throws IllegalArgumentException "Account name must not be empty or blank" if name is blank
+   *     or empty
    */
   public void setName(String name) throws IllegalArgumentException {
     if (name.isBlank() || name.isEmpty()) {
@@ -84,6 +86,9 @@ public class Account {
    * Sets the email of the account owner to the provided email.
    *
    * @param email the email to be set.
+   * @throws IllegalArgumentException "Email must not be empty or blank." if email is empty
+   *     or blank. "Email does not contain '@'." if email does not contain '@'.
+   *     "Email already in use." if email is already in use.
    */
   public void setEmail(String email) throws IllegalArgumentException {
     if (email.isBlank() || email.isEmpty()) {
@@ -111,6 +116,9 @@ public class Account {
    * pin code is not 4 digits, it returns false.
    *
    * @param pinCode the pinCode to be set.
+   * @throws IllegalArgumentException "Pin code must only consist of numbers." if pin code has
+   *     characters that are not numbers. "Pin code must consist of 4 digits." if pin code's
+   *     length is not 4 digits.
    */
   public void setPinCode(String pinCode) throws IllegalArgumentException {
     if (!pinCode.matches("\\d+")) {
@@ -153,6 +161,8 @@ public class Account {
    * Sets the securityAnswer to the provided security answer.
    *
    * @param securityAnswer the securityAnswer to be set.
+   * @throws IllegalArgumentException "Security answer must not be empty or blank." if
+   *     security answer is empty or blank.
    */
   public void setSecurityAnswer(String securityAnswer) throws IllegalArgumentException {
     if (securityAnswer.isBlank() || securityAnswer.isEmpty()) {
@@ -186,6 +196,9 @@ public class Account {
    * does not already exist or the savings plan name is not taken.
    *
    * @param savingsPlan the savingsPlan to be added.
+   * @throws IllegalArgumentException "An instance of the savings plan already exists." if
+   *     an instance of the savings plan already exists. "Savings plan goal name is taken." if
+   *     name of savings plan is already taken.
    */
   public void addSavingsPlan(SavingsPlan savingsPlan) throws IllegalArgumentException {
     if (savingsPlans.containsValue(savingsPlan)) {
@@ -221,6 +234,9 @@ public class Account {
    * does not already exist or the budget name is not taken.
    *
    * @param budget the budget to be added.
+   * @throws IllegalArgumentException "An instance of the budget already exists." if an
+   *     instance of the budget already exists. "Budget name is taken." if the name of the budget
+   *     is already taken.
    */
   public void addBudget(Budget budget) throws IllegalArgumentException {
     if (budgets.containsValue(budget)) {
