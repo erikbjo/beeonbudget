@@ -27,40 +27,37 @@ public class PrimaryController extends Dialog<Budget> {
   private TextField expenseField;
   private TextField descriptionField;
   private TextField monthsField;
-
   private ButtonType addButtonType;
 
+  private ComboBox<RecurringType> recurringTypeComboBox;
+  private ComboBox<Category> categoryComboBox;
   public PrimaryController() {
     super();
     expenseField = new TextField();
-    expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+    //expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
     descriptionField = new TextField();
-    descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+    //descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
-    ComboBox<RecurringType> recurringTypeComboBox = new ComboBox<>();
+    monthsField = new TextField();
+    //monthsField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+
+    recurringTypeComboBox = new ComboBox<>();
+    categoryComboBox = new ComboBox<>();
+
     recurringTypeComboBox.getItems().addAll(RecurringType.values());
-
-    ComboBox<Category> categoryComboBox = new ComboBox<>();
     categoryComboBox.getItems().addAll(Category.values());
 
-    grid = new GridPane();
-    grid.add(new Label("Expense Amount"), 0, 0);
-    grid.add(new Label("Description"), 0, 2);
-    grid.add(new Label("Recurring interval"), 0, 4);
-    grid.add(new Label("Category"), 0, 6);
-
-    grid.add(expenseField, 0, 1);
-    grid.add(descriptionField, 0, 3);
-    grid.add(recurringTypeComboBox, 0, 5);
-    grid.add(categoryComboBox, 0, 7);
-    grid.setHgap(10);
-    grid.setVgap(10);
+    expenseGrid = new GridPane();
+    expenseGrid.add(new Label("Expense Amount"), 0, 0);
+    expenseGrid.add(new Label("Description"), 0, 2);
+    expenseGrid.add(new Label("Recurring interval"), 0, 4);
+    expenseGrid.add(new Label("Category"), 0, 6);
 
     expenseGrid.add(expenseField, 0, 1);
     expenseGrid.add(descriptionField, 0, 3);
-    expenseGrid.add(monthsField, 1, 5);
-    expenseGrid.add(new ComboBox<Category>(), 0, 7);
+    expenseGrid.add(recurringTypeComboBox, 0, 5);
+    expenseGrid.add(categoryComboBox, 0, 7);
     expenseGrid.setHgap(10);
     expenseGrid.setVgap(10);
 
@@ -90,17 +87,28 @@ public class PrimaryController extends Dialog<Budget> {
 
     // Create the amount field
     TextField incomeField = new TextField();
+    //GridPane incomeGrid = new GridPane();
+    //incomeGrid.add(new Label("Income Amount"), 0, 0);
+    //incomeGrid.add(new Label("Description"), 0, 2);
+    //incomeGrid.add(new Label("Monthly Income"), 0, 4);
+    //incomeGrid.add(new CheckBox(), 0, 5);
+    //incomeGrid.add(new Label("Category"), 0, 6);
+    //
+    //incomeGrid.add(incomeField, 0, 1);
+    //incomeGrid.add(descriptionField, 0, 3);
+    //incomeGrid.add(monthsField, 1, 5);
+    //incomeGrid.add(new ComboBox<Category>(), 0, 7);
+    //incomeGrid.setHgap(10);
+    //incomeGrid.setVgap(10);
+
     GridPane incomeGrid = new GridPane();
     incomeGrid.add(new Label("Income Amount"), 0, 0);
     incomeGrid.add(new Label("Description"), 0, 2);
-    incomeGrid.add(new Label("Monthly Income"), 0, 4);
-    incomeGrid.add(new CheckBox(), 0, 5);
-    incomeGrid.add(new Label("Category"), 0, 6);
+    incomeGrid.add(new Label("Recurring interval"), 0, 4);
 
     incomeGrid.add(incomeField, 0, 1);
     incomeGrid.add(descriptionField, 0, 3);
-    incomeGrid.add(monthsField, 1, 5);
-    incomeGrid.add(new ComboBox<Category>(), 0, 7);
+    incomeGrid.add(recurringTypeComboBox, 0, 5);
     incomeGrid.setHgap(10);
     incomeGrid.setVgap(10);
 
@@ -111,15 +119,6 @@ public class PrimaryController extends Dialog<Budget> {
     incomeField.textProperty().addListener((observable, oldValue, newValue) -> {
       addButton.setDisable(newValue.trim().isEmpty());
     });
-
-    /**
-    // Create the grid pane and add the amount field
-    GridPane grid = new GridPane();
-    grid.setHgap(10);
-    grid.setVgap(10);
-    grid.add(new Label("Amount:"), 0, 0);
-    grid.add(incomeField, 1, 0);
-     */
 
     Optional<Budget> incomeResult = incomeDialog.showAndWait();
     if (incomeResult.isPresent()) {
@@ -132,7 +131,7 @@ public class PrimaryController extends Dialog<Budget> {
     public void onAddExpense (ActionEvent event) throws IOException {
       Optional<Budget> expenseResult = showAndWait();
       if (expenseResult.isPresent()) {
-        Budget budget = expenseResult.get();
+        Budget expense = expenseResult.get();
         // Do something with the input
       }
     }
