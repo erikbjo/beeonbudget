@@ -152,7 +152,7 @@ public class SavingsPlan {
    * @return the int
    */
   public int getEstimatedSavingTime() {
-   return totalGoalAmount / wantedMonthlySavingAmount;
+    return totalGoalAmount / wantedMonthlySavingAmount;
   }
 
   /**
