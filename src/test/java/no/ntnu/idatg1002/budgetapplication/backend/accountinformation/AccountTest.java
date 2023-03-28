@@ -9,11 +9,12 @@ import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
-public class AccountTest {
+class AccountTest {
   private Account account;
   private Budget budget;
   private Income income;
@@ -34,18 +35,38 @@ public class AccountTest {
     savingsPlan = new SavingsPlan("Test goal", 100, 50);
   }
 
+  @AfterEach
+  void tearDown() {
+    for (Account a : Database.getAccounts().values()) {
+      a = null;
+    }
+    Database.getAccounts().clear();
+    Database.getEmails().clear();
+  }
+
   @Nested
   class SetEmailTest {
     @Test
     void emailHasAtSign() {
-      assertTrue(account.setEmail("simon@gmail.com"));
+      assertDoesNotThrow(() -> account.setEmail("simon@gmail.com"));
       assertEquals("simon@gmail.com", account.getEmail());
     }
 
     @Test
     void emailHasNoAtSign() {
-      assertFalse(account.setEmail("simon.gmail.com"));
-      assertEquals("test@test.com", account.getEmail());
+      Exception thrown = assertThrows(IllegalArgumentException.class,
+          () -> account.setEmail("simon.gmail.com"));
+      assertEquals("Email does not contain '@'.", thrown.getMessage());
+    }
+
+    @Test
+    void emailAlreadyInUse() {
+      Account account2 = new Account("Erik", "simon@gmail.com", "4444",
+          SecurityQuestion.FAVORITE_FOOD, "Pizza");
+      Database.addAccount(account2);
+      Exception thrown = assertThrows(IllegalArgumentException.class,
+          () -> account.setEmail("simon@gmail.com"));
+      assertEquals("Email already in use.", thrown.getMessage());
     }
   }
 

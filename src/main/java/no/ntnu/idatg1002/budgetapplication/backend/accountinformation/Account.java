@@ -1,6 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import java.io.FileWriter;import java.io.IOException;import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
@@ -64,7 +64,9 @@ public class Account {
    * @param name the name to be set.
    */
   public void setName(String name) {
-    if (!name.isBlank() && !name.isEmpty()) this.name = name;
+    if (!name.isBlank() && !name.isEmpty()) {
+      this.name = name;
+    }
   }
 
   /**
@@ -81,12 +83,13 @@ public class Account {
    *
    * @param email the email to be set.
    */
-  public boolean setEmail(String email) {
-    if (!email.contains("@") && !Database.getEmails().contains(email)) {
-      return false;
+  public void setEmail(String email) {
+    if (!email.contains("@")) {
+      throw new IllegalArgumentException("Email does not contain '@'.");
+    } else if (Database.getEmails().contains(email)) {
+      throw new IllegalArgumentException("Email already in use.");
     } else {
       this.email = email;
-      return true;
     }
   }
 
@@ -254,7 +257,8 @@ public class Account {
     return id.toString();
   }
 
-  // Currently not used
+  /*
+  // Currently not use
   private boolean saveAccountNumberToFile(String accountNumber) {
     String filename = "TakenAccountNumbers.txt";
     try {
@@ -269,6 +273,8 @@ public class Account {
       return false;
     }
   }
+  */
+
   @Override
   public String toString() {
     return "Account{"
