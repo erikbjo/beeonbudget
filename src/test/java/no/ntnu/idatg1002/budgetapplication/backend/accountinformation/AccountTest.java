@@ -2,9 +2,14 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import no.ntnu.idatg1002.budgetapplication.backend.Budget;import no.ntnu.idatg1002.budgetapplication.backend.Category;import no.ntnu.idatg1002.budgetapplication.backend.Expense;import no.ntnu.idatg1002.budgetapplication.backend.Income;import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;import org.junit.jupiter.api.BeforeEach;
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
+import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
+import no.ntnu.idatg1002.budgetapplication.backend.Income;
+import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
+import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
@@ -76,36 +81,6 @@ public class AccountTest {
       assertEquals("Control name", account.getName());
     }
   }
-
-  @Nested
-  class BudgetTest {
-    @Test
-    void addBudgetPositiveTest() {
-      account.addBudget(budget);
-      assertTrue(account.getBudgets().containsValue(budget));
-    }
-    @Test
-    void removeBudgetPositiveTest() {
-      account.addBudget(budget);
-      account.removeBudget(budget);
-      assertFalse(account.getBudgets().containsValue(budget));
-    }
-  }
-
-  @Nested
-  class SavingPlanTest {
-    @Test
-    void addSavingsPlanPositiveTest() {
-      account.addSavingsPlan(savingsPlan);
-      assertTrue(account.getSavingsPlans().containsValue(savingsPlan));
-    }
-    @Test
-    void removeSavingsPlanPositiveTest() {
-      account.addSavingsPlan(savingsPlan);
-      account.removeSavingsPlan(savingsPlan);
-      assertFalse(account.getSavingsPlans().containsValue(savingsPlan));
-    }
-  }
   @Nested
   class SetPinCodeTest {
     @Test
@@ -140,25 +115,89 @@ public class AccountTest {
   }
 
   @Nested
-  class GenerateAccountNumberTest {
+  class addSavingsPlanTest {
     @Test
-    void accountNumberIsCorrectFormat() {
-      assertTrue(account.getAccountNumber().startsWith("ID-"));
-      assertEquals(17, account.getAccountNumber().length());
+    void addNewSavingsPlanWithNotTakenName() {
+      assertTrue(account.addSavingsPlan(
+          new SavingsPlan("My goal", 100, 0)));
+    }
+
+    @Test
+    void addNewSavingsPlanWithTakenName() {
+      account.addSavingsPlan(new SavingsPlan("My goal", 100, 0));
+      assertFalse(account.addSavingsPlan(
+          new SavingsPlan("My goal", 100, 0)));
+    }
+
+    @Test
+    void addExistingSavingsPlan() {
+      SavingsPlan testSavingsPlan =
+          new SavingsPlan("My goal", 100, 0);
+      account.addSavingsPlan(testSavingsPlan);
+      assertFalse(account.addSavingsPlan(testSavingsPlan));
     }
   }
+
   @Test
-  void toStringPositiveTest() {
-    System.out.println(account.toString());
-    String expected = "Account{name='" + account.getName()
-        + "', email='" + account.getEmail()
-        + "', pinCode='" + account.getPinCode()
-        + "', securityQuestion=" + account.getSecurityQuestion()
-        + ", securityAnswer='" + account.getSecurityAnswer()
-        + "', accountNumber='" + account.getAccountNumber()
-        + "', savingsPlans=" + account.getSavingsPlans()
-        + ", budgets=" + account.getBudgets()
-        + "}";
-    assertEquals(expected, account.toString());
+  void removeSavingsPlanTest() {
+    account.addSavingsPlan(savingsPlan);
+    account.removeSavingsPlan(savingsPlan);
+    assertFalse(account.getSavingsPlans().containsValue(savingsPlan));
   }
-}
+    @Nested
+    class addBudgetTest {
+
+      @Test
+      void addNewBudgetWithNotTakenName() {
+        account.addBudget(new Budget("My First Budget"));
+        assertTrue(account.addBudget(
+            new Budget("My Second Budget")));
+      }
+
+      @Test
+      void addNewBudgetWithTakenName() {
+        account.addBudget(new Budget("My First Budget"));
+        assertFalse(account.addBudget(
+            new Budget("My First Budget")));
+      }
+
+      @Test
+      void addExistingBudget() {
+        Budget testBudget =
+            new Budget("My Budget");
+        account.addBudget(testBudget);
+        assertFalse(account.addBudget(testBudget));
+      }
+    }
+
+    @Test
+    void removeBudgetPositiveTest () {
+      account.addBudget(budget);
+      account.removeBudget(budget);
+      assertFalse(account.getBudgets().containsValue(budget));
+    }
+
+    @Nested
+    class GenerateAccountNumberTest {
+
+      @Test
+      void accountNumberIsCorrectFormat() {
+        assertEquals("ID-", account.getAccountNumber().substring(0, 3));
+        assertEquals(17, account.getAccountNumber().length());
+      }
+    }
+    @Test
+    void toStringPositiveTest () {
+      System.out.println(account.toString());
+      String expected = "Account{name='" + account.getName()
+          + "', email='" + account.getEmail()
+          + "', pinCode='" + account.getPinCode()
+          + "', securityQuestion=" + account.getSecurityQuestion()
+          + ", securityAnswer='" + account.getSecurityAnswer()
+          + "', accountNumber='" + account.getAccountNumber()
+          + "', savingsPlans=" + account.getSavingsPlans()
+          + ", budgets=" + account.getBudgets()
+          + "}";
+      assertEquals(expected, account.toString());
+    }
+  }

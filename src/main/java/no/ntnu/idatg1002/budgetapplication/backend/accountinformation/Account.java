@@ -170,12 +170,37 @@ public class Account {
   }
 
   /**
-   * Adds a savings plan to the account's savingsPlans collection.
+   * Adds a savings plan to the account's savingsPlans collection as long as the savings plan
+   * does not already exist or the savings plan name is not taken.
    *
    * @param savingsPlan the savingsPlan to be added.
    */
-  public void addSavingsPlan(SavingsPlan savingsPlan) {
-    this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+  public boolean addSavingsPlan(SavingsPlan savingsPlan) {
+    if (savingsPlans.containsKey(savingsPlan.getGoalName())
+        || savingsPlans.containsValue(savingsPlan)) {
+      return false;
+    } else {
+      this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+      return true;
+    }
+  }
+
+  /**
+   * Removes a savings plan to the account's savingsPlans collection.
+   *
+   * @param savingsPlan the savingsPlan to be added.
+   */
+  public void removeSavingsPlan(SavingsPlan savingsPlan) {
+    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
+  }
+
+  /**
+   * Removes a savings plan to the account's savingsPlans collection.
+   *
+   * @param savingsPlan the savingsPlan to be added.
+   */
+  public void removeSavingsPlan(SavingsPlan savingsPlan) {
+    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
   }
 
   /**
@@ -197,12 +222,37 @@ public class Account {
   }
 
   /**
-   * Adds a budget to the account's budget collection.
+   * Adds a budget to the account's budget collection as long as the budget
+   * does not already exist or the budget name is not taken.
    *
    * @param budget the budget to be added.
    */
-  public void addBudget(Budget budget) {
-    this.budgets.put(budget.getBudgetName(), budget);
+  public boolean addBudget(Budget budget) {
+    if (budgets.containsKey(budget.getBudgetName())
+        || budgets.containsValue(budget)) {
+      return false;
+    } else {
+      this.budgets.put(budget.getBudgetName(), budget);
+      return true;
+    }
+  }
+
+  /**
+   * Removes a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget.getBudgetName(), budget);
+  }
+
+  /**
+   * Removes a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget.getBudgetName(), budget);
   }
 
   /**
