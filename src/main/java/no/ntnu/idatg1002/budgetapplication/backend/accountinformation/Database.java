@@ -42,6 +42,7 @@ public class Database {
       return false;
     } else {
       accounts.put(account.getAccountNumber(), account);
+      emails.add(account.getEmail());
       return true;
     }
   }
