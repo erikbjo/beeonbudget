@@ -8,7 +8,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;

@@ -1,4 +1,4 @@
-package no.ntnu.idatg1002.budgetapplication.backend;
+package no.ntnu.idatg1002.budgetapplication.backend.savings;
 
 /**
  * Represents a savings plan. Each savings plan holds some information about that plan.

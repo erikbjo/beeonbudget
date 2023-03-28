@@ -68,7 +68,6 @@ public class Account {
       throw new IllegalArgumentException("Account name must not be empty or blank.");
     } else {
       this.name = name;
-
     }
   }
 
