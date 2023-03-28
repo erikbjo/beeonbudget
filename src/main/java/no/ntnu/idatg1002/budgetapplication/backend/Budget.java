@@ -10,11 +10,17 @@ import java.util.List;
  * @version 2.0 (2023-03-27)
  */
 public class Budget {
-  private String budgetName;
   private final List<Expense> expenseList;
   private final List<Income> incomeList;
   private final List<Category> categoryList;
+  private String budgetName;
 
+  /**
+   * Instantiates a new Budget.
+   *
+   * @param budgetName the budget name
+   * @throws IllegalArgumentException the illegal argument exception
+   */
   public Budget(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
       throw new IllegalArgumentException("Budget name must not be empty or blank");
@@ -38,6 +44,7 @@ public class Budget {
    * This function sets the budget name.
    *
    * @param budgetName The name of the budget you want to create.
+   * @throws IllegalArgumentException the illegal argument exception
    */
   public void setBudgetName(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
@@ -81,12 +88,16 @@ public class Budget {
     return getTotalIncome() - getTotalExpense();
   }
 
+  /**
+   * This function updates the category list. It iterates through the expenses and incomes currently
+   * in the budget, and adds any category from them that is not currently in the budget, to the budget.
+   */
   private void updateCategoryList() {
     categoryList.clear();
     for (Expense expense : expenseList) {
-        if (!categoryList.contains(expense.getCategory())) {
-          categoryList.add(expense.getCategory());
-        }
+      if (!categoryList.contains(expense.getCategory())) {
+        categoryList.add(expense.getCategory());
+      }
     }
     for (Income income : incomeList) {
       if (!categoryList.contains(income.getCategory())) {
@@ -94,7 +105,6 @@ public class Budget {
       }
     }
   }
-
 
   /**
    * This function adds an expense to the expense list.
@@ -117,9 +127,10 @@ public class Budget {
   }
 
   /**
-   * This function adds an expense to the expense list.
+   * This function removes an expense from the expense list.
    *
-   * @param expense The expense object that you want to add to the list.
+   * @param expense The expense object that you want to remove from the list.
+   * @throws IndexOutOfBoundsException the index out of bounds exception
    */
   public void removeBudgetExpenses(Expense expense) throws IndexOutOfBoundsException {
     if (expenseList.contains(expense)) {
@@ -131,9 +142,10 @@ public class Budget {
   }
 
   /**
-   * This function adds an income to the incomeList.
+   * This function removes an income from the incomeList.
    *
-   * @param income The income object to be added to the list.
+   * @param income The income object to be removed from the list.
+   * @throws IndexOutOfBoundsException the index out of bounds exception
    */
   public void removeBudgetIncome(Income income) throws IndexOutOfBoundsException {
     if (incomeList.contains(income)) {
