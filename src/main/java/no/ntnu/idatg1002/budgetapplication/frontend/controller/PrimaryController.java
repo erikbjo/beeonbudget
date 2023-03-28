@@ -12,11 +12,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
@@ -35,10 +35,7 @@ public class PrimaryController extends Dialog<Budget> {
 
   private ComboBox<RecurringType> recurringTypeComboBox;
   private ComboBox<Category> categoryComboBox;
-
-  @FXML
-  private PieChart pieChart;
-  public PrimaryController() {
+  public PrimaryController() throws IOException {
     super();
     expenseField = new TextField();
     //expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
@@ -67,6 +64,22 @@ public class PrimaryController extends Dialog<Budget> {
     expenseGrid.add(categoryComboBox, 0, 7);
     expenseGrid.setHgap(10);
     expenseGrid.setVgap(10);
+/**
+    getDialogPane().setContent(expenseGrid);
+    Node addButton = getDialogPane().lookupButton(addButtonType);
+    addButton.setDisable(true);
+    expenseField.textProperty().addListener((observable, oldValue, newValue) -> {
+      addButton.setDisable(newValue.trim().isEmpty());
+    });*/
+
+    Stage stage = (Stage) getDialogPane().getScene().getWindow();
+    stage.getIcons().add(new Image(getClass().getResource("/images/simpleLogoBoY.png")
+        .openStream()));
+
+    /**
+    getDialogPane().getIcons().add(new Image(
+        getClass().getResource("/images/simpleLogoBoY.png").openStream()));
+     */
 
     getDialogPane().setContent(expenseGrid);
     addButtonType = new ButtonType("Add");
@@ -121,7 +134,6 @@ public class PrimaryController extends Dialog<Budget> {
     incomeGrid.setHgap(10);
     incomeGrid.setVgap(10);
 
-    // Enable/disable add button depending on whether amount field is empty
     incomeDialog.getDialogPane().setContent(incomeGrid);
     Node addButton = incomeDialog.getDialogPane().lookupButton(addButtonType);
     addButton.setDisable(true);

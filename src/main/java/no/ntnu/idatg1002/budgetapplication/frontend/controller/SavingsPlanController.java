@@ -17,15 +17,11 @@ public class SavingsPlanController {
   private Stage stage;
   private Scene scene;
   private Parent parent;
-  @FXML TextField name;
-  @FXML TextField totAmount;
-  @FXML TextField savAmount;
-  @FXML DialogPane popup;
-  @FXML Label goalName;
-  private SavingsPlan example = new SavingsPlan("example", 100, 1);
+  private PrimaryController primaryController;
 
-
-  private PrimaryController primaryController = new PrimaryController();
+  public SavingsPlanController() throws IOException {
+    primaryController = new PrimaryController();
+  }
 
   public void switchToPrimaryFromSavingPlan(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
