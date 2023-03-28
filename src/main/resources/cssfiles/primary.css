@@ -15,7 +15,6 @@
 
 
 .button {
-  -fx-background-color: #f3e60c;
   -fx-border-radius: 12px;
   -fx-text-fill: black;
   -fx-cursor: pointer;

@@ -42,8 +42,10 @@ public class BudgetController {
 
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
+    scene.getStylesheets().add(css);
     stage.setScene(scene);
     stage.show();
   }
