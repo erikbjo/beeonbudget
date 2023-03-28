@@ -16,8 +16,8 @@ class BudgetTest {
   @BeforeEach
   void setUp() {
     budget = new Budget("Test");
-    income = new Income(200, "Test income", Category.HOUSING, RecurringType.NONRECURRING);
-    expense = new Expense(300, "Test expense", Category.FOOD, RecurringType.NONRECURRING);
+    income = new Income(200, "Test income", RecurringType.NONRECURRING);
+    expense = new Expense(300, "Test expense", RecurringType.NONRECURRING, Category.FOOD);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
   }
@@ -26,25 +26,24 @@ class BudgetTest {
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownBudgetNameError =
         assertThrows(IllegalArgumentException.class, () -> new Budget(" "));
-    assertEquals("Budget name must not be empty or blank", thrownBudgetNameError.getMessage());
+    assertEquals("Budget name must not be empty or blank.", thrownBudgetNameError.getMessage());
   }
 
   @Test
   void checkThatSetBudgetNameNeedsNotBlankString() {
     Exception thrown =
         assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(" "));
-    assertEquals("Budget name must not be empty or blank", thrown.getMessage());
+    assertEquals("Budget name must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
   void checkThatSetBudgetNameNeedsNotEmptyString() {
     Exception thrown = assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(""));
-    assertEquals("Budget name must not be empty or blank", thrown.getMessage());
+    assertEquals("Budget name must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
   void testGetCategoriesContainsCategoriesFromMoneyActions() {
-    assertTrue(budget.getCategoryList().contains(income.getCategory()));
     assertTrue(budget.getCategoryList().contains(expense.getCategory()));
   }
 
@@ -66,21 +65,18 @@ class BudgetTest {
   void assertRemoveFromListAlsoRemovesCategory() {
     budget.removeBudgetIncome(income);
     budget.removeBudgetExpenses(expense);
-    assertFalse(budget.getCategoryList().contains(income.getCategory()));
     assertFalse(budget.getCategoryList().contains(expense.getCategory()));
   }
 
   @Test
   void assertAddToListAlsoAddsCategory() {
     Expense localExpense =
-        new Expense(150, "Test expense 2", Category.HEALTHCARE, RecurringType.MONTHLY);
-    Income localIncome = new Income(200, "Test income 2", Category.UTILITIES, RecurringType.DAILY);
+        new Expense(150, "Test expense 2", RecurringType.MONTHLY, Category.HEALTHCARE);
+    Income localIncome = new Income(200, "Test income 2", RecurringType.DAILY);
     budget.addBudgetIncome(localIncome);
     budget.addBudgetExpenses(localExpense);
 
     ArrayList<Category> testList = new ArrayList<>();
-    testList.add(income.getCategory());
-    testList.add(localIncome.getCategory());
     testList.add(expense.getCategory());
     testList.add(localExpense.getCategory());
 
@@ -98,10 +94,9 @@ class BudgetTest {
   void getNetBalanceEqualToFifty() {
     budget.removeBudgetIncome(income);
     budget.removeBudgetExpenses(expense);
-    budget.addBudgetIncome(
-        new Income(200, "Test income 2", Category.HOUSING, RecurringType.NONRECURRING));
+    budget.addBudgetIncome(new Income(200, "Test income 2", RecurringType.NONRECURRING));
     budget.addBudgetExpenses(
-        new Expense(150, "Test expense 2", Category.HEALTHCARE, RecurringType.MONTHLY));
+        new Expense(150, "Test expense 2", RecurringType.MONTHLY, Category.HEALTHCARE));
 
     int netBalance = budget.getNetBalance();
     assertEquals(50, netBalance);

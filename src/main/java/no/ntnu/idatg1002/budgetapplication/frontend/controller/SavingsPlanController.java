@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 
 public class SavingsPlanController {
 
@@ -25,8 +25,11 @@ public class SavingsPlanController {
   private SavingsPlan example = new SavingsPlan("example", 100, 1);
 
 
+  private PrimaryController primaryController = new PrimaryController();
+
   public void switchToPrimaryFromSavingPlan(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);

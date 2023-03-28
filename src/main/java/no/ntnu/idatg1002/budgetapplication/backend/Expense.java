@@ -7,15 +7,36 @@ package no.ntnu.idatg1002.budgetapplication.backend;
  */
 public class Expense extends MoneyAction {
 
+  private Category category;
+
   /**
    * Instantiates a new Expense.
    *
    * @param amount the amount
    * @param description the description
-   * @param category the category
    * @param type the type
+   * @param category the category
    */
-  public Expense(int amount, String description, Category category, RecurringType type) {
-    super(amount, description, category, type);
+  public Expense(int amount, String description, RecurringType type, Category category) {
+    super(amount, description, type);
+    this.category = category;
+  }
+
+  /**
+   * Gets category.
+   *
+   * @return the category
+   */
+  public Category getCategory() {
+    return category;
+  }
+
+  /**
+   * Sets category.
+   *
+   * @param category the category
+   */
+  public void setCategory(Category category) {
+    this.category = category;
   }
 }

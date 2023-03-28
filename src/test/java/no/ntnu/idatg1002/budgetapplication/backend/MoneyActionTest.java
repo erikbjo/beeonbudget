@@ -8,23 +8,25 @@ import org.junit.jupiter.api.Test;
 
 class MoneyActionTest {
   MoneyAction testAction;
+  Expense testExpense;
 
   @BeforeEach
   void setUp() {
-    testAction = new Income(50, "Test description", Category.HOUSING, RecurringType.YEARLY);
+    testAction = new Income(50, "Test description", RecurringType.YEARLY);
+    testExpense = new Expense(50, "Test expense", RecurringType.DAILY, Category.HOUSING);
   }
 
   @AfterEach
   void tearDown() {}
 
-
   @Test
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownDescriptionError =
-        assertThrows(IllegalArgumentException.class, () -> new Income(
-            100, " ", Category.HOUSING, RecurringType.YEARLY));
-    assertEquals("Description must not be empty or blank", thrownDescriptionError.getMessage());
+        assertThrows(
+            IllegalArgumentException.class, () -> new Income(100, " ", RecurringType.YEARLY));
+    assertEquals("Description must not be empty or blank.", thrownDescriptionError.getMessage());
   }
+
   @Test
   void checkThatGetAmountReturnsCorrectAmount() {
     assertEquals(50, testAction.getAmount());
@@ -39,7 +41,7 @@ class MoneyActionTest {
   @Test
   void checkThatSetAmountRequiresAboveZero() {
     Exception thrown = assertThrows(IllegalArgumentException.class, () -> testAction.setAmount(-1));
-    assertEquals("Amount must be non-negative", thrown.getMessage());
+    assertEquals("Amount must be non-negative.", thrown.getMessage());
   }
 
   @Test
@@ -63,25 +65,25 @@ class MoneyActionTest {
   void checkThatSetDescriptionNeedsNotBlankString() {
     Exception thrown =
         assertThrows(IllegalArgumentException.class, () -> testAction.setDescription(" "));
-    assertEquals("Description must not be empty or blank", thrown.getMessage());
+    assertEquals("Description must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
   void checkThatSetDescriptionNeedsNotEmptyString() {
     Exception thrown =
         assertThrows(IllegalArgumentException.class, () -> testAction.setDescription(""));
-    assertEquals("Description must not be empty or blank", thrown.getMessage());
+    assertEquals("Description must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
   void checkThatGetCategoryReturnsCorrectCategory() {
-    assertEquals(Category.HOUSING, testAction.getCategory());
+    assertEquals(Category.HOUSING, testExpense.getCategory());
   }
 
   @Test
   void checkThatSetCategorySetsCategory() {
-    testAction.setCategory(Category.HEALTHCARE);
-    assertEquals(Category.HEALTHCARE, testAction.getCategory());
+    testExpense.setCategory(Category.HEALTHCARE);
+    assertEquals(Category.HEALTHCARE, testExpense.getCategory());
   }
 
   @Test

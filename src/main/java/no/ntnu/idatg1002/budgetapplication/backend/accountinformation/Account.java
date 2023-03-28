@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
+import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -43,7 +43,7 @@ public class Account {
     setEmail(email);
     setPinCode(pinCode);
     this.securityQuestion = securityQuestion;
-    this.securityAnswer = securityAnswer;
+    setSecurityAnswer(securityAnswer);
     this.accountNumber = generateAccountNumber();
     this.savingsPlans = new HashMap<>();
     this.budgets = new HashMap<>();
@@ -62,9 +62,13 @@ public class Account {
    * Sets the name of the account owner to the provided name.
    *
    * @param name the name to be set.
+   * @throws IllegalArgumentException "Account name must not be empty or blank" if name is blank
+   *     or empty
    */
-  public void setName(String name) {
-    if (!name.isBlank() && !name.isEmpty()) {
+  public void setName(String name) throws IllegalArgumentException {
+    if (name.isBlank() || name.isEmpty()) {
+      throw new IllegalArgumentException("Account name must not be empty or blank.");
+    } else {
       this.name = name;
     }
   }
@@ -82,9 +86,14 @@ public class Account {
    * Sets the email of the account owner to the provided email.
    *
    * @param email the email to be set.
+   * @throws IllegalArgumentException "Email must not be empty or blank." if email is empty
+   *     or blank. "Email does not contain '@'." if email does not contain '@'.
+   *     "Email already in use." if email is already in use.
    */
-  public void setEmail(String email) {
-    if (!email.contains("@")) {
+  public void setEmail(String email) throws IllegalArgumentException {
+    if (email.isBlank() || email.isEmpty()) {
+      throw new IllegalArgumentException("Email must not be empty or blank.");
+    } else if (!email.contains("@")) {
       throw new IllegalArgumentException("Email does not contain '@'.");
     } else if (Database.getEmails().contains(email)) {
       throw new IllegalArgumentException("Email already in use.");
@@ -107,14 +116,17 @@ public class Account {
    * pin code is not 4 digits, it returns false.
    *
    * @param pinCode the pinCode to be set.
-   * @return true if the provided pinCode is 4 digits, if not it returns false.
+   * @throws IllegalArgumentException "Pin code must only consist of numbers." if pin code has
+   *     characters that are not numbers. "Pin code must consist of 4 digits." if pin code's
+   *     length is not 4 digits.
    */
-  public boolean setPinCode(String pinCode) {
-    if (pinCode.length() != 4 || !pinCode.matches("\\d+")) {
-      return false;
+  public void setPinCode(String pinCode) throws IllegalArgumentException {
+    if (!pinCode.matches("\\d+")) {
+      throw new IllegalArgumentException("Pin code must only consist of numbers.");
+    } else if (pinCode.length() != 4) {
+      throw new IllegalArgumentException("Pin code must consist of 4 digits.");
     } else {
       this.pinCode = pinCode;
-      return true;
     }
   }
 
@@ -149,9 +161,15 @@ public class Account {
    * Sets the securityAnswer to the provided security answer.
    *
    * @param securityAnswer the securityAnswer to be set.
+   * @throws IllegalArgumentException "Security answer must not be empty or blank." if
+   *     security answer is empty or blank.
    */
-  public void setSecurityAnswer(String securityAnswer) {
-    this.securityAnswer = securityAnswer;
+  public void setSecurityAnswer(String securityAnswer) throws IllegalArgumentException {
+    if (securityAnswer.isBlank() || securityAnswer.isEmpty()) {
+      throw new IllegalArgumentException("Security answer must not be empty or blank.");
+    } else {
+      this.securityAnswer = securityAnswer;
+    }
   }
 
   /**
@@ -178,14 +196,17 @@ public class Account {
    * does not already exist or the savings plan name is not taken.
    *
    * @param savingsPlan the savingsPlan to be added.
+   * @throws IllegalArgumentException "An instance of the savings plan already exists." if
+   *     an instance of the savings plan already exists. "Savings plan goal name is taken." if
+   *     name of savings plan is already taken.
    */
-  public boolean addSavingsPlan(SavingsPlan savingsPlan) {
-    if (savingsPlans.containsKey(savingsPlan.getGoalName())
-        || savingsPlans.containsValue(savingsPlan)) {
-      return false;
+  public void addSavingsPlan(SavingsPlan savingsPlan) throws IllegalArgumentException {
+    if (savingsPlans.containsValue(savingsPlan)) {
+      throw new IllegalArgumentException("An instance of the savings plan already exists.");
+    } else if (savingsPlans.containsKey(savingsPlan.getGoalName())) {
+      throw new IllegalArgumentException("Savings plan goal name is taken.");
     } else {
       this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
-      return true;
     }
   }
 
@@ -213,14 +234,17 @@ public class Account {
    * does not already exist or the budget name is not taken.
    *
    * @param budget the budget to be added.
+   * @throws IllegalArgumentException "An instance of the budget already exists." if an
+   *     instance of the budget already exists. "Budget name is taken." if the name of the budget
+   *     is already taken.
    */
-  public boolean addBudget(Budget budget) {
-    if (budgets.containsKey(budget.getBudgetName())
-        || budgets.containsValue(budget)) {
-      return false;
+  public void addBudget(Budget budget) throws IllegalArgumentException {
+    if (budgets.containsValue(budget)) {
+      throw new IllegalArgumentException("An instance of the budget already exists.");
+    } else if (budgets.containsKey(budget.getBudgetName())) {
+      throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.put(budget.getBudgetName(), budget);
-      return true;
     }
   }
 
