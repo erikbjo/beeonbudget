@@ -1,6 +1,7 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
+import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
