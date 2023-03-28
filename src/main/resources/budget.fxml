@@ -8,7 +8,7 @@
 
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
-            fx:controller="Budget"
+            fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController"
             prefHeight="400.0" prefWidth="600.0">
 
 </AnchorPane>
