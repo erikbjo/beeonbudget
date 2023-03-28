@@ -17,6 +17,14 @@ class MoneyActionTest {
   @AfterEach
   void tearDown() {}
 
+
+  @Test
+  void checkThatConstructorNeedsToHaveValidParameters() {
+    Exception thrownDescriptionError =
+        assertThrows(IllegalArgumentException.class, () -> new Income(
+            100, " ", Category.HOUSING, RecurringType.YEARLY));
+    assertEquals("Description must not be empty or blank", thrownDescriptionError.getMessage());
+  }
   @Test
   void checkThatGetAmountReturnsCorrectAmount() {
     assertEquals(50, testAction.getAmount());
