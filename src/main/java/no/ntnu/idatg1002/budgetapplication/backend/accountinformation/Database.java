@@ -21,6 +21,7 @@ public class Database {
     return accounts;
   }
 
+
   /**
    * Returns all emails registered to accounts in the database.
    *
