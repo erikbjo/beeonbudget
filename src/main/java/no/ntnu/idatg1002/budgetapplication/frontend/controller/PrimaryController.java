@@ -2,11 +2,15 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.util.Optional;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
@@ -143,8 +147,7 @@ public class PrimaryController extends Dialog<Budget> {
       // Do something with the income
     }
   }
-
-
+  
     public void onAddExpense (ActionEvent event) throws IOException {
       Optional<Budget> expenseResult = showAndWait();
       if (expenseResult.isPresent()) {
