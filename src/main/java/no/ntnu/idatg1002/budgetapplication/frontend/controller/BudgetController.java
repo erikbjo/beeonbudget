@@ -33,13 +33,15 @@ public class BudgetController {
   private Stage stage;
   private Scene scene;
   private Parent parent;
-  private final PrimaryController primaryController = new PrimaryController();
-
+  private final PrimaryController primaryController;
   @FXML private TableView<Budget> budgetView;
   @FXML private TableColumn<Budget, Expense> expenseColumn;
   @FXML private TableColumn<Budget, Income> incomeColumn;
   @FXML private TableColumn<Budget, String> categoryColumn;
 
+  public BudgetController() throws IOException {
+    primaryController = new PrimaryController();
+  }
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
@@ -64,7 +66,8 @@ public class BudgetController {
     Budget selectedBudget = budgetView.getSelectionModel().getSelectedItem();
     if (selectedBudget != null) {
       selectedBudget.addBudgetExpenses(
-          new Expense(2, "Test expense", RecurringType.NONRECURRING, Category.HOUSING));
+          new Expense(2, "Test expense", RecurringType.NONRECURRING,
+              Category.HOUSING));
       budgetView.refresh();
     }
   }
@@ -73,7 +76,7 @@ public class BudgetController {
     ObservableList<Budget> budgets = FXCollections.observableArrayList();
     budgets.add(budget);
 
-    budgetView.setItems(budgets);
+    //budgetView.setItems(onNewIncome(),onNewExpense(););
 
     expenseColumn.setCellValueFactory(new PropertyValueFactory<Budget, Expense>("expenses"));
     incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Income>("income"));

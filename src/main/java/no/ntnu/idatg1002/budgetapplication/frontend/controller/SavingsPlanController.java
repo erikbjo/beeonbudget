@@ -13,7 +13,12 @@ public class SavingsPlanController {
   private Stage stage;
   private Scene scene;
   private Parent parent;
-  private PrimaryController primaryController = new PrimaryController();
+  private PrimaryController primaryController;
+
+  public SavingsPlanController() throws IOException {
+    primaryController = new PrimaryController();
+  }
+
   public void switchToPrimaryFromSavingPlan(ActionEvent event) throws IOException {
       Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
       String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
