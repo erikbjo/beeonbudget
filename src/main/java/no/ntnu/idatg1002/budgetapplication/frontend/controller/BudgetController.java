@@ -57,17 +57,7 @@ public class BudgetController{
      */
   }
 
-
   public void onNewExpense(ActionEvent event) throws IOException {
-    ObservableList<Budget> budgets = FXCollections.observableArrayList();
-    budgets.add(new Budget("budget 1"));
-
-    budgetView.setItems(budgets);
-
-    expenseColumn.setCellValueFactory(new PropertyValueFactory<Budget, Expense>("expenses"));
-    incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Income>("income"));
-    categoryColumn.setCellValueFactory(new PropertyValueFactory<Budget, String>("category"));
-
     Budget selectedBudget = budgetView.getSelectionModel().getSelectedItem();
     if (selectedBudget != null){
       selectedBudget.addBudgetExpenses(new Expense(2,"dsafafsd",
@@ -75,12 +65,17 @@ public class BudgetController{
       budgetView.refresh();
     }
 
-    /**
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    stage.show();
-     */
+  }
+
+  public void setBudgetView(Budget budget) {
+    ObservableList<Budget> budgets = FXCollections.observableArrayList();
+    budgets.add(budget);
+
+    budgetView.setItems(budgets);
+
+    expenseColumn.setCellValueFactory(new PropertyValueFactory<Budget, Expense>("expenses"));
+    incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Income>("income"));
+    categoryColumn.setCellValueFactory(new PropertyValueFactory<Budget, String>("category"));
+
   }
 }
