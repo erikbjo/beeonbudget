@@ -2,7 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.AfterEach;
