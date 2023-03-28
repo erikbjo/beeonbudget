@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories
+ * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
  * @author Emil Klegvård-Slåttsveen
  * @version 2.0 (2023-03-27)
@@ -26,7 +26,7 @@ public class Budget {
   }
 
   /**
-   * This function returns the name of the budget
+   * This function returns the name of the budget.
    *
    * @return The budget name.
    */
@@ -35,7 +35,7 @@ public class Budget {
   }
 
   /**
-   * This function sets the budget name
+   * This function sets the budget name.
    *
    * @param budgetName The name of the budget you want to create.
    */
@@ -60,7 +60,7 @@ public class Budget {
   }
 
   /**
-   * This function returns the total expense of all the expenses in the expense list
+   * This function returns the total expense of all the expenses in the expense list.
    *
    * @return The total expense of the trip.
    */
@@ -73,7 +73,7 @@ public class Budget {
   }
 
   /**
-   * This function returns the difference between the total income and the total expense
+   * This function returns the difference between the total income and the total expense.
    *
    * @return The difference between the total income and the total expense.
    */
@@ -86,7 +86,7 @@ public class Budget {
   }
 
   /**
-   * This function adds an expense to the expense list
+   * This function adds an expense to the expense list.
    *
    * @param expense The expense object that you want to add to the list.
    */
@@ -95,7 +95,7 @@ public class Budget {
   }
 
   /**
-   * This function adds an income to the incomeList
+   * This function adds an income to the incomeList.
    *
    * @param income The income object to be added to the list.
    */
@@ -105,7 +105,7 @@ public class Budget {
   }
 
   /**
-   * > This function returns the incomeList
+   * > This function returns the incomeList.
    *
    * @return A list of income objects.
    */
@@ -123,7 +123,7 @@ public class Budget {
   }
 
   /**
-   * > This function returns a list of categories
+   * > This function returns a list of categories.
    *
    * @return A list of Enum objects.
    */

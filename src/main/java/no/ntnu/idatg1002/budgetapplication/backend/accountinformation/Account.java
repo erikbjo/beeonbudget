@@ -1,11 +1,11 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import java.io.FileWriter;import java.io.IOException;import java.util.HashMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
-import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
 
 /**
  * Represents an account. Each account holds some information about that account.
@@ -64,7 +64,9 @@ public class Account {
    * @param name the name to be set.
    */
   public void setName(String name) {
-    if (!name.isBlank() && !name.isEmpty()) this.name = name;
+    if (!name.isBlank() && !name.isEmpty()) {
+      this.name = name;
+    }
   }
 
   /**
@@ -255,7 +257,8 @@ public class Account {
     return id.toString();
   }
 
-  // Currently not used
+  /*
+  // Currently not use
   private boolean saveAccountNumberToFile(String accountNumber) {
     String filename = "TakenAccountNumbers.txt";
     try {
@@ -270,6 +273,8 @@ public class Account {
       return false;
     }
   }
+  */
+
   @Override
   public String toString() {
     return "Account{"
