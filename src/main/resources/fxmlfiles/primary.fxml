@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.effect.*?>
@@ -39,25 +40,25 @@
          <effect>
             <Glow />
          </effect></Pane>
-      <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="109.0" prefHeight="229.0" prefWidth="452.0">
+      <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" prefHeight="244.0" prefWidth="452.0">
          <children>
-            <Label fx:id="menuPaneLable" layoutX="29.0" layoutY="21.0" text="Money This Month" textFill="#f3e60c" wrapText="true">
-               <font>
-                  <Font name="Segoe UI Bold" size="17.0" />
-               </font>
+            <Label fx:id="menuPaneLable1" layoutX="36.0" layoutY="202.0" text="Used: 200 kr" wrapText="true">
                <effect>
                   <Bloom threshold="0.9" />
                </effect>
+               <font>
+                  <Font name="Segoe UI Bold" size="17.0" />
+               </font>
             </Label>
-            <TableView layoutX="8.0" layoutY="87.0" prefHeight="128.0" prefWidth="437.0">
-              <columns>
-                <TableColumn editable="false" prefWidth="213.0" text="Used this month" />
-                <TableColumn editable="false" prefWidth="222.0" text="Total Amount" />
-              </columns>
-               <columnResizePolicy>
-                  <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-               </columnResizePolicy>
-            </TableView>
+            <Label fx:id="menuPaneLable2" layoutX="297.0" layoutY="202.0" text="Left: 8600 kr"  wrapText="true">
+               <effect>
+                  <Bloom threshold="0.9" />
+               </effect>
+               <font>
+                  <Font name="Segoe UI Bold" size="17.0" />
+               </font>
+            </Label>
+            <PieChart fx:id="totalBudgetpiChar" layoutX="92.0" prefHeight="197.0" prefWidth="236.0" title="This Month" />
          </children>
       </AnchorPane>
       <Button fx:id="budgetButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="280.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="236.0" text="Budget" />
