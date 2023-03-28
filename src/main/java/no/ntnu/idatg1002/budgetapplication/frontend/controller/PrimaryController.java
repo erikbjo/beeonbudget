@@ -15,16 +15,24 @@ public class PrimaryController {
   private Parent parent;
 
   public void switchToBudget(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("budget.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    Parent root = FXMLLoader.load(getClass().getResource("/budget.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
   }
 
   public void switchToPrimary(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("primary.fxml"));
-    stage = (Stage)((Node)event.getSource()).getScene().getWindow();
+    Parent root = FXMLLoader.load(getClass().getResource("/primary.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  public void switchToSavingPlan(ActionEvent event) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getResource("/savingsPlan.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();

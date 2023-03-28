@@ -15,7 +15,10 @@ public class Budget {
   private final List<MoneyAction> incomeList;
   private final List<Category> categoryList;
 
-  public Budget(String budgetName) {
+  public Budget(String budgetName) throws IllegalArgumentException {
+    if (budgetName == null || budgetName.trim().isEmpty()) {
+      throw new IllegalArgumentException("Budget name must not be empty or blank");
+    }
     this.budgetName = budgetName;
     incomeList = new ArrayList<>();
     expenseList = new ArrayList<>();
@@ -36,8 +39,11 @@ public class Budget {
    *
    * @param budgetName The name of the budget you want to create.
    */
-  public void setBudgetName(String budgetName) {
-    if (!budgetName.isBlank() && !budgetName.isEmpty()) this.budgetName = budgetName;
+  public void setBudgetName(String budgetName) throws IllegalArgumentException {
+    if (budgetName == null || budgetName.trim().isEmpty()) {
+      throw new IllegalArgumentException("Budget name must not be empty or blank");
+    }
+    this.budgetName = budgetName;
   }
 
   /**

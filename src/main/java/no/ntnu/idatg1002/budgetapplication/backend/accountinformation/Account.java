@@ -1,6 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import java.util.HashMap;
+import java.io.FileWriter;import java.io.IOException;import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
@@ -24,6 +24,7 @@ public class Account {
   private Map<String, Budget> budgets;
 
   Random rand = new Random();
+
 
   /**
    * Creates a new account with a name, email, 4 digit pinCode, chosen securityQuestion and
@@ -170,12 +171,37 @@ public class Account {
   }
 
   /**
-   * Adds a savings plan to the account's savingsPlans collection.
+   * Adds a savings plan to the account's savingsPlans collection as long as the savings plan
+   * does not already exist or the savings plan name is not taken.
    *
    * @param savingsPlan the savingsPlan to be added.
    */
-  public void addSavingsPlan(SavingsPlan savingsPlan) {
-    this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+  public boolean addSavingsPlan(SavingsPlan savingsPlan) {
+    if (savingsPlans.containsKey(savingsPlan.getGoalName())
+        || savingsPlans.containsValue(savingsPlan)) {
+      return false;
+    } else {
+      this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+      return true;
+    }
+  }
+
+  /**
+   * Removes a savings plan to the account's savingsPlans collection.
+   *
+   * @param savingsPlan the savingsPlan to be added.
+   */
+  public void removeSavingsPlan(SavingsPlan savingsPlan) {
+    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
+  }
+
+  /**
+   * Removes a savings plan to the account's savingsPlans collection.
+   *
+   * @param savingsPlan the savingsPlan to be added.
+   */
+  public void removeSavingsPlan(SavingsPlan savingsPlan) {
+    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
   }
 
   /**
@@ -197,12 +223,37 @@ public class Account {
   }
 
   /**
-   * Adds a budget to the account's budget collection.
+   * Adds a budget to the account's budget collection as long as the budget
+   * does not already exist or the budget name is not taken.
    *
    * @param budget the budget to be added.
    */
-  public void addBudget(Budget budget) {
-    this.budgets.put(budget.getBudgetName(), budget);
+  public boolean addBudget(Budget budget) {
+    if (budgets.containsKey(budget.getBudgetName())
+        || budgets.containsValue(budget)) {
+      return false;
+    } else {
+      this.budgets.put(budget.getBudgetName(), budget);
+      return true;
+    }
+  }
+
+  /**
+   * Removes a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget.getBudgetName(), budget);
+  }
+
+  /**
+   * Removes a budget to the account's budget collection.
+   *
+   * @param budget the budget to be added.
+   */
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget.getBudgetName(), budget);
   }
 
   /**
@@ -237,6 +288,21 @@ public class Account {
     return id.toString();
   }
 
+  // Currently not used
+  private boolean saveAccountNumberToFile(String accountNumber) {
+    String filename = "TakenAccountNumbers.txt";
+    try {
+      FileWriter writer = new FileWriter(filename, true);
+      writer.write(accountNumber + "\n");
+      writer.close();
+      System.out.println("Successfully wrote to file " + filename);
+      return true;
+    } catch (IOException e) {
+      System.out.println("An error occurred.");
+      e.printStackTrace();
+      return false;
+    }
+  }
   @Override
   public String toString() {
     return "Account{"
