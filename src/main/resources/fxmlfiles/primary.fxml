@@ -50,7 +50,7 @@
                   <Font name="Segoe UI Bold" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="menuPaneLable2" layoutX="297.0" layoutY="202.0" text="Left: 8600 kr"  wrapText="true">
+            <Label fx:id="menuPaneLable2" layoutX="297.0" layoutY="202.0" text="Left: 8600 kr" wrapText="true">
                <effect>
                   <Bloom threshold="0.9" />
                </effect>
@@ -61,9 +61,10 @@
             <PieChart fx:id="totalBudgetpiChar" layoutX="92.0" prefHeight="197.0" prefWidth="236.0" title="This Month" />
          </children>
       </AnchorPane>
-      <Button fx:id="budgetButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="280.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="236.0" text="Budget" />
-      <Button contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="203.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="236.0" text="Add Expenses" />
-      <Button fx:id="savingsPlanButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="140.0" mnemonicParsing="false" onAction="#switchToSavingPlan" prefHeight="43.0" prefWidth="236.0" text="Savings Plan" />
+      <Button fx:id="budgetButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="241.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="236.0" text="Budget" />
+      <Button contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="177.0" mnemonicParsing="false" prefHeight="64.0" prefWidth="236.0" text="Add Expenses" />
+      <Button fx:id="savingsPlanButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="131.0" mnemonicParsing="false" onAction="#switchToSavingPlan" prefHeight="43.0" prefWidth="236.0" text="Savings Plan" />
+      <Button fx:id="addIncomeButton" focusTraversable="false" layoutY="286.0" mnemonicParsing="false" onAction="#onAddIncome" prefHeight="47.0" prefWidth="236.0" text="Add Income" />
       <AnchorPane fx:id="BottomPane" layoutY="338.0" prefHeight="38.0" prefWidth="700.0" />
    </children>
 </AnchorPane>

@@ -15,6 +15,10 @@ public class SavingsPlanController {
   private Parent parent;
   private PrimaryController primaryController = new PrimaryController();
   public void switchToPrimaryFromSavingPlan(ActionEvent event) throws IOException {
-    primaryController.switchToPrimary(event);
+      Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
+      stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+      scene = new Scene(root);
+      stage.setScene(scene);
+      stage.show();
   }
 }
