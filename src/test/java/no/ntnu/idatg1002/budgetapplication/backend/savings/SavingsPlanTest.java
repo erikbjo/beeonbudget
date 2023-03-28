@@ -1,7 +1,6 @@
-package no.ntnu.idatg1002.budgetapplication.backend.Savings;
+package no.ntnu.idatg1002.budgetapplication.backend.savings;
 
-import static org.junit.jupiter.api.Assertions.*;
-
+import no.ntnu.idatg1002.budgetapplication.backend.savings.SavingsPlan;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
