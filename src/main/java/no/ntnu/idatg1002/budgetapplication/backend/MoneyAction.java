@@ -2,7 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 
 /**
  * The type Money action. Superclass of Expense and Income.
-
+ *
  * @author Erik Bjørnsen
  */
 public abstract class MoneyAction {
@@ -12,14 +12,23 @@ public abstract class MoneyAction {
   private RecurringType type;
 
   /**
-   * Instantiates a new Money action.
+   * Instantiates a new Money action. Amount needs to be greater than zero and description needs to
+   * not be empty or blank.
    *
    * @param amount the amount
    * @param description the description
    * @param category the category
    * @param type the type
+   * @throws IllegalArgumentException the illegal argument exception
    */
-  public MoneyAction(int amount, String description, Category category, RecurringType type) {
+  public MoneyAction(int amount, String description, Category category, RecurringType type)
+      throws IllegalArgumentException {
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount must be non-negative");
+    }
+    if (description == null || description.trim().isEmpty()) {
+      throw new IllegalArgumentException("Description must not be empty or blank");
+    }
     this.amount = amount;
     this.description = description;
     this.category = category;
@@ -39,11 +48,13 @@ public abstract class MoneyAction {
    * Sets amount. Amount must be above or equal to zero.
    *
    * @param amount the amount
+   * @throws IllegalArgumentException the illegal argument exception
    */
-  public void setAmount(int amount) {
-    if (amount >= 0) {
-      this.amount = amount;
+  public void setAmount(int amount) throws IllegalArgumentException {
+    if (amount < 0) {
+      throw new IllegalArgumentException("Amount must be non-negative");
     }
+    this.amount = amount;
   }
 
   /**
@@ -59,11 +70,13 @@ public abstract class MoneyAction {
    * Sets description. Description cant be empty or blank.
    *
    * @param description the description
+   * @throws IllegalArgumentException the illegal argument exception
    */
-  public void setDescription(String description) {
-    if (!description.isEmpty() && !description.isBlank()) {
-      this.description = description;
+  public void setDescription(String description) throws IllegalArgumentException {
+    if (description == null || description.trim().isEmpty()) {
+      throw new IllegalArgumentException("Description must not be empty or blank");
     }
+    this.description = description;
   }
 
   /**
@@ -101,5 +114,4 @@ public abstract class MoneyAction {
   public void setType(RecurringType type) {
     this.type = type;
   }
-
 }
