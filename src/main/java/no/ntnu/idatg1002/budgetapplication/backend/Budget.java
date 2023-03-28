@@ -6,8 +6,8 @@ import java.util.List;
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
- * @author Emil Klegvård-Slåttsveen
- * @version 2.0 (2023-03-27)
+ * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen
+ * @version 3.0 (2023-03-28)
  */
 public class Budget {
   private final List<Expense> expenseList;

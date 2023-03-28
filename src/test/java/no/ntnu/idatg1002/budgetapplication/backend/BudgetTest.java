@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.util.ArrayList;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -68,6 +69,24 @@ class BudgetTest {
     assertFalse(budget.getCategoryList().contains(income.getCategory()));
     assertFalse(budget.getCategoryList().contains(expense.getCategory()));
   }
+
+  @Test
+  void assertAddToListAlsoAddsCategory() {
+    Expense localExpense =
+        new Expense(150, "Test expense 2", Category.HEALTHCARE, RecurringType.MONTHLY);
+    Income localIncome = new Income(200, "Test income 2", Category.UTILITIES, RecurringType.DAILY);
+    budget.addBudgetIncome(localIncome);
+    budget.addBudgetExpenses(localExpense);
+
+    ArrayList<Category> testList = new ArrayList<>();
+    testList.add(income.getCategory());
+    testList.add(localIncome.getCategory());
+    testList.add(expense.getCategory());
+    testList.add(localExpense.getCategory());
+
+    assertTrue(budget.getCategoryList().containsAll(testList));
+  }
+
   @Test
   void getNetBalanceSmallerThanZero() {
     int netBalance = budget.getNetBalance();
@@ -87,7 +106,6 @@ class BudgetTest {
     int netBalance = budget.getNetBalance();
     assertEquals(50, netBalance);
   }
-
 
   @AfterEach
   void tearDown() {}
