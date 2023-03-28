@@ -17,6 +17,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
 public class PrimaryController extends Dialog<Budget> {
 
@@ -32,20 +33,29 @@ public class PrimaryController extends Dialog<Budget> {
   public PrimaryController() {
     super();
     expenseField = new TextField();
-    expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-    });
+    expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+
     descriptionField = new TextField();
-    descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-    });
-    monthsField = new TextField();
-    monthsField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-    });
-    expenseGrid = new GridPane();
-    expenseGrid.add(new Label("Expense Amount"), 0, 0);
-    expenseGrid.add(new Label("Description"), 0, 2);
-    expenseGrid.add(new Label("Monthly Expense"), 0, 4);
-    expenseGrid.add(new CheckBox(), 0, 5);
-    expenseGrid.add(new Label("Category"), 0, 6);
+    descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+
+    ComboBox<RecurringType> recurringTypeComboBox = new ComboBox<>();
+    recurringTypeComboBox.getItems().addAll(RecurringType.values());
+
+    ComboBox<Category> categoryComboBox = new ComboBox<>();
+    categoryComboBox.getItems().addAll(Category.values());
+
+    grid = new GridPane();
+    grid.add(new Label("Expense Amount"), 0, 0);
+    grid.add(new Label("Description"), 0, 2);
+    grid.add(new Label("Recurring interval"), 0, 4);
+    grid.add(new Label("Category"), 0, 6);
+
+    grid.add(expenseField, 0, 1);
+    grid.add(descriptionField, 0, 3);
+    grid.add(recurringTypeComboBox, 0, 5);
+    grid.add(categoryComboBox, 0, 7);
+    grid.setHgap(10);
+    grid.setVgap(10);
 
     expenseGrid.add(expenseField, 0, 1);
     expenseGrid.add(descriptionField, 0, 3);
