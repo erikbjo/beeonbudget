@@ -72,7 +72,9 @@ public class PrimaryController extends Dialog<Budget> {
   public void switchToBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    String css = this.getClass().getResource("/cssfiles/budget.css").toExternalForm();
     scene = new Scene(root);
+    scene.getStylesheets().add(css);
     stage.setScene(scene);
     stage.show();
   }
