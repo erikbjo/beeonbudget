@@ -97,7 +97,7 @@ public class SavingsPlan {
   }
 
   /**
-   * Estimates amount of months needed to reach the goal, given a user.specified
+   * Estimates amount of months needed to reach the goal, given a user-specified
    * amount they want to save per month
    *
    * @return Estimated saving time in months
