@@ -1,7 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication;
 
-import no.ntnu.idatg1002.budgetapplication.frontend.BudgetView;
-import no.ntnu.idatg1002.budgetapplication.frontend.PrimaryView;
+import no.ntnu.idatg1002.budgetapplication.frontend.view.PrimaryView;
 
 public class Main {
 
