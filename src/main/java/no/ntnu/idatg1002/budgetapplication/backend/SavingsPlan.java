@@ -165,8 +165,8 @@ public class SavingsPlan {
   }
 
   /**
-   * Estimates how much money per month is needed to reach the goal in a
-   * given amount of time.
+   * Estimates how much money per month is needed
+   * to reach the goal in a given amount of time.
    *
    * @return Amount of money needed is savings per month.
    */
