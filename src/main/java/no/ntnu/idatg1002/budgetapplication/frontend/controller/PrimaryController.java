@@ -19,6 +19,7 @@ import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
 public class PrimaryController extends Dialog<Budget> {
 
@@ -36,23 +37,23 @@ public class PrimaryController extends Dialog<Budget> {
 
     descriptionField = new TextField();
     descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
-    monthsField = new TextField();
-    monthsField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
-    ComboBox<Category> comboBox = new ComboBox<>();
-    comboBox.getItems().addAll(Category.values());
+    ComboBox<RecurringType> recurringTypeComboBox = new ComboBox<>();
+    recurringTypeComboBox.getItems().addAll(RecurringType.values());
+
+    ComboBox<Category> categoryComboBox = new ComboBox<>();
+    categoryComboBox.getItems().addAll(Category.values());
 
     grid = new GridPane();
     grid.add(new Label("Expense Amount"), 0, 0);
     grid.add(new Label("Description"), 0, 2);
-    grid.add(new Label("Monthly Expense"), 0, 4);
-    grid.add(new CheckBox(), 0, 5);
+    grid.add(new Label("Recurring interval"), 0, 4);
     grid.add(new Label("Category"), 0, 6);
 
     grid.add(expenseField, 0, 1);
     grid.add(descriptionField, 0, 3);
-    grid.add(monthsField, 1, 5);
-    grid.add(comboBox, 0, 7);
+    grid.add(recurringTypeComboBox, 0, 5);
+    grid.add(categoryComboBox, 0, 7);
     grid.setHgap(10);
     grid.setVgap(10);
 
