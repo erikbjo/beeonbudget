@@ -19,16 +19,16 @@ public abstract class MoneyAction {
    * @param description the description
    * @param category the category
    * @param type the type
-   * @throws IllegalArgumentException "Amount must be non-negative" for amount < 0 and "Description
-   *     must not be empty or blank" for description
+   * @throws IllegalArgumentException "Amount must be non-negative." for amount < 0 and "Description
+   *     must not be empty or blank." for description
    */
   public MoneyAction(int amount, String description, Category category, RecurringType type)
       throws IllegalArgumentException {
     if (amount < 0) {
-      throw new IllegalArgumentException("Amount must be non-negative");
+      throw new IllegalArgumentException("Amount must be non-negative.");
     }
     if (description == null || description.trim().isEmpty()) {
-      throw new IllegalArgumentException("Description must not be empty or blank");
+      throw new IllegalArgumentException("Description must not be empty or blank.");
     }
     this.amount = amount;
     this.description = description;
@@ -49,11 +49,11 @@ public abstract class MoneyAction {
    * Sets amount. Amount must be above or equal to zero.
    *
    * @param amount the amount
-   * @throws IllegalArgumentException "Amount must be non-negative" for amount < 0
+   * @throws IllegalArgumentException "Amount must be non-negative." for amount < 0
    */
   public void setAmount(int amount) throws IllegalArgumentException {
     if (amount < 0) {
-      throw new IllegalArgumentException("Amount must be non-negative");
+      throw new IllegalArgumentException("Amount must be non-negative.");
     }
     this.amount = amount;
   }
@@ -71,11 +71,11 @@ public abstract class MoneyAction {
    * Sets description. Description cant be empty or blank.
    *
    * @param description the description
-   * @throws IllegalArgumentException "Description must not be empty or blank"
+   * @throws IllegalArgumentException "Description must not be empty or blank."
    */
   public void setDescription(String description) throws IllegalArgumentException {
     if (description == null || description.trim().isEmpty()) {
-      throw new IllegalArgumentException("Description must not be empty or blank");
+      throw new IllegalArgumentException("Description must not be empty or blank.");
     }
     this.description = description;
   }

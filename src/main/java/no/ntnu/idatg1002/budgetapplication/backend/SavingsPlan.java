@@ -19,8 +19,8 @@ public class SavingsPlan {
    * @param goalName the goal name
    * @param totalGoalAmount the total goal amount
    * @param totalSaved the total saved
-   * @throws IllegalArgumentException "Goal name must not be empty or blank" and/or "Total goal
-   *     amount must be non-negative" for totalGoalAmount < 0
+   * @throws IllegalArgumentException "Goal name must not be empty or blank." and/or ""Total goal
+   *     amount must be above zero." for totalGoalAmount < 0
    */
   public SavingsPlan(String goalName, int totalGoalAmount, int totalSaved)
       throws IllegalArgumentException {
@@ -50,7 +50,7 @@ public class SavingsPlan {
    * Sets goal name.
    *
    * @param goalName the goal name
-   * @throws IllegalArgumentException "Goal name must not be empty or blank"
+   * @throws IllegalArgumentException "Goal name must not be empty or blank."
    */
   public void setGoalName(String goalName) throws IllegalArgumentException {
     if (goalName == null || goalName.trim().isEmpty()) {
@@ -73,7 +73,7 @@ public class SavingsPlan {
    * Sets total goal amount.
    *
    * @param totalGoalAmount the total goal amount
-   * @throws IllegalArgumentException "Total goal amount must be non-negative" for totalGoalAmount <
+   * @throws IllegalArgumentException "Total goal amount must be above zero." for totalGoalAmount <=
    *     0
    */
   public void setTotalGoalAmount(int totalGoalAmount) throws IllegalArgumentException {
@@ -116,8 +116,8 @@ public class SavingsPlan {
    * Sets wanted saving time.
    *
    * @param wantedSavingTime the wanted saving time
-   * @throws IllegalArgumentException "Wanted saving time amount must be non-negative" for
-   *     wantedSavingTime < 0
+   * @throws IllegalArgumentException "Wanted saving time amount must be above zero." for
+   *     wantedSavingTime <= 0
    */
   public void setWantedSavingTime(int wantedSavingTime) throws IllegalArgumentException {
     if (wantedSavingTime <= 0) {
@@ -139,8 +139,8 @@ public class SavingsPlan {
    * Sets wanted monthly saving amount.
    *
    * @param wantedMonthlySavingAmount the wanted monthly saving amount
-   * @throws IllegalArgumentException "Wanted monthly saving amount must be non-negative" for
-   *     wantedMonthlySavingAmount < 0
+   * @throws IllegalArgumentException "Wanted monthly saving amount must be above zero." for
+   *     wantedMonthlySavingAmount <= 0
    */
   public void setWantedMonthlySavingAmount(int wantedMonthlySavingAmount)
       throws IllegalArgumentException {

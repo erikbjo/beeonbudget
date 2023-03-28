@@ -26,20 +26,20 @@ class BudgetTest {
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownBudgetNameError =
         assertThrows(IllegalArgumentException.class, () -> new Budget(" "));
-    assertEquals("Budget name must not be empty or blank", thrownBudgetNameError.getMessage());
+    assertEquals("Budget name must not be empty or blank.", thrownBudgetNameError.getMessage());
   }
 
   @Test
   void checkThatSetBudgetNameNeedsNotBlankString() {
     Exception thrown =
         assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(" "));
-    assertEquals("Budget name must not be empty or blank", thrown.getMessage());
+    assertEquals("Budget name must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
   void checkThatSetBudgetNameNeedsNotEmptyString() {
     Exception thrown = assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(""));
-    assertEquals("Budget name must not be empty or blank", thrown.getMessage());
+    assertEquals("Budget name must not be empty or blank.", thrown.getMessage());
   }
 
   @Test
