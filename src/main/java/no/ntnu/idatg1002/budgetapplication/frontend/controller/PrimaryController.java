@@ -1,6 +1,7 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -22,8 +23,15 @@ import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Category;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryController extends Dialog<Budget> {
+
+  @FXML
+  private static Label menuPaneLabel1;
+
+  @FXML
+  private static Label menuPaneLabel2;
 
   private Stage stage;
   private Scene scene;
@@ -148,19 +156,31 @@ public class PrimaryController extends Dialog<Budget> {
     }
   }
   
-    public void onAddExpense (ActionEvent event) throws IOException {
-      Optional<Budget> expenseResult = showAndWait();
-      if (expenseResult.isPresent()) {
-        Budget expense = expenseResult.get();
-        // Do something with the input
-      }
-    }
-
-    public void switchToSavingPlan(ActionEvent event) throws IOException {
-      Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
-      stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-      scene = new Scene(root);
-      stage.setScene(scene);
-      stage.show();
+  public void onAddExpense (ActionEvent event) throws IOException {
+    Optional<Budget> expenseResult = showAndWait();
+    if (expenseResult.isPresent()) {
+      Budget expense = expenseResult.get();
+      // Do something with the input
     }
   }
+
+  public void switchToSavingPlan(ActionEvent event) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
+  }
+
+  public void updatePrimaryLabels() {
+    if (Database.getCurrentAccount().getBudgets().size() == 0) {
+      menuPaneLabel1.setText("N/A");
+      menuPaneLabel2.setText("N/A");
+    } else {
+      List<Budget> budgets = Database.getCurrentAccount().getBudgets().values().stream().toList();
+      menuPaneLabel1.setText(Integer.toString(budgets.get(0).getTotalExpense()));
+      menuPaneLabel2.setText(Integer.toString(budgets.get(0).getNetBalance()));
+    }
+  }
+}
+
