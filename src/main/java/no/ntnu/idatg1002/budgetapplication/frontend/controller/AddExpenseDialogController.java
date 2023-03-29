@@ -52,6 +52,5 @@ public class AddExpenseDialogController extends Dialog<Budget> {
     stage.setScene(scene);
     scene.getStylesheets().add(css);
     stage.show();
-    savingsPlanController.start();
   }
 }
