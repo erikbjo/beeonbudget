@@ -9,6 +9,7 @@
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
@@ -26,19 +27,20 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                <HBox alignment="CENTER" spacing="10.0" GridPane.rowIndex="4">
                     <children>
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#onAddExpense" text="Add" />
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" text="Cancel" />
+                        <Button fx:id="submitExpenseDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#onSubmitExpenseDialog" prefHeight="40.0" prefWidth="78.0" text="Submit" />
+                  <Region />
+                        <Button fx:id="cancelExpenseDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" prefHeight="40.0" prefWidth="78.0" text="Cancel" />
                     </children>
                     <GridPane.margin>
-                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                        <Insets />
                     </GridPane.margin>
                 </HBox>
                 <VBox prefHeight="200.0" prefWidth="100.0">
                     <children>
                         <Label text="Expense amount" />
-                        <TextField fx:id="expenseAmount" />
+                        <TextField fx:id="expenseAmountField" promptText="Integer value" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -47,7 +49,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                     <children>
                         <Label text="Description" />
-                        <TextField fx:id="expenseDescription" />
+                        <TextField fx:id="expenseDescriptionField" promptText="Description" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -56,7 +58,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
                     <children>
                         <Label text="Recurring interval" />
-                        <ComboBox fx:id="recurringIntervalComboBox" prefWidth="150.0" />
+                        <ComboBox fx:id="recurringIntervalComboBox" prefWidth="150.0" promptText="Select" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -65,7 +67,7 @@
                 <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
                     <children>
                         <Label text="Category" />
-                        <ComboBox fx:id="categoryComboBox" prefWidth="150.0" />
+                        <ComboBox fx:id="categoryComboBox" prefWidth="150.0" promptText="Select" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
