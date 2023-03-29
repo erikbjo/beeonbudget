@@ -47,15 +47,6 @@
                </image>
             </ImageView>
          </children>
-      </GridPane>
-      <Button fx:id="newExpenseButton" layoutX="84.0" layoutY="251.0" mnemonicParsing="false" onAction="#onNewExpense" prefHeight="55.0" prefWidth="117.0" text="New Expense" />
-      <Button fx:id="monthlyExpenseButton" layoutX="84.0" layoutY="317.0" mnemonicParsing="false" onAction="#onMonthlyExpense" prefHeight="55.0" prefWidth="117.0" text="Monthly Expense" />
-      <Text layoutX="69.0" layoutY="63.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Budget" wrappingWidth="159.21630859375">
-         <font>
-            <Font size="37.0" />
-         </font>
-      </Text>
-      <Button fx:id="previousButtonInBudget" mnemonicParsing="false" onAction="#switchToPrimaryFromBudget" text="Previous" />
-      <Button fx:id="newIncomeButton" layoutX="84.0" layoutY="186.0" mnemonicParsing="false" onAction="#onNewIncome" prefHeight="55.0" prefWidth="117.0" text="New Income" />
+      </Pane>
    </children>
 </AnchorPane>
