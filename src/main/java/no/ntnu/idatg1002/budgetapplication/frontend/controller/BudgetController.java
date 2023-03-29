@@ -121,7 +121,8 @@ public class BudgetController implements Initializable{
           Income income = new Income(Integer.parseInt(incomeAmount), "dsfdsfsd",
               RecurringType.NONRECURRING);
           incomes.add(incomeAmount);
-      Budget budget = Database.get;
+          Budget budget = new Budget("asdasda");
+      //Budget budget = Database.getCurrentAccount().getBudgets();
       budget.addBudgetIncome(income);
       //budgets.add(String.valueOf(incomes));
       budgetTableView.refresh();
