@@ -43,16 +43,17 @@ public class PrimaryController extends Dialog<Budget> {
 
   private ComboBox<RecurringType> recurringTypeComboBox;
   private ComboBox<Category> categoryComboBox;
+
   public PrimaryController() throws IOException {
     super();
     expenseField = new TextField();
-    //expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+    // expenseField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
     descriptionField = new TextField();
-    //descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+    // descriptionField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
     monthsField = new TextField();
-    //monthsField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
+    // monthsField.textProperty().addListener((observableValue, oldValue, newValue) -> {});
 
     recurringTypeComboBox = new ComboBox<>();
     categoryComboBox = new ComboBox<>();
@@ -72,23 +73,21 @@ public class PrimaryController extends Dialog<Budget> {
     expenseGrid.add(categoryComboBox, 0, 7);
     expenseGrid.setHgap(10);
     expenseGrid.setVgap(10);
-/**
-    getDialogPane().setContent(expenseGrid);
-    Node addButton = getDialogPane().lookupButton(addButtonType);
-    addButton.setDisable(true);
-    expenseField.textProperty().addListener((observable, oldValue, newValue) -> {
-      addButton.setDisable(newValue.trim().isEmpty());
-    });*/
-
+    /**
+     * getDialogPane().setContent(expenseGrid); Node addButton =
+     * getDialogPane().lookupButton(addButtonType); addButton.setDisable(true);
+     * expenseField.textProperty().addListener((observable, oldValue, newValue) -> {
+     * addButton.setDisable(newValue.trim().isEmpty()); });
+     */
     Stage stage = (Stage) getDialogPane().getScene().getWindow();
-    stage.getIcons().add(new Image(getClass().getResource("/images/simpleLogoBoY.png")
-        .openStream()));
+    stage
+        .getIcons()
+        .add(new Image(getClass().getResource("/images/simpleLogoBoY.png").openStream()));
 
     /**
-    getDialogPane().getIcons().add(new Image(
-        getClass().getResource("/images/simpleLogoBoY.png").openStream()));
+     * getDialogPane().getIcons().add(new Image(
+     * getClass().getResource("/images/simpleLogoBoY.png").openStream()));
      */
-
     getDialogPane().setContent(expenseGrid);
     addButtonType = new ButtonType("Add");
     getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL, addButtonType);
@@ -107,7 +106,7 @@ public class PrimaryController extends Dialog<Budget> {
     stage.show();
   }
 
-  public void onAddIncome(ActionEvent event) throws IOException {
+  public void onAddIncome() throws IOException {
     Dialog<Budget> incomeDialog = new Dialog<>();
     incomeDialog.setTitle("Add Income");
     incomeDialog.setHeaderText(null);
@@ -117,19 +116,6 @@ public class PrimaryController extends Dialog<Budget> {
 
     // Create the amount field
     TextField incomeField = new TextField();
-    //GridPane incomeGrid = new GridPane();
-    //incomeGrid.add(new Label("Income Amount"), 0, 0);
-    //incomeGrid.add(new Label("Description"), 0, 2);
-    //incomeGrid.add(new Label("Monthly Income"), 0, 4);
-    //incomeGrid.add(new CheckBox(), 0, 5);
-    //incomeGrid.add(new Label("Category"), 0, 6);
-    //
-    //incomeGrid.add(incomeField, 0, 1);
-    //incomeGrid.add(descriptionField, 0, 3);
-    //incomeGrid.add(monthsField, 1, 5);
-    //incomeGrid.add(new ComboBox<Category>(), 0, 7);
-    //incomeGrid.setHgap(10);
-    //incomeGrid.setVgap(10);
 
     GridPane incomeGrid = new GridPane();
     incomeGrid.add(new Label("Income Amount"), 0, 0);
@@ -145,23 +131,47 @@ public class PrimaryController extends Dialog<Budget> {
     incomeDialog.getDialogPane().setContent(incomeGrid);
     Node addButton = incomeDialog.getDialogPane().lookupButton(addButtonType);
     addButton.setDisable(true);
-    incomeField.textProperty().addListener((observable, oldValue, newValue) -> {
-      addButton.setDisable(newValue.trim().isEmpty());
-    });
+    incomeField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              addButton.setDisable(newValue.trim().isEmpty());
+            });
 
     Optional<Budget> incomeResult = incomeDialog.showAndWait();
     if (incomeResult.isPresent()) {
       Budget income = incomeResult.get();
       // Do something with the income
     }
+    */
+
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
   }
   
-  public void onAddExpense (ActionEvent event) throws IOException {
-    Optional<Budget> expenseResult = showAndWait();
-    if (expenseResult.isPresent()) {
-      Budget expense = expenseResult.get();
-      // Do something with the input
+    public void onAddExpense () throws IOException {
+      Optional<Budget> expenseResult = showAndWait();
+      if (expenseResult.isPresent()) {
+        Budget expense = expenseResult.get();
+        // Do something with the input
+      }
     }
+
+  public void onAddExpense(ActionEvent event) throws IOException {
+    // Optional<Budget> expenseResult = showAndWait();
+    // if (expenseResult.isPresent()) {
+    //  Budget expense = expenseResult.get();
+    //  // Do something with the input
+    // }
+
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    stage.setScene(scene);
+    stage.show();
   }
 
   public void switchToSavingPlan(ActionEvent event) throws IOException {
@@ -171,16 +181,4 @@ public class PrimaryController extends Dialog<Budget> {
     stage.setScene(scene);
     stage.show();
   }
-
-  public void updatePrimaryLabels() {
-    if (Database.getCurrentAccount().getBudgets().size() == 0) {
-      menuPaneLabel1.setText("N/A");
-      menuPaneLabel2.setText("N/A");
-    } else {
-      List<Budget> budgets = Database.getCurrentAccount().getBudgets().values().stream().toList();
-      menuPaneLabel1.setText(Integer.toString(budgets.get(0).getTotalExpense()));
-      menuPaneLabel2.setText(Integer.toString(budgets.get(0).getNetBalance()));
-    }
-  }
 }
-
