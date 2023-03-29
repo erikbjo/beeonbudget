@@ -36,11 +36,7 @@ public class PrimaryController extends Dialog<Budget> {
   private Scene scene;
 
   public PrimaryController() throws IOException {
-    super();
-    Stage stage = (Stage) getDialogPane().getScene().getWindow();
-    stage
-        .getIcons()
-        .add(new Image(getClass().getResource("/images/simpleLogoBoY.png").openStream()));
+
   }
 
   public void switchToBudget(ActionEvent event) throws IOException {
