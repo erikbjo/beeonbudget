@@ -1,5 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -10,7 +11,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 /**
  * Represents an account. Each account holds some information about that account.
  *
- * @author Simon Husås Houmb
+ * @author Simon Husås Houmb, Erik Bjørnsen
  * @version 1.0 (2023-03-15)
  */
 public class Account {
@@ -20,11 +21,12 @@ public class Account {
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
   private final String accountNumber;
-  private Map<String, SavingsPlan> savingsPlans;
-  private Map<String, Budget> budgets;
+  private ArrayList<SavingsPlan> savingsPlans;
+  private SavingsPlan selectedSavingsPlan;
+  private ArrayList<Budget> budgets;
+  private Budget selectedBudget;
 
   Random rand = new Random();
-
 
   /**
    * Creates a new account with a name, email, 4 digit pinCode, chosen securityQuestion and
@@ -37,7 +39,11 @@ public class Account {
    * @param securityQuestion securityQuestion chosen by account owner.
    * @param securityAnswer answer to the securityQuestion.
    */
-  public Account(String name, String email, String pinCode, SecurityQuestion securityQuestion,
+  public Account(
+      String name,
+      String email,
+      String pinCode,
+      SecurityQuestion securityQuestion,
       String securityAnswer) {
     this.name = name;
     setEmail(email);
@@ -45,8 +51,8 @@ public class Account {
     this.securityQuestion = securityQuestion;
     setSecurityAnswer(securityAnswer);
     this.accountNumber = generateAccountNumber();
-    this.savingsPlans = new HashMap<>();
-    this.budgets = new HashMap<>();
+    this.savingsPlans = new ArrayList<>();
+    this.budgets = new ArrayList<>();
   }
 
   /**
@@ -62,8 +68,8 @@ public class Account {
    * Sets the name of the account owner to the provided name.
    *
    * @param name the name to be set.
-   * @throws IllegalArgumentException "Account name must not be empty or blank" if name is blank
-   *     or empty
+   * @throws IllegalArgumentException "Account name must not be empty or blank" if name is blank or
+   *     empty
    */
   public void setName(String name) throws IllegalArgumentException {
     if (name.isBlank() || name.isEmpty()) {
@@ -86,9 +92,9 @@ public class Account {
    * Sets the email of the account owner to the provided email.
    *
    * @param email the email to be set.
-   * @throws IllegalArgumentException "Email must not be empty or blank." if email is empty
-   *     or blank. "Email does not contain '@'." if email does not contain '@'.
-   *     "Email already in use." if email is already in use.
+   * @throws IllegalArgumentException "Email must not be empty or blank." if email is empty or
+   *     blank. "Email does not contain '@'." if email does not contain '@'. "Email already in use."
+   *     if email is already in use.
    */
   public void setEmail(String email) throws IllegalArgumentException {
     if (email.isBlank() || email.isEmpty()) {
@@ -112,13 +118,13 @@ public class Account {
   }
 
   /**
-   * Sets the pinCode of the account to the provided PinCode as long as it is 4 digits. If the
-   * pin code is not 4 digits, it returns false.
+   * Sets the pinCode of the account to the provided PinCode as long as it is 4 digits. If the pin
+   * code is not 4 digits, it returns false.
    *
    * @param pinCode the pinCode to be set.
    * @throws IllegalArgumentException "Pin code must only consist of numbers." if pin code has
-   *     characters that are not numbers. "Pin code must consist of 4 digits." if pin code's
-   *     length is not 4 digits.
+   *     characters that are not numbers. "Pin code must consist of 4 digits." if pin code's length
+   *     is not 4 digits.
    */
   public void setPinCode(String pinCode) throws IllegalArgumentException {
     if (!pinCode.matches("\\d+")) {
@@ -161,8 +167,8 @@ public class Account {
    * Sets the securityAnswer to the provided security answer.
    *
    * @param securityAnswer the securityAnswer to be set.
-   * @throws IllegalArgumentException "Security answer must not be empty or blank." if
-   *     security answer is empty or blank.
+   * @throws IllegalArgumentException "Security answer must not be empty or blank." if security
+   *     answer is empty or blank.
    */
   public void setSecurityAnswer(String securityAnswer) throws IllegalArgumentException {
     if (securityAnswer.isBlank() || securityAnswer.isEmpty()) {
@@ -181,32 +187,33 @@ public class Account {
     return accountNumber;
   }
 
-
   /**
    * Returns a collection of the account's savings plans.
    *
    * @return the savingsPlans collection as a Map.
    */
-  public Map<String, SavingsPlan> getSavingsPlans() {
+  public ArrayList<SavingsPlan> getSavingsPlans() {
     return savingsPlans;
   }
 
   /**
-   * Adds a savings plan to the account's savingsPlans collection as long as the savings plan
-   * does not already exist or the savings plan name is not taken.
+   * Adds a savings plan to the account's savingsPlans collection as long as the savings plan does
+   * not already exist or the savings plan name is not taken.
    *
    * @param savingsPlan the savingsPlan to be added.
-   * @throws IllegalArgumentException "An instance of the savings plan already exists." if
-   *     an instance of the savings plan already exists. "Savings plan goal name is taken." if
-   *     name of savings plan is already taken.
+   * @throws IllegalArgumentException "An instance of the savings plan already exists." if an
+   *     instance of the savings plan already exists. "Savings plan goal name is taken." if name of
+   *     savings plan is already taken.
    */
   public void addSavingsPlan(SavingsPlan savingsPlan) throws IllegalArgumentException {
-    if (savingsPlans.containsValue(savingsPlan)) {
+    if (savingsPlans.contains(savingsPlan)) {
       throw new IllegalArgumentException("An instance of the savings plan already exists.");
-    } else if (savingsPlans.containsKey(savingsPlan.getGoalName())) {
+    } else if (savingsPlans.stream()
+        .anyMatch(SavingsPlan -> getName() == savingsPlan.getGoalName())) {
       throw new IllegalArgumentException("Savings plan goal name is taken.");
     } else {
-      this.savingsPlans.put(savingsPlan.getGoalName(), savingsPlan);
+      this.savingsPlans.add(savingsPlan);
+      initializeSelectedSavingsPlan(savingsPlan);
     }
   }
 
@@ -216,35 +223,35 @@ public class Account {
    * @param savingsPlan the savingsPlan to be added.
    */
   public void removeSavingsPlan(SavingsPlan savingsPlan) {
-    this.savingsPlans.remove(savingsPlan.getGoalName(), savingsPlan);
+    this.savingsPlans.remove(savingsPlan);
   }
-
 
   /**
    * Returns the account's Budget.
    *
    * @return the account's Budget.
    */
-  public Map<String, Budget> getBudgets() {
+  public ArrayList<Budget> getBudgets() {
     return budgets;
   }
 
   /**
-   * Adds a budget to the account's budget collection as long as the budget
-   * does not already exist or the budget name is not taken.
+   * Adds a budget to the account's budget collection as long as the budget does not already exist
+   * or the budget name is not taken.
    *
    * @param budget the budget to be added.
-   * @throws IllegalArgumentException "An instance of the budget already exists." if an
-   *     instance of the budget already exists. "Budget name is taken." if the name of the budget
-   *     is already taken.
+   * @throws IllegalArgumentException "An instance of the budget already exists." if an instance of
+   *     the budget already exists. "Budget name is taken." if the name of the budget is already
+   *     taken.
    */
   public void addBudget(Budget budget) throws IllegalArgumentException {
-    if (budgets.containsValue(budget)) {
+    if (budgets.contains(budget)) {
       throw new IllegalArgumentException("An instance of the budget already exists.");
-    } else if (budgets.containsKey(budget.getBudgetName())) {
+    } else if (budgets.stream().anyMatch(Budget -> getName() == budget.getBudgetName())) {
       throw new IllegalArgumentException("Budget name is taken.");
     } else {
-      this.budgets.put(budget.getBudgetName(), budget);
+      this.budgets.add(budget);
+      initializeSelectedBudget(budget);
     }
   }
 
@@ -254,9 +261,44 @@ public class Account {
    * @param budget the budget to be added.
    */
   public void removeBudget(Budget budget) {
-    this.budgets.remove(budget.getBudgetName(), budget);
+    this.budgets.remove(budget);
   }
 
+  public void initializeSelectedBudget(Budget budget) {
+    if (budgets.size() == 1) { // means that the budget just entered is the first one
+      selectedBudget = budget;
+    }
+  }
+
+  public void selectNextBudget() {
+    if (budgets.size() > budgets.indexOf(selectedBudget)) {
+      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) + 1);
+    }
+  }
+
+  public void selectPreviousBudget() {
+    if (budgets.indexOf(selectedBudget) > 0) {
+      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
+    }
+  }
+
+  public void initializeSelectedSavingsPlan(SavingsPlan savingsPlan) {
+    if (savingsPlans.size() == 1) { // means that the savingsplan just entered is the first one
+      selectedSavingsPlan = savingsPlan;
+    }
+  }
+
+  public void selectNextSavingsPlan() {
+    if (savingsPlans.size() > savingsPlans.indexOf(selectedSavingsPlan)) {
+      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) + 1);
+    }
+  }
+
+  public void selectPreviousSavingsPlan() {
+    if (savingsPlans.indexOf(selectedSavingsPlan) > 0) {
+      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
+    }
+  }
 
   /**
    * Generates a random 14-digit AccountNumber as a String. The AccountNumber will be formatted in
@@ -302,14 +344,27 @@ public class Account {
   @Override
   public String toString() {
     return "Account{"
-        + "name='" + name + '\''
-        + ", email='" + email + '\''
-        + ", pinCode='" + pinCode + '\''
-        + ", securityQuestion=" + securityQuestion
-        + ", securityAnswer='" + securityAnswer + '\''
-        + ", accountNumber='" + accountNumber + '\''
-        + ", savingsPlans=" + savingsPlans
-        + ", budgets=" + budgets
+        + "name='"
+        + name
+        + '\''
+        + ", email='"
+        + email
+        + '\''
+        + ", pinCode='"
+        + pinCode
+        + '\''
+        + ", securityQuestion="
+        + securityQuestion
+        + ", securityAnswer='"
+        + securityAnswer
+        + '\''
+        + ", accountNumber='"
+        + accountNumber
+        + '\''
+        + ", savingsPlans="
+        + savingsPlans
+        + ", budgets="
+        + budgets
         + '}';
   }
 }
