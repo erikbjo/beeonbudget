@@ -12,7 +12,6 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
                 <Button fx:id="newSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#onNewSavingsPlan" text="New Savings Plan" />
-                  <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />
                   <Button fx:id="delete" focusTraversable="false" mnemonicParsing="false" text="Delete" />
                   <Button fx:id="previousButtonInSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPrimaryFromSavingPlan" prefHeight="26.0" prefWidth="43.0" text="Return" />
               </buttons>
@@ -27,7 +26,7 @@
                            <children>
                               <BorderPane layoutX="8.0" layoutY="-1.0" prefHeight="331.0" prefWidth="651.0">
                                  <top>
-                                    <Label fx:id="goalName" alignment="TOP_CENTER" prefHeight="47.0" prefWidth="414.0" text="SavingsPlan1" BorderPane.alignment="TOP_CENTER">
+                                    <Label fx:id="goalNameDisplay" alignment="TOP_CENTER" prefHeight="47.0" prefWidth="414.0" text="SavingsPlan1" BorderPane.alignment="TOP_CENTER">
                                        <font>
                                           <Font size="32.0" />
                                        </font>
@@ -39,16 +38,19 @@
                                  <left>
                                     <VBox prefHeight="288.0" prefWidth="131.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label prefHeight="144.0" prefWidth="184.0" text="Total Goal Amount:" />
-                                          <Label prefHeight="144.0" prefWidth="199.0" text="Amount Saved:" />
+                                          <Label fx:id="totalGoalAmountDisplay" prefHeight="144.0" prefWidth="184.0" text="Total Goal Amount: " />
+                                          <Label fx:id="totalAmountSavedDisplay" prefHeight="144.0" prefWidth="199.0" text="Amount Saved: " />
                                        </children>
                                     </VBox>
                                  </left>
                                  <right>
                                     <VBox prefHeight="239.0" prefWidth="132.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label fx:id="estimateLabelMoney" prefHeight="34.0" prefWidth="132.0" text="You need to save x &#10;per month" />
-                                          <Label fx:id="estimateLabelMonths" prefHeight="34.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <Label fx:id="estimateLabelMoney" prefHeight="96.0" prefWidth="132.0" text="You need to save x &#10;per month" />
+                                          <Label fx:id="estimateLabelMonths" prefHeight="100.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <TextField fx:id="depositInput" text="1" />
+                                          <Button fx:id="deposit" mnemonicParsing="false" onAction="#onDeposit" text="Deposit savings" />
+                                          <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />
                                        </children>
                                     </VBox>
                                  </right>

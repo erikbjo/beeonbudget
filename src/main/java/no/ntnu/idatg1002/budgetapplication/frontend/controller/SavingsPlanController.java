@@ -25,8 +25,12 @@ public class SavingsPlanController {
   @FXML TextField estimateMonths;
   @FXML TextField estimateMoney;
   @FXML DialogPane popup;
-  @FXML Label goalName;
+  @FXML Label goalNameDisplay;
   @FXML TabPane tabPane;
+  @FXML TextField depositInput;
+  @FXML Button deposit;
+  @FXML Label totalGoalAmountDisplay;
+  @FXML Label totalAmountSavedDisplay;
   private SavingsPlan example = new SavingsPlan("example", 100, 1);
 
 
@@ -44,17 +48,16 @@ public class SavingsPlanController {
     stage.show();
   }
 
-  public void start(){
-    goalName.setText(example.getGoalName());
-
-
-
-    //TODO make it so that the text displayed on the tabs is taken from correct object
-  }
 
   public void onNewSavingsPlan(){
+    int index = tabPane.getTabs().indexOf(tabPane.getSelectionModel().getSelectedItem());
     Tab newTab = new Tab();
     tabPane.getTabs().add(newTab);
+  }
+
+  public void onDeposit(){
+    example.setDeposit(Integer.parseInt(depositInput.getText()));
+    example.addSavings();
   }
 
 
@@ -73,6 +76,11 @@ public class SavingsPlanController {
     plan.setWantedSavingTime(estMonths);
     int savingAmount = plan.getEstimatedMonthlySavingAmount();
     int savingTime = plan.getEstimatedSavingTime();
+    String goalAmountDisplay ="Total Goal Amount: "+totalGoalAmount;
+    String savedAmountDisplay ="Total Amount Saved: "+savedAmount;
+    totalGoalAmountDisplay.setText(goalAmountDisplay);
+    totalAmountSavedDisplay.setText(savedAmountDisplay);
+    goalNameDisplay.setText(example.getGoalName());
     popup.setVisible(false);
   }
   //TODO move estimate inputs to popup window and only display results
