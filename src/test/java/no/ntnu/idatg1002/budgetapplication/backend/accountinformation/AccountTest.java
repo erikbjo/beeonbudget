@@ -316,7 +316,7 @@ class AccountTest {
   @Test
   void testThatSelectedSavingsPlanCanBeIncremented() {
     account.addSavingsPlan(savingsPlan);
-    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2", 50, 50));
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
     account.selectNextSavingsPlan();
     assertEquals(account.getSelectedSavingsPlan().getGoalName(), "Test savingsplan 2");
   }
@@ -324,7 +324,7 @@ class AccountTest {
   @Test
   void testThatSelectedSavingsPlanCanBeIncrementedNegative() {
     account.addSavingsPlan(savingsPlan);
-    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2", 50, 50));
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
     account.selectNextSavingsPlan();
 
     Exception thrown =
@@ -345,7 +345,7 @@ class AccountTest {
   @Test
   void testThatSelectedSavingsPlanCanBeDecreased() {
     account.addSavingsPlan(savingsPlan);
-    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2", 50, 50));
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
     account.selectNextSavingsPlan();
     account.selectPreviousSavingsPlan();
     assertEquals(account.getSelectedSavingsPlan().getGoalName(), savingsPlan.getGoalName());

@@ -12,25 +12,24 @@ class SavingsPlanTest {
   private SavingsPlan goal;
 
   @BeforeEach
-  void setUp(){
+  void setUp() {
     goal = new SavingsPlan("test");
   }
+
   @AfterEach
-  void tearDown(){}
+  void tearDown() {}
 
   @Nested
   class setGoalNameTest {
     @Test
     void goalNameIsNull() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setGoalName(null));
+      Exception thrown = assertThrows(IllegalArgumentException.class, () -> goal.setGoalName(null));
       assertEquals("Goal name must not be empty or blank.", thrown.getMessage());
     }
 
     @Test
     void goalNameIsEmpty() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setGoalName(""));
+      Exception thrown = assertThrows(IllegalArgumentException.class, () -> goal.setGoalName(""));
       assertEquals("Goal name must not be empty or blank.", thrown.getMessage());
     }
 
@@ -45,15 +44,15 @@ class SavingsPlanTest {
   class setTotalGoalAmount {
     @Test
     void totalGoalAmountIsLessThanZero() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setTotalGoalAmount(-1));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> goal.setTotalGoalAmount(-1));
       assertEquals("Total goal amount must be above zero.", thrown.getMessage());
     }
 
     @Test
     void totalGoalAmountIsZero() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setTotalGoalAmount(0));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> goal.setTotalGoalAmount(0));
       assertEquals("Total goal amount must be above zero.", thrown.getMessage());
     }
 
@@ -68,15 +67,15 @@ class SavingsPlanTest {
   class setWantedSavingTime {
     @Test
     void wantedSavingTimeIsLessThanZero() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setWantedSavingTime(-1));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> goal.setWantedSavingTime(-1));
       assertEquals("Wanted saving time amount must be above zero.", thrown.getMessage());
     }
 
     @Test
     void wantedSavingTimeIsZero() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setWantedSavingTime(0));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> goal.setWantedSavingTime(0));
       assertEquals("Wanted saving time amount must be above zero.", thrown.getMessage());
     }
 
@@ -85,22 +84,21 @@ class SavingsPlanTest {
       assertDoesNotThrow(() -> goal.setWantedSavingTime(1));
       assertEquals(1, goal.getWantedSavingTime());
     }
-
   }
 
   @Nested
   class setWantedMonthlySavingAmount {
     @Test
     void wantedMonthlySavingAmountIsLessThanZero() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setWantedMonthlySavingAmount(-1));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> goal.setWantedMonthlySavingAmount(-1));
       assertEquals("Wanted monthly saving amount must be above zero.", thrown.getMessage());
     }
 
     @Test
     void wantedMonthlySavingAmountIsZero() {
-      Exception thrown = assertThrows(IllegalArgumentException.class,
-          () -> goal.setWantedMonthlySavingAmount(0));
+      Exception thrown =
+          assertThrows(IllegalArgumentException.class, () -> goal.setWantedMonthlySavingAmount(0));
       assertEquals("Wanted monthly saving amount must be above zero.", thrown.getMessage());
     }
 
@@ -109,18 +107,19 @@ class SavingsPlanTest {
       assertDoesNotThrow(() -> goal.setWantedMonthlySavingAmount(1));
       assertEquals(1, goal.getWantedMonthlySavingAmount());
     }
-
   }
 
   @Test
-  void testEstimateTime(){
+  void testEstimateTime() {
     goal.setWantedMonthlySavingAmount(100);
+    goal.setTotalGoalAmount(1000);
     assertEquals(10, goal.getEstimatedSavingTime());
   }
 
   @Test
-  void testEstimateAmount(){
+  void testEstimateAmount() {
     goal.setWantedSavingTime(10);
+    goal.setTotalGoalAmount(1000);
     assertEquals(100, goal.getEstimatedMonthlySavingAmount());
   }
 }
