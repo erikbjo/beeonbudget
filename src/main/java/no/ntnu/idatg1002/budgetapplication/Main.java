@@ -12,6 +12,7 @@ public class Main {
     Account adminAccount = new Account("Admin", "admin@bob.com", "8008",
         SecurityQuestion.FAVORITE_FOOD, "Klubb og duppe");
     Database.addAccount(adminAccount);
+    Database.setCurrentAccount(adminAccount);
     PrimaryView.mainApp(args);
   }
 
