@@ -1,9 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
-import java.util.Arrays;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -16,10 +13,9 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
-import javafx.stage.Stage;
 
 public class AddExpenseDialogController extends Dialog<Budget> {
 
@@ -37,7 +33,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   @FXML // fx:id="expenseDescriptionField"
   private TextField expenseDescriptionField; // Value injected by FXMLLoader
 
-  @FXML private ComboBox<Category> categoryComboBox;
+  @FXML private ComboBox<ExpenseCategory> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
   public AddExpenseDialogController() throws IOException {
@@ -99,7 +95,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
 
     // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
-    categoryComboBox.getItems().addAll(Category.values());
+    categoryComboBox.getItems().addAll(ExpenseCategory.values());
 
     // force the field to be numeric only
     expenseAmountField
