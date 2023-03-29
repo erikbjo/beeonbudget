@@ -74,13 +74,13 @@
           <content>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="199.0" prefWidth="662.0">
                <children>
-                  <Button fx:id="accept" layoutX="305.0" layoutY="258.0" mnemonicParsing="false" onAction="#onAccept" text="Accept" />
-                  <Label layoutX="30.0" layoutY="181.0" text="Enter amount you have saved so far" />
-                  <TextField fx:id="name" layoutX="418.0" layoutY="76.0" />
-                  <TextField fx:id="savAmount" layoutX="418.0" layoutY="186.0" />
-                  <TextField fx:id="totAmount" layoutX="418.0" layoutY="127.0" />
                   <Label layoutX="30.0" layoutY="80.0" text="Enter savings goal name" />
+                  <TextField fx:id="name" layoutX="418.0" layoutY="76.0" />
                   <Label layoutX="31.0" layoutY="131.0" text="Enter total goal amount" />
+                  <TextField fx:id="totAmount" layoutX="418.0" layoutY="127.0" />
+                  <Label layoutX="30.0" layoutY="181.0" text="Enter amount you have saved so far" />
+                  <TextField fx:id="savAmount" layoutX="418.0" layoutY="186.0" />
+                  <Button fx:id="accept" layoutX="305.0" layoutY="258.0" mnemonicParsing="false" onAction="#onAccept" text="Accept" />
                </children>
             </AnchorPane>
           </content>
