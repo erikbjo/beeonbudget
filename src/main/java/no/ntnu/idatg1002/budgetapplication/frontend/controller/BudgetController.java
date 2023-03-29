@@ -42,6 +42,7 @@ public class BudgetController {
   public BudgetController() throws IOException {
     primaryController = new PrimaryController();
   }
+
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
@@ -63,20 +64,22 @@ public class BudgetController {
   }
 
   public void onNewExpense(ActionEvent event) throws IOException {
+    /*
     Budget selectedBudget = budgetView.getSelectionModel().getSelectedItem();
     if (selectedBudget != null) {
       selectedBudget.addBudgetExpenses(
-          new Expense(2, "Test expense", RecurringType.NONRECURRING,
-              Category.HOUSING));
+          new Expense(2, "Test expense", RecurringType.NONRECURRING, Category.HOUSING));
       budgetView.refresh();
     }
+     */
+    primaryController.onAddIncome(event);
   }
 
   public void setBudgetView(Budget budget) {
     ObservableList<Budget> budgets = FXCollections.observableArrayList();
     budgets.add(budget);
 
-    //budgetView.setItems(onNewIncome(),onNewExpense(););
+    // budgetView.setItems(onNewIncome(),onNewExpense(););
 
     expenseColumn.setCellValueFactory(new PropertyValueFactory<Budget, Expense>("expenses"));
     incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, Income>("income"));
