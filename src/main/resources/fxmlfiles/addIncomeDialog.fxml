@@ -27,8 +27,8 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <children>
-                  <Button fx:id="submitIncomeButton" mnemonicParsing="false" onAction="#onSubmitIncomeDialog" text="Submit" />
-                  <Button fx:id="cancelIncomeDialogButton" mnemonicParsing="false" onAction="#switchToPreviousFromAddIncomeDialog" text="Cancel" />
+                  <Button fx:id="submitIncomeButton" focusTraversable="false" mnemonicParsing="false" onAction="#onSubmitIncomeDialog" text="Submit" />
+                  <Button fx:id="cancelIncomeDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddIncomeDialog" text="Cancel" />
                </children>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

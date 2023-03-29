@@ -28,8 +28,8 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                     <children>
-                        <Button fx:id="submitExpenseDialogButton" mnemonicParsing="false" onAction="#onSubmitExpenseDialog" text="Submit" />
-                        <Button fx:id="cancelExpenseDialogButton" mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" text="Cancel" />
+                        <Button fx:id="submitExpenseDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#onSubmitExpenseDialog" text="Submit" />
+                        <Button fx:id="cancelExpenseDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" text="Cancel" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
