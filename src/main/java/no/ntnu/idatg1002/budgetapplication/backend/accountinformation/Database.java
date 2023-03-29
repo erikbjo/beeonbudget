@@ -11,6 +11,7 @@ import java.util.Map;
 public class Database {
   private static HashMap<String, Account> accounts = new HashMap<>();
   private static ArrayList<String> emails = new ArrayList<>();
+  private static Account currentAccount;
 
   /**
    * Returns a Map of all the accounts in the database.
@@ -49,5 +50,13 @@ public class Database {
       accounts.put(account.getAccountNumber(), account);
       emails.add(account.getEmail());
     }
+  }
+
+  public static Account getCurrentAccount() {
+    return currentAccount;
+  }
+
+  public static void setCurrentAccount(Account currentAccount) {
+    Database.currentAccount = currentAccount;
   }
 }
