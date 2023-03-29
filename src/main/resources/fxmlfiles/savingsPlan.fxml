@@ -46,8 +46,8 @@
                                  <right>
                                     <VBox prefHeight="239.0" prefWidth="132.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label fx:id="estimateLabelMoney" prefHeight="96.0" prefWidth="132.0" text="You need to save x &#10;per month" />
-                                          <Label fx:id="estimateLabelMonths" prefHeight="100.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <Label fx:id="estimateMoneyDisplay" prefHeight="96.0" prefWidth="132.0" text="You need to save x &#10;per month" />
+                                          <Label fx:id="estimateMonthsDisplay" prefHeight="100.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
                                           <TextField fx:id="depositInput" text="1" />
                                           <Button fx:id="deposit" mnemonicParsing="false" onAction="#onDeposit" text="Deposit savings" />
                                           <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />

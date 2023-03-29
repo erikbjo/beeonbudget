@@ -19,8 +19,8 @@ public class SavingsPlanController {
   private PrimaryController primaryController;
   @FXML TextField name;
   @FXML TextField totAmount;
-  @FXML Label estimateLabelMoney;
-  @FXML Label estimateLabelMonths;
+  @FXML Label estimateMoneyDisplay;
+  @FXML Label estimateMonthsDisplay;
   @FXML TextField savAmount;
   @FXML TextField estimateMonths;
   @FXML TextField estimateMoney;
@@ -65,7 +65,7 @@ public class SavingsPlanController {
     popup.setVisible(true);
   }
 
-  public void onAccept(){ //TODO make it add a new tab with data from created object
+  public void onAccept(){
     String goalName = name.getText();
     int totalGoalAmount = Integer.parseInt(totAmount.getText());
     int savedAmount = Integer.parseInt(savAmount.getText());
@@ -76,15 +76,14 @@ public class SavingsPlanController {
     plan.setWantedSavingTime(estMonths);
     int savingAmount = plan.getEstimatedMonthlySavingAmount();
     int savingTime = plan.getEstimatedSavingTime();
-    String goalAmountDisplay ="Total Goal Amount: "+totalGoalAmount;
-    String savedAmountDisplay ="Total Amount Saved: "+savedAmount;
-    totalGoalAmountDisplay.setText(goalAmountDisplay);
-    totalAmountSavedDisplay.setText(savedAmountDisplay);
+    totalGoalAmountDisplay.setText("Total Goal Amount: "+totalGoalAmount);
+    totalAmountSavedDisplay.setText("Total Amount Saved: "+savedAmount);
     goalNameDisplay.setText(example.getGoalName());
+    estimateMoneyDisplay.setText("Amount you need to be saving per month: "+savingAmount);
+    estimateMonthsDisplay.setText("Months until completion: "+savingTime);
     popup.setVisible(false);
   }
-  //TODO move estimate inputs to popup window and only display results
-
+//TODO make it add a new tab with data from created object
   }
 
 
