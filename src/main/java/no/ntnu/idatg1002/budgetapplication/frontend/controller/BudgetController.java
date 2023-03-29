@@ -37,6 +37,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 
 public class BudgetController implements Initializable{
@@ -45,13 +46,13 @@ public class BudgetController implements Initializable{
   private Parent parent;
   private final PrimaryController primaryController;
   @FXML
-  private TableView<Budget> budgetTableView;
+  private TableView<String> budgetTableView;
   @FXML
-  private TableColumn<Budget, ArrayList<Category>> categoryColumn;
+  private TableColumn<String, ArrayList<Category>> categoryColumn;
   @FXML
-  private TableColumn<Budget, ArrayList<Expense>> expenseColumn;
+  private TableColumn<String, ArrayList<Expense>> expenseColumn;
   @FXML
-  private TableColumn<Budget, ArrayList<Income>> incomeColumn;
+  private TableColumn<String, ArrayList<Income>> incomeColumn;
   @FXML
   private Button monthlyExpenseButton;
   @FXML
@@ -63,7 +64,7 @@ public class BudgetController implements Initializable{
 
   private Budget selectedBudget;
 
-  private ObservableList<Budget> budgets;
+  private ObservableList<String> budgets;
 
   public BudgetController() throws IOException {
     this.primaryController = new PrimaryController();
@@ -80,10 +81,10 @@ public class BudgetController implements Initializable{
     expenseColumn = new TableColumn<>("Expenses");
     incomeColumn = new TableColumn<>("Income");
     categoryColumn = new TableColumn<>("Category");
-    expenseColumn.setCellValueFactory(new PropertyValueFactory<Budget, ArrayList<Expense>>("expenses"));
-    incomeColumn.setCellValueFactory(new PropertyValueFactory<Budget, ArrayList<Income>>("income"));
-    categoryColumn.setCellValueFactory(new PropertyValueFactory<Budget, ArrayList<Category>>("category"));
-    budgetTableView.getColumns().addAll(expenseColumn, incomeColumn, categoryColumn);
+    expenseColumn.setCellValueFactory(new PropertyValueFactory<String, ArrayList<Expense>>("expenses"));
+    incomeColumn.setCellValueFactory(new PropertyValueFactory<String, ArrayList<Income>>("income"));
+    categoryColumn.setCellValueFactory(new PropertyValueFactory<String, ArrayList<Category>>("category"));
+    //budgetTableView.getColumns().addAll(expenseColumn, incomeColumn, categoryColumn);
     budgetTableView.setItems(budgets);
   }
   @FXML
@@ -104,15 +105,17 @@ public class BudgetController implements Initializable{
     incomeDialog.setHeaderText("Enter income");
     incomeDialog.setContentText("Amount:");
 
-    ArrayList<Income> incomes = new ArrayList<>();
     Optional<String> incomeResult = incomeDialog.showAndWait();
     incomeResult.ifPresent(incomeAmount -> {
-      Income income = new Income(Integer.parseInt(incomeAmount), "dsfdsfsd",
-          RecurringType.NONRECURRING);
-      Budget budget = new Budget("rehufgeruv");
+      ArrayList<String> incomes = new ArrayList<>();
+          Income income = new Income(Integer.parseInt(incomeAmount), "dsfdsfsd",
+              RecurringType.NONRECURRING);
+          incomes.add(incomeAmount);
+      Budget budget = Database.get;
       budget.addBudgetIncome(income);
-      budgets.add(budget);
+      //budgets.add(String.valueOf(incomes));
       budgetTableView.refresh();
+      budgetTableView.setItems(FXCollections.observableList(incomes));
     });
   }
 
