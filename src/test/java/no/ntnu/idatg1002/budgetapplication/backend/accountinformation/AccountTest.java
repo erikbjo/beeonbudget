@@ -207,7 +207,7 @@ class AccountTest {
     void addNewSavingsPlanWithNotTakenName() {
       SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
       assertDoesNotThrow(() -> account.addSavingsPlan(testSavingsPlan));
-      assertTrue(account.getSavingsPlans().containsValue(testSavingsPlan));
+      assertTrue(account.getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
@@ -218,7 +218,7 @@ class AccountTest {
           assertThrows(
               IllegalArgumentException.class, () -> account.addSavingsPlan(testSavingsPlan));
       assertEquals("Savings plan goal name is taken.", thrown.getMessage());
-      assertFalse(account.getSavingsPlans().containsValue(testSavingsPlan));
+      assertFalse(account.getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
@@ -236,7 +236,7 @@ class AccountTest {
   void removeSavingsPlanTest() {
     account.addSavingsPlan(savingsPlan);
     account.removeSavingsPlan(savingsPlan);
-    assertFalse(account.getSavingsPlans().containsValue(savingsPlan));
+    assertFalse(account.getSavingsPlans().contains(savingsPlan));
   }
 
   @Nested
@@ -245,7 +245,7 @@ class AccountTest {
     void addNewBudgetWithNotTakenName() {
       Budget testBudget = new Budget("My budget");
       assertDoesNotThrow(() -> account.addBudget(testBudget));
-      assertTrue(account.getBudgets().containsValue(testBudget));
+      assertTrue(account.getBudgets().contains(testBudget));
     }
 
     @Test
@@ -255,7 +255,7 @@ class AccountTest {
       Exception thrown =
           assertThrows(IllegalArgumentException.class, () -> account.addBudget(testBudget));
       assertEquals("Budget name is taken.", thrown.getMessage());
-      assertFalse(account.getBudgets().containsValue(testBudget));
+      assertFalse(account.getBudgets().contains(testBudget));
     }
 
     @Test
@@ -272,7 +272,7 @@ class AccountTest {
   void removeBudgetPositiveTest() {
     account.addBudget(budget);
     account.removeBudget(budget);
-    assertFalse(account.getBudgets().containsValue(budget));
+    assertFalse(account.getBudgets().contains(budget));
   }
 
   @Nested

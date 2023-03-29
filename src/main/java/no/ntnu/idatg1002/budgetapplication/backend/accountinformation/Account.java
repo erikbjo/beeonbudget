@@ -208,13 +208,24 @@ public class Account {
   public void addSavingsPlan(SavingsPlan savingsPlan) throws IllegalArgumentException {
     if (savingsPlans.contains(savingsPlan)) {
       throw new IllegalArgumentException("An instance of the savings plan already exists.");
-    } else if (savingsPlans.stream()
-        .anyMatch(SavingsPlan -> getName() == savingsPlan.getGoalName())) {
+    } else if (checkIfSavingsPlanNameIsTaken(savingsPlan)) {
       throw new IllegalArgumentException("Savings plan goal name is taken.");
     } else {
       this.savingsPlans.add(savingsPlan);
       initializeSelectedSavingsPlan(savingsPlan);
     }
+  }
+
+  private boolean checkIfSavingsPlanNameIsTaken(SavingsPlan savingsPlan) {
+    boolean nameTaken = false;
+    for (SavingsPlan savingsPlanForLoop : savingsPlans) {
+      if (savingsPlanForLoop.getGoalName().equals(savingsPlan.getGoalName())) {
+        // name already exists, do something
+        // for example, return or throw an exception
+        nameTaken = true;
+      }
+    }
+    return nameTaken;
   }
 
   /**
@@ -247,12 +258,24 @@ public class Account {
   public void addBudget(Budget budget) throws IllegalArgumentException {
     if (budgets.contains(budget)) {
       throw new IllegalArgumentException("An instance of the budget already exists.");
-    } else if (budgets.stream().anyMatch(Budget -> getName() == budget.getBudgetName())) {
+    } else if (checkIfBudgetNameIsTaken(budget)) {
       throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.add(budget);
       initializeSelectedBudget(budget);
     }
+  }
+
+  private boolean checkIfBudgetNameIsTaken(Budget budget) {
+    boolean nameTaken = false;
+    for (Budget budgetForLoop : budgets) {
+      if (budgetForLoop.getBudgetName().equals(budget.getBudgetName())) {
+        // name already exists, do something
+        // for example, return or throw an exception
+        nameTaken = true;
+      }
+    }
+    return nameTaken;
   }
 
   /**
@@ -268,6 +291,10 @@ public class Account {
     if (budgets.size() == 1) { // means that the budget just entered is the first one
       selectedBudget = budget;
     }
+  }
+
+  public Budget getSelectedBudget() {
+    return selectedBudget;
   }
 
   public void selectNextBudget() {
@@ -286,6 +313,10 @@ public class Account {
     if (savingsPlans.size() == 1) { // means that the savingsplan just entered is the first one
       selectedSavingsPlan = savingsPlan;
     }
+  }
+
+  public SavingsPlan getSelectedSavingsPlan() {
+    return selectedSavingsPlan;
   }
 
   public void selectNextSavingsPlan() {
