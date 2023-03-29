@@ -3,9 +3,10 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 import static org.junit.jupiter.api.Assertions.*;
 
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
+import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
@@ -26,8 +27,8 @@ class AccountTest {
     account = new Account("Test", "test@test.com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
 
     budget = new Budget("Test budget");
-    income = new Income(50, "Test income", RecurringType.NONRECURRING);
-    expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, Category.HOUSING);
+    income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE_INCOME);
+    expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 

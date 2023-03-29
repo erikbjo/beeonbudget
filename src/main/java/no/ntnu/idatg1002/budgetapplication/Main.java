@@ -1,10 +1,10 @@
 package no.ntnu.idatg1002.budgetapplication;
 
-import javax.xml.crypto.Data;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
+import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
@@ -20,8 +20,9 @@ public class Main {
     Database.addAccount(adminAccount);
     Database.setCurrentAccount(adminAccount);
     Budget adminBudget = new Budget("testBudget");
-    adminBudget.addBudgetExpenses(new Expense(100, "testdesc", RecurringType.DAILY, Category.FOOD));
-    adminBudget.addBudgetIncome(new Income(500, "testdesc", RecurringType.NONRECURRING));
+    adminBudget.addBudgetExpenses(new Expense(100,"testdesc", RecurringType.DAILY,
+        ExpenseCategory.FOOD));
+    adminBudget.addBudgetIncome(new Income(500, "testdesc", RecurringType.NONRECURRING, IncomeCategory.RENTAL_INCOME));
     Database.getCurrentAccount().addBudget(adminBudget);
     System.out.println(adminAccount.getBudgets().size());
     System.out.println(Database.getCurrentAccount().getSelectedSavingsPlan());
