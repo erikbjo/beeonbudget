@@ -42,6 +42,7 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     scene = new Scene(root);
     scene.getStylesheets().add(css);
     stage.setScene(scene);
+    stage.setMaximized(true);
     stage.show();
   }
 
@@ -73,6 +74,7 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     scene = new Scene(root);
     scene.getStylesheets().add(css);
     stage.setScene(scene);
+    stage.setMaximized(true);
     stage.show();
   }
 
