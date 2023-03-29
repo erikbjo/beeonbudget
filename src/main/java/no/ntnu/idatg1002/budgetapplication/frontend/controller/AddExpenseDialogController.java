@@ -28,11 +28,14 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   private Scene scene;
 
   @FXML private Button cancelExpenseDialogButton;
-  @FXML private Button submitExpenseDialogButton;
 
-  @FXML private TextField expenseAmount;
+  @FXML // fx:id="submitExpenseDialogButton"
+  private Button submitExpenseDialogButton; // Value injected by FXMLLoader
+  @FXML // fx:id="expenseAmountField"
+  private TextField expenseAmountField; // Value injected by FXMLLoader
 
-  @FXML private TextField expenseDescription;
+  @FXML // fx:id="expenseDescriptionField"
+  private TextField expenseDescriptionField; // Value injected by FXMLLoader
 
   @FXML private ComboBox<Category> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
@@ -46,17 +49,26 @@ public class AddExpenseDialogController extends Dialog<Budget> {
     categoryComboBox = new ComboBox<>();
   }
 
+  private boolean assertAllFieldsValid() {
+    return (expenseDescriptionField.getText() != null
+        && expenseAmountField.getText() != null
+        && recurringIntervalComboBox.getValue() != null
+        && categoryComboBox.getValue() != null);
+  }
+
   @FXML
   void onSubmitExpenseDialog(ActionEvent event) {
-    Expense newExpense =
-        new Expense(
-            Integer.parseInt(expenseAmount.getText()),
-            expenseDescription.getText(),
-            recurringIntervalComboBox.getValue(),
-            categoryComboBox.getValue());
+    if (assertAllFieldsValid()) {
+      Expense newExpense =
+          new Expense(
+              Integer.parseInt(expenseAmountField.getText()),
+              expenseDescriptionField.getText(),
+              recurringIntervalComboBox.getValue(),
+              categoryComboBox.getValue());
 
-    // for testing
-    System.out.println("Created new object: " + newExpense);
+      // for testing
+      System.out.println("Created new object: " + newExpense);
+    }
   }
 
   @FXML
@@ -76,16 +88,37 @@ public class AddExpenseDialogController extends Dialog<Budget> {
         : "fx:id=\"cancelExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert categoryComboBox != null
         : "fx:id=\"categoryComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
-    assert expenseAmount != null
+    assert expenseAmountField != null
         : "fx:id=\"expenseAmount\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
-    assert expenseDescription != null
+    assert expenseDescriptionField != null
         : "fx:id=\"expenseDescription\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert recurringIntervalComboBox != null
         : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert submitExpenseDialogButton != null
         : "fx:id=\"submitExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
 
+    // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(Category.values());
+
+    // force the field to be numeric only
+    expenseAmountField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (!newValue.matches("\\d*")) {
+                expenseAmountField.setText(newValue.replaceAll("[^\\d]", ""));
+              }
+            });
+
+    // force the field to not start with space
+    expenseDescriptionField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                expenseDescriptionField.clear();
+              }
+            });
   }
 }
