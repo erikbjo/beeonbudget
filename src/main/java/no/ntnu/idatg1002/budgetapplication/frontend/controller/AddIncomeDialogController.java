@@ -21,14 +21,11 @@ public class AddIncomeDialogController extends Dialog<Budget> {
   private SavingsPlanController savingsPlanController;
   private Stage stage;
   private Scene scene;
-  @FXML private Button addIncomeButton;
 
-  @FXML private Button cancelButton;
-
-  @FXML private TextField incomeAmount;
-
-  @FXML private TextField incomeDescription;
-
+  @FXML private Button cancelIncomeDialogButton;
+  @FXML private Button submitIncomeButton;
+  @FXML private TextField incomeAmountField;
+  @FXML private TextField incomeDescriptionField;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
   public AddIncomeDialogController() throws IOException {
@@ -41,7 +38,7 @@ public class AddIncomeDialogController extends Dialog<Budget> {
   }
 
   @FXML
-  void onAddIncome(ActionEvent event) {}
+  void onSubmitIncomeDialog(ActionEvent event) {}
 
   @FXML
   void switchToPreviousFromAddIncomeDialog(ActionEvent event) throws IOException {

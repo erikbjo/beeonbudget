@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
@@ -21,12 +22,16 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   private SavingsPlanController savingsPlanController;
   private Stage stage;
   private Scene scene;
+
+  @FXML private Button cancelExpenseDialogButton;
+  @FXML private Button submitExpenseDialogButton;
+
   @FXML private TextField expenseAmount;
 
   @FXML private TextField expenseDescription;
 
-  @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
   @FXML private ComboBox<Category> categoryComboBox;
+  @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
   public AddExpenseDialogController() throws IOException {
     super();
@@ -41,7 +46,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   }
 
   @FXML
-  void onAddExpense(ActionEvent event) {}
+  void onSubmitExpenseDialog(ActionEvent event) {}
 
   @FXML
   void switchToPreviousFromAddExpenseDialog(ActionEvent event) throws IOException {
