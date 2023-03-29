@@ -1,8 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
@@ -15,18 +13,19 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
  * @version 1.0 (2023-03-15)
  */
 public class Account {
+  private final String accountNumber;
+  /** The Rand. */
+  Random rand = new Random();
+
   private String name;
   private String email;
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  private final String accountNumber;
-  private ArrayList<SavingsPlan> savingsPlans;
+  private final ArrayList<SavingsPlan> savingsPlans;
   private SavingsPlan selectedSavingsPlan;
-  private ArrayList<Budget> budgets;
+  private final ArrayList<Budget> budgets;
   private Budget selectedBudget;
-
-  Random rand = new Random();
 
   /**
    * Creates a new account with a name, email, 4 digit pinCode, chosen securityQuestion and
@@ -223,6 +222,7 @@ public class Account {
         // name already exists, do something
         // for example, return or throw an exception
         nameTaken = true;
+        break;
       }
     }
     return nameTaken;
@@ -273,6 +273,7 @@ public class Account {
         // name already exists, do something
         // for example, return or throw an exception
         nameTaken = true;
+        break;
       }
     }
     return nameTaken;
@@ -287,16 +288,31 @@ public class Account {
     this.budgets.remove(budget);
   }
 
+  /**
+   * Initialize selected budget.
+   *
+   * @param budget the budget
+   */
   public void initializeSelectedBudget(Budget budget) {
     if (budgets.size() == 1) { // means that the budget just entered is the first one
       selectedBudget = budget;
     }
   }
 
+  /**
+   * Gets selected budget.
+   *
+   * @return the selected budget
+   */
   public Budget getSelectedBudget() {
     return selectedBudget;
   }
 
+  /**
+   * Select next budget in budgets arraylist.
+   *
+   * @throws IndexOutOfBoundsException if there is no next budget
+   */
   public void selectNextBudget() throws IndexOutOfBoundsException {
     if (budgets.size() > budgets.indexOf(selectedBudget)) {
       selectedBudget = budgets.get(budgets.indexOf(selectedBudget) + 1);
@@ -305,6 +321,11 @@ public class Account {
     }
   }
 
+  /**
+   * Select previous budget in budgets arraylist.
+   *
+   * @throws IndexOutOfBoundsException if there is no previous budget
+   */
   public void selectPreviousBudget() throws IndexOutOfBoundsException {
     if (budgets.indexOf(selectedBudget) > 0) {
       selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
@@ -313,16 +334,31 @@ public class Account {
     }
   }
 
+  /**
+   * Initialize selected savings plan.
+   *
+   * @param savingsPlan the savings plan
+   */
   public void initializeSelectedSavingsPlan(SavingsPlan savingsPlan) {
     if (savingsPlans.size() == 1) { // means that the savingsplan just entered is the first one
       selectedSavingsPlan = savingsPlan;
     }
   }
 
+  /**
+   * Gets selected savings plan.
+   *
+   * @return the selected savings plan
+   */
   public SavingsPlan getSelectedSavingsPlan() {
     return selectedSavingsPlan;
   }
 
+  /**
+   * Select next savings plan in savings plan arraylist.
+   *
+   * @throws IndexOutOfBoundsException if there is no next savings plan
+   */
   public void selectNextSavingsPlan() throws IndexOutOfBoundsException {
     if (savingsPlans.size() > savingsPlans.indexOf(selectedSavingsPlan)) {
       selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) + 1);
@@ -331,6 +367,11 @@ public class Account {
     }
   }
 
+  /**
+   * Select previous savings plan in savings plan arraylist.
+   *
+   * @throws IndexOutOfBoundsException if there is no previous savings plan
+   */
   public void selectPreviousSavingsPlan() throws IndexOutOfBoundsException {
     if (savingsPlans.indexOf(selectedSavingsPlan) > 0) {
       selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
@@ -361,24 +402,6 @@ public class Account {
     } while (idTaken);
     return id.toString();
   }
-
-  /*
-  // Currently not use
-  private boolean saveAccountNumberToFile(String accountNumber) {
-    String filename = "TakenAccountNumbers.txt";
-    try {
-      FileWriter writer = new FileWriter(filename, true);
-      writer.write(accountNumber + "\n");
-      writer.close();
-      System.out.println("Successfully wrote to file " + filename);
-      return true;
-    } catch (IOException e) {
-      System.out.println("An error occurred.");
-      e.printStackTrace();
-      return false;
-    }
-  }
-  */
 
   @Override
   public String toString() {

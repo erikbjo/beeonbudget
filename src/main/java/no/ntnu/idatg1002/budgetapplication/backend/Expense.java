@@ -14,11 +14,12 @@ public class Expense extends MoneyAction {
    * Instantiates a new Expense.
    *
    * @param expenseCategory the expenseCategory
-   * @param amount          the amount
-   * @param description     the description
-   * @param type            the type
+   * @param amount the amount
+   * @param description the description
+   * @param type the type
    */
-  public Expense(int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
+  public Expense(
+      int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
     super(amount, description, type);
     this.expenseCategory = expenseCategory;
   }
