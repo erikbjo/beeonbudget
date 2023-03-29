@@ -12,8 +12,8 @@ class MoneyActionTest {
 
   @BeforeEach
   void setUp() {
-    testAction = new Income(50, "Test description", RecurringType.YEARLY);
-    testExpense = new Expense(50, "Test expense", RecurringType.DAILY, Category.HOUSING);
+    testAction = new Income(50, "Test description", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME);
+    testExpense = new Expense(50, "Test expense", RecurringType.DAILY, ExpenseCategory.HOUSING);
   }
 
   @AfterEach
@@ -23,7 +23,7 @@ class MoneyActionTest {
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownDescriptionError =
         assertThrows(
-            IllegalArgumentException.class, () -> new Income(100, " ", RecurringType.YEARLY));
+            IllegalArgumentException.class, () -> new Income(100, " ", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME));
     assertEquals("Description must not be empty or blank.", thrownDescriptionError.getMessage());
   }
 
@@ -77,13 +77,13 @@ class MoneyActionTest {
 
   @Test
   void checkThatGetCategoryReturnsCorrectCategory() {
-    assertEquals(Category.HOUSING, testExpense.getCategory());
+    assertEquals(ExpenseCategory.HOUSING, testExpense.getCategory());
   }
 
   @Test
   void checkThatSetCategorySetsCategory() {
-    testExpense.setCategory(Category.HEALTHCARE);
-    assertEquals(Category.HEALTHCARE, testExpense.getCategory());
+    testExpense.setCategory(ExpenseCategory.HEALTHCARE);
+    assertEquals(ExpenseCategory.HEALTHCARE, testExpense.getCategory());
   }
 
   @Test

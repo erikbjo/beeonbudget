@@ -15,7 +15,7 @@ public class Income extends MoneyAction {
    * @param description the description
    * @param type the type
    */
-  public Income(int amount, String description, RecurringType type) {
+  public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory) {
     super(amount, description, type);
   }
 }

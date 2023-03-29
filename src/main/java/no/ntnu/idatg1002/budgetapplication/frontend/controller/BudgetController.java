@@ -2,8 +2,6 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,15 +15,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
-import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class BudgetController implements Initializable {
@@ -40,9 +36,9 @@ public class BudgetController implements Initializable {
   @FXML private TableView<Expense> expenseTableView;
 
   @FXML private TableView<Income> incomeTableView;
-  @FXML private TableColumn<Expense, Category> expenseCategoryColumn;
+  @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
   @FXML private TableColumn<Expense, Integer> expenseColumn;
-  @FXML private TableColumn<Income, Category> incomeCategoryColumn;
+  @FXML private TableColumn<Income, ExpenseCategory> incomeCategoryColumn;
   @FXML private TableColumn<Income, Integer> incomeColumn;
   @FXML private Button monthlyExpenseButton;
   @FXML private Button newExpenseButton;
@@ -74,9 +70,9 @@ public class BudgetController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     // expenseColumn = new TableColumn<>("Expenses");
-    // expenseCategoryColumn = new TableColumn<>("Category");
+    // expenseCategoryColumn = new TableColumn<>("ExpenseCategory");
     // incomeColumn = new TableColumn<>("Income");
-    // incomeCategoryColumn = new TableColumn<>("Category");
+    // incomeCategoryColumn = new TableColumn<>("ExpenseCategory");
     expenseColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
