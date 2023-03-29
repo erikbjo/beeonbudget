@@ -38,16 +38,16 @@
                                  <left>
                                     <VBox prefHeight="288.0" prefWidth="131.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label fx:id="totalGoalAmountDisplay" prefHeight="144.0" prefWidth="184.0" text="Total Goal Amount: " />
-                                          <Label fx:id="totalAmountSavedDisplay" prefHeight="144.0" prefWidth="199.0" text="Amount Saved: " />
+                                          <Label fx:id="totalGoalAmountDisplay" prefHeight="144.0" prefWidth="184.0" text="Total Goal Amount: &#10;" />
+                                          <Label fx:id="totalAmountSavedDisplay" prefHeight="144.0" prefWidth="199.0" text="Amount Saved: &#10;" />
                                        </children>
                                     </VBox>
                                  </left>
                                  <right>
                                     <VBox prefHeight="239.0" prefWidth="132.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label fx:id="estimateMoneyDisplay" prefHeight="96.0" prefWidth="132.0" text="You need to save x &#10;per month" />
-                                          <Label fx:id="estimateMonthsDisplay" prefHeight="100.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <Label fx:id="estimateMoneyDisplay" prefHeight="96.0" prefWidth="132.0" text="You need to save&#10;x &#10;per month" />
+                                          <Label fx:id="estimateMonthsDisplay" prefHeight="100.0" prefWidth="132.0" text="You will be saving &#10;for &#10;y &#10;months" />
                                           <TextField fx:id="depositInput" text="1" />
                                           <Button fx:id="deposit" mnemonicParsing="false" onAction="#onDeposit" text="Deposit savings" />
                                           <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />

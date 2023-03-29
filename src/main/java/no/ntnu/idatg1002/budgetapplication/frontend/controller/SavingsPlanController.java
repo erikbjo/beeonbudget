@@ -31,7 +31,7 @@ public class SavingsPlanController {
   @FXML Button deposit;
   @FXML Label totalGoalAmountDisplay;
   @FXML Label totalAmountSavedDisplay;
-  private SavingsPlan example = new SavingsPlan("example", 100, 1);
+  private SavingsPlan plan = new SavingsPlan("example", 100, 1);
 
 
   public SavingsPlanController() throws IOException {
@@ -56,8 +56,9 @@ public class SavingsPlanController {
   }
 
   public void onDeposit(){
-    example.setDeposit(Integer.parseInt(depositInput.getText()));
-    example.addSavings();
+    plan.setDeposit(Integer.parseInt(depositInput.getText()));
+    plan.addSavings();
+    totalAmountSavedDisplay.setText("Total Amount Saved: \n"+plan.getTotalSaved());
   }
 
 
@@ -71,16 +72,18 @@ public class SavingsPlanController {
     int savedAmount = Integer.parseInt(savAmount.getText());
     int estMonths = Integer.parseInt(estimateMonths.getText());
     int estMoney = Integer.parseInt(estimateMoney.getText());
-    SavingsPlan plan = new SavingsPlan(goalName, totalGoalAmount, savedAmount);
+    plan.setGoalName(goalName);
+    plan.setTotalGoalAmount(totalGoalAmount);
+    plan.setTotalSaved(savedAmount);
     plan.setWantedMonthlySavingAmount(estMoney);
     plan.setWantedSavingTime(estMonths);
     int savingAmount = plan.getEstimatedMonthlySavingAmount();
     int savingTime = plan.getEstimatedSavingTime();
-    totalGoalAmountDisplay.setText("Total Goal Amount: "+totalGoalAmount);
-    totalAmountSavedDisplay.setText("Total Amount Saved: "+savedAmount);
-    goalNameDisplay.setText(example.getGoalName());
-    estimateMoneyDisplay.setText("Amount you need to be saving per month: "+savingAmount);
-    estimateMonthsDisplay.setText("Months until completion: "+savingTime);
+    totalGoalAmountDisplay.setText("Total Goal Amount: \n"+totalGoalAmount);
+    totalAmountSavedDisplay.setText("Total Amount Saved: \n"+savedAmount);
+    goalNameDisplay.setText(plan.getGoalName());
+    estimateMoneyDisplay.setText("Amount you need to \nbe saving per month: \n"+savingAmount);
+    estimateMonthsDisplay.setText("Months until \ncompletion: \n"+savingTime);
     popup.setVisible(false);
   }
 //TODO make it add a new tab with data from created object
