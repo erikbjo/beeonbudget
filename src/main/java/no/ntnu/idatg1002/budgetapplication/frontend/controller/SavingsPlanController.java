@@ -52,9 +52,13 @@ public class SavingsPlanController {
     //TODO make it so that the text displayed on the tabs is taken from correct object
   }
 
-
-
   public void onNewSavingsPlan(){
+    Tab newTab = new Tab();
+    tabPane.getTabs().add(newTab);
+  }
+
+
+  public void onEdit(){
     popup.setVisible(true);
   }
 

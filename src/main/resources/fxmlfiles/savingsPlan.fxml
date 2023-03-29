@@ -12,7 +12,7 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
                 <Button fx:id="newSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#onNewSavingsPlan" text="New Savings Plan" />
-                  <Button fx:id="rename" focusTraversable="false" mnemonicParsing="false" text="Edit" />
+                  <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />
                   <Button fx:id="delete" focusTraversable="false" mnemonicParsing="false" text="Delete" />
                   <Button fx:id="previousButtonInSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPrimaryFromSavingPlan" prefHeight="26.0" prefWidth="43.0" text="Return" />
               </buttons>
