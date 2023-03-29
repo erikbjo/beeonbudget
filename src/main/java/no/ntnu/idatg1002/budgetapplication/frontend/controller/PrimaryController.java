@@ -5,6 +5,7 @@ import java.util.Optional;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -32,9 +33,10 @@ public class PrimaryController extends Dialog<Budget> {
   private TextField descriptionField;
   private TextField monthsField;
   private ButtonType addButtonType;
-
   private ComboBox<RecurringType> recurringTypeComboBox;
   private ComboBox<Category> categoryComboBox;
+  @FXML
+  private Event event;
 
   public PrimaryController() throws IOException {
     super();
@@ -99,6 +101,7 @@ public class PrimaryController extends Dialog<Budget> {
   }
 
   public void onAddIncome() throws IOException {
+    /*
     Dialog<Budget> incomeDialog = new Dialog<>();
     incomeDialog.setTitle("Add Income");
     incomeDialog.setHeaderText(null);
@@ -138,8 +141,10 @@ public class PrimaryController extends Dialog<Budget> {
     */
 
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
+    scene.getStylesheets().add(css);
     stage.setScene(scene);
     stage.show();
   }
@@ -160,8 +165,10 @@ public class PrimaryController extends Dialog<Budget> {
     // }
 
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
+    scene.getStylesheets().add(css);
     stage.setScene(scene);
     stage.show();
   }
@@ -169,7 +176,9 @@ public class PrimaryController extends Dialog<Budget> {
   public void switchToSavingPlan(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    String css = this.getClass().getResource("/cssfiles/savingsPlan.css").toExternalForm();
     scene = new Scene(root);
+    scene.getStylesheets().add(css);
     stage.setScene(scene);
     stage.show();
   }
