@@ -17,6 +17,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class AddIncomeDialogController extends Dialog<Budget> {
   private Stage stage;
@@ -32,34 +33,36 @@ public class AddIncomeDialogController extends Dialog<Budget> {
 
   @FXML private ComboBox<IncomeCategory> incomeCategoryComboBox;
 
-  public AddIncomeDialogController() throws IOException {
-
-  }
+  public AddIncomeDialogController() throws IOException {}
 
   private boolean assertAllFieldsValid() {
     return (incomeDescriptionField.getText() != null
         && incomeAmountField.getText() != null
-        && recurringIntervalComboBox.getValue() != null)
-        && incomeCategoryComboBox.getValue() != null;
+        && recurringIntervalComboBox.getValue() != null
+        && incomeCategoryComboBox.getValue() != null);
   }
 
   @FXML
-  void onSubmitIncomeDialog(ActionEvent event) {
+  void onSubmitIncomeDialog(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
       Income newIncome =
           new Income(
               Integer.parseInt(incomeAmountField.getText()),
               incomeDescriptionField.getText(),
-              recurringIntervalComboBox.getValue(), incomeCategoryComboBox.getValue());
+              recurringIntervalComboBox.getValue(),
+              incomeCategoryComboBox.getValue());
 
+      Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
       // for testing
       System.out.println("Created new object: " + newIncome);
+
+      switchToPreviousFromAddIncomeDialog(event);
     }
   }
 
   @FXML
   void switchToPreviousFromAddIncomeDialog(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
