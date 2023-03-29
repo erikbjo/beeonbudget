@@ -16,8 +16,8 @@ class BudgetTest {
   @BeforeEach
   void setUp() {
     budget = new Budget("Test");
-    income = new Income(200, "Test income", RecurringType.NONRECURRING);
-    expense = new Expense(300, "Test expense", RecurringType.NONRECURRING, Category.FOOD);
+    income = new Income(200, "Test income", RecurringType.NONRECURRING, IncomeCategory.PROFIT_INCOME);
+    expense = new Expense(300, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.FOOD);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
   }
@@ -71,12 +71,12 @@ class BudgetTest {
   @Test
   void assertAddToListAlsoAddsCategory() {
     Expense localExpense =
-        new Expense(150, "Test expense 2", RecurringType.MONTHLY, Category.HEALTHCARE);
-    Income localIncome = new Income(200, "Test income 2", RecurringType.DAILY);
+        new Expense(150, "Test expense 2", RecurringType.MONTHLY, ExpenseCategory.HEALTHCARE);
+    Income localIncome = new Income(200, "Test income 2", RecurringType.DAILY, IncomeCategory.PASSIVE_INCOME);
     budget.addBudgetIncome(localIncome);
     budget.addBudgetExpenses(localExpense);
 
-    ArrayList<Category> testList = new ArrayList<>();
+    ArrayList<ExpenseCategory> testList = new ArrayList<>();
     testList.add(expense.getCategory());
     testList.add(localExpense.getCategory());
 
@@ -94,9 +94,9 @@ class BudgetTest {
   void getNetBalanceEqualToFifty() {
     budget.removeBudgetIncome(income);
     budget.removeBudgetExpenses(expense);
-    budget.addBudgetIncome(new Income(200, "Test income 2", RecurringType.NONRECURRING));
+    budget.addBudgetIncome(new Income(200, "Test income 2", RecurringType.NONRECURRING, IncomeCategory.CAPITAL_GAINS_INCOME));
     budget.addBudgetExpenses(
-        new Expense(150, "Test expense 2", RecurringType.MONTHLY, Category.HEALTHCARE));
+        new Expense(150, "Test expense 2", RecurringType.MONTHLY, ExpenseCategory.HEALTHCARE));
 
     int netBalance = budget.getNetBalance();
     assertEquals(50, netBalance);

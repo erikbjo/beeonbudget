@@ -12,7 +12,7 @@ import java.util.List;
 public class Budget {
   private final List<Expense> expenseList;
   private final List<Income> incomeList;
-  private final List<Category> categoryList;
+  private final List<ExpenseCategory> expenseCategoryList;
   private String budgetName;
 
   /**
@@ -28,7 +28,7 @@ public class Budget {
     this.budgetName = budgetName;
     incomeList = new ArrayList<>();
     expenseList = new ArrayList<>();
-    categoryList = new ArrayList<>();
+    expenseCategoryList = new ArrayList<>();
   }
 
   /**
@@ -94,10 +94,10 @@ public class Budget {
    * budget.
    */
   private void updateCategoryList() {
-    categoryList.clear();
+    expenseCategoryList.clear();
     for (Expense expense : expenseList) {
-      if (!categoryList.contains(expense.getCategory())) {
-        categoryList.add(expense.getCategory());
+      if (!expenseCategoryList.contains(expense.getCategory())) {
+        expenseCategoryList.add(expense.getCategory());
       }
     }
   }
@@ -175,7 +175,7 @@ public class Budget {
    *
    * @return A list of Enum objects.
    */
-  public List<Category> getCategoryList() {
-    return categoryList;
+  public List<ExpenseCategory> getCategoryList() {
+    return expenseCategoryList;
   }
 }

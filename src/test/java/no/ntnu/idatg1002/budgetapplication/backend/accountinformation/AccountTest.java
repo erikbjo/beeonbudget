@@ -3,9 +3,10 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 import static org.junit.jupiter.api.Assertions.*;
 
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
+import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
@@ -26,8 +27,8 @@ class AccountTest {
     account = new Account("Test", "test@test.com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
 
     budget = new Budget("Test budget");
-    income = new Income(50, "Test income", RecurringType.NONRECURRING);
-    expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, Category.HOUSING);
+    income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE_INCOME);
+    expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
@@ -207,7 +208,7 @@ class AccountTest {
     void addNewSavingsPlanWithNotTakenName() {
       SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
       assertDoesNotThrow(() -> account.addSavingsPlan(testSavingsPlan));
-      assertTrue(account.getSavingsPlans().containsValue(testSavingsPlan));
+      assertTrue(account.getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
@@ -218,7 +219,7 @@ class AccountTest {
           assertThrows(
               IllegalArgumentException.class, () -> account.addSavingsPlan(testSavingsPlan));
       assertEquals("Savings plan goal name is taken.", thrown.getMessage());
-      assertFalse(account.getSavingsPlans().containsValue(testSavingsPlan));
+      assertFalse(account.getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
@@ -236,7 +237,7 @@ class AccountTest {
   void removeSavingsPlanTest() {
     account.addSavingsPlan(savingsPlan);
     account.removeSavingsPlan(savingsPlan);
-    assertFalse(account.getSavingsPlans().containsValue(savingsPlan));
+    assertFalse(account.getSavingsPlans().contains(savingsPlan));
   }
 
   @Nested
@@ -245,7 +246,7 @@ class AccountTest {
     void addNewBudgetWithNotTakenName() {
       Budget testBudget = new Budget("My budget");
       assertDoesNotThrow(() -> account.addBudget(testBudget));
-      assertTrue(account.getBudgets().containsValue(testBudget));
+      assertTrue(account.getBudgets().contains(testBudget));
     }
 
     @Test
@@ -255,7 +256,7 @@ class AccountTest {
       Exception thrown =
           assertThrows(IllegalArgumentException.class, () -> account.addBudget(testBudget));
       assertEquals("Budget name is taken.", thrown.getMessage());
-      assertFalse(account.getBudgets().containsValue(testBudget));
+      assertFalse(account.getBudgets().contains(testBudget));
     }
 
     @Test
@@ -272,7 +273,7 @@ class AccountTest {
   void removeBudgetPositiveTest() {
     account.addBudget(budget);
     account.removeBudget(budget);
-    assertFalse(account.getBudgets().containsValue(budget));
+    assertFalse(account.getBudgets().contains(budget));
   }
 
   @Nested

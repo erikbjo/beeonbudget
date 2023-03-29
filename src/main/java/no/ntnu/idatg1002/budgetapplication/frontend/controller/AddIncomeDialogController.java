@@ -1,8 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,9 +13,9 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Category;
-import no.ntnu.idatg1002.budgetapplication.backend.Expense;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
+import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
 public class AddIncomeDialogController extends Dialog<Budget> {
@@ -32,6 +30,8 @@ public class AddIncomeDialogController extends Dialog<Budget> {
   private TextField incomeDescriptionField; // Value injected by FXMLLoader
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
+  @FXML private ComboBox<IncomeCategory> incomeCategoryComboBox;
+
   public AddIncomeDialogController() throws IOException {
 
   }
@@ -39,7 +39,8 @@ public class AddIncomeDialogController extends Dialog<Budget> {
   private boolean assertAllFieldsValid() {
     return (incomeDescriptionField.getText() != null
         && incomeAmountField.getText() != null
-        && recurringIntervalComboBox.getValue() != null);
+        && recurringIntervalComboBox.getValue() != null)
+        && incomeCategoryComboBox.getValue() != null;
   }
 
   @FXML
@@ -49,7 +50,7 @@ public class AddIncomeDialogController extends Dialog<Budget> {
           new Income(
               Integer.parseInt(incomeAmountField.getText()),
               incomeDescriptionField.getText(),
-              recurringIntervalComboBox.getValue());
+              recurringIntervalComboBox.getValue(), incomeCategoryComboBox.getValue());
 
       // for testing
       System.out.println("Created new object: " + newIncome);
@@ -77,11 +78,14 @@ public class AddIncomeDialogController extends Dialog<Budget> {
         : "fx:id=\"incomeDescriptionField\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
     assert recurringIntervalComboBox != null
         : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
+    assert incomeCategoryComboBox != null
+        : "fx:id=\"incomeCategoryComboBox\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
     assert submitIncomeButton != null
         : "fx:id=\"submitIncomeButton\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
 
-    // adds enum to combobox
+    // adds enum to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
+    incomeCategoryComboBox.getItems().addAll(IncomeCategory.values());
 
     // force the field to be numeric only
     incomeAmountField
