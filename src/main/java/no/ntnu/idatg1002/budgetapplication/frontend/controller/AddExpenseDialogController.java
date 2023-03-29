@@ -88,7 +88,18 @@ public class AddExpenseDialogController extends Dialog<Budget> {
     assert submitExpenseDialogButton != null
         : "fx:id=\"submitExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
 
+    // adds enums to comboboxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(Category.values());
+
+    // force the field to be numeric only
+    expenseAmountField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (!newValue.matches("\\d*")) {
+                expenseAmountField.setText(newValue.replaceAll("[^\\d]", ""));
+              }
+            });
   }
 }

@@ -1,6 +1,8 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -76,6 +78,17 @@ public class AddIncomeDialogController extends Dialog<Budget> {
     assert submitIncomeButton != null
         : "fx:id=\"submitIncomeButton\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
 
+    // adds enum to combobox
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
+
+    // force the field to be numeric only
+    incomeAmountField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if (!newValue.matches("\\d*")) {
+                incomeAmountField.setText(newValue.replaceAll("[^\\d]", ""));
+              }
+            });
   }
 }
