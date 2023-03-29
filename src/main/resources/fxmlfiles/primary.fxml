@@ -12,8 +12,9 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
-<?import com.jfoenix.controls.*?>
-<AnchorPane prefHeight="373.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
+
+<?import com.jfoenix.controls.JFXButton?>
+<AnchorPane prefHeight="373.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
    <children>
       <Pane fx:id="headerPane" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,6 +36,10 @@
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
+            <Label fx:id="usernameLabel" layoutX="624.0" layoutY="52.0" text="username">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font></Label>
          </children>
          <effect>
             <Glow />
