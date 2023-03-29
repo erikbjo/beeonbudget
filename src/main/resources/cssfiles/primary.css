@@ -11,6 +11,11 @@
 }
 #SummaryPane {
   -fx-background-color: #f6f6f6;
+  -fx-border-color: black;
+}
+#menuPane{
+  -fx-background-color: dfdfdf;
+  -fx-border-color: black;
 }
 
 
