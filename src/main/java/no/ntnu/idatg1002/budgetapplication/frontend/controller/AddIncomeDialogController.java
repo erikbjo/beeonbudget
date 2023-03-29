@@ -21,8 +21,6 @@ import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
 public class AddIncomeDialogController extends Dialog<Budget> {
-
-  private SavingsPlanController savingsPlanController;
   private Stage stage;
   private Scene scene;
 
@@ -36,8 +34,6 @@ public class AddIncomeDialogController extends Dialog<Budget> {
 
   public AddIncomeDialogController() throws IOException {
     super();
-
-    savingsPlanController = new SavingsPlanController();
 
     recurringIntervalComboBox = new ComboBox<>();
   }
