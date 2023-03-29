@@ -13,7 +13,7 @@ class SavingsPlanTest {
 
   @BeforeEach
   void setUp(){
-    goal = new SavingsPlan("test", 1000, 0);
+    goal = new SavingsPlan("test");
   }
   @AfterEach
   void tearDown(){}

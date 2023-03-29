@@ -33,7 +33,7 @@ class AccountTest {
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
-    savingsPlan = new SavingsPlan("Test goal", 100, 50);
+    savingsPlan = new SavingsPlan("Test goal");
   }
 
   @AfterEach
@@ -207,15 +207,15 @@ class AccountTest {
   class addSavingsPlanTest {
     @Test
     void addNewSavingsPlanWithNotTakenName() {
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
+      SavingsPlan testSavingsPlan = new SavingsPlan("My goal");
       assertDoesNotThrow(() -> account.addSavingsPlan(testSavingsPlan));
       assertTrue(account.getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
     void addNewSavingsPlanWithTakenName() {
-      account.addSavingsPlan(new SavingsPlan("My goal", 100, 0));
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
+      account.addSavingsPlan(new SavingsPlan("My goal"));
+      SavingsPlan testSavingsPlan = new SavingsPlan("My goal");
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class, () -> account.addSavingsPlan(testSavingsPlan));
@@ -225,7 +225,7 @@ class AccountTest {
 
     @Test
     void addExistingSavingsPlan() {
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, 0);
+      SavingsPlan testSavingsPlan = new SavingsPlan("My goal");
       account.addSavingsPlan(testSavingsPlan);
       Exception thrown =
           assertThrows(
