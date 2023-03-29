@@ -98,8 +98,7 @@ public class PrimaryController extends Dialog<Budget> {
     stage.show();
   }
 
-  public void onAddIncome(ActionEvent event) throws IOException {
-    /*
+  public void onAddIncome() throws IOException {
     Dialog<Budget> incomeDialog = new Dialog<>();
     incomeDialog.setTitle("Add Income");
     incomeDialog.setHeaderText(null);
@@ -144,6 +143,14 @@ public class PrimaryController extends Dialog<Budget> {
     stage.setScene(scene);
     stage.show();
   }
+  
+    public void onAddExpense () throws IOException {
+      Optional<Budget> expenseResult = showAndWait();
+      if (expenseResult.isPresent()) {
+        Budget expense = expenseResult.get();
+        // Do something with the input
+      }
+    }
 
   public void onAddExpense(ActionEvent event) throws IOException {
     // Optional<Budget> expenseResult = showAndWait();
