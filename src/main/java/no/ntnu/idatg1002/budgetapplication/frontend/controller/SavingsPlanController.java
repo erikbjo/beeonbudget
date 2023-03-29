@@ -35,6 +35,7 @@ public class SavingsPlanController {
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage)((Node)event.getSource()).getScene().getWindow();
     scene = new Scene(root);
+    scene.getStylesheets().add(css);
     stage.setScene(scene);
     stage.show();
     start();
