@@ -49,17 +49,26 @@ public class AddExpenseDialogController extends Dialog<Budget> {
     categoryComboBox = new ComboBox<>();
   }
 
+  private boolean assertAllFieldsValid() {
+    return (expenseDescriptionField.getText() != null
+        && expenseAmountField.getText() != null
+        && recurringIntervalComboBox.getValue() != null
+        && categoryComboBox.getValue() != null);
+  }
+
   @FXML
   void onSubmitExpenseDialog(ActionEvent event) {
-    Expense newExpense =
-        new Expense(
-            Integer.parseInt(expenseAmountField.getText()),
-            expenseDescriptionField.getText(),
-            recurringIntervalComboBox.getValue(),
-            categoryComboBox.getValue());
+    if (assertAllFieldsValid()) {
+      Expense newExpense =
+          new Expense(
+              Integer.parseInt(expenseAmountField.getText()),
+              expenseDescriptionField.getText(),
+              recurringIntervalComboBox.getValue(),
+              categoryComboBox.getValue());
 
-    // for testing
-    System.out.println("Created new object: " + newExpense);
+      // for testing
+      System.out.println("Created new object: " + newExpense);
+    }
   }
 
   @FXML

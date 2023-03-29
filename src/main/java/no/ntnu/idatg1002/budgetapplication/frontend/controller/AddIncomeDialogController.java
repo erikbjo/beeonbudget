@@ -42,16 +42,24 @@ public class AddIncomeDialogController extends Dialog<Budget> {
     recurringIntervalComboBox = new ComboBox<>();
   }
 
+  private boolean assertAllFieldsValid() {
+    return (incomeDescriptionField.getText() != null
+        && incomeAmountField.getText() != null
+        && recurringIntervalComboBox.getValue() != null);
+  }
+
   @FXML
   void onSubmitIncomeDialog(ActionEvent event) {
-    Income newIncome =
-        new Income(
-            Integer.parseInt(incomeAmountField.getText()),
-            incomeDescriptionField.getText(),
-            recurringIntervalComboBox.getValue());
+    if (assertAllFieldsValid()) {
+      Income newIncome =
+          new Income(
+              Integer.parseInt(incomeAmountField.getText()),
+              incomeDescriptionField.getText(),
+              recurringIntervalComboBox.getValue());
 
-    // for testing
-    System.out.println("Created new object: " + newIncome);
+      // for testing
+      System.out.println("Created new object: " + newIncome);
+    }
   }
 
   @FXML
