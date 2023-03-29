@@ -19,6 +19,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryController extends Dialog<Budget> implements Initializable {
 
@@ -81,8 +82,8 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
 
   public void updateDynamicLabels() {
     usernameLabel.setText(Database.getCurrentAccount().getName());
-    //menuPaneLabel1.setText("used");
-    //menuPaneLabel2.setText("left");
+    // menuPaneLabel1.setText("used");
+    // menuPaneLabel2.setText("left");
   }
 
   @Override
