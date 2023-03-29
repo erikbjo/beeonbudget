@@ -3,13 +3,8 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
-import javafx.beans.property.ReadOnlyListProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import javafx.beans.property.ReadOnlyStringWrapper;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,25 +15,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import javafx.util.Callback;
-import javax.swing.text.TabableView;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Category;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 
@@ -50,11 +37,11 @@ public class BudgetController implements Initializable{
   @FXML
   private TableView<String> budgetTableView;
   @FXML
-  private TableColumn<String, ArrayList<Category>> categoryColumn;
+  private TableColumn<String, Category> categoryColumn;
   @FXML
-  private TableColumn<String, ArrayList<Expense>> expenseColumn;
+  private TableColumn<String, Integer> expenseColumn;
   @FXML
-  private TableColumn<String, ArrayList<Income>> incomeColumn;
+  private TableColumn<String, Integer> incomeColumn;
   @FXML
   private Button monthlyExpenseButton;
   @FXML
@@ -66,11 +53,11 @@ public class BudgetController implements Initializable{
 
   private Budget selectedBudget;
 
-  private ObservableList<String> budgets;
+  private ObservableList<String> budgetInformation;
 
   public BudgetController() throws IOException {
     this.primaryController = new PrimaryController();
-    this.budgets = FXCollections.observableArrayList();
+    this.budgetInformation = FXCollections.observableArrayList("assffsa");
     this.budgetTableView = new TableView<>();
     this.monthlyExpenseButton = new Button();
     this.newExpenseButton = new Button();
@@ -80,18 +67,19 @@ public class BudgetController implements Initializable{
       this.selectedBudget = Database.getCurrentAccount().getBudgets().values().
           stream().toList().get(0);
     }
+    //else Database.getCurrentAccount().addBudget(new Budget("Test"));
   }
 
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle){
-    expenseColumn = new TableColumn<>("Expenses");
-    incomeColumn = new TableColumn<>("Income");
-    categoryColumn = new TableColumn<>("Category");
-    expenseColumn.setCellValueFactory(new PropertyValueFactory<String, ArrayList<Expense>>("expenses"));
-    incomeColumn.setCellValueFactory(new PropertyValueFactory<String, ArrayList<Income>>("income"));
-    categoryColumn.setCellValueFactory(new PropertyValueFactory<String, ArrayList<Category>>("category"));
+    //expenseColumn = new TableColumn<>("Expenses");
+    //incomeColumn = new TableColumn<>("Income");
+    //categoryColumn = new TableColumn<>("Category");
+    expenseColumn.setCellValueFactory(new PropertyValueFactory<String, Integer>("expenses"));
+    incomeColumn.setCellValueFactory(new PropertyValueFactory<String, Integer>("income"));
+    categoryColumn.setCellValueFactory(new PropertyValueFactory<String,Category>("category"));
     //budgetTableView.getColumns().addAll(expenseColumn, incomeColumn, categoryColumn);
-    budgetTableView.setItems(budgets);
+    budgetTableView.setItems(budgetInformation);
   }
   @FXML
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
@@ -126,12 +114,10 @@ public class BudgetController implements Initializable{
           Income income = new Income(Integer.parseInt(incomeAmount), "dsfdsfsd",
               RecurringType.NONRECURRING);
           incomes.add(incomeAmount);
-          Budget budget = new Budget("asdasda");
-      //Budget budget = Database.getCurrentAccount().getBudgets();
-      budget.addBudgetIncome(income);
-      //budgets.add(String.valueOf(incomes));
-      budgetTableView.refresh();
+      //Budget budget = new Budget("dsufuhdsf");
+      selectedBudget.addBudgetIncome(income);
       budgetTableView.setItems(FXCollections.observableList(incomes));
+      budgetTableView.refresh();
     });
   }
 
