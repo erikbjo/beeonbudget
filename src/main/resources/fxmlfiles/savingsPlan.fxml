@@ -8,7 +8,7 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.SavingsPlanController">
    <children>
-      <BorderPane prefHeight="400.0" prefWidth="662.0">
+      <BorderPane prefHeight="400.0" prefWidth="662.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
          <bottom>
             <ButtonBar prefHeight="48.0" prefWidth="662.0" style="-fx-background-color: #f3e60c;" BorderPane.alignment="CENTER">
               <buttons>
@@ -19,11 +19,11 @@
             </ButtonBar>
          </bottom>
          <top>
-            <TabPane fx:id="tabPane" prefHeight="357.0" prefWidth="662.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+            <TabPane fx:id="tabPane" prefHeight="357.0" prefWidth="662.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
               <tabs>
                 <Tab fx:id="tab1" text="SavingsPlan1">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="329.0" prefWidth="672.0">
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="329.0" prefWidth="672.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
                            <children>
                               <BorderPane layoutX="-3.0" layoutY="-1.0" prefHeight="331.0" prefWidth="662.0" AnchorPane.bottomAnchor="-1.3999999999999773" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="-1.0">
                                  <top>
@@ -37,7 +37,7 @@
                                     <Circle fill="DODGERBLUE" radius="100.0" stroke="BLACK" strokeType="INSIDE" BorderPane.alignment="CENTER" />
                                  </center>
                                  <left>
-                                    <VBox prefHeight="293.0" prefWidth="138.0" style="-fx-background-color: #f3e60c;" BorderPane.alignment="CENTER">
+                                    <VBox prefHeight="293.0" prefWidth="138.0" style="-fx-background-color: #f3e60c;" BorderPane.alignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0">
                                        <children>
                                           <ImageView fitHeight="77.0" fitWidth="77.0" pickOnBounds="true" preserveRatio="true" translateX="35.0">
                                            <image>
@@ -61,14 +61,15 @@
                                     </VBox>
                                  </right>
                               </BorderPane>
-                           </children></AnchorPane>
+                           </children>
+                    </AnchorPane>
                   </content>
                 </Tab>
               </tabs>
             </TabPane>
          </top>
       </BorderPane>
-      <DialogPane fx:id="popup" headerText="Enter required fields" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="662.0" visible="false">
+      <DialogPane fx:id="popup" headerText="Enter required fields" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="360.0" prefWidth="662.0" visible="false" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <header>
             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="662.0" visible="false" />
           </header>
