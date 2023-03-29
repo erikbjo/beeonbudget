@@ -18,24 +18,18 @@ public class SavingsPlan {
    * Instantiates a new Savings plan.
    *
    * @param goalName the goal name
-   * @param totalGoalAmount the total goal amount
-   * @param totalSaved the total saved
    * @throws IllegalArgumentException "Goal name must not be empty or blank." and/or ""Total goal
    *     amount must be above zero." for totalGoalAmount < 0
    */
-  public SavingsPlan(String goalName, int totalGoalAmount, int totalSaved)
+  public SavingsPlan(String goalName)
       throws IllegalArgumentException {
 
     if (goalName == null || goalName.trim().isEmpty()) {
       throw new IllegalArgumentException("Goal name must not be empty or blank.");
     }
-    if (totalGoalAmount <= 0) {
-      throw new IllegalArgumentException("Total goal amount must be above zero.");
-    }
+
 
     this.goalName = goalName;
-    this.totalGoalAmount = totalGoalAmount;
-    this.totalSaved = totalSaved;
   }
 
   /**

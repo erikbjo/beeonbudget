@@ -31,7 +31,7 @@ public class SavingsPlanController {
   @FXML Button deposit;
   @FXML Label totalGoalAmountDisplay;
   @FXML Label totalAmountSavedDisplay;
-  private SavingsPlan plan = new SavingsPlan("example", 100, 1);
+  private SavingsPlan plan = new SavingsPlan("example");
 
 
   public SavingsPlanController() throws IOException {
