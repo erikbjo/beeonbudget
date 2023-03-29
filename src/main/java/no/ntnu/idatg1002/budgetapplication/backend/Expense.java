@@ -4,6 +4,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
  * The type Expense.
  *
  * @author Erik Bjørnsen
+ * @version 2.0
  */
 public class Expense extends MoneyAction {
 
