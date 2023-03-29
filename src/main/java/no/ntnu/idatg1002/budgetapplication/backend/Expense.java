@@ -8,41 +8,41 @@ package no.ntnu.idatg1002.budgetapplication.backend;
  */
 public class Expense extends MoneyAction {
 
-  private Category category;
+  private ExpenseCategory expenseCategory;
 
   /**
    * Instantiates a new Expense.
    *
-   * @param amount the amount
-   * @param description the description
-   * @param type the type
-   * @param category the category
+   * @param expenseCategory the expenseCategory
+   * @param amount          the amount
+   * @param description     the description
+   * @param type            the type
    */
-  public Expense(int amount, String description, RecurringType type, Category category) {
+  public Expense(int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
     super(amount, description, type);
-    this.category = category;
+    this.expenseCategory = expenseCategory;
   }
 
   /**
-   * Gets category.
+   * Gets expenseCategory.
    *
-   * @return the category
+   * @return the expenseCategory
    */
-  public Category getCategory() {
-    return category;
+  public ExpenseCategory getCategory() {
+    return expenseCategory;
   }
 
   /**
-   * Sets category.
+   * Sets expenseCategory.
    *
-   * @param category the category
+   * @param expenseCategory the expenseCategory
    */
-  public void setCategory(Category category) {
-    this.category = category;
+  public void setCategory(ExpenseCategory expenseCategory) {
+    this.expenseCategory = expenseCategory;
   }
 
   @Override
   public String toString() {
-    return super.toString() + ", category:" + this.getCategory();
+    return super.toString() + ", expenseCategory:" + this.getCategory();
   }
 }
