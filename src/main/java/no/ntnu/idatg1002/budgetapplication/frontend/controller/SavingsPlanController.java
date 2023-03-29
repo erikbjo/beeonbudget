@@ -61,7 +61,4 @@ public class SavingsPlanController {
   public void onEstimateMonths(){ //TODO move estimate inputs to popup window and only display results
 
   }
-
-
-
 }
