@@ -35,9 +35,14 @@ public class BudgetController implements Initializable{
   private Parent parent;
   private final PrimaryController primaryController;
   @FXML
-  private TableView<String> budgetTableView;
+  private TableView<String> expenseTableView;
+
   @FXML
-  private TableColumn<String, Category> categoryColumn;
+  private TableView<String> incomeTableView;
+  @FXML
+  private TableColumn<String, Category> incomeCategoryColumn;
+  @FXML
+  private TableColumn<String, Category> expenseCategoryColumn;
   @FXML
   private TableColumn<String, Integer> expenseColumn;
   @FXML
@@ -58,7 +63,8 @@ public class BudgetController implements Initializable{
   public BudgetController() throws IOException {
     this.primaryController = new PrimaryController();
     this.budgetInformation = FXCollections.observableArrayList("assffsa");
-    this.budgetTableView = new TableView<>();
+    this.incomeTableView = new TableView<>();
+    this.expenseTableView = new TableView<>();
     this.monthlyExpenseButton = new Button();
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
@@ -77,9 +83,11 @@ public class BudgetController implements Initializable{
     //categoryColumn = new TableColumn<>("Category");
     expenseColumn.setCellValueFactory(new PropertyValueFactory<String, Integer>("expenses"));
     incomeColumn.setCellValueFactory(new PropertyValueFactory<String, Integer>("income"));
-    categoryColumn.setCellValueFactory(new PropertyValueFactory<String,Category>("category"));
+    incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<String, Category>("category"));
+    expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<String, Category>("category"));
     //budgetTableView.getColumns().addAll(expenseColumn, incomeColumn, categoryColumn);
-    budgetTableView.setItems(budgetInformation);
+    incomeTableView.setItems(budgetInformation);
+    expenseTableView.setItems(budgetInformation);
   }
   @FXML
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
@@ -116,8 +124,8 @@ public class BudgetController implements Initializable{
           incomes.add(incomeAmount);
       //Budget budget = new Budget("dsufuhdsf");
       selectedBudget.addBudgetIncome(income);
-      budgetTableView.setItems(FXCollections.observableList(incomes));
-      budgetTableView.refresh();
+      incomeTableView.setItems(FXCollections.observableList(incomes));
+      incomeTableView.refresh();
     });
   }
 

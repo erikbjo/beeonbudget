@@ -12,10 +12,10 @@
 
 <AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController">
    <children>
-      <TableView focusTraversable="false" layoutX="319.0" layoutY="235.0" prefHeight="153.0" prefWidth="367.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="319.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="235.0">
+      <TableView fx:id="expenseTableView" focusTraversable="false" layoutX="319.0" layoutY="235.0" prefHeight="153.0" prefWidth="367.0" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="319.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="235.0">
         <columns>
           <TableColumn fx:id="expenseColumn" prefWidth="180.0" text="Expense" />
-            <TableColumn fx:id="categoryColumn" prefWidth="185.0" text="Category" />
+            <TableColumn fx:id="expenseCategoryColumn" prefWidth="185.0" text="Category" />
         </columns>
          <columnResizePolicy>
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
@@ -39,10 +39,10 @@
             </ImageView>
          </children>
       </Pane>
-      <TableView layoutX="319.0" layoutY="73.0" prefHeight="138.0" prefWidth="367.0">
+      <TableView fx:id="incomeTableview" layoutX="319.0" layoutY="73.0" prefHeight="138.0" prefWidth="367.0">
         <columns>
           <TableColumn fx:id="incomeColumn" prefWidth="182.0" text="Income" />
-          <TableColumn fx:id="categoryColumn" prefWidth="184.0" text="Category" />
+          <TableColumn fx:id="incomeCategoryColumn" prefWidth="184.0" text="Category" />
         </columns>
       </TableView>
    </children>
