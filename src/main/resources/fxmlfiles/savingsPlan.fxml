@@ -26,7 +26,7 @@
                            <children>
                               <BorderPane layoutX="8.0" layoutY="-1.0" prefHeight="331.0" prefWidth="651.0">
                                  <top>
-                                    <Label fx:id="goalName" alignment="TOP_CENTER" prefHeight="47.0" prefWidth="414.0" text="SavingsPlan1" BorderPane.alignment="TOP_CENTER">
+                                    <Label fx:id="goalNameDisplay" alignment="TOP_CENTER" prefHeight="47.0" prefWidth="414.0" text="SavingsPlan1" BorderPane.alignment="TOP_CENTER">
                                        <font>
                                           <Font size="32.0" />
                                        </font>
@@ -38,8 +38,8 @@
                                  <left>
                                     <VBox prefHeight="288.0" prefWidth="131.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label prefHeight="144.0" prefWidth="184.0" text="Total Goal Amount:" />
-                                          <Label prefHeight="144.0" prefWidth="199.0" text="Amount Saved:" />
+                                          <Label fx:id="totalGoalAmountDisplay" prefHeight="144.0" prefWidth="184.0" text="Total Goal Amount: " />
+                                          <Label fx:id="totalAmountSavedDisplay" prefHeight="144.0" prefWidth="199.0" text="Amount Saved: " />
                                        </children>
                                     </VBox>
                                  </left>
