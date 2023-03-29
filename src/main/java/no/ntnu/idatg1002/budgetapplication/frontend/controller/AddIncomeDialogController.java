@@ -33,10 +33,7 @@ public class AddIncomeDialogController extends Dialog<Budget> {
   @FXML private ComboBox<IncomeCategory> incomeCategoryComboBox;
 
   public AddIncomeDialogController() throws IOException {
-    super();
 
-    recurringIntervalComboBox = new ComboBox<>();
-    incomeCategoryComboBox = new ComboBox<>();
   }
 
   private boolean assertAllFieldsValid() {
