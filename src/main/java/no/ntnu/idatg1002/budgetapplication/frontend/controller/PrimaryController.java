@@ -18,15 +18,16 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javax.xml.crypto.Data;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryController extends Dialog<Budget> implements Initializable {
 
   @FXML private Label menuPaneLabel1;
-
   @FXML private Label menuPaneLabel2;
   @FXML private Label usernameLabel;
+  @FXML private Label budgetLabel;
 
   private Stage stage;
   private Scene scene;
@@ -79,6 +80,8 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   }
 
   public void updateDynamicLabels() {
+    budgetLabel.setText(String.format("Budget: %s",
+        Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
     usernameLabel.setText(Database.getCurrentAccount().getName());
     menuPaneLabel1.setText(String.format("Remaining: %dkr",
         Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
