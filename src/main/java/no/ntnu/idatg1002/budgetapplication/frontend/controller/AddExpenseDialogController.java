@@ -1,6 +1,9 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
+import java.util.Arrays;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -14,6 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import javafx.stage.Stage;
 
@@ -40,13 +44,24 @@ public class AddExpenseDialogController extends Dialog<Budget> {
 
     recurringIntervalComboBox = new ComboBox<>();
     categoryComboBox = new ComboBox<>();
-
-    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
-    categoryComboBox.getItems().addAll(Category.values());
   }
 
   @FXML
-  void onSubmitExpenseDialog(ActionEvent event) {}
+  void onSubmitExpenseDialog(ActionEvent event) {
+    Expense newExpense =
+        new Expense(
+            Integer.parseInt(expenseAmount.getText()),
+            expenseDescription.getText(),
+            recurringIntervalComboBox.getValue(),
+            categoryComboBox.getValue());
+
+    // for testing
+    System.out.println(
+        newExpense.getAmount()
+            + newExpense.getDescription()
+            + newExpense.getType()
+            + newExpense.getCategory());
+  }
 
   @FXML
   void switchToPreviousFromAddExpenseDialog(ActionEvent event) throws IOException {
@@ -58,5 +73,24 @@ public class AddExpenseDialogController extends Dialog<Budget> {
     scene.getStylesheets().add(css);
     stage.show();
     savingsPlanController.start();
+  }
+
+  @FXML // This method is called by the FXMLLoader when initialization is complete
+  void initialize() {
+    assert cancelExpenseDialogButton != null
+        : "fx:id=\"cancelExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
+    assert categoryComboBox != null
+        : "fx:id=\"categoryComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
+    assert expenseAmount != null
+        : "fx:id=\"expenseAmount\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
+    assert expenseDescription != null
+        : "fx:id=\"expenseDescription\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
+    assert recurringIntervalComboBox != null
+        : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
+    assert submitExpenseDialogButton != null
+        : "fx:id=\"submitExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
+
+    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
+    categoryComboBox.getItems().addAll(Category.values());
   }
 }

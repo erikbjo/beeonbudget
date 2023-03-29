@@ -14,6 +14,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Category;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
+import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
 public class AddIncomeDialogController extends Dialog<Budget> {
@@ -34,11 +36,19 @@ public class AddIncomeDialogController extends Dialog<Budget> {
     savingsPlanController = new SavingsPlanController();
 
     recurringIntervalComboBox = new ComboBox<>();
-    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
   }
 
   @FXML
-  void onSubmitIncomeDialog(ActionEvent event) {}
+  void onSubmitIncomeDialog(ActionEvent event) {
+    Income newIncome =
+        new Income(
+            Integer.parseInt(incomeAmountField.getText()),
+            incomeDescriptionField.getText(),
+            recurringIntervalComboBox.getValue());
+
+    // for testing
+    System.out.println(newIncome.getAmount() + newIncome.getDescription() + newIncome.getType());
+  }
 
   @FXML
   void switchToPreviousFromAddIncomeDialog(ActionEvent event) throws IOException {
@@ -48,5 +58,21 @@ public class AddIncomeDialogController extends Dialog<Budget> {
     stage.setScene(scene);
     stage.show();
     savingsPlanController.start();
+  }
+
+  @FXML // This method is called by the FXMLLoader when initialization is complete
+  void initialize() {
+    assert cancelIncomeDialogButton != null
+        : "fx:id=\"cancelIncomeDialogButton\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
+    assert incomeAmountField != null
+        : "fx:id=\"incomeAmountField\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
+    assert incomeDescriptionField != null
+        : "fx:id=\"incomeDescriptionField\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
+    assert recurringIntervalComboBox != null
+        : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
+    assert submitIncomeButton != null
+        : "fx:id=\"submitIncomeButton\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
+
+    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
   }
 }
