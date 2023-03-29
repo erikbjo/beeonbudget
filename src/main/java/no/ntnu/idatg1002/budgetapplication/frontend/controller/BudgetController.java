@@ -38,7 +38,6 @@ public class BudgetController implements Initializable {
 
   private final AddIncomeDialogController addIncomeDialogController;
   @FXML private TableView<Expense> expenseTableView;
-
   @FXML private TableView<Income> incomeTableView;
   @FXML private TableColumn<Expense, Category> expenseCategoryColumn;
   @FXML private TableColumn<Expense, Integer> expenseColumn;

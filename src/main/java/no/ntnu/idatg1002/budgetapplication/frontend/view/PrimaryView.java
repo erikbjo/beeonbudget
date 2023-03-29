@@ -1,11 +1,14 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.view;
 
+import java.awt.Label;
 import javafx.application.Application;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryView extends Application {
 
