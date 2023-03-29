@@ -87,6 +87,7 @@ public class SavingsPlanController {
     popup.setVisible(false);
   }
 //TODO make it add a new tab with data from created object
+  //TODO try to load tab from fxml
   }
 
 
