@@ -44,8 +44,6 @@ public class BudgetController implements Initializable {
   @FXML private Button newIncomeButton;
   @FXML private Button previousButtonInBudget;
 
-  private Budget selectedBudget;
-
   private ObservableList<String> budgetInformation;
 
   public BudgetController() throws IOException {
@@ -59,10 +57,6 @@ public class BudgetController implements Initializable {
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
     this.previousButtonInBudget = new Button();
-    if (Database.getCurrentAccount().getBudgets().size() > 0) {
-      this.selectedBudget =
-          Database.getCurrentAccount().getBudgets().values().stream().toList().get(0);
-    }
     // else Database.getCurrentAccount().addBudget(new Budget("Test"));
   }
 
@@ -76,8 +70,12 @@ public class BudgetController implements Initializable {
     expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
-    expenseTableView.setItems(FXCollections.observableArrayList(selectedBudget.getExpenseList()));
-    incomeTableView.setItems(FXCollections.observableArrayList(selectedBudget.getIncomeList()));
+    expenseTableView.setItems(
+        FXCollections.observableArrayList(
+            Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
+    incomeTableView.setItems(
+        FXCollections.observableArrayList(
+            Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
   }
 
   @FXML

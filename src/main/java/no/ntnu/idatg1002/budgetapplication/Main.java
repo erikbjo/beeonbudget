@@ -14,8 +14,9 @@ import no.ntnu.idatg1002.budgetapplication.frontend.view.PrimaryView;
 public class Main {
 
   public static void main(String[] args) {
-    Account adminAccount = new Account("Admin", "admin@bob.com", "8008",
-        SecurityQuestion.FAVORITE_FOOD, "Klubb og duppe");
+    Account adminAccount =
+        new Account(
+            "Admin", "admin@bob.com", "8008", SecurityQuestion.FAVORITE_FOOD, "Klubb og duppe");
     Database.addAccount(adminAccount);
     Database.setCurrentAccount(adminAccount);
     Budget adminBudget = new Budget("testBudget");
@@ -24,9 +25,8 @@ public class Main {
     adminBudget.addBudgetIncome(new Income(500, "testdesc", RecurringType.NONRECURRING, IncomeCategory.RENTAL_INCOME));
     Database.getCurrentAccount().addBudget(adminBudget);
     System.out.println(adminAccount.getBudgets().size());
-    System.out.println(Database.getCurrentAccount().getBudgets().values().stream().toList().get(0).getIncomeList().size());
-    System.out.println(Database.getCurrentAccount().getBudgets().values().stream().toList().get(0).getExpenseList().size());
+    System.out.println(Database.getCurrentAccount().getSelectedSavingsPlan());
+    System.out.println(Database.getCurrentAccount().getSelectedBudget());
     PrimaryView.mainApp(args);
   }
-
 }
