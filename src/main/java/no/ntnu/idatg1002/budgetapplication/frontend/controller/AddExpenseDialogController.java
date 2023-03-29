@@ -16,6 +16,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class AddExpenseDialogController extends Dialog<Budget> {
 
@@ -36,9 +37,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   @FXML private ComboBox<ExpenseCategory> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
-  public AddExpenseDialogController() {
-
-  }
+  public AddExpenseDialogController() {}
 
   private boolean assertAllFieldsValid() {
     return (expenseDescriptionField.getText() != null
@@ -48,7 +47,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   }
 
   @FXML
-  void onSubmitExpenseDialog(ActionEvent event) {
+  void onSubmitExpenseDialog(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
       Expense newExpense =
           new Expense(
@@ -57,14 +56,17 @@ public class AddExpenseDialogController extends Dialog<Budget> {
               recurringIntervalComboBox.getValue(),
               categoryComboBox.getValue());
 
+      Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
       // for testing
       System.out.println("Created new object: " + newExpense);
+
+      switchToPreviousFromAddExpenseDialog(event);
     }
   }
 
   @FXML
   void switchToPreviousFromAddExpenseDialog(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
