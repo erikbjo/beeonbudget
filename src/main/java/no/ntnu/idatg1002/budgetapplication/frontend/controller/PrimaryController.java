@@ -78,8 +78,8 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
 
   public void updateDynamicLabels() {
     usernameLabel.setText(Database.getCurrentAccount().getName());
-    //menuPaneLabel1.setText("used");
-    //menuPaneLabel2.setText("left");
+    // menuPaneLabel1.setText("used");
+    // menuPaneLabel2.setText("left");
   }
 
   @Override
