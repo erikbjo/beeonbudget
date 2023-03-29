@@ -4,20 +4,28 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
-<?import javafx.scene.effect.Glow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="373.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
+<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
    <children>
-      <Pane fx:id="headerPane" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane style="-fx-background-color: #f3e60c;" AnchorPane.bottomAnchor="255.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label layoutX="57.0" layoutY="27.0" text="Bee On Budget" wrapText="true">
+            <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="581.0" layoutY="29.0" prefHeight="17.0" prefWidth="120.0" text="username" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="0.33333333333337123">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="43.0" fitWidth="38.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../images/simpleLogoBoYOnlyOutline.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="55.0" layoutY="38.0" text="Bee On Budget" wrapText="true" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="526.0">
                <font>
                   <Font name="Segoe UI Bold" size="17.0" />
                </font>
@@ -25,25 +33,14 @@
                   <Blend />
                </effect>
             </Label>
-            <ImageView fitHeight="43.0" fitWidth="38.0" layoutX="14.0" layoutY="17.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/simpleLogoBoYOnlyOutline.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="16.0" layoutY="90.0" text="MENU">
+            <Label layoutY="92.0" text="MENU" AnchorPane.leftAnchor="0.0">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="usernameLabel" layoutX="624.0" layoutY="52.0" text="username">
-               <font>
-                  <Font name="System Bold" size="12.0" />
-               </font></Label>
          </children>
-         <effect>
-            <Glow />
-         </effect></Pane>
-      <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" prefHeight="288.0" prefWidth="465.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="87.0">
+      </AnchorPane>
+      <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="87.0">
          <children>
             <Label fx:id="menuPaneLabel1" layoutX="39.0" layoutY="190.0" prefHeight="44.0" prefWidth="111.0" text="Used: N/A" wrapText="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="304.0">
                <effect>
@@ -61,7 +58,7 @@
                   <Font name="Segoe UI Bold" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="budgetLabel" layoutX="210.0" layoutY="53.0" minWidth="-Infinity" text="Budget: N/A" AnchorPane.leftAnchor="183.33333333333331" AnchorPane.rightAnchor="210.33333333333337" AnchorPane.topAnchor="53.0">
+            <Label fx:id="budgetLabel" alignment="TOP_CENTER" focusTraversable="false" layoutX="197.0" layoutY="51.0" minWidth="-Infinity" text="Budget: N/A" textAlignment="CENTER" AnchorPane.bottomAnchor="217.00000000000003" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="195.66666666666669" AnchorPane.topAnchor="51.000000000000014">
                <font>
                   <Font name="System Bold" size="12.0" />
                </font>
