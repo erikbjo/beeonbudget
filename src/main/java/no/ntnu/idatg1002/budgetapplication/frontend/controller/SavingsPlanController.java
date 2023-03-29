@@ -45,6 +45,7 @@ public class SavingsPlanController {
     scene = new Scene(root);
     scene.getStylesheets().add(css);
     stage.setScene(scene);
+    stage.setMaximized(true);
     stage.show();
   }
 

@@ -86,6 +86,7 @@ public class BudgetController implements Initializable {
     scene = new Scene(root);
     scene.getStylesheets().add(css);
     stage.setScene(scene);
+    stage.setMaximized(true);
     stage.show();
   }
 
@@ -96,6 +97,7 @@ public class BudgetController implements Initializable {
     scene = new Scene(root);
     scene.getStylesheets().add(css);
     stage.setScene(scene);
+    stage.setMaximized(true);
     stage.show();
   }
 
