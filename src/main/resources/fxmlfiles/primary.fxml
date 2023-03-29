@@ -20,7 +20,7 @@
 
 <AnchorPane prefHeight="373.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
    <children>
-      <Pane fx:id="headerPane" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;">
+      <Pane fx:id="headerPane" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label layoutX="57.0" layoutY="27.0" text="Bee On Budget" wrapText="true">
                <font>
@@ -39,9 +39,9 @@
          <effect>
             <Glow />
          </effect></Pane>
-      <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" prefHeight="244.0" prefWidth="452.0">
+      <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" prefHeight="244.0" prefWidth="452.0" AnchorPane.bottomAnchor="45.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="12.0" AnchorPane.topAnchor="87.0">
          <children>
-            <Label fx:id="menuPaneLable1" layoutX="36.0" layoutY="202.0" text="Used: 200 kr" wrapText="true">
+            <Label fx:id="menuPaneLable1" layoutX="36.0" layoutY="202.0" text="Used: 200 kr" wrapText="true" AnchorPane.bottomAnchor="17.0" AnchorPane.leftAnchor="36.0" AnchorPane.rightAnchor="316.0" AnchorPane.topAnchor="202.0">
                <effect>
                   <Bloom threshold="0.9" />
                </effect>
@@ -49,7 +49,7 @@
                   <Font name="Segoe UI Bold" size="17.0" />
                </font>
             </Label>
-            <Label fx:id="menuPaneLable2" layoutX="297.0" layoutY="202.0" text="Left: 8600 kr" wrapText="true">
+            <Label fx:id="menuPaneLable2" layoutX="328.0" layoutY="202.0" text="Left: 8600 kr" wrapText="true" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="202.0">
                <effect>
                   <Bloom threshold="0.9" />
                </effect>
@@ -57,13 +57,12 @@
                   <Font name="Segoe UI Bold" size="17.0" />
                </font>
             </Label>
-            <PieChart fx:id="totalBudgetpiChar" layoutX="92.0" prefHeight="197.0" prefWidth="236.0" title="This Month" />
+            <PieChart fx:id="totalBudgetpiChar" layoutX="92.0" prefHeight="197.0" prefWidth="236.0" title="This Month" AnchorPane.bottomAnchor="44.0" AnchorPane.leftAnchor="92.0" AnchorPane.rightAnchor="124.0" AnchorPane.topAnchor="0.0" />
          </children>
       </AnchorPane>
-      <Button fx:id="budgetButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="241.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="236.0" text="Budget" />
-      <Button fx:id="addExpenseButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="177.0" mnemonicParsing="false" onAction="#onAddExpense" prefHeight="64.0" prefWidth="236.0" text="Add Expenses" />
-      <Button fx:id="savingsPlanButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="131.0" mnemonicParsing="false" onAction="#switchToSavingPlan" prefHeight="43.0" prefWidth="236.0" text="Savings Plan" />
-      <Button fx:id="addIncomeButton" focusTraversable="false" layoutY="286.0" mnemonicParsing="false" onAction="#onAddIncome" prefHeight="47.0" prefWidth="236.0" text="Add Income" />
-      <AnchorPane fx:id="BottomPane" layoutY="338.0" prefHeight="38.0" prefWidth="700.0" />
+      <Button fx:id="addExpenseButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="187.0" mnemonicParsing="false" onAction="#onAddExpense" prefHeight="64.0" prefWidth="236.0" text="Add Expenses" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="187.0" />
+      <Button fx:id="savingsPlanButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="132.0" mnemonicParsing="false" onAction="#switchToSavingPlan" prefHeight="43.0" prefWidth="236.0" text="Savings Plan" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="132.0" />
+      <Button fx:id="addIncomeButton" focusTraversable="false" layoutY="312.0" mnemonicParsing="false" onAction="#onAddIncome" prefHeight="47.0" prefWidth="236.0" text="Add Income" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="312.0" />
+      <Button fx:id="budgetButton" contentDisplay="TEXT_ONLY" focusTraversable="false" layoutY="261.0" mnemonicParsing="false" onAction="#switchToBudget" prefHeight="43.0" prefWidth="236.0" text="Budget" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="261.0" />
    </children>
 </AnchorPane>

@@ -20,7 +20,6 @@ public class PrimaryView extends Application {
     primaryStage.getIcons().add(new Image(
         getClass().getResource("/images/simpleLogoBoY.png").openStream()));
     primaryStage.setScene(scene);
-
     primaryStage.show();
   }
 
