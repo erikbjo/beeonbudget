@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.beans.property.ReadOnlyListProperty;
@@ -75,6 +76,10 @@ public class BudgetController implements Initializable{
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
     this.previousButtonInBudget = new Button();
+    if (Database.getCurrentAccount().getBudgets().size() > 0) {
+      this.selectedBudget = Database.getCurrentAccount().getBudgets().values().
+          stream().toList().get(0);
+    }
   }
 
   @Override
