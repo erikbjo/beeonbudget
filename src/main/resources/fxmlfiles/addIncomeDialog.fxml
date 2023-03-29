@@ -12,7 +12,6 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-
 <AnchorPane prefHeight="300.0" prefWidth="200.0" stylesheets="@../cssfiles/primary.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.AddIncomeDialogController">
    <children>
       <GridPane layoutX="-14.0" layoutY="40.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -28,8 +27,8 @@
          <children>
             <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                <children>
-                  <Button fx:id="addIncomeButton" focusTraversable="false" mnemonicParsing="false" onAction="#onAddIncome" text="Add" />
-                  <Button fx:id="cancelButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddIncomeDialog" text="Cancel" />
+                  <Button fx:id="submitIncomeButton" focusTraversable="false" mnemonicParsing="false" onAction="#onSubmitIncomeDialog" text="Submit" />
+                  <Button fx:id="cancelIncomeDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddIncomeDialog" text="Cancel" />
                </children>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -38,7 +37,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0">
                <children>
                   <Label text="Income amount" />
-                  <TextField fx:id="incomeAmount" />
+                  <TextField fx:id="incomeAmountField" />
                </children>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -47,7 +46,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
                <children>
                   <Label text="Description" />
-                  <TextField fx:id="incomeDescription" />
+                  <TextField fx:id="incomeDescriptionField" />
                </children>
                <GridPane.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

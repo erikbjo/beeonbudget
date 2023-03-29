@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="300.0" prefWidth="200.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.AddExpenseDialogController">
+<AnchorPane prefHeight="300.0" prefWidth="200.0" stylesheets="@../cssfiles/primary.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.AddExpenseDialogController">
     <children>
         <GridPane layoutX="-14.0" layoutY="40.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <columnConstraints>
@@ -28,8 +28,8 @@
             <children>
                 <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.halignment="CENTER" GridPane.rowIndex="4" GridPane.valignment="CENTER">
                     <children>
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#onAddExpense" text="Add" />
-                        <Button focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" text="Cancel" />
+                        <Button fx:id="submitExpenseDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#onSubmitExpenseDialog" text="Submit" />
+                        <Button fx:id="cancelExpenseDialogButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" text="Cancel" />
                     </children>
                     <GridPane.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
