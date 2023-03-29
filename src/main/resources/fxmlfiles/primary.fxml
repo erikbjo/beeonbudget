@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
 <?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
@@ -13,6 +12,7 @@
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
 <AnchorPane prefHeight="373.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
    <children>
       <Pane fx:id="headerPane" prefHeight="120.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
