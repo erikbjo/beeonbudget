@@ -26,8 +26,10 @@ public class AddIncomeDialogController extends Dialog<Budget> {
 
   @FXML private Button cancelIncomeDialogButton;
   @FXML private Button submitIncomeButton;
-  @FXML private TextField incomeAmountField;
-  @FXML private TextField incomeDescriptionField;
+  @FXML // fx:id="incomeAmountField"
+  private TextField incomeAmountField; // Value injected by FXMLLoader
+  @FXML // fx:id="incomeDescriptionField"
+  private TextField incomeDescriptionField; // Value injected by FXMLLoader
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
   public AddIncomeDialogController() throws IOException {

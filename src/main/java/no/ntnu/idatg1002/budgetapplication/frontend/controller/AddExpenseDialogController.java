@@ -28,11 +28,14 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   private Scene scene;
 
   @FXML private Button cancelExpenseDialogButton;
-  @FXML private Button submitExpenseDialogButton;
 
-  @FXML private TextField expenseAmount;
+  @FXML // fx:id="submitExpenseDialogButton"
+  private Button submitExpenseDialogButton; // Value injected by FXMLLoader
+  @FXML // fx:id="expenseAmountField"
+  private TextField expenseAmountField; // Value injected by FXMLLoader
 
-  @FXML private TextField expenseDescription;
+  @FXML // fx:id="expenseDescriptionField"
+  private TextField expenseDescriptionField; // Value injected by FXMLLoader
 
   @FXML private ComboBox<Category> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
@@ -50,8 +53,8 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   void onSubmitExpenseDialog(ActionEvent event) {
     Expense newExpense =
         new Expense(
-            Integer.parseInt(expenseAmount.getText()),
-            expenseDescription.getText(),
+            Integer.parseInt(expenseAmountField.getText()),
+            expenseDescriptionField.getText(),
             recurringIntervalComboBox.getValue(),
             categoryComboBox.getValue());
 
@@ -76,9 +79,9 @@ public class AddExpenseDialogController extends Dialog<Budget> {
         : "fx:id=\"cancelExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert categoryComboBox != null
         : "fx:id=\"categoryComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
-    assert expenseAmount != null
+    assert expenseAmountField != null
         : "fx:id=\"expenseAmount\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
-    assert expenseDescription != null
+    assert expenseDescriptionField != null
         : "fx:id=\"expenseDescription\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert recurringIntervalComboBox != null
         : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
