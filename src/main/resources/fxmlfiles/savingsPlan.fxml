@@ -12,7 +12,6 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
                 <Button fx:id="newSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#onNewSavingsPlan" text="New Savings Plan" />
-                  <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />
                   <Button fx:id="delete" focusTraversable="false" mnemonicParsing="false" text="Delete" />
                   <Button fx:id="previousButtonInSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPrimaryFromSavingPlan" prefHeight="26.0" prefWidth="43.0" text="Return" />
               </buttons>
@@ -47,8 +46,11 @@
                                  <right>
                                     <VBox prefHeight="239.0" prefWidth="132.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label fx:id="estimateLabelMoney" prefHeight="34.0" prefWidth="132.0" text="You need to save x &#10;per month" />
-                                          <Label fx:id="estimateLabelMonths" prefHeight="34.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <Label fx:id="estimateLabelMoney" prefHeight="96.0" prefWidth="132.0" text="You need to save x &#10;per month" />
+                                          <Label fx:id="estimateLabelMonths" prefHeight="100.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <TextField fx:id="depositInput" text="1" />
+                                          <Button fx:id="deposit" mnemonicParsing="false" onAction="#onDeposit" text="Deposit savings" />
+                                          <Button fx:id="edit" focusTraversable="false" mnemonicParsing="false" onAction="#onEdit" text="Edit" />
                                        </children>
                                     </VBox>
                                  </right>

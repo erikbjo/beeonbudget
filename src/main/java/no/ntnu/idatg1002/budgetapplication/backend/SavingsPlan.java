@@ -12,6 +12,7 @@ public class SavingsPlan {
   private int totalSaved;
   private int wantedSavingTime;
   private int wantedMonthlySavingAmount;
+  private int deposit;
 
   /**
    * Instantiates a new Savings plan.
@@ -166,5 +167,23 @@ public class SavingsPlan {
    */
   public int getEstimatedMonthlySavingAmount() {
     return totalGoalAmount / wantedSavingTime;
+  }
+
+  /**
+   * Sets the deposit.
+   *
+   * @param deposit money deposited into savings.
+   */
+  public void setDeposit(int deposit) {
+    this.deposit = deposit;
+  }
+
+  /**
+   * Adds the previous savings and the deposit. Resets deposit to 0.
+   */
+  public void addSavings() {
+    int newSavings = getTotalSaved() + deposit;
+    setTotalSaved(newSavings);
+    setDeposit(0);
   }
 }

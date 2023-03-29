@@ -27,6 +27,8 @@ public class SavingsPlanController {
   @FXML DialogPane popup;
   @FXML Label goalName;
   @FXML TabPane tabPane;
+  @FXML TextField depositInput;
+  @FXML Button deposit;
   private SavingsPlan example = new SavingsPlan("example", 100, 1);
 
 
@@ -53,8 +55,14 @@ public class SavingsPlanController {
   }
 
   public void onNewSavingsPlan(){
+    int index = tabPane.getTabs().indexOf(tabPane.getSelectionModel().getSelectedItem());
     Tab newTab = new Tab();
     tabPane.getTabs().add(newTab);
+  }
+
+  public void onDeposit(){
+    example.setDeposit(Integer.parseInt(depositInput.getText()));
+    example.addSavings();
   }
 
 
