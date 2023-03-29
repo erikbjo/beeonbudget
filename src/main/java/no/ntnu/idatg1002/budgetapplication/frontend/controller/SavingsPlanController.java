@@ -19,6 +19,8 @@ public class SavingsPlanController {
   private PrimaryController primaryController;
   @FXML TextField name;
   @FXML TextField totAmount;
+  @FXML Label estimateLabelMoney;
+  @FXML Label estimateLabelMonths;
   @FXML TextField savAmount;
   @FXML TextField estimateMonths;
   @FXML TextField estimateMoney;
@@ -39,11 +41,14 @@ public class SavingsPlanController {
     scene = new Scene(root);
     stage.setScene(scene);
     stage.show();
-    start();
   }
 
   public void start(){
-    goalName.setText(example.getGoalName()); //TODO make it so that the text displayed on the tabs is taken from correct object
+    goalName.setText(example.getGoalName());
+
+
+
+    //TODO make it so that the text displayed on the tabs is taken from correct object
   }
 
 

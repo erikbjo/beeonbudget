@@ -12,7 +12,7 @@
             <ButtonBar prefHeight="40.0" prefWidth="200.0" BorderPane.alignment="CENTER">
               <buttons>
                 <Button fx:id="newSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#onNewSavingsPlan" text="New Savings Plan" />
-                  <Button fx:id="rename" focusTraversable="false" mnemonicParsing="false" text="Rename" />
+                  <Button fx:id="rename" focusTraversable="false" mnemonicParsing="false" text="Edit" />
                   <Button fx:id="delete" focusTraversable="false" mnemonicParsing="false" text="Delete" />
                   <Button fx:id="previousButtonInSavingsPlan" focusTraversable="false" mnemonicParsing="false" onAction="#switchToPrimaryFromSavingPlan" prefHeight="26.0" prefWidth="43.0" text="Return" />
               </buttons>
@@ -47,8 +47,8 @@
                                  <right>
                                     <VBox prefHeight="239.0" prefWidth="132.0" BorderPane.alignment="CENTER">
                                        <children>
-                                          <Label prefHeight="34.0" prefWidth="132.0" text="You need to save x &#10;per month" />
-                                          <Label prefHeight="34.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
+                                          <Label fx:id="estimateLabelMoney" prefHeight="34.0" prefWidth="132.0" text="You need to save x &#10;per month" />
+                                          <Label fx:id="estimateLabelMonths" prefHeight="34.0" prefWidth="132.0" text="You will be saving &#10;for y months" />
                                        </children>
                                     </VBox>
                                  </right>
