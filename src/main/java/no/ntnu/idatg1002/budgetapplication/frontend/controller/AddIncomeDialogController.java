@@ -90,5 +90,15 @@ public class AddIncomeDialogController extends Dialog<Budget> {
                 incomeAmountField.setText(newValue.replaceAll("[^\\d]", ""));
               }
             });
+
+    // force the field to not start with space
+    incomeDescriptionField
+        .textProperty()
+        .addListener(
+            (observable, oldValue, newValue) -> {
+              if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                incomeDescriptionField.clear();
+              }
+            });
   }
 }

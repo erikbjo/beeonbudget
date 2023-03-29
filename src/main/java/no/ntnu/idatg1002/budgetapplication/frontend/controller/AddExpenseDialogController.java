@@ -88,7 +88,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
     assert submitExpenseDialogButton != null
         : "fx:id=\"submitExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
 
-    // adds enums to comboboxes
+    // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(Category.values());
 
