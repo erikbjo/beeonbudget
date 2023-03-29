@@ -35,9 +35,14 @@ public class BudgetController implements Initializable{
   private Parent parent;
   private final PrimaryController primaryController;
   @FXML
-  private TableView<Income> incomeTableView;
+  private TableView<String> expenseTableView;
+
   @FXML
-  private TableView<Expense> expenseTableView;
+  private TableView<String> incomeTableView;
+  @FXML
+  private TableColumn<String, Category> incomeCategoryColumn;
+  @FXML
+  private TableColumn<String, Category> expenseCategoryColumn;
   @FXML
   private TableColumn<Expense, Category> expenseCategoryColumn;
   @FXML
