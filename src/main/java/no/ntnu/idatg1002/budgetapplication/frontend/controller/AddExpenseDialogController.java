@@ -36,13 +36,8 @@ public class AddExpenseDialogController extends Dialog<Budget> {
   @FXML private ComboBox<ExpenseCategory> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
-  public AddExpenseDialogController() throws IOException {
-    super();
+  public AddExpenseDialogController() {
 
-    savingsPlanController = new SavingsPlanController();
-
-    recurringIntervalComboBox = new ComboBox<>();
-    categoryComboBox = new ComboBox<>();
   }
 
   private boolean assertAllFieldsValid() {

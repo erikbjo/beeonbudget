@@ -1,0 +1,26 @@
+.button:hover,
+.button:focused {
+  -fx-outline: 0px;
+  -fx-background-color: #cbbf0e;
+  -fx-text-fill: black;
+  -fx-effect: innershadow(one-pass-box, rgba(0,0,0,2.8), 10, 0, 0, 0);
+}
+
+.button {
+  -fx-border-radius: 12px;
+  -fx-text-fill: black;
+  -fx-cursor: pointer;
+  -fx-font-weight: bold;
+  -fx-padding: 5px 8px;
+  -fx-text-align: center;
+  -fx-transition: 200ms;
+  -fx-width: 100%;
+  -fx-box-sizing: border-box;
+  -fx-border: 0px;
+  -fx-font-size: 16px;
+  -fx-touch-action: manipulation;
+}
+
+.Text {
+  -fx-text-fill: rgb(255, 0, 0);
+}
