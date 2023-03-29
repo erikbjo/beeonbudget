@@ -5,7 +5,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.stage.Popup;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -21,8 +20,11 @@ public class SavingsPlanController {
   @FXML TextField name;
   @FXML TextField totAmount;
   @FXML TextField savAmount;
+  @FXML TextField estimateMonths;
+  @FXML TextField estimateMoney;
   @FXML DialogPane popup;
   @FXML Label goalName;
+  @FXML TabPane tabPane;
   private SavingsPlan example = new SavingsPlan("example", 100, 1);
 
 
@@ -54,14 +56,20 @@ public class SavingsPlanController {
     String goalName = name.getText();
     int totalGoalAmount = Integer.parseInt(totAmount.getText());
     int savedAmount = Integer.parseInt(savAmount.getText());
+    int estMonths = Integer.parseInt(estimateMonths.getText());
+    int estMoney = Integer.parseInt(estimateMoney.getText());
     SavingsPlan plan = new SavingsPlan(goalName, totalGoalAmount, savedAmount);
+    plan.setWantedMonthlySavingAmount(estMoney);
+    plan.setWantedSavingTime(estMonths);
+    int savingAmount = plan.getEstimatedMonthlySavingAmount();
+    int savingTime = plan.getEstimatedSavingTime();
     popup.setVisible(false);
   }
-
-  public void onEstimateMonths(){ //TODO move estimate inputs to popup window and only display results
+  //TODO move estimate inputs to popup window and only display results
 
   }
 
 
 
-}
+
+
