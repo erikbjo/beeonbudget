@@ -50,7 +50,7 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   public void onAddIncome(ActionEvent event) throws IOException {
 
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
-    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
+    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
@@ -60,7 +60,7 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
 
   public void onAddExpense(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
-    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
+    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
