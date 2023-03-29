@@ -43,8 +43,6 @@ public class PrimaryController extends Dialog<Budget> {
   private ButtonType addButtonType;
   private ComboBox<RecurringType> recurringTypeComboBox;
   private ComboBox<Category> categoryComboBox;
-  @FXML
-  private Event event;
 
   public PrimaryController() throws IOException {
     super();
@@ -108,7 +106,7 @@ public class PrimaryController extends Dialog<Budget> {
     stage.show();
   }
 
-  public void onAddIncome() throws IOException {
+  public void onAddIncome(ActionEvent event) throws IOException {
     /*
     Dialog<Budget> incomeDialog = new Dialog<>();
     incomeDialog.setTitle("Add Income");
