@@ -297,15 +297,19 @@ public class Account {
     return selectedBudget;
   }
 
-  public void selectNextBudget() {
+  public void selectNextBudget() throws IndexOutOfBoundsException {
     if (budgets.size() > budgets.indexOf(selectedBudget)) {
       selectedBudget = budgets.get(budgets.indexOf(selectedBudget) + 1);
+    } else {
+      throw new IndexOutOfBoundsException();
     }
   }
 
-  public void selectPreviousBudget() {
+  public void selectPreviousBudget() throws IndexOutOfBoundsException {
     if (budgets.indexOf(selectedBudget) > 0) {
       selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
+    } else {
+      throw new IndexOutOfBoundsException();
     }
   }
 
@@ -319,15 +323,19 @@ public class Account {
     return selectedSavingsPlan;
   }
 
-  public void selectNextSavingsPlan() {
+  public void selectNextSavingsPlan() throws IndexOutOfBoundsException {
     if (savingsPlans.size() > savingsPlans.indexOf(selectedSavingsPlan)) {
       selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) + 1);
+    } else {
+      throw new IndexOutOfBoundsException();
     }
   }
 
-  public void selectPreviousSavingsPlan() {
+  public void selectPreviousSavingsPlan() throws IndexOutOfBoundsException {
     if (savingsPlans.indexOf(selectedSavingsPlan) > 0) {
       selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
+    } else {
+      throw new IndexOutOfBoundsException();
     }
   }
 

@@ -27,7 +27,8 @@ class AccountTest {
     account = new Account("Test", "test@test.com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
 
     budget = new Budget("Test budget");
-    income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE_INCOME);
+    income =
+        new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE_INCOME);
     expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
@@ -284,6 +285,96 @@ class AccountTest {
       assertEquals("ID-", account.getAccountNumber().substring(0, 3));
       assertEquals(17, account.getAccountNumber().length());
     }
+  }
+
+  @Test
+  void testThatSelectedBudgetIsInitializedCorrectly() {
+    account.addBudget(budget);
+    assertEquals(budget, account.getSelectedBudget());
+  }
+
+  @Test
+  void testThatSelectedBudgetCanBeIncremented() {
+    account.addBudget(budget);
+    account.addBudget(new Budget("Test budget 2"));
+    account.selectNextBudget();
+    assertEquals(account.getSelectedBudget().getBudgetName(), "Test budget 2");
+  }
+
+  @Test
+  void testThatSelectedBudgetCanBeIncrementedNegative() {
+    account.addBudget(budget);
+    account.addBudget(new Budget("Test budget 2"));
+    account.selectNextBudget();
+
+    Exception thrown =
+        assertThrows(IndexOutOfBoundsException.class, () -> account.selectNextBudget());
+
+    assertEquals(account.getSelectedBudget().getBudgetName(), "Test budget 2");
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanCanBeIncremented() {
+    account.addSavingsPlan(savingsPlan);
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2", 50, 50));
+    account.selectNextSavingsPlan();
+    assertEquals(account.getSelectedSavingsPlan().getGoalName(), "Test savingsplan 2");
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanCanBeIncrementedNegative() {
+    account.addSavingsPlan(savingsPlan);
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2", 50, 50));
+    account.selectNextSavingsPlan();
+
+    Exception thrown =
+        assertThrows(IndexOutOfBoundsException.class, () -> account.selectNextSavingsPlan());
+
+    assertEquals(account.getSelectedSavingsPlan().getGoalName(), "Test savingsplan 2");
+  }
+
+  @Test
+  void testThatSelectedBudgetCanBeDecreased() {
+    account.addBudget(budget);
+    account.addBudget(new Budget("Test budget 2"));
+    account.selectNextBudget();
+    account.selectPreviousBudget();
+    assertEquals(account.getSelectedBudget().getBudgetName(), "Test budget");
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanCanBeDecreased() {
+    account.addSavingsPlan(savingsPlan);
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2", 50, 50));
+    account.selectNextSavingsPlan();
+    account.selectPreviousSavingsPlan();
+    assertEquals(account.getSelectedSavingsPlan().getGoalName(), savingsPlan.getGoalName());
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanCanBeDecreasedNegative() {
+    account.addSavingsPlan(savingsPlan);
+
+    Exception thrown =
+        assertThrows(IndexOutOfBoundsException.class, () -> account.selectPreviousSavingsPlan());
+
+    assertEquals(account.getSelectedSavingsPlan().getGoalName(), savingsPlan.getGoalName());
+  }
+
+  @Test
+  void testThatSelectedBudgetCanBeDecreasedNegative() {
+    account.addBudget(budget);
+
+    Exception thrown =
+        assertThrows(IndexOutOfBoundsException.class, () -> account.selectPreviousBudget());
+
+    assertEquals(account.getSelectedBudget().getBudgetName(), budget.getBudgetName());
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanIsInitializedCorrectly() {
+    account.addSavingsPlan(savingsPlan);
+    assertEquals(savingsPlan, account.getSelectedSavingsPlan());
   }
 
   @Test
