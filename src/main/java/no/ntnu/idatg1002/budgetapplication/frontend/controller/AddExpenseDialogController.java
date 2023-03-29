@@ -56,11 +56,7 @@ public class AddExpenseDialogController extends Dialog<Budget> {
             categoryComboBox.getValue());
 
     // for testing
-    System.out.println(
-        newExpense.getAmount()
-            + newExpense.getDescription()
-            + newExpense.getType()
-            + newExpense.getCategory());
+    System.out.println("Created new object: " + newExpense);
   }
 
   @FXML

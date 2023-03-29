@@ -95,4 +95,14 @@ public abstract class MoneyAction {
   public void setType(RecurringType type) {
     this.type = type;
   }
+
+  @Override
+  public String toString() {
+    return "amount:"
+        + this.getAmount()
+        + ", description:"
+        + this.getDescription()
+        + ", recurring:"
+        + this.getType();
+  }
 }

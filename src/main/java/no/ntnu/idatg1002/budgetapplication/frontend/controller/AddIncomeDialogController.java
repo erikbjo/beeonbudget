@@ -47,7 +47,7 @@ public class AddIncomeDialogController extends Dialog<Budget> {
             recurringIntervalComboBox.getValue());
 
     // for testing
-    System.out.println(newIncome.getAmount() + newIncome.getDescription() + newIncome.getType());
+    System.out.println("Created new object: " + newIncome);
   }
 
   @FXML
