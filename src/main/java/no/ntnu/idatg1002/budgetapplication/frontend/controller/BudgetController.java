@@ -28,7 +28,7 @@ public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
   private Parent parent;
-  private final PrimaryController primaryController;
+  private final PrimaryController primaryController = new PrimaryController();
 
   private final AddExpenseDialogController addExpenseDialogController;
 
@@ -47,7 +47,6 @@ public class BudgetController implements Initializable {
   private ObservableList<String> budgetInformation;
 
   public BudgetController() throws IOException {
-    this.primaryController = new PrimaryController();
     this.addExpenseDialogController = new AddExpenseDialogController();
     this.addIncomeDialogController = new AddIncomeDialogController();
     this.budgetInformation = FXCollections.observableArrayList("assffsa");
@@ -104,7 +103,7 @@ public class BudgetController implements Initializable {
   @FXML
   public void onNewIncome(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
-    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    String css = getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
@@ -115,7 +114,7 @@ public class BudgetController implements Initializable {
   @FXML
   public void onNewExpense(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
-    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    String css = getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
