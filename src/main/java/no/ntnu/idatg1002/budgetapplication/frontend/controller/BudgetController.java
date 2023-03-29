@@ -25,6 +25,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import javax.swing.text.TabableView;
@@ -89,6 +90,15 @@ public class BudgetController implements Initializable{
   }
   @FXML
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
+    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
+    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    scene = new Scene(root);
+    scene.getStylesheets().add(css);
+    stage.setScene(scene);
+    stage.show();
+  }
+  public void switchToPrimaryFromBudgetMouseEvent(MouseEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();

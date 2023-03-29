@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="300.0" prefWidth="200.0" stylesheets="@../cssfiles/primary.css"
+            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.AddExpenseDialogController">
+    <children>
+        <GridPane layoutX="-14.0" layoutY="40.0" prefHeight="300.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0"
+                  AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <HBox prefHeight="100.0" prefWidth="200.0" spacing="10.0" GridPane.halignment="CENTER"
+                      GridPane.rowIndex="4" GridPane.valignment="CENTER">
+                    <children>
+                        <Button mnemonicParsing="false" onAction="#onAddExpense" text="Add"/>
+                        <Button mnemonicParsing="false" onAction="#switchToPreviousFromAddExpenseDialog" text="Cancel"/>
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </GridPane.margin>
+                </HBox>
+                <VBox prefHeight="200.0" prefWidth="100.0">
+                    <children>
+                        <Label text="Expense amount"/>
+                        <TextField fx:id="expenseAmount"/>
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </GridPane.margin>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="1">
+                    <children>
+                        <Label text="Description"/>
+                        <TextField fx:id="expenseDescription"/>
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </GridPane.margin>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="2">
+                    <children>
+                        <Label text="Recurring interval"/>
+                        <ComboBox fx:id="recurringIntervalComboBox" prefWidth="150.0"/>
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </GridPane.margin>
+                </VBox>
+                <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="3">
+                    <children>
+                        <Label text="Category"/>
+                        <ComboBox fx:id="categoryComboBox" prefWidth="150.0"/>
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="10.0" left="10.0" right="10.0" top="10.0"/>
+                    </GridPane.margin>
+                </VBox>
+            </children>
+        </GridPane>
+    </children>
+</AnchorPane>
