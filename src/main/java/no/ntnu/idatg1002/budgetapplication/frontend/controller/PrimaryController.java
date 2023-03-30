@@ -84,9 +84,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
         Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
     usernameLabel.setText(Database.getCurrentAccount().getName());
     menuPaneLabel1.setText(String.format("Remaining: %dkr",
-        Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
-    menuPaneLabel2.setText(String.format("Budget spent: %dkr",
         Database.getCurrentAccount().getSelectedBudget().getNetBalance()));
+    menuPaneLabel2.setText(String.format("Budget spent: %dkr",
+        Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
   }
 
   @Override
