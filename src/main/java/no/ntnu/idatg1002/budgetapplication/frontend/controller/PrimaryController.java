@@ -31,10 +31,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
 
   private Stage stage;
   private Scene scene;
+  private Scene previousScene;
 
-  public PrimaryController() throws IOException {
-
-  }
+  public PrimaryController() throws IOException {}
 
   public void switchToBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
@@ -48,8 +47,13 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   }
 
   public void onAddIncome(ActionEvent event) throws IOException {
+    previousScene = ((Node) event.getSource()).getScene();
 
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
+    Parent root = loader.load();
+    AddIncomeDialogController controller = loader.getController();
+    controller.setPreviousScene(previousScene);
+
     String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
@@ -59,7 +63,13 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   }
 
   public void onAddExpense(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
+    previousScene = ((Node) event.getSource()).getScene();
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
+    Parent root = loader.load();
+    AddExpenseDialogController controller = loader.getController();
+    controller.setPreviousScene(previousScene);
+
     String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
@@ -80,13 +90,17 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   }
 
   public void updateDynamicLabels() {
-    budgetLabel.setText(String.format("Budget: %s",
-        Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
+    budgetLabel.setText(
+        String.format(
+            "Budget: %s", Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
     usernameLabel.setText(Database.getCurrentAccount().getName());
-    menuPaneLabel1.setText(String.format("Remaining: %dkr",
-        Database.getCurrentAccount().getSelectedBudget().getNetBalance()));
-    menuPaneLabel2.setText(String.format("Budget spent: %dkr",
-        Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
+    menuPaneLabel1.setText(
+        String.format(
+            "Remaining: %dkr", Database.getCurrentAccount().getSelectedBudget().getNetBalance()));
+    menuPaneLabel2.setText(
+        String.format(
+            "Budget spent: %dkr",
+            Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
   }
 
   @Override

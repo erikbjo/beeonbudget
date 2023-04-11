@@ -62,13 +62,15 @@ public class AddIncomeDialogController extends Dialog<Budget> {
 
   @FXML
   void switchToPreviousFromAddIncomeDialog(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
-    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    stage.setScene(scene);
-    scene.getStylesheets().add(css);
+    stage.setScene(previousScene);
     stage.show();
+  }
+
+  private Scene previousScene;
+
+  public void setPreviousScene(Scene scene) {
+    this.previousScene = scene;
   }
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
