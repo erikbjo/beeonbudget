@@ -13,6 +13,8 @@ public class Database {
   private static ArrayList<String> emails = new ArrayList<>();
   private static Account currentAccount;
 
+  private Database() {}
+
   /**
    * Returns a Map of all the accounts in the database.
    *
@@ -37,9 +39,8 @@ public class Database {
    * an account with the same AccountNumber exists then it will not be added.
    *
    * @param account the account to be added to the database.
-   * @throws IllegalArgumentException "Instance of account already exists." if an instance of
-   *     the account already exists. "Account with the same account number already exists." if
-   *     the account number of the account is already taken.
+   * @throws IllegalArgumentException if an instance of the account already exists or
+   * if the account number of the account is already taken.
    */
   public static void addAccount(Account account) throws IllegalArgumentException {
     if (accounts.containsValue(account)) {
