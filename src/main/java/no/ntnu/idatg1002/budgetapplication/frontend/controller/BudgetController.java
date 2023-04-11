@@ -27,6 +27,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
+  private Scene previousScene;
   private Parent parent;
   private final PrimaryController primaryController = new PrimaryController();
 
@@ -102,8 +103,14 @@ public class BudgetController implements Initializable {
 
   @FXML
   public void onNewIncome(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
-    String css = getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    previousScene = ((Node) event.getSource()).getScene();
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
+    Parent root = loader.load();
+    AddIncomeDialogController controller = loader.getController();
+    controller.setPreviousScene(previousScene);
+
+    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
@@ -113,8 +120,14 @@ public class BudgetController implements Initializable {
 
   @FXML
   public void onNewExpense(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
-    String css = getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    previousScene = ((Node) event.getSource()).getScene();
+
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
+    Parent root = loader.load();
+    AddExpenseDialogController controller = loader.getController();
+    controller.setPreviousScene(previousScene);
+
+    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
