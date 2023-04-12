@@ -21,6 +21,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
+import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
 public class BudgetController implements Initializable {
   private Stage stage;
@@ -97,50 +99,8 @@ public class BudgetController implements Initializable {
 
   @FXML
   public void onNewIncome(ActionEvent event) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
-    Parent root = loader.load();
-    AddIncomeDialogController controller = loader.getController();
-
-    String css =
-        Objects.requireNonNull(this.getClass().getResource("/cssfiles/dialog.css"))
-            .toExternalForm();
-
-    // create a new dialog
-    Dialog<HashMap> dialog = new Dialog<>();
+    AddIncomeDialog dialog = new AddIncomeDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
-    dialog.setTitle("Add Income");
-
-    // set the dialog's content to the loaded FXML file
-    DialogPane dialogPane = new DialogPane();
-    dialogPane.setContent(root);
-    dialogPane.getStylesheets().add(css);
-    dialog.setDialogPane(dialogPane);
-
-    // add a "submit" button to the dialog
-    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
-
-    // set the result converter to return the values from the dialog
-    dialog.setResultConverter(
-        dialogButton -> {
-          if (dialogButton == submitButton) {
-            if (controller.assertAllFieldsValid()) {
-              HashMap values = new HashMap();
-              values.put(amountKey, controller.getIncomeAmountField());
-              values.put(descriptionKey, controller.getIncomeDescriptionField());
-              values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
-              values.put(categoryKey, controller.getIncomeCategoryComboBox());
-              return values;
-            } else {
-              Alert alert = new Alert(Alert.AlertType.ERROR);
-              alert.setTitle("Error");
-              alert.setHeaderText(null);
-              alert.setContentText("Please fill out all fields in dialog");
-              alert.showAndWait();
-            }
-          }
-          return null;
-        });
 
     // show the dialog and wait for a response
     Optional<HashMap> result = dialog.showAndWait();
@@ -159,52 +119,9 @@ public class BudgetController implements Initializable {
 
   @FXML
   public void onNewExpense(ActionEvent event) throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
-    Parent root = loader.load();
-    AddExpenseDialogController controller = loader.getController();
-
-    String css =
-        Objects.requireNonNull(this.getClass().getResource("/cssfiles/dialog.css"))
-            .toExternalForm();
-
-    // create a new dialog
-    Dialog<HashMap> dialog = new Dialog<>();
+    AddExpenseDialog dialog = new AddExpenseDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
-    dialog.setTitle("Add Expense");
 
-    // set the dialog's content to the loaded FXML file
-    DialogPane dialogPane = new DialogPane();
-    dialogPane.setContent(root);
-    dialogPane.getStylesheets().add(css);
-    dialog.setDialogPane(dialogPane);
-
-    // add a "submit" button to the dialog
-    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
-    dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
-
-    // set the result converter to return the values from the dialog
-    dialog.setResultConverter(
-        dialogButton -> {
-          if (dialogButton == submitButton) {
-            HashMap<String, Object> values = new HashMap<>();
-            if (controller.assertAllFieldsValid()) {
-              values.put(amountKey, controller.getExpenseAmountField());
-              values.put(descriptionKey, controller.getExpenseDescriptionField());
-              values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
-              values.put(categoryKey, controller.getExpenseCategoryComboBox());
-              return values;
-            } else {
-              Alert alert = new Alert(Alert.AlertType.ERROR);
-              alert.setTitle("Error");
-              alert.setHeaderText(null);
-              alert.setContentText("Please fill out all fields in dialog");
-              alert.showAndWait();
-            }
-          }
-          return null;
-        });
-
-    // show the dialog and wait for a response
     Optional<HashMap> result = dialog.showAndWait();
     if (result.isPresent() && !result.get().isEmpty()) {
       Expense newExpense =
