@@ -17,20 +17,18 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryController extends Dialog<Budget> implements Initializable {
 
-  @FXML private Label menuPaneLabel1;
-  @FXML private Label menuPaneLabel2;
-  @FXML private Label usernameLabel;
-  @FXML private Label budgetLabel;
-
-  private Stage stage;
-  private Scene scene;
-  private Scene previousScene;
-
   // Keys for hashmap
   private final String amountKey = "amount";
   private final String descriptionKey = "description";
   private final String recurringTypeKey = "recurringType";
   private final String categoryKey = "category";
+  @FXML private Label menuPaneLabel1;
+  @FXML private Label menuPaneLabel2;
+  @FXML private Label usernameLabel;
+  @FXML private Label budgetLabel;
+  private Stage stage;
+  private Scene scene;
+  private Scene previousScene;
 
   public PrimaryController() throws IOException {}
 
@@ -51,7 +49,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     Parent root = loader.load();
     AddIncomeDialogController controller = loader.getController();
 
-    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/dialog.css"))
+            .toExternalForm();
 
     // create a new dialog
     Dialog<HashMap> dialog = new Dialog<>();
@@ -68,7 +68,7 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
 
-    // set the result converter to return the budget
+    // set the result converter to return the values of the dialog
     dialog.setResultConverter(
         dialogButton -> {
           if (dialogButton == submitButton) {
@@ -79,14 +79,20 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
               values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
               values.put(categoryKey, controller.getIncomeCategoryComboBox());
               return values;
-            } else System.out.println("Please fill out all fields in dialog");
+            } else {
+              Alert alert = new Alert(Alert.AlertType.ERROR);
+              alert.setTitle("Error");
+              alert.setHeaderText(null);
+              alert.setContentText("Please fill out all fields in dialog");
+              alert.showAndWait();
+            }
           }
           return null;
         });
 
     // show the dialog and wait for a response
     Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent()) {
+    if (result.isPresent() && !result.get().isEmpty()) {
       Income newIncome =
           new Income(
               Integer.parseInt(result.get().get(amountKey).toString()),
@@ -104,7 +110,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     Parent root = loader.load();
     AddExpenseDialogController controller = loader.getController();
 
-    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/dialog.css"))
+            .toExternalForm();
 
     // create a new dialog
     Dialog<HashMap> dialog = new Dialog<>();
@@ -121,6 +129,7 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
 
+    // set the result converter to return the values of the dialog
     dialog.setResultConverter(
         dialogButton -> {
           if (dialogButton == submitButton) {
@@ -131,14 +140,20 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
               values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
               values.put(categoryKey, controller.getExpenseCategoryComboBox());
               return values;
-            } else System.out.println("Please fill out all fields in dialog");
+            } else {
+              Alert alert = new Alert(Alert.AlertType.ERROR);
+              alert.setTitle("Error");
+              alert.setHeaderText(null);
+              alert.setContentText("Please fill out all fields in dialog");
+              alert.showAndWait();
+            }
           }
           return null;
         });
 
     // show the dialog and wait for a response
     Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent()) {
+    if (result.isPresent() && !result.get().isEmpty()) {
       Expense newExpense =
           new Expense(
               Integer.parseInt(result.get().get(amountKey).toString()),
@@ -153,7 +168,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   public void switchToSavingPlan(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    String css = this.getClass().getResource("/cssfiles/savingsPlan.css").toExternalForm();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
+            .toExternalForm();
     scene = new Scene(root);
     scene.getStylesheets().add(css);
     stage.setScene(scene);

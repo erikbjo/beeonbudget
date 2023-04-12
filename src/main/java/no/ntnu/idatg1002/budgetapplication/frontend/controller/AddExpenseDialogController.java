@@ -1,11 +1,9 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 
 public class AddExpenseDialogController extends Dialog<Budget> {

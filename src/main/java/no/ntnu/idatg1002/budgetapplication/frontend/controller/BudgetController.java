@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
@@ -100,7 +101,9 @@ public class BudgetController implements Initializable {
     Parent root = loader.load();
     AddIncomeDialogController controller = loader.getController();
 
-    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/dialog.css"))
+            .toExternalForm();
 
     // create a new dialog
     Dialog<HashMap> dialog = new Dialog<>();
@@ -117,7 +120,7 @@ public class BudgetController implements Initializable {
     ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
 
-    // set the result converter to return the budget
+    // set the result converter to return the values from the dialog
     dialog.setResultConverter(
         dialogButton -> {
           if (dialogButton == submitButton) {
@@ -128,14 +131,20 @@ public class BudgetController implements Initializable {
               values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
               values.put(categoryKey, controller.getIncomeCategoryComboBox());
               return values;
-            } else System.out.println("Please fill out all fields in dialog");
+            } else {
+              Alert alert = new Alert(Alert.AlertType.ERROR);
+              alert.setTitle("Error");
+              alert.setHeaderText(null);
+              alert.setContentText("Please fill out all fields in dialog");
+              alert.showAndWait();
+            }
           }
           return null;
         });
 
     // show the dialog and wait for a response
     Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent()) {
+    if (result.isPresent() && !result.get().isEmpty()) {
       Income newIncome =
           new Income(
               Integer.parseInt(result.get().get(amountKey).toString()),
@@ -154,7 +163,9 @@ public class BudgetController implements Initializable {
     Parent root = loader.load();
     AddExpenseDialogController controller = loader.getController();
 
-    String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/dialog.css"))
+            .toExternalForm();
 
     // create a new dialog
     Dialog<HashMap> dialog = new Dialog<>();
@@ -171,24 +182,31 @@ public class BudgetController implements Initializable {
     ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
     dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
 
+    // set the result converter to return the values from the dialog
     dialog.setResultConverter(
         dialogButton -> {
           if (dialogButton == submitButton) {
+            HashMap<String, Object> values = new HashMap<>();
             if (controller.assertAllFieldsValid()) {
-              HashMap values = new HashMap();
               values.put(amountKey, controller.getExpenseAmountField());
               values.put(descriptionKey, controller.getExpenseDescriptionField());
               values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
               values.put(categoryKey, controller.getExpenseCategoryComboBox());
               return values;
-            } else System.out.println("Please fill out all fields in dialog");
+            } else {
+              Alert alert = new Alert(Alert.AlertType.ERROR);
+              alert.setTitle("Error");
+              alert.setHeaderText(null);
+              alert.setContentText("Please fill out all fields in dialog");
+              alert.showAndWait();
+            }
           }
           return null;
         });
 
     // show the dialog and wait for a response
     Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent()) {
+    if (result.isPresent() && !result.get().isEmpty()) {
       Expense newExpense =
           new Expense(
               Integer.parseInt(result.get().get(amountKey).toString()),
@@ -202,9 +220,11 @@ public class BudgetController implements Initializable {
   }
 
   private void updateItems() {
+    // update expenses
     expenseTableView.setItems(
         FXCollections.observableArrayList(
             Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
+    // update incomes
     incomeTableView.setItems(
         FXCollections.observableArrayList(
             Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
