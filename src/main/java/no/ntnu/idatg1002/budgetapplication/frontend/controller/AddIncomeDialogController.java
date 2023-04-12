@@ -3,9 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -13,7 +11,6 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -21,7 +18,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class AddIncomeDialogController extends Dialog<Budget> {
   private Stage stage;
-  private Scene scene;
+  private Scene previousScene;
 
   @FXML private Button cancelIncomeDialogButton;
   @FXML private Button submitIncomeButton;
@@ -66,8 +63,6 @@ public class AddIncomeDialogController extends Dialog<Budget> {
     stage.setScene(previousScene);
     stage.show();
   }
-
-  private Scene previousScene;
 
   public void setPreviousScene(Scene scene) {
     this.previousScene = scene;
