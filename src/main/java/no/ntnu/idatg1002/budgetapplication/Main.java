@@ -20,13 +20,18 @@ public class Main {
     Database.addAccount(adminAccount);
     Database.setCurrentAccount(adminAccount);
     Budget adminBudget = new Budget("testBudget");
-    adminBudget.addBudgetExpenses(new Expense(100,"testdesc", RecurringType.DAILY,
-        ExpenseCategory.FOOD));
-    adminBudget.addBudgetIncome(new Income(500, "testdesc", RecurringType.NONRECURRING, IncomeCategory.RENTAL_INCOME));
+    adminBudget.addBudgetExpenses(
+        new Expense(100, "testdesc", RecurringType.DAILY, ExpenseCategory.FOOD));
+    adminBudget.addBudgetIncome(
+        new Income(500, "testdesc", RecurringType.NONRECURRING, IncomeCategory.RENTAL_INCOME));
     Database.getCurrentAccount().addBudget(adminBudget);
-    System.out.println(adminAccount.getBudgets().size());
-    System.out.println(Database.getCurrentAccount().getSelectedSavingsPlan());
-    System.out.println(Database.getCurrentAccount().getSelectedBudget());
+
+    // for testing
+    System.out.println("Budget size: " + adminAccount.getBudgets().size());
+    System.out.println(
+        "Selected savingsplan: " + Database.getCurrentAccount().getSelectedSavingsPlan());
+    System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
+
     PrimaryView.mainApp(args);
   }
 }

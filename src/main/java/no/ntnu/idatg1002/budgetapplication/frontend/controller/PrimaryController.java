@@ -95,8 +95,6 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
               (IncomeCategory) result.get().get(categoryKey));
 
       Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
-      // for testing
-      System.out.println("Created new object: " + newIncome);
     }
   }
 
@@ -149,8 +147,6 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
               (ExpenseCategory) result.get().get(categoryKey));
 
       Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
-      // for testing
-      System.out.println("Created new object: " + newExpense);
     }
   }
 
