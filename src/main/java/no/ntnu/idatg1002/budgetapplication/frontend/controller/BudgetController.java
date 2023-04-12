@@ -24,9 +24,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
-  private Scene previousScene;
-  private Parent parent;
-  private final PrimaryController primaryController = new PrimaryController();
+  private ObservableList<String> budgetInformation;
 
   // Keys for hashmap
   private final String amountKey = "amount";
@@ -45,8 +43,6 @@ public class BudgetController implements Initializable {
   @FXML private Button newIncomeButton;
   @FXML private Button previousButtonInBudget;
 
-  private ObservableList<String> budgetInformation;
-
   public BudgetController() throws IOException {
     this.budgetInformation = FXCollections.observableArrayList("assffsa");
     this.incomeTableView = new TableView<>();
@@ -55,7 +51,6 @@ public class BudgetController implements Initializable {
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
     this.previousButtonInBudget = new Button();
-    // else Database.getCurrentAccount().addBudget(new Budget("Test"));
   }
 
   @Override
@@ -149,8 +144,7 @@ public class BudgetController implements Initializable {
               (IncomeCategory) result.get().get(categoryKey));
 
       Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
-      // for testing
-      System.out.println("Created new object: " + newIncome);
+      updateItems();
     }
   }
 
@@ -203,9 +197,17 @@ public class BudgetController implements Initializable {
               (ExpenseCategory) result.get().get(categoryKey));
 
       Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
-      // for testing
-      System.out.println("Created new object: " + newExpense);
+      updateItems();
     }
+  }
+
+  private void updateItems() {
+    expenseTableView.setItems(
+        FXCollections.observableArrayList(
+            Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
+    incomeTableView.setItems(
+        FXCollections.observableArrayList(
+            Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
   }
 
   @FXML
