@@ -1,23 +1,16 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
-public class AddExpenseDialog extends Dialog<HashMap> {
-
-  // Keys for hashmap
-  private final String amountKey = "amount";
-  private final String descriptionKey = "description";
-  private final String recurringTypeKey = "recurringType";
-  private final String categoryKey = "category";
+public class AddExpenseDialog extends Dialog<Expense> {
+  Expense newExpense;
 
   @FXML private TextField expenseAmountField;
   @FXML private TextField expenseDescriptionField;
@@ -53,12 +46,13 @@ public class AddExpenseDialog extends Dialog<HashMap> {
         dialogButton -> {
           if (dialogButton == submitButton) {
             if (assertAllFieldsValid()) {
-              HashMap values = new HashMap();
-              values.put(amountKey, getExpenseAmountField());
-              values.put(descriptionKey, getExpenseDescriptionField());
-              values.put(recurringTypeKey, getRecurringIntervalComboBox());
-              values.put(categoryKey, getExpenseCategoryComboBox());
-              return values;
+              newExpense =
+                  new Expense(
+                      Integer.parseInt(getExpenseAmountField()),
+                      getExpenseDescriptionField(),
+                      getRecurringIntervalComboBox(),
+                      getExpenseCategoryComboBox());
+              return newExpense;
             } else {
               Alert alert = new Alert(Alert.AlertType.ERROR);
               alert.setTitle("Error");

@@ -27,21 +27,14 @@ import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
-  private ObservableList<String> budgetInformation;
-
-  // Keys for hashmap
-  private final String amountKey = "amount";
-  private final String descriptionKey = "description";
-  private final String recurringTypeKey = "recurringType";
-  private final String categoryKey = "category";
-
+  private final ObservableList<String> budgetInformation;
   @FXML private TableView<Expense> expenseTableView;
   @FXML private TableView<Income> incomeTableView;
   @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
   @FXML private TableColumn<Expense, Integer> expenseColumn;
   @FXML private TableColumn<Income, ExpenseCategory> incomeCategoryColumn;
   @FXML private TableColumn<Income, Integer> incomeColumn;
-  @FXML private Button monthlyExpenseButton;
+  @FXML private final Button monthlyExpenseButton;
   @FXML private Button newExpenseButton;
   @FXML private Button newIncomeButton;
   @FXML private Button previousButtonInBudget;
@@ -102,19 +95,10 @@ public class BudgetController implements Initializable {
     AddIncomeDialog dialog = new AddIncomeDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    // show the dialog and wait for a response
-    Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent() && !result.get().isEmpty()) {
-      Income newIncome =
-          new Income(
-              Integer.parseInt(result.get().get(amountKey).toString()),
-              result.get().get(descriptionKey).toString(),
-              (RecurringType) result.get().get(recurringTypeKey),
-              (IncomeCategory) result.get().get(categoryKey));
-
-      Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
-      updateItems();
-    }
+    Optional<Income> result = dialog.showAndWait();
+    result.ifPresent(
+        income -> Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income));
+    updateItems();
   }
 
   @FXML
@@ -122,18 +106,10 @@ public class BudgetController implements Initializable {
     AddExpenseDialog dialog = new AddExpenseDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent() && !result.get().isEmpty()) {
-      Expense newExpense =
-          new Expense(
-              Integer.parseInt(result.get().get(amountKey).toString()),
-              result.get().get(descriptionKey).toString(),
-              (RecurringType) result.get().get(recurringTypeKey),
-              (ExpenseCategory) result.get().get(categoryKey));
-
-      Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
-      updateItems();
-    }
+    Optional<Expense> result = dialog.showAndWait();
+    result.ifPresent(
+        expense -> Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense));
+    updateItems();
   }
 
   private void updateItems() {
