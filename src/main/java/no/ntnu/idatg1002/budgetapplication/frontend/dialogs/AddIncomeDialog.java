@@ -1,24 +1,16 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
-import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
+import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
-public class AddIncomeDialog extends Dialog<HashMap> {
-
-  // Keys for hashmap
-  private final String amountKey = "amount";
-  private final String descriptionKey = "description";
-  private final String recurringTypeKey = "recurringType";
-  private final String categoryKey = "category";
+public class AddIncomeDialog extends Dialog<Income> {
+  Income newIncome;
 
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
@@ -54,12 +46,13 @@ public class AddIncomeDialog extends Dialog<HashMap> {
         dialogButton -> {
           if (dialogButton == submitButton) {
             if (assertAllFieldsValid()) {
-              HashMap values = new HashMap();
-              values.put(amountKey, getIncomeAmountField());
-              values.put(descriptionKey, getIncomeDescriptionField());
-              values.put(recurringTypeKey, getRecurringIntervalComboBox());
-              values.put(categoryKey, getIncomeCategoryComboBox());
-              return values;
+              newIncome =
+                  new Income(
+                      Integer.parseInt(getIncomeAmountField()),
+                      getIncomeDescriptionField(),
+                      getRecurringIntervalComboBox(),
+                      getIncomeCategoryComboBox());
+              return newIncome;
             } else {
               Alert alert = new Alert(Alert.AlertType.ERROR);
               alert.setTitle("Error");

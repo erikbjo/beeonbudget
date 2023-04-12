@@ -18,13 +18,8 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
-public class PrimaryController extends Dialog<Budget> implements Initializable {
+public class PrimaryController implements Initializable {
 
-  // Keys for hashmap
-  private final String amountKey = "amount";
-  private final String descriptionKey = "description";
-  private final String recurringTypeKey = "recurringType";
-  private final String categoryKey = "category";
   @FXML private Label menuPaneLabel1;
   @FXML private Label menuPaneLabel2;
   @FXML private Label usernameLabel;
@@ -51,18 +46,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     AddIncomeDialog dialog = new AddIncomeDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    // show the dialog and wait for a response
-    Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent() && !result.get().isEmpty()) {
-      Income newIncome =
-          new Income(
-              Integer.parseInt(result.get().get(amountKey).toString()),
-              result.get().get(descriptionKey).toString(),
-              (RecurringType) result.get().get(recurringTypeKey),
-              (IncomeCategory) result.get().get(categoryKey));
-
-      Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
-    }
+    Optional<Income> result = dialog.showAndWait();
+    result.ifPresent(
+        income -> Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income));
   }
 
   @FXML
@@ -70,17 +56,9 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     AddExpenseDialog dialog = new AddExpenseDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    Optional<HashMap> result = dialog.showAndWait();
-    if (result.isPresent() && !result.get().isEmpty()) {
-      Expense newExpense =
-          new Expense(
-              Integer.parseInt(result.get().get(amountKey).toString()),
-              result.get().get(descriptionKey).toString(),
-              (RecurringType) result.get().get(recurringTypeKey),
-              (ExpenseCategory) result.get().get(categoryKey));
-
-      Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
-    }
+    Optional<Expense> result = dialog.showAndWait();
+    result.ifPresent(
+        expense -> Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense));
   }
 
   public void switchToSavingPlan(ActionEvent event) throws IOException {
