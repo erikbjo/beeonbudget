@@ -1,31 +1,15 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
-import java.io.IOException;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.Expense;
-import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
-import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.*;
 
 public class AddExpenseDialogController extends Dialog<Budget> {
 
-  private SavingsPlanController savingsPlanController;
-  private Stage stage;
-  private Scene previousScene;
-
-  @FXML private Button cancelExpenseDialogButton;
-
-  @FXML // fx:id="submitExpenseDialogButton"
-  private Button submitExpenseDialogButton; // Value injected by FXMLLoader
   @FXML // fx:id="expenseAmountField"
   private TextField expenseAmountField; // Value injected by FXMLLoader
 
@@ -37,46 +21,31 @@ public class AddExpenseDialogController extends Dialog<Budget> {
 
   public AddExpenseDialogController() {}
 
-  private boolean assertAllFieldsValid() {
+  public String getExpenseDescriptionField() {
+    return expenseDescriptionField.getText();
+  }
+
+  public String getExpenseAmountField() {
+    return expenseAmountField.getText();
+  }
+
+  public RecurringType getRecurringIntervalComboBox() {
+    return recurringIntervalComboBox.getValue();
+  }
+
+  public ExpenseCategory getExpenseCategoryComboBox() {
+    return categoryComboBox.getValue();
+  }
+
+  boolean assertAllFieldsValid() {
     return (expenseDescriptionField.getText() != null
         && expenseAmountField.getText() != null
         && recurringIntervalComboBox.getValue() != null
         && categoryComboBox.getValue() != null);
   }
 
-  @FXML
-  void onSubmitExpenseDialog(ActionEvent event) throws IOException {
-    if (assertAllFieldsValid()) {
-      Expense newExpense =
-          new Expense(
-              Integer.parseInt(expenseAmountField.getText()),
-              expenseDescriptionField.getText(),
-              recurringIntervalComboBox.getValue(),
-              categoryComboBox.getValue());
-
-      Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
-      // for testing
-      System.out.println("Created new object: " + newExpense);
-
-      switchToPreviousFromAddExpenseDialog(event);
-    }
-  }
-
-  @FXML
-  void switchToPreviousFromAddExpenseDialog(ActionEvent event) throws IOException {
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setScene(previousScene);
-    stage.show();
-  }
-
-  public void setPreviousScene(Scene scene) {
-    this.previousScene = scene;
-  }
-
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
-    assert cancelExpenseDialogButton != null
-        : "fx:id=\"cancelExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert categoryComboBox != null
         : "fx:id=\"categoryComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert expenseAmountField != null
@@ -85,8 +54,6 @@ public class AddExpenseDialogController extends Dialog<Budget> {
         : "fx:id=\"expenseDescription\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
     assert recurringIntervalComboBox != null
         : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
-    assert submitExpenseDialogButton != null
-        : "fx:id=\"submitExpenseDialogButton\" was not injected: check your FXML file 'addExpenseDialog.fxml'.";
 
     // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
