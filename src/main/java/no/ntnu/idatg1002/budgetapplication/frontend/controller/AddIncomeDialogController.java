@@ -17,11 +17,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class AddIncomeDialogController extends Dialog<Budget> {
-  private Stage stage;
-  private Scene previousScene;
 
-  @FXML private Button cancelIncomeDialogButton;
-  @FXML private Button submitIncomeButton;
   @FXML // fx:id="incomeAmountField"
   private TextField incomeAmountField; // Value injected by FXMLLoader
   @FXML // fx:id="incomeDescriptionField"
@@ -32,46 +28,31 @@ public class AddIncomeDialogController extends Dialog<Budget> {
 
   public AddIncomeDialogController() throws IOException {}
 
-  private boolean assertAllFieldsValid() {
+  public String getIncomeDescriptionField() {
+    return incomeDescriptionField.getText();
+  }
+
+  public String getIncomeAmountField() {
+    return incomeAmountField.getText();
+  }
+
+  public RecurringType getRecurringIntervalComboBox() {
+    return recurringIntervalComboBox.getValue();
+  }
+
+  public IncomeCategory getIncomeCategoryComboBox() {
+    return incomeCategoryComboBox.getValue();
+  }
+
+  boolean assertAllFieldsValid() {
     return (incomeDescriptionField.getText() != null
         && incomeAmountField.getText() != null
         && recurringIntervalComboBox.getValue() != null
         && incomeCategoryComboBox.getValue() != null);
   }
 
-  @FXML
-  void onSubmitIncomeDialog(ActionEvent event) throws IOException {
-    if (assertAllFieldsValid()) {
-      Income newIncome =
-          new Income(
-              Integer.parseInt(incomeAmountField.getText()),
-              incomeDescriptionField.getText(),
-              recurringIntervalComboBox.getValue(),
-              incomeCategoryComboBox.getValue());
-
-      Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
-      // for testing
-      System.out.println("Created new object: " + newIncome);
-
-      switchToPreviousFromAddIncomeDialog(event);
-    }
-  }
-
-  @FXML
-  void switchToPreviousFromAddIncomeDialog(ActionEvent event) throws IOException {
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setScene(previousScene);
-    stage.show();
-  }
-
-  public void setPreviousScene(Scene scene) {
-    this.previousScene = scene;
-  }
-
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
-    assert cancelIncomeDialogButton != null
-        : "fx:id=\"cancelIncomeDialogButton\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
     assert incomeAmountField != null
         : "fx:id=\"incomeAmountField\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
     assert incomeDescriptionField != null
@@ -80,8 +61,6 @@ public class AddIncomeDialogController extends Dialog<Budget> {
         : "fx:id=\"recurringIntervalComboBox\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
     assert incomeCategoryComboBox != null
         : "fx:id=\"incomeCategoryComboBox\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
-    assert submitIncomeButton != null
-        : "fx:id=\"submitIncomeButton\" was not injected: check your FXML file 'addIncomeDialog.fxml'.";
 
     // adds enum to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());

@@ -2,7 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.ResourceBundle;
+import java.util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -10,10 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.Budget;
+import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryController extends Dialog<Budget> implements Initializable {
@@ -26,6 +25,12 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
   private Stage stage;
   private Scene scene;
   private Scene previousScene;
+
+  // Keys for hashmap
+  private final String amountKey = "amount";
+  private final String descriptionKey = "description";
+  private final String recurringTypeKey = "recurringType";
+  private final String categoryKey = "category";
 
   public PrimaryController() throws IOException {}
 
@@ -40,36 +45,113 @@ public class PrimaryController extends Dialog<Budget> implements Initializable {
     stage.show();
   }
 
+  @FXML
   public void onAddIncome(ActionEvent event) throws IOException {
-    previousScene = ((Node) event.getSource()).getScene();
-
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
     Parent root = loader.load();
     AddIncomeDialogController controller = loader.getController();
-    controller.setPreviousScene(previousScene);
 
     String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.show();
+
+    // create a new dialog
+    Dialog<HashMap> dialog = new Dialog<>();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+    dialog.setTitle("Add Income");
+
+    // set the dialog's content to the loaded FXML file
+    DialogPane dialogPane = new DialogPane();
+    dialogPane.setContent(root);
+    dialogPane.getStylesheets().add(css);
+    dialog.setDialogPane(dialogPane);
+
+    // add a "submit" button to the dialog
+    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
+
+    // set the result converter to return the budget
+    dialog.setResultConverter(
+        dialogButton -> {
+          if (dialogButton == submitButton) {
+            if (controller.assertAllFieldsValid()) {
+              HashMap values = new HashMap();
+              values.put(amountKey, controller.getIncomeAmountField());
+              values.put(descriptionKey, controller.getIncomeDescriptionField());
+              values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
+              values.put(categoryKey, controller.getIncomeCategoryComboBox());
+              return values;
+            } else System.out.println("Please fill out all fields in dialog");
+          }
+          return null;
+        });
+
+    // show the dialog and wait for a response
+    Optional<HashMap> result = dialog.showAndWait();
+    if (result.isPresent()) {
+      Income newIncome =
+          new Income(
+              Integer.parseInt(result.get().get(amountKey).toString()),
+              result.get().get(descriptionKey).toString(),
+              (RecurringType) result.get().get(recurringTypeKey),
+              (IncomeCategory) result.get().get(categoryKey));
+
+      Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(newIncome);
+      // for testing
+      System.out.println("Created new object: " + newIncome);
+    }
   }
 
+  @FXML
   public void onAddExpense(ActionEvent event) throws IOException {
-    previousScene = ((Node) event.getSource()).getScene();
-
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
     Parent root = loader.load();
     AddExpenseDialogController controller = loader.getController();
-    controller.setPreviousScene(previousScene);
 
     String css = this.getClass().getResource("/cssfiles/dialog.css").toExternalForm();
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
-    scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.show();
+
+    // create a new dialog
+    Dialog<HashMap> dialog = new Dialog<>();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+    dialog.setTitle("Add Expense");
+
+    // set the dialog's content to the loaded FXML file
+    DialogPane dialogPane = new DialogPane();
+    dialogPane.setContent(root);
+    dialogPane.getStylesheets().add(css);
+    dialog.setDialogPane(dialogPane);
+
+    // add a "submit" button to the dialog
+    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+    dialog.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
+
+    dialog.setResultConverter(
+        dialogButton -> {
+          if (dialogButton == submitButton) {
+            if (controller.assertAllFieldsValid()) {
+              HashMap values = new HashMap();
+              values.put(amountKey, controller.getExpenseAmountField());
+              values.put(descriptionKey, controller.getExpenseDescriptionField());
+              values.put(recurringTypeKey, controller.getRecurringIntervalComboBox());
+              values.put(categoryKey, controller.getExpenseCategoryComboBox());
+              return values;
+            } else System.out.println("Please fill out all fields in dialog");
+          }
+          return null;
+        });
+
+    // show the dialog and wait for a response
+    Optional<HashMap> result = dialog.showAndWait();
+    if (result.isPresent()) {
+      Expense newExpense =
+          new Expense(
+              Integer.parseInt(result.get().get(amountKey).toString()),
+              result.get().get(descriptionKey).toString(),
+              (RecurringType) result.get().get(recurringTypeKey),
+              (ExpenseCategory) result.get().get(categoryKey));
+
+      Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(newExpense);
+      // for testing
+      System.out.println("Created new object: " + newExpense);
+    }
   }
 
   public void switchToSavingPlan(ActionEvent event) throws IOException {
