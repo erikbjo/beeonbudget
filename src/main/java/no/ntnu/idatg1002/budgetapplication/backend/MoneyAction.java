@@ -21,7 +21,7 @@ public abstract class MoneyAction {
    * @throws IllegalArgumentException "Amount must be non-negative." for amount < 0 and "Description
    *     must not be empty or blank." for description
    */
-  public MoneyAction(int amount, String description, RecurringType type)
+  protected MoneyAction(int amount, String description, RecurringType type)
       throws IllegalArgumentException {
     if (amount < 0) {
       throw new IllegalArgumentException("Amount must be non-negative.");
