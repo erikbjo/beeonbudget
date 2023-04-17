@@ -9,16 +9,26 @@ import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
+/**
+ * Represents a custom dialog for adding an expense in the budget application. The dialog includes
+ * fields for entering expense details, such as amount, description, recurring type, and expense
+ * category.
+ *
+ * @author Erik Bjørnsen
+ * @version 1.2
+ */
 public class AddExpenseDialog extends Dialog<Expense> {
   Expense newExpense;
 
   @FXML private TextField expenseAmountField;
   @FXML private TextField expenseDescriptionField;
-
   @FXML private ComboBox<ExpenseCategory> categoryComboBox;
-
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
+  /**
+   * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
+   * validation.
+   */
   public AddExpenseDialog() {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
     loader.setController(this);
@@ -72,7 +82,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     expenseAmountField
         .textProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
+            (observableValue, oldValue, newValue) -> {
               if (!newValue.matches("\\d*")) {
                 expenseAmountField.setText(newValue.replaceAll("[^\\d]", ""));
               }
@@ -82,30 +92,55 @@ public class AddExpenseDialog extends Dialog<Expense> {
     expenseDescriptionField
         .textProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
+            (observableValue, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
                 expenseDescriptionField.clear();
               }
             });
   }
 
-  public String getExpenseDescriptionField() {
+  /**
+   * Returns the text from the expense description input field.
+   *
+   * @return the description of the expense
+   */
+  private String getExpenseDescriptionField() {
     return expenseDescriptionField.getText();
   }
 
-  public String getExpenseAmountField() {
+  /**
+   * Returns the text from the expense amount input field.
+   *
+   * @return the amount of the expense
+   */
+  private String getExpenseAmountField() {
     return expenseAmountField.getText();
   }
 
-  public RecurringType getRecurringIntervalComboBox() {
+  /**
+   * Returns the selected value from the recurring interval combo box.
+   *
+   * @return the selected recurring type of the expense
+   */
+  private RecurringType getRecurringIntervalComboBox() {
     return recurringIntervalComboBox.getValue();
   }
 
-  public ExpenseCategory getExpenseCategoryComboBox() {
+  /**
+   * Returns the selected value from the expense category combo box.
+   *
+   * @return the selected expense category of the expense
+   */
+  private ExpenseCategory getExpenseCategoryComboBox() {
     return categoryComboBox.getValue();
   }
 
-  boolean assertAllFieldsValid() {
+  /**
+   * Verifies that all input fields have valid values.
+   *
+   * @return true if all input fields are valid, false otherwise
+   */
+  private boolean assertAllFieldsValid() {
     return (!expenseDescriptionField.getText().isEmpty()
         && expenseAmountField.getText() != null
         && recurringIntervalComboBox.getValue() != null

@@ -1,7 +1,9 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
 /**
- * The type Money action. Superclass of Expense and Income.
+ * Represents a money action in the budget application, serving as a superclass for Expense and
+ * Income classes. MoneyAction instances store information about the amount, description, and
+ * recurring-type of a financial transaction.
  *
  * @author Erik Bjørnsen
  * @version 2.0
@@ -12,14 +14,12 @@ public abstract class MoneyAction {
   private RecurringType type;
 
   /**
-   * Instantiates a new Money action. Amount needs to be greater than zero and description needs to
-   * not be empty or blank.
+   * Constructs a MoneyAction object with the specified amount, description, and recurring type.
    *
-   * @param amount the amount
-   * @param description the description
-   * @param type the type
-   * @throws IllegalArgumentException "Amount must be non-negative." for amount < 0 and "Description
-   *     must not be empty or blank." for description
+   * @param amount the monetary amount, must be non-negative
+   * @param description a non-empty, non-blank description of the action
+   * @param type the recurring type of the action
+   * @throws IllegalArgumentException if the amount is negative or the description is empty or blank
    */
   protected MoneyAction(int amount, String description, RecurringType type)
       throws IllegalArgumentException {
@@ -35,19 +35,19 @@ public abstract class MoneyAction {
   }
 
   /**
-   * Gets amount.
+   * Returns the amount associated with this MoneyAction.
    *
-   * @return the amount
+   * @return the monetary amount of this action
    */
   public int getAmount() {
     return amount;
   }
 
   /**
-   * Sets amount. Amount must be above or equal to zero.
+   * Sets the amount for this MoneyAction.
    *
-   * @param amount the amount
-   * @throws IllegalArgumentException "Amount must be non-negative." for amount < 0
+   * @param amount the new monetary amount, must be non-negative
+   * @throws IllegalArgumentException if the amount is negative
    */
   public void setAmount(int amount) throws IllegalArgumentException {
     if (amount < 0) {
@@ -57,19 +57,19 @@ public abstract class MoneyAction {
   }
 
   /**
-   * Gets description.
+   * Returns the description associated with this MoneyAction.
    *
-   * @return the description
+   * @return the description of this action
    */
   public String getDescription() {
     return description;
   }
 
   /**
-   * Sets description. Description cant be empty or blank.
+   * Sets the description for this MoneyAction.
    *
-   * @param description the description
-   * @throws IllegalArgumentException "Description must not be empty or blank."
+   * @param description a non-empty, non-blank description of the action
+   * @throws IllegalArgumentException if the description is empty or blank
    */
   public void setDescription(String description) throws IllegalArgumentException {
     if (description == null || description.trim().isEmpty()) {
@@ -79,30 +79,20 @@ public abstract class MoneyAction {
   }
 
   /**
-   * Gets type.
+   * Returns the reoccurring type associated with this MoneyAction.
    *
-   * @return the type
+   * @return the reoccurring type of this action
    */
   public RecurringType getType() {
     return type;
   }
 
   /**
-   * Sets type.
+   * Sets the reoccurring type associated with this MoneyAction.
    *
-   * @param type the type
+   * @param type the reocurring type of this action
    */
   public void setType(RecurringType type) {
     this.type = type;
-  }
-
-  @Override
-  public String toString() {
-    return "amount:"
-        + this.getAmount()
-        + ", description:"
-        + this.getDescription()
-        + ", recurring:"
-        + this.getType();
   }
 }
