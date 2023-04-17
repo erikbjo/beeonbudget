@@ -21,13 +21,11 @@ public class SavingsPlan {
    * @throws IllegalArgumentException "Goal name must not be empty or blank." and/or ""Total goal
    *     amount must be above zero." for totalGoalAmount < 0
    */
-  public SavingsPlan(String goalName)
-      throws IllegalArgumentException {
+  public SavingsPlan(String goalName) throws IllegalArgumentException {
 
     if (goalName == null || goalName.trim().isEmpty()) {
       throw new IllegalArgumentException("Goal name must not be empty or blank.");
     }
-
 
     this.goalName = goalName;
   }
@@ -172,9 +170,7 @@ public class SavingsPlan {
     this.deposit = deposit;
   }
 
-  /**
-   * Adds the previous savings and the deposit. Resets deposit to 0.
-   */
+  /** Adds the previous savings and the deposit. Resets deposit to 0. */
   public void addSavings() {
     int newSavings = getTotalSaved() + deposit;
     setTotalSaved(newSavings);
