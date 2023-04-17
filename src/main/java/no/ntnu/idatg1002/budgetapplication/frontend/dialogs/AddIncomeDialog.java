@@ -9,16 +9,26 @@ import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 
+/**
+ * Represents a custom dialog for adding an income in the budget application. The dialog includes
+ * fields for entering income details, such as amount, description, recurring type, and income
+ * category.
+ *
+ * @author Erik Bjørnsen
+ * @version 1.2
+ */
 public class AddIncomeDialog extends Dialog<Income> {
   Income newIncome;
 
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
-
   @FXML private ComboBox<IncomeCategory> incomeCategoryComboBox;
-
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
 
+  /**
+   * Constructs an AddIncomeDialog, setting up the user interface components and necessary input
+   * validation.
+   */
   public AddIncomeDialog() {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addIncomeDialog.fxml"));
     loader.setController(this);
@@ -89,23 +99,48 @@ public class AddIncomeDialog extends Dialog<Income> {
             });
   }
 
-  public String getIncomeDescriptionField() {
+  /**
+   * Returns the text from the income description input field.
+   *
+   * @return the description of the income
+   */
+  private String getIncomeDescriptionField() {
     return incomeDescriptionField.getText();
   }
 
-  public String getIncomeAmountField() {
+  /**
+   * Returns the text from the income amount input field.
+   *
+   * @return the amount of the income
+   */
+  private String getIncomeAmountField() {
     return incomeAmountField.getText();
   }
 
-  public RecurringType getRecurringIntervalComboBox() {
+  /**
+   * Returns the selected value from the recurring interval combo box.
+   *
+   * @return the selected recurring type of the income
+   */
+  private RecurringType getRecurringIntervalComboBox() {
     return recurringIntervalComboBox.getValue();
   }
 
-  public IncomeCategory getIncomeCategoryComboBox() {
+  /**
+   * Returns the selected value from the income category combo box.
+   *
+   * @return the selected income category of the income
+   */
+  private IncomeCategory getIncomeCategoryComboBox() {
     return incomeCategoryComboBox.getValue();
   }
 
-  boolean assertAllFieldsValid() {
+  /**
+   * Verifies that all input fields have valid values.
+   *
+   * @return true if all input fields are valid, false otherwise
+   */
+  private boolean assertAllFieldsValid() {
     return (incomeDescriptionField.getText() != null
         && incomeAmountField.getText() != null
         && recurringIntervalComboBox.getValue() != null

@@ -1,7 +1,8 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
 /**
- * The type Expense.
+ * Represents an expense entry in the budget application. Inherits from the MoneyAction class. An
+ * Expense object includes an amount, a description, a recurring type, and an expense category.
  *
  * @author Erik Bjørnsen
  * @version 2.0
@@ -11,12 +12,13 @@ public class Expense extends MoneyAction {
   private ExpenseCategory expenseCategory;
 
   /**
-   * Instantiates a new Expense.
+   * Constructs an Expense object with the specified amount, description, recurring type, and
+   * expense category.
    *
-   * @param expenseCategory the expenseCategory
-   * @param amount the amount
-   * @param description the description
-   * @param type the type
+   * @param amount the monetary amount, must be non-negative
+   * @param description a non-empty, non-blank description of the expense
+   * @param type the recurring type of the expense
+   * @param expenseCategory the expense category associated with the expense
    */
   public Expense(
       int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
@@ -25,25 +27,20 @@ public class Expense extends MoneyAction {
   }
 
   /**
-   * Gets expenseCategory.
+   * Returns the expense category associated with this Expense object.
    *
-   * @return the expenseCategory
+   * @return the expense category of this expense
    */
   public ExpenseCategory getCategory() {
     return expenseCategory;
   }
 
   /**
-   * Sets expenseCategory.
+   * Sets the expense category for this Expense object.
    *
-   * @param expenseCategory the expenseCategory
+   * @param expenseCategory the new expense category to be associated with this expenses
    */
   public void setCategory(ExpenseCategory expenseCategory) {
     this.expenseCategory = expenseCategory;
-  }
-
-  @Override
-  public String toString() {
-    return super.toString() + ", expenseCategory:" + this.getCategory();
   }
 }
