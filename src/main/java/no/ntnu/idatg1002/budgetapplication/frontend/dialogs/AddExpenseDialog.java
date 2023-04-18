@@ -10,7 +10,6 @@ import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
-import no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController;
 
 /**
  * Represents a custom dialog for adding an expense in the budget application. The dialog includes
@@ -21,7 +20,6 @@ import no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController
  * @version 1.2
  */
 public class AddExpenseDialog extends Dialog<Expense> {
-  Expense newExpense;
 
   @FXML private TextField expenseAmountField;
   @FXML private TextField expenseDescriptionField;
@@ -64,6 +62,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
   @FXML
   private void handleSubmit() {
+    Expense newExpense;
     if (assertAllFieldsValid()) {
       newExpense =
           new Expense(
