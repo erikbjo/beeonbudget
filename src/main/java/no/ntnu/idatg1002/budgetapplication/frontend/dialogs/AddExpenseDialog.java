@@ -10,6 +10,7 @@ import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController;
 
 /**
  * Represents a custom dialog for adding an expense in the budget application. The dialog includes
@@ -27,12 +28,11 @@ public class AddExpenseDialog extends Dialog<Expense> {
   @FXML private ComboBox<ExpenseCategory> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
   @FXML private Button cancelButton;
-
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
    * validation.
    */
-  public AddExpenseDialog() {
+  public AddExpenseDialog() throws IOException {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
@@ -49,7 +49,6 @@ public class AddExpenseDialog extends Dialog<Expense> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
 
-    // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(ExpenseCategory.values());
 
@@ -185,13 +184,5 @@ public class AddExpenseDialog extends Dialog<Expense> {
     if (recurringIntervalComboBox.getValue() == null) {
       builder.append("Recurring interval \n");
     }
-    if (categoryComboBox.getValue() == null) {
-      builder.append("Category \n");
-    }
-
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
   }
 }
