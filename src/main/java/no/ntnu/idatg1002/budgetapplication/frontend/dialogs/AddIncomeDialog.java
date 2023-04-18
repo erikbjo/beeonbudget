@@ -64,11 +64,7 @@ public class AddIncomeDialog extends Dialog<Income> {
                       getIncomeCategoryComboBox());
               return newIncome;
             } else {
-              Alert alert = new Alert(Alert.AlertType.ERROR);
-              alert.setTitle("Error");
-              alert.setHeaderText(null);
-              alert.setContentText("Please fill out all fields in dialog");
-              alert.showAndWait();
+              showErrorAlert("");
             }
           }
           return null;
@@ -78,25 +74,51 @@ public class AddIncomeDialog extends Dialog<Income> {
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     incomeCategoryComboBox.getItems().addAll(IncomeCategory.values());
 
-    // force the field to be numeric only
+    configureIncomeAmountField();
+    configureIncomeDescriptionField();
+  }
+
+  /**
+   * Configures the incomeAmountField to only accept numeric input. If a non-numeric character is
+   * entered, it is removed from the input.
+   */
+  private void configureIncomeAmountField() {
     incomeAmountField
         .textProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
+            (observableValue, oldValue, newValue) -> {
               if (!newValue.matches("\\d*")) {
                 incomeAmountField.setText(newValue.replaceAll("[^\\d]", ""));
               }
             });
+  }
 
-    // force the field to not start with space
+  /**
+   * Configures the incomeDescriptionField to prevent input from starting with a space. If a space
+   * is entered at the beginning of the input, it is removed.
+   */
+  private void configureIncomeDescriptionField() {
     incomeDescriptionField
         .textProperty()
         .addListener(
-            (observable, oldValue, newValue) -> {
+            (observableValue, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
                 incomeDescriptionField.clear();
               }
             });
+  }
+
+  /**
+   * Displays an error alert with the given message.
+   *
+   * @param message the message to display in the error alert
+   */
+  private void showErrorAlert(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
   }
 
   /**

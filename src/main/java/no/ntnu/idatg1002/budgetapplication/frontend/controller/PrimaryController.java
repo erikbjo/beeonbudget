@@ -18,9 +18,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
-/**
- * This class is the controller for the primary GUI.
- */
+/** This class is the controller for the primary GUI. */
 public class PrimaryController implements Initializable {
 
   @FXML private Label menuPaneLabel1;
@@ -32,17 +30,17 @@ public class PrimaryController implements Initializable {
   private Scene previousScene;
 
   /**
-   Constructs a new instance of the PrimaryController class.
-
-   @throws IOException if the primary.fxml file cannot be loaded.
+   * Constructs a new instance of the PrimaryController class.
+   *
+   * @throws IOException if the primary.fxml file cannot be loaded.
    */
   public PrimaryController() throws IOException {}
 
   /**
-   Switches the view to the budget view.
-
-   @param event the event that triggered the method.
-   @throws IOException if the budget.fxml file cannot be loaded.
+   * Switches the view to the budget view.
+   *
+   * @param event the event that triggered the method.
+   * @throws IOException if the budget.fxml file cannot be loaded.
    */
   public void switchToBudget(ActionEvent event) throws IOException {
     Parent root =
@@ -57,10 +55,10 @@ public class PrimaryController implements Initializable {
   }
 
   /**
-   Shows a dialog for adding a new income and updates the income table.
-
-   @param event the event that triggered the method.
-   @throws IOException if the AddIncomeDialog.fxml file cannot be loaded.
+   * Shows a dialog for adding a new income and updates the income table.
+   *
+   * @param event the event that triggered the method.
+   * @throws IOException if the AddIncomeDialog.fxml file cannot be loaded.
    */
   @FXML
   public void onAddIncome(ActionEvent event) throws IOException {
@@ -73,9 +71,9 @@ public class PrimaryController implements Initializable {
   }
 
   /**
-   Shows a dialog for adding a new expense and updates the expense table.
-
-   @param event the event that triggered the method.
+   * Shows a dialog for adding a new expense and updates the expense table.
+   *
+   * @param event the event that triggered the method.
    */
   @FXML
   public void onAddExpense(Event event) {
@@ -88,10 +86,10 @@ public class PrimaryController implements Initializable {
   }
 
   /**
-   Switches the view to the savings plan view.
-
-   @param event the event that triggered the method.
-   @throws IOException if the savingsPlan.fxml file cannot be loaded.
+   * Switches the view to the savings plan view.
+   *
+   * @param event the event that triggered the method.
+   * @throws IOException if the savingsPlan.fxml file cannot be loaded.
    */
   public void switchToSavingPlan(ActionEvent event) throws IOException {
     Parent root =
@@ -108,9 +106,7 @@ public class PrimaryController implements Initializable {
     stage.show();
   }
 
-  /**
-   Updates the dynamic labels of the view.
-   */
+  /** Updates the dynamic labels of the view. */
   public void updateDynamicLabels() {
     budgetLabel.setText(
         String.format(
@@ -126,10 +122,10 @@ public class PrimaryController implements Initializable {
   }
 
   /**
-   Initializes the controller by updating the dynamic labels.
-
-   @param url the URL of the FXML file that is being loaded.
-   @param resourceBundle the resource bundle of the FXML file that is being loaded.
+   * Initializes the controller by updating the dynamic labels.
+   *
+   * @param url the URL of the FXML file that is being loaded.
+   * @param resourceBundle the resource bundle of the FXML file that is being loaded.
    */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {

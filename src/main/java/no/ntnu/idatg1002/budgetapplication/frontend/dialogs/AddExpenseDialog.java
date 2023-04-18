@@ -64,11 +64,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
                       getExpenseCategoryComboBox());
               return newExpense;
             } else {
-              Alert alert = new Alert(Alert.AlertType.ERROR);
-              alert.setTitle("Error");
-              alert.setHeaderText(null);
-              alert.setContentText("Please fill out all fields in dialog");
-              alert.showAndWait();
+              showErrorAlert("Please fill out all fields in dialog");
             }
           }
           return null;
@@ -78,7 +74,15 @@ public class AddExpenseDialog extends Dialog<Expense> {
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(ExpenseCategory.values());
 
-    // force the field to be numeric only
+    configureExpenseAmountField();
+    configureExpenseDescriptionField();
+  }
+
+  /**
+   * Configures the expenseAmountField to only accept numeric input. If a non-numeric character is
+   * entered, it is removed from the input.
+   */
+  private void configureExpenseAmountField() {
     expenseAmountField
         .textProperty()
         .addListener(
@@ -87,8 +91,13 @@ public class AddExpenseDialog extends Dialog<Expense> {
                 expenseAmountField.setText(newValue.replaceAll("[^\\d]", ""));
               }
             });
+  }
 
-    // force the field to not start with space
+  /**
+   * Configures the expenseDescriptionField to prevent input from starting with a space. If a space
+   * is entered at the beginning of the input, it is removed.
+   */
+  private void configureExpenseDescriptionField() {
     expenseDescriptionField
         .textProperty()
         .addListener(
@@ -97,6 +106,19 @@ public class AddExpenseDialog extends Dialog<Expense> {
                 expenseDescriptionField.clear();
               }
             });
+  }
+
+  /**
+   * Displays an error alert with the given message.
+   *
+   * @param message the message to display in the error alert
+   */
+  private void showErrorAlert(String message) {
+    Alert alert = new Alert(Alert.AlertType.ERROR);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(message);
+    alert.showAndWait();
   }
 
   /**
@@ -142,7 +164,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    */
   private boolean assertAllFieldsValid() {
     return (!expenseDescriptionField.getText().isEmpty()
-        && expenseAmountField.getText() != null
+        && !expenseAmountField.getText().isEmpty()
         && recurringIntervalComboBox.getValue() != null
         && categoryComboBox.getValue() != null);
   }
