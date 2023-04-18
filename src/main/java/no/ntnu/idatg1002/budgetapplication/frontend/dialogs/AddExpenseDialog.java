@@ -67,10 +67,10 @@ public class AddExpenseDialog extends Dialog<Expense> {
     if (assertAllFieldsValid()) {
       newExpense =
           new Expense(
-              Integer.parseInt(getExpenseAmountField()),
-              getExpenseDescriptionField(),
-              getRecurringIntervalComboBox(),
-              getExpenseCategoryComboBox());
+              Integer.parseInt(getExpenseAmountFieldText()),
+              getExpenseDescriptionFieldText(),
+              getRecurringIntervalComboBoxValue(),
+              getExpenseCategoryComboBoxValue());
       this.setResult(newExpense);
       this.close();
     } else {
@@ -113,7 +113,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    *
    * @return the description of the expense
    */
-  private String getExpenseDescriptionField() {
+  private String getExpenseDescriptionFieldText() {
     return expenseDescriptionField.getText();
   }
 
@@ -122,7 +122,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    *
    * @return the amount of the expense
    */
-  private String getExpenseAmountField() {
+  private String getExpenseAmountFieldText() {
     return expenseAmountField.getText();
   }
 
@@ -131,7 +131,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    *
    * @return the selected recurring type of the expense
    */
-  private RecurringType getRecurringIntervalComboBox() {
+  private RecurringType getRecurringIntervalComboBoxValue() {
     return recurringIntervalComboBox.getValue();
   }
 
@@ -140,7 +140,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    *
    * @return the selected expense category of the expense
    */
-  private ExpenseCategory getExpenseCategoryComboBox() {
+  private ExpenseCategory getExpenseCategoryComboBoxValue() {
     return categoryComboBox.getValue();
   }
 
@@ -150,10 +150,10 @@ public class AddExpenseDialog extends Dialog<Expense> {
    * @return true if all input fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return (!expenseDescriptionField.getText().isEmpty()
-        && expenseAmountField.getText() != null
-        && recurringIntervalComboBox.getValue() != null
-        && categoryComboBox.getValue() != null);
+    return (!getExpenseAmountFieldText().isEmpty()
+        && !getExpenseDescriptionFieldText().isEmpty()
+        && getRecurringIntervalComboBoxValue() != null
+        && getExpenseCategoryComboBoxValue() != null);
   }
 
   /**
@@ -175,14 +175,22 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (expenseAmountField.getText().isEmpty()) {
+    if (getExpenseAmountFieldText().isEmpty()) {
       builder.append("Amount \n");
     }
-    if (expenseDescriptionField.getText().isEmpty()) {
+    if (getExpenseDescriptionFieldText().isEmpty()) {
       builder.append("Description \n");
     }
-    if (recurringIntervalComboBox.getValue() == null) {
+    if (getRecurringIntervalComboBoxValue() == null) {
       builder.append("Recurring interval \n");
     }
+    if (getExpenseCategoryComboBoxValue() == null) {
+      builder.append("Category \n");
+    }
+
+    alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
   }
 }

@@ -71,10 +71,10 @@ public class AddIncomeDialog extends Dialog<Income> {
     if (assertAllFieldsValid()) {
       newIncome =
           new Income(
-              Integer.parseInt(getIncomeAmountField()),
-              getIncomeDescriptionField(),
-              getRecurringIntervalComboBox(),
-              getIncomeCategoryComboBox());
+              Integer.parseInt(getIncomeAmountFieldText()),
+              getIncomeDescriptionFieldText(),
+              getRecurringIntervalComboBoxValue(),
+              getIncomeCategoryComboBoxValue());
       this.setResult(newIncome);
       this.close();
     } else {
@@ -117,7 +117,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    *
    * @return the description of the income
    */
-  private String getIncomeDescriptionField() {
+  private String getIncomeDescriptionFieldText() {
     return incomeDescriptionField.getText();
   }
 
@@ -126,7 +126,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    *
    * @return the amount of the income
    */
-  private String getIncomeAmountField() {
+  private String getIncomeAmountFieldText() {
     return incomeAmountField.getText();
   }
 
@@ -135,7 +135,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    *
    * @return the selected recurring type of the income
    */
-  private RecurringType getRecurringIntervalComboBox() {
+  private RecurringType getRecurringIntervalComboBoxValue() {
     return recurringIntervalComboBox.getValue();
   }
 
@@ -144,7 +144,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    *
    * @return the selected income category of the income
    */
-  private IncomeCategory getIncomeCategoryComboBox() {
+  private IncomeCategory getIncomeCategoryComboBoxValue() {
     return incomeCategoryComboBox.getValue();
   }
 
@@ -154,10 +154,10 @@ public class AddIncomeDialog extends Dialog<Income> {
    * @return true if all input fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return (incomeDescriptionField.getText() != null
-        && incomeAmountField.getText() != null
-        && recurringIntervalComboBox.getValue() != null
-        && incomeCategoryComboBox.getValue() != null);
+    return (getIncomeAmountFieldText() != null
+        && getIncomeDescriptionFieldText() != null
+        && getRecurringIntervalComboBoxValue() != null
+        && getIncomeCategoryComboBoxValue() != null);
   }
 
   /**
@@ -179,16 +179,16 @@ public class AddIncomeDialog extends Dialog<Income> {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (incomeAmountField.getText().isEmpty()) {
+    if (getIncomeAmountFieldText().isEmpty()) {
       builder.append("Amount \n");
     }
-    if (incomeDescriptionField.getText().isEmpty()) {
+    if (getIncomeDescriptionFieldText().isEmpty()) {
       builder.append("Description \n");
     }
-    if (recurringIntervalComboBox.getValue() == null) {
+    if (getRecurringIntervalComboBoxValue() == null) {
       builder.append("Recurring interval \n");
     }
-    if (incomeCategoryComboBox.getValue() == null) {
+    if (getIncomeCategoryComboBoxValue() == null) {
       builder.append("Category \n");
     }
 
