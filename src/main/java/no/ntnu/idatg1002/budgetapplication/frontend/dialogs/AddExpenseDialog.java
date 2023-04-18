@@ -2,17 +2,11 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.util.Objects;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -23,7 +17,7 @@ import no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController
  * fields for entering expense details, such as amount, description, recurring type, and expense
  * category.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Eskil Alstad
  * @version 1.2
  */
 public class AddExpenseDialog extends Dialog<Expense> {
@@ -55,12 +49,40 @@ public class AddExpenseDialog extends Dialog<Expense> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
 
-
-    // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(ExpenseCategory.values());
 
-    // force the field to be numeric only
+    configureExpenseAmountField();
+    configureExpenseDescriptionField();
+  }
+
+  @FXML
+  private void closeDialog() {
+    Stage stage = (Stage) cancelButton.getScene().getWindow();
+    stage.close();
+  }
+
+  @FXML
+  private void handleSubmit() {
+    if (assertAllFieldsValid()) {
+      newExpense =
+          new Expense(
+              Integer.parseInt(getExpenseAmountField()),
+              getExpenseDescriptionField(),
+              getRecurringIntervalComboBox(),
+              getExpenseCategoryComboBox());
+      this.setResult(newExpense);
+      this.close();
+    } else {
+      generateDynamicFeedbackAlert();
+    }
+  }
+
+  /**
+   * Configures the expenseAmountField to only accept numeric input. If a non-numeric character is
+   * entered, it is removed from the input.
+   */
+  private void configureExpenseAmountField() {
     expenseAmountField
         .textProperty()
         .addListener(
@@ -69,8 +91,13 @@ public class AddExpenseDialog extends Dialog<Expense> {
                 expenseAmountField.setText(newValue.replaceAll("[^\\d]", ""));
               }
             });
+  }
 
-    // force the field to not start with space
+  /**
+   * Configures the expenseDescriptionField to prevent input from starting with a space. If a space
+   * is entered at the beginning of the input, it is removed.
+   */
+  private void configureExpenseDescriptionField() {
     expenseDescriptionField
         .textProperty()
         .addListener(
@@ -129,30 +156,33 @@ public class AddExpenseDialog extends Dialog<Expense> {
         && categoryComboBox.getValue() != null);
   }
 
-  @FXML
-  private void closeDialog() {
-    Stage stage = (Stage) cancelButton.getScene().getWindow();
-    stage.close();
-  }
-  @FXML
-  private void handleSubmit() throws IOException {
-    if (assertAllFieldsValid()) {
-      newExpense = new Expense(
-          Integer.parseInt(getExpenseAmountField()),
-          getExpenseDescriptionField(),
-          getRecurringIntervalComboBox(),
-          getExpenseCategoryComboBox()
-      );
-      this.setResult(newExpense);
-      this.close();
-    } else {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.setTitle("Error");
-      alert.setHeaderText(null);
-      alert.setContentText("Please fill out all fields in dialog");
-      alert.initModality(Modality.NONE);
-      alert.initOwner(this.getDialogPane().getScene().getWindow());
-      alert.showAndWait();
+  /**
+   * Generates an alert that gives feedback to the user of what fields still needs to be filled out.
+   *
+   * <p>The following fields are checked for completeness:
+   *
+   * <ul>
+   *   <li>Amount
+   *   <li>Description
+   *   <li>Recurring interval
+   *   <li>Category
+   * </ul>
+   */
+  private void generateDynamicFeedbackAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+
+    StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
+
+    if (expenseAmountField.getText().isEmpty()) {
+      builder.append("Amount \n");
+    }
+    if (expenseDescriptionField.getText().isEmpty()) {
+      builder.append("Description \n");
+    }
+    if (recurringIntervalComboBox.getValue() == null) {
+      builder.append("Recurring interval \n");
     }
   }
 }
