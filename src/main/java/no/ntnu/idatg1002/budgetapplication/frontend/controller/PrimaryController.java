@@ -72,7 +72,11 @@ public class PrimaryController implements Initializable {
 
     Optional<Income> result = dialog.showAndWait();
     result.ifPresent(
-        income -> Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income));
+        income -> {
+          Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income);
+          updatePrimaryView();
+        });
+
   }
 
   /**
@@ -81,13 +85,16 @@ public class PrimaryController implements Initializable {
    @param event the event that triggered the method.
    */
   @FXML
-  public void onAddExpense(Event event) {
+  public void onAddExpense(Event event) throws IOException {
     AddExpenseDialog dialog = new AddExpenseDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
     Optional<Expense> result = dialog.showAndWait();
     result.ifPresent(
-        expense -> Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense));
+        expense ->{
+          Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense);
+          updatePrimaryView();
+        });
   }
 
   /**
@@ -112,7 +119,7 @@ public class PrimaryController implements Initializable {
   /**
    Updates the dynamic labels of the view.
    */
-  public void updateDynamicLabels() {
+  public void updatePrimaryView() {
     budgetLabel.setText(
         String.format(
             "Budget: %s", Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
@@ -134,6 +141,6 @@ public class PrimaryController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
-    updateDynamicLabels();
+    updatePrimaryView();
   }
 }

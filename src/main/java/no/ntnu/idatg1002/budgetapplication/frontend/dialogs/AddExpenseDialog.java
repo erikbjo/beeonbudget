@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
@@ -15,6 +16,7 @@ import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController;
 
 /**
  * Represents a custom dialog for adding an expense in the budget application. The dialog includes
@@ -32,12 +34,11 @@ public class AddExpenseDialog extends Dialog<Expense> {
   @FXML private ComboBox<ExpenseCategory> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
   @FXML private Button cancelButton;
-
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
    * validation.
    */
-  public AddExpenseDialog() {
+  public AddExpenseDialog() throws IOException {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
@@ -54,34 +55,6 @@ public class AddExpenseDialog extends Dialog<Expense> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
 
-
-    /*
-    this.setResultConverter(
-        dialogButton -> {
-          if (dialogButton == submitButton) {
-            if (assertAllFieldsValid()) {
-              newExpense =
-                  new Expense(
-                      Integer.parseInt(getExpenseAmountField()),
-                      getExpenseDescriptionField(),
-                      getRecurringIntervalComboBox(),
-                      getExpenseCategoryComboBox());
-              return newExpense;
-            } else {
-              Alert alert = new Alert(AlertType.WARNING);
-              alert.setTitle("Error");
-              alert.setHeaderText(null);
-              alert.setContentText("Please fill out all fields in dialog");
-              alert.initModality(Modality.NONE);
-              alert.initOwner(this.getDialogPane().getScene().getWindow());
-              alert.showAndWait();
-              return null;
-            }
-          }
-          return null;
-        });
-
-     */
 
     // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
@@ -162,7 +135,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     stage.close();
   }
   @FXML
-  private void handleSubmit() {
+  private void handleSubmit() throws IOException {
     if (assertAllFieldsValid()) {
       newExpense = new Expense(
           Integer.parseInt(getExpenseAmountField()),
