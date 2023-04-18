@@ -60,6 +60,28 @@ public class AddIncomeDialog extends Dialog<Income> {
     configureIncomeDescriptionField();
   }
 
+  @FXML
+  private void closeDialog() {
+    Stage stage = (Stage) cancelButton.getScene().getWindow();
+    stage.close();
+  }
+
+  @FXML
+  private void handleSubmit() {
+    if (assertAllFieldsValid()) {
+      newIncome =
+          new Income(
+              Integer.parseInt(getIncomeAmountField()),
+              getIncomeDescriptionField(),
+              getRecurringIntervalComboBox(),
+              getIncomeCategoryComboBox());
+      this.setResult(newIncome);
+      this.close();
+    } else {
+      generateDynamicFeedbackAlert();
+    }
+  }
+
   /**
    * Configures the incomeAmountField to only accept numeric input. If a non-numeric character is
    * entered, it is removed from the input.
@@ -138,31 +160,41 @@ public class AddIncomeDialog extends Dialog<Income> {
         && incomeCategoryComboBox.getValue() != null);
   }
 
-  @FXML
-  private void closeDialog() {
-    Stage stage = (Stage) cancelButton.getScene().getWindow();
-    stage.close();
-  }
+  /**
+   * Generates an alert that gives feedback to the user of what fields still needs to be filled out.
+   *
+   * <p>The following fields are checked for completeness:
+   *
+   * <ul>
+   *   <li>Amount
+   *   <li>Description
+   *   <li>Recurring interval
+   *   <li>Category
+   * </ul>
+   */
+  private void generateDynamicFeedbackAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
 
-  @FXML
-  private void handleSubmit() {
-    if (assertAllFieldsValid()) {
-      newIncome =
-          new Income(
-              Integer.parseInt(getIncomeAmountField()),
-              getIncomeDescriptionField(),
-              getRecurringIntervalComboBox(),
-              getIncomeCategoryComboBox());
-      this.setResult(newIncome);
-      this.close();
-    } else {
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("Error");
-      alert.setHeaderText(null);
-      alert.setContentText("Please fill out all fields in dialog");
-      alert.initModality(Modality.NONE);
-      alert.initOwner(this.getDialogPane().getScene().getWindow());
-      alert.showAndWait();
+    StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
+
+    if (incomeAmountField.getText().isEmpty()) {
+      builder.append("Amount \n");
     }
+    if (incomeDescriptionField.getText().isEmpty()) {
+      builder.append("Description \n");
+    }
+    if (recurringIntervalComboBox.getValue() == null) {
+      builder.append("Recurring interval \n");
+    }
+    if (incomeCategoryComboBox.getValue() == null) {
+      builder.append("Category \n");
+    }
+
+    alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
   }
 }
