@@ -83,7 +83,7 @@ public abstract class MoneyAction {
    *
    * @return the reoccurring type of this action
    */
-  public RecurringType getType() {
+  public RecurringType getRecurringType() {
     return type;
   }
 
@@ -92,7 +92,7 @@ public abstract class MoneyAction {
    *
    * @param type the reocurring type of this action
    */
-  public void setType(RecurringType type) {
+  public void setRecurringType(RecurringType type) {
     this.type = type;
   }
 }

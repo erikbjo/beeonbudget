@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.util.Objects;
+import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -18,7 +19,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
  * @version 1.2
  */
 public class AddIncomeDialog extends Dialog<Income> {
-  Income newIncome;
+  private Income newIncome;
 
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
@@ -49,23 +50,22 @@ public class AddIncomeDialog extends Dialog<Income> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Income");
 
-    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.APPLY);
-    this.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
+    ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.APPLY);
+    this.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
+
+    Button submitButton = (Button) this.getDialogPane().lookupButton(submitButtonType);
+    disableButtonUntilAllFieldsAreValid(submitButton);
 
     this.setResultConverter(
         dialogButton -> {
-          if (dialogButton == submitButton) {
-            if (assertAllFieldsValid()) {
-              newIncome =
-                  new Income(
-                      Integer.parseInt(getIncomeAmountField()),
-                      getIncomeDescriptionField(),
-                      getRecurringIntervalComboBox(),
-                      getIncomeCategoryComboBox());
-              return newIncome;
-            } else {
-              showErrorAlert("");
-            }
+          if (dialogButton == submitButtonType) {
+            newIncome =
+                new Income(
+                    Integer.parseInt(getIncomeAmountField()),
+                    getIncomeDescriptionField(),
+                    getRecurringIntervalComboBox(),
+                    getIncomeCategoryComboBox());
+            return newIncome;
           }
           return null;
         });
@@ -76,6 +76,25 @@ public class AddIncomeDialog extends Dialog<Income> {
 
     configureIncomeAmountField();
     configureIncomeDescriptionField();
+  }
+
+  /**
+   * Disables the given button and enables it only when all input fields are valid. Listeners are
+   * added to the input fields, and the button's disable property is updated based on the validation
+   * status of all fields.
+   *
+   * @param button the button to be disabled until all fields are valid
+   */
+  private void disableButtonUntilAllFieldsAreValid(Button button) {
+    button.setDisable(true);
+
+    ChangeListener<Object> fieldsChangeListener =
+        (observableValue, oldValue, newValue) -> button.setDisable(!assertAllFieldsValid());
+
+    incomeAmountField.textProperty().addListener(fieldsChangeListener);
+    incomeDescriptionField.textProperty().addListener(fieldsChangeListener);
+    incomeCategoryComboBox.valueProperty().addListener(fieldsChangeListener);
+    recurringIntervalComboBox.valueProperty().addListener(fieldsChangeListener);
   }
 
   /**
@@ -106,19 +125,6 @@ public class AddIncomeDialog extends Dialog<Income> {
                 incomeDescriptionField.clear();
               }
             });
-  }
-
-  /**
-   * Displays an error alert with the given message.
-   *
-   * @param message the message to display in the error alert
-   */
-  private void showErrorAlert(String message) {
-    Alert alert = new Alert(Alert.AlertType.ERROR);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(message);
-    alert.showAndWait();
   }
 
   /**
