@@ -2,10 +2,11 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.util.Objects;
-import javafx.beans.value.ChangeListener;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -15,7 +16,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
  * fields for entering income details, such as amount, description, recurring type, and income
  * category.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Eskil Alstad
  * @version 1.2
  */
 public class AddIncomeDialog extends Dialog<Income> {
@@ -25,6 +26,7 @@ public class AddIncomeDialog extends Dialog<Income> {
   @FXML private TextField incomeDescriptionField;
   @FXML private ComboBox<IncomeCategory> incomeCategoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
+  @FXML private Button cancelButton;
 
   /**
    * Constructs an AddIncomeDialog, setting up the user interface components and necessary input
@@ -50,51 +52,12 @@ public class AddIncomeDialog extends Dialog<Income> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Income");
 
-    ButtonType submitButtonType = new ButtonType("Submit", ButtonBar.ButtonData.APPLY);
-    this.getDialogPane().getButtonTypes().addAll(submitButtonType, ButtonType.CANCEL);
-
-    Button submitButton = (Button) this.getDialogPane().lookupButton(submitButtonType);
-    disableButtonUntilAllFieldsAreValid(submitButton);
-
-    this.setResultConverter(
-        dialogButton -> {
-          if (dialogButton == submitButtonType) {
-            newIncome =
-                new Income(
-                    Integer.parseInt(getIncomeAmountField()),
-                    getIncomeDescriptionField(),
-                    getRecurringIntervalComboBox(),
-                    getIncomeCategoryComboBox());
-            return newIncome;
-          }
-          return null;
-        });
-
     // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     incomeCategoryComboBox.getItems().addAll(IncomeCategory.values());
 
     configureIncomeAmountField();
     configureIncomeDescriptionField();
-  }
-
-  /**
-   * Disables the given button and enables it only when all input fields are valid. Listeners are
-   * added to the input fields, and the button's disable property is updated based on the validation
-   * status of all fields.
-   *
-   * @param button the button to be disabled until all fields are valid
-   */
-  private void disableButtonUntilAllFieldsAreValid(Button button) {
-    button.setDisable(true);
-
-    ChangeListener<Object> fieldsChangeListener =
-        (observableValue, oldValue, newValue) -> button.setDisable(!assertAllFieldsValid());
-
-    incomeAmountField.textProperty().addListener(fieldsChangeListener);
-    incomeDescriptionField.textProperty().addListener(fieldsChangeListener);
-    incomeCategoryComboBox.valueProperty().addListener(fieldsChangeListener);
-    recurringIntervalComboBox.valueProperty().addListener(fieldsChangeListener);
   }
 
   /**
@@ -173,5 +136,33 @@ public class AddIncomeDialog extends Dialog<Income> {
         && incomeAmountField.getText() != null
         && recurringIntervalComboBox.getValue() != null
         && incomeCategoryComboBox.getValue() != null);
+  }
+
+  @FXML
+  private void closeDialog() {
+    Stage stage = (Stage) cancelButton.getScene().getWindow();
+    stage.close();
+  }
+
+  @FXML
+  private void handleSubmit() {
+    if (assertAllFieldsValid()) {
+      newIncome =
+          new Income(
+              Integer.parseInt(getIncomeAmountField()),
+              getIncomeDescriptionField(),
+              getRecurringIntervalComboBox(),
+              getIncomeCategoryComboBox());
+      this.setResult(newIncome);
+      this.close();
+    } else {
+      Alert alert = new Alert(Alert.AlertType.WARNING);
+      alert.setTitle("Error");
+      alert.setHeaderText(null);
+      alert.setContentText("Please fill out all fields in dialog");
+      alert.initModality(Modality.NONE);
+      alert.initOwner(this.getDialogPane().getScene().getWindow());
+      alert.showAndWait();
+    }
   }
 }

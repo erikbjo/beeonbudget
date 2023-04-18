@@ -2,16 +2,12 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.util.Objects;
-import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -21,7 +17,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
  * fields for entering expense details, such as amount, description, recurring type, and expense
  * category.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Eskil Alstad
  * @version 1.2
  */
 public class AddExpenseDialog extends Dialog<Expense> {
@@ -54,40 +50,19 @@ public class AddExpenseDialog extends Dialog<Expense> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
 
-
-    /*
-    this.setResultConverter(
-        dialogButton -> {
-          if (dialogButton == submitButton) {
-            if (assertAllFieldsValid()) {
-              newExpense =
-                  new Expense(
-                      Integer.parseInt(getExpenseAmountField()),
-                      getExpenseDescriptionField(),
-                      getRecurringIntervalComboBox(),
-                      getExpenseCategoryComboBox());
-              return newExpense;
-            } else {
-              Alert alert = new Alert(AlertType.WARNING);
-              alert.setTitle("Error");
-              alert.setHeaderText(null);
-              alert.setContentText("Please fill out all fields in dialog");
-              alert.initModality(Modality.NONE);
-              alert.initOwner(this.getDialogPane().getScene().getWindow());
-              alert.showAndWait();
-              return null;
-            }
-          }
-          return null;
-        });
-
-     */
-
     // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(ExpenseCategory.values());
 
-    // force the field to be numeric only
+    configureExpenseAmountField();
+    configureExpenseDescriptionField();
+  }
+
+  /**
+   * Configures the expenseAmountField to only accept numeric input. If a non-numeric character is
+   * entered, it is removed from the input.
+   */
+  private void configureExpenseAmountField() {
     expenseAmountField
         .textProperty()
         .addListener(
@@ -96,8 +71,13 @@ public class AddExpenseDialog extends Dialog<Expense> {
                 expenseAmountField.setText(newValue.replaceAll("[^\\d]", ""));
               }
             });
+  }
 
-    // force the field to not start with space
+  /**
+   * Configures the expenseDescriptionField to prevent input from starting with a space. If a space
+   * is entered at the beginning of the input, it is removed.
+   */
+  private void configureExpenseDescriptionField() {
     expenseDescriptionField
         .textProperty()
         .addListener(
@@ -161,15 +141,16 @@ public class AddExpenseDialog extends Dialog<Expense> {
     Stage stage = (Stage) cancelButton.getScene().getWindow();
     stage.close();
   }
+
   @FXML
   private void handleSubmit() {
     if (assertAllFieldsValid()) {
-      newExpense = new Expense(
-          Integer.parseInt(getExpenseAmountField()),
-          getExpenseDescriptionField(),
-          getRecurringIntervalComboBox(),
-          getExpenseCategoryComboBox()
-      );
+      newExpense =
+          new Expense(
+              Integer.parseInt(getExpenseAmountField()),
+              getExpenseDescriptionField(),
+              getRecurringIntervalComboBox(),
+              getExpenseCategoryComboBox());
       this.setResult(newExpense);
       this.close();
     } else {
