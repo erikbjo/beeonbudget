@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
@@ -63,6 +64,7 @@
                   <Font name="System Bold" size="12.0" />
                </font>
             </Label>
+            <PieChart fx:id="budgetChart" layoutX="121.0" layoutY="80.0" prefHeight="156.0" prefWidth="224.0" />
          </children>
       </AnchorPane>
       <AnchorPane fx:id="menuPane" layoutX="-4.0" layoutY="120.0" prefHeight="255.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="118.0">
