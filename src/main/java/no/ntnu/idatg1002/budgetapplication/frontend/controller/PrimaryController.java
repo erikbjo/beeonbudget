@@ -45,7 +45,8 @@ public class PrimaryController implements Initializable {
    @throws IOException if the budget.fxml file cannot be loaded.
    */
   public void switchToBudget(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/budget.fxml"));
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/budget.fxml")));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     String css = this.getClass().getResource("/cssfiles/budget.css").toExternalForm();
     scene = new Scene(root);
@@ -93,7 +94,9 @@ public class PrimaryController implements Initializable {
    @throws IOException if the savingsPlan.fxml file cannot be loaded.
    */
   public void switchToSavingPlan(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource("/fxmlfiles/savingsPlan.fxml")));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
