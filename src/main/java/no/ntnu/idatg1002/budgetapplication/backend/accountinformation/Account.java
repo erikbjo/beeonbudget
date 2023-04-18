@@ -1,7 +1,10 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
@@ -12,7 +15,9 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
  * @author Simon Husås Houmb, Erik Bjørnsen
  * @version 1.0 (2023-03-15)
  */
+@Entity
 public class Account {
+  @Id
   private final String accountNumber;
   /** The Rand. */
   Random rand = new Random();
@@ -191,7 +196,7 @@ public class Account {
    *
    * @return the savingsPlans collection as a Map.
    */
-  public ArrayList<SavingsPlan> getSavingsPlans() {
+  public List<SavingsPlan> getSavingsPlans() {
     return savingsPlans;
   }
 
@@ -242,7 +247,7 @@ public class Account {
    *
    * @return the account's Budget.
    */
-  public ArrayList<Budget> getBudgets() {
+  public List<Budget> getBudgets() {
     return budgets;
   }
 
@@ -327,10 +332,10 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no previous budget
    */
   public void selectPreviousBudget() throws IndexOutOfBoundsException {
-    if (budgets.indexOf(selectedBudget) > 0) {
-      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
-    } else {
+    if (budgets.indexOf(selectedBudget) == 0) {
       throw new IndexOutOfBoundsException();
+    } else {
+      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
     }
   }
 
@@ -373,10 +378,10 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no previous savings plan
    */
   public void selectPreviousSavingsPlan() throws IndexOutOfBoundsException {
-    if (savingsPlans.indexOf(selectedSavingsPlan) > 0) {
-      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
-    } else {
+    if (savingsPlans.indexOf(selectedSavingsPlan) == 0) {
       throw new IndexOutOfBoundsException();
+    } else {
+      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
     }
   }
 
