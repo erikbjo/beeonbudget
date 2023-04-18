@@ -17,10 +17,9 @@ import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
  * category.
  *
  * @author Erik Bjørnsen, Eskil Alstad
- * @version 1.2
+ * @version 2.0
  */
 public class AddIncomeDialog extends Dialog<Income> {
-  private Income newIncome;
 
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
@@ -68,6 +67,7 @@ public class AddIncomeDialog extends Dialog<Income> {
 
   @FXML
   private void handleSubmit() {
+    Income newIncome;
     if (assertAllFieldsValid()) {
       newIncome =
           new Income(
