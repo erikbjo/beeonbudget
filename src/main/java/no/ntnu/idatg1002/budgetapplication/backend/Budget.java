@@ -1,7 +1,11 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.scene.chart.PieChart;
+import javafx.scene.chart.PieChart.Data;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
@@ -14,6 +18,7 @@ public class Budget {
   private final List<Income> incomeList;
   private final List<ExpenseCategory> expenseCategoryList;
   private String budgetName;
+  private Boolean categoryExists;
 
   /**
    * Instantiates a new Budget.
@@ -177,5 +182,46 @@ public class Budget {
    */
   public List<ExpenseCategory> getCategoryList() {
     return expenseCategoryList;
+  }
+
+  public List<PieChart.Data> getPieChartExpenseData() {
+    ArrayList<PieChart.Data> data = new ArrayList<>();
+    for (Expense expense : this.getExpenseList()) {
+      //data.add(new Data(expense.getCategory().toString(), expense.getAmount()));
+      for (PieChart.Data dataPie : data) {
+        if (dataPie.getName().equals(expense.getCategory().toString())) {
+          // Update the existing data with the new amount
+          dataPie.setPieValue(dataPie.getPieValue() + expense.getAmount());
+        } else {
+          data.add(new PieChart.Data(expense.getCategory().toString(), expense.getAmount()));
+        }
+      }
+    }
+    return data;
+  }
+  public List<PieChart.Data> getPieChartExpenseDataTest() {
+    Map<String, Double> categoryAmounts = new HashMap<>();
+    for (Expense expense : this.getExpenseList()) {
+      String category = expense.getCategory().toString();
+      double amount = expense.getAmount();
+      if (categoryAmounts.containsKey(category)) {
+        categoryAmounts.put(category, categoryAmounts.get(category) + amount);
+      } else {
+        categoryAmounts.put(category, amount);
+      }
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : categoryAmounts.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
+  }
+
+  public List<PieChart.Data> getPieChartIncomeData() {
+    ArrayList<PieChart.Data> data = new ArrayList<>();
+    for (Income income : this.getIncomeList()) {
+      data.add(new PieChart.Data(income.getIncomeCategory().toString(), income.getAmount()));
+    }
+    return data;
   }
 }

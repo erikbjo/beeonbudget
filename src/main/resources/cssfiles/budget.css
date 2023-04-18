@@ -3,10 +3,10 @@
   -fx-text-fill: black;
   -fx-cursor: pointer;
   -fx-font-weight: bold;
-  -fx-padding: 10px 15px;
+  -fx-padding: 5px 6px;
   -fx-text-align: center;
   -fx-transition: 200ms;
-  -fx-width: 100%;
+  -fx-width: 80%;
   -fx-box-sizing: border-box;
   -fx-border: 0px;
   -fx-font-size: 16px;
@@ -19,4 +19,21 @@
   -fx-background-color: #cbbf0e;
   -fx-text-fill: black;
   -fx-effect: innershadow(one-pass-box, rgba(0,0,0,2.8), 10, 0, 0, 0);
+}
+.chart-pie > .pie-legend-symbol {
+  -fx-background-radius: 5px;
+  -fx-background-color: #3F51B5;
+}
+
+.chart-pie > .chart-legend {
+  -fx-padding: 5px;
+}
+.table-view .scroll-bar * {
+  -fx-min-width: 0;
+  -fx-pref-width: 0;
+  -fx-max-width: 0;
+
+  -fx-min-height: 0;
+  -fx-pref-height: 0;
+  -fx-max-height: 0;
 }
