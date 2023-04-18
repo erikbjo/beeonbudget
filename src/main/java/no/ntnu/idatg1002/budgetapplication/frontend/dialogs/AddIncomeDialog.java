@@ -49,7 +49,7 @@ public class AddIncomeDialog extends Dialog<Income> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Income");
 
-    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
+    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.APPLY);
     this.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
 
     this.setResultConverter(

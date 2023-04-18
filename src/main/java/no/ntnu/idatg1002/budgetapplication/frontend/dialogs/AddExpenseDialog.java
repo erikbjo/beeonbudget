@@ -49,8 +49,8 @@ public class AddExpenseDialog extends Dialog<Expense> {
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
 
-    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.OK_DONE);
-    this.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CANCEL);
+    ButtonType submitButton = new ButtonType("Submit", ButtonBar.ButtonData.APPLY);
+    this.getDialogPane().getButtonTypes().addAll(submitButton, ButtonType.CLOSE);
 
     this.setResultConverter(
         dialogButton -> {
