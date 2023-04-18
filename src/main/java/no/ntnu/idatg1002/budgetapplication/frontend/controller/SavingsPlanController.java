@@ -5,6 +5,7 @@ import java.util.Objects;
 import java.util.ResourceBundle;
 import java.net.URL;
 
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,7 +23,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
  * @author Igor Dzugaj
  * @version 1.0
  */
-public class SavingsPlanController {
+public class SavingsPlanController implements Initializable {
 
   @FXML TextField name;
   @FXML TextField totAmount;
@@ -112,7 +113,7 @@ public class SavingsPlanController {
     popup.setVisible(false);
   }
 
-  @Override
+@Override
   public void initialize(URL url, ResourceBundle resourceBundle){
     ObservableList<PieChart.Data> pieChartData =
             FXCollections.observableArrayList(
@@ -122,4 +123,12 @@ public class SavingsPlanController {
             );
 
     pieChartData.forEach(data ->
+            data.nameProperty().bind(
+                    Bindings.concat(
+                            data.getName(), ": ", data.pieValueProperty()
+                    )
+            )
+    );
+    pieChart.getData().addAll(pieChartData);
+  }
 }
