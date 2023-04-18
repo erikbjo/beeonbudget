@@ -24,6 +24,9 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
+/**
+ * Controller for the Budget GUI
+ */
 public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
@@ -39,6 +42,11 @@ public class BudgetController implements Initializable {
   @FXML private Button newIncomeButton;
   @FXML private Button previousButtonInBudget;
 
+  /**
+   Constructor for the BudgetController class.
+
+   @throws IOException if an I/O error occurs.
+   */
   public BudgetController() throws IOException {
     this.budgetInformation = FXCollections.observableArrayList("assffsa");
     this.incomeTableView = new TableView<>();
@@ -49,6 +57,12 @@ public class BudgetController implements Initializable {
     this.previousButtonInBudget = new Button();
   }
 
+  /**
+   Initializes the controller class.
+
+   @param url The location used to resolve relative paths for the root object.
+   @param resourceBundle The resources used to localize the root object.
+   */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     // expenseColumn = new TableColumn<>("Expenses");
@@ -67,6 +81,12 @@ public class BudgetController implements Initializable {
             Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
   }
 
+  /**
+   Switches to the primary view from the budget view.
+
+   @param event The event that triggered this method.
+   @throws IOException if an I/O error occurs.
+   */
   @FXML
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
@@ -79,6 +99,12 @@ public class BudgetController implements Initializable {
     stage.show();
   }
 
+  /**
+   This method switches the scene from the budget view to the primary view.
+
+   @param event The MouseEvent that triggers the method call
+   @throws IOException if the primary.fxml file cannot be loaded
+   */
   public void switchToPrimaryFromBudgetMouseEvent(MouseEvent event) throws IOException {
     Parent root = FXMLLoader.load(getClass().getResource("/fxmlfiles/primary.fxml"));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
@@ -90,6 +116,14 @@ public class BudgetController implements Initializable {
     stage.show();
   }
 
+  /**
+   This method handles the event when the user clicks the "New Income" button.
+   It displays a dialog box where the user can enter the details of the new income.
+   If the user confirms the new income, it is added to the currently selected budget.
+
+   @param event The ActionEvent that triggers the method call
+   @throws IOException if the AddIncomeDialog.fxml file cannot be loaded
+   */
   @FXML
   public void onNewIncome(ActionEvent event) throws IOException {
     AddIncomeDialog dialog = new AddIncomeDialog();
@@ -101,6 +135,14 @@ public class BudgetController implements Initializable {
     updateItems();
   }
 
+  /**
+   This method handles the event when the user clicks the "New Expense" button.
+   It displays a dialog box where the user can enter the details of the new expense.
+   If the user confirms the new expense, it is added to the currently selected budget.
+
+   @param event The ActionEvent that triggers the method call
+   @throws IOException if the AddExpenseDialog.fxml file cannot be loaded
+   */
   @FXML
   public void onNewExpense(ActionEvent event) throws IOException {
     AddExpenseDialog dialog = new AddExpenseDialog();
@@ -112,6 +154,11 @@ public class BudgetController implements Initializable {
     updateItems();
   }
 
+  /**
+   This method updates the items displayed in the expense and income table views.
+   It retrieves the expense and income lists from the currently selected budget and
+   sets them as the new items for the corresponding table views.
+   */
   private void updateItems() {
     // update expenses
     expenseTableView.setItems(
