@@ -53,12 +53,9 @@ public class SavingsPlanController {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
+    Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.setMaximized(true);
-    stage.show();
+    scene.setRoot(root);
   }
 
   /** Creates a new tab for a new savings plan. */
