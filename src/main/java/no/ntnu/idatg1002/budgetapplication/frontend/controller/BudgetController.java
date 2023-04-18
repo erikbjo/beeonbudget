@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -86,12 +87,9 @@ public class BudgetController implements Initializable {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
+    Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.setMaximized(true);
-    stage.show();
+    scene.setRoot(root);
   }
 
   /**
@@ -104,12 +102,9 @@ public class BudgetController implements Initializable {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    scene = new Scene(root);
+    Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.setMaximized(true);
-    stage.show();
+    scene.setRoot(root);
   }
 
   /**
@@ -169,3 +164,4 @@ public class BudgetController implements Initializable {
   @FXML
   void onMonthlyExpense() {}
 }
+

@@ -12,6 +12,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
@@ -25,9 +26,12 @@ public class PrimaryController implements Initializable {
   @FXML private Label menuPaneLabel2;
   @FXML private Label usernameLabel;
   @FXML private Label budgetLabel;
+  @FXML
+  private AnchorPane contentPane;
+  @FXML
   private Stage stage;
+  @FXML
   private Scene scene;
-  private Scene previousScene;
 
   /**
    * Constructs a new instance of the PrimaryController class.
@@ -43,15 +47,14 @@ public class PrimaryController implements Initializable {
    * @throws IOException if the budget.fxml file cannot be loaded.
    */
   public void switchToBudget(ActionEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/budget.fxml")));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    String css = this.getClass().getResource("/cssfiles/budget.css").toExternalForm();
-    scene = new Scene(root);
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/budget.fxml"));
+    Parent root = loader.load();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.setMaximized(true);
-    stage.show();
+    scene.setRoot(root);
   }
 
   /**
@@ -99,11 +102,9 @@ public class PrimaryController implements Initializable {
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
             .toExternalForm();
-    scene = new Scene(root);
+    Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
-    stage.setScene(scene);
-    stage.setMaximized(true);
-    stage.show();
+    scene.setRoot(root);
   }
 
   /** Updates the dynamic labels of the view. */
