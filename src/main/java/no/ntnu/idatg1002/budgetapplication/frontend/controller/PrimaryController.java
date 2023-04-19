@@ -26,12 +26,9 @@ public class PrimaryController implements Initializable {
   @FXML private Label menuPaneLabel2;
   @FXML private Label usernameLabel;
   @FXML private Label budgetLabel;
-  @FXML
-  private AnchorPane contentPane;
-  @FXML
-  private Stage stage;
-  @FXML
-  private Scene scene;
+  @FXML private AnchorPane contentPane;
+  @FXML private Stage stage;
+  @FXML private Scene scene;
 
   /**
    * Constructs a new instance of the PrimaryController class.
@@ -74,7 +71,6 @@ public class PrimaryController implements Initializable {
           Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income);
           updatePrimaryView();
         });
-
   }
 
   /**
@@ -89,7 +85,7 @@ public class PrimaryController implements Initializable {
 
     Optional<Expense> result = dialog.showAndWait();
     result.ifPresent(
-        expense ->{
+        expense -> {
           Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense);
           updatePrimaryView();
         });
@@ -114,21 +110,23 @@ public class PrimaryController implements Initializable {
     scene.setRoot(root);
   }
 
-  /**
-   Updates the dynamic labels of the view.
-   */
+  /** Updates the dynamic labels of the view. */
   public void updatePrimaryView() {
-    budgetLabel.setText(
-        String.format(
-            "Budget: %s", Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
-    usernameLabel.setText(Database.getCurrentAccount().getName());
-    menuPaneLabel1.setText(
-        String.format(
-            "Remaining: %dkr", Database.getCurrentAccount().getSelectedBudget().getNetBalance()));
-    menuPaneLabel2.setText(
-        String.format(
-            "Budget spent: %dkr",
-            Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
+    try {
+      budgetLabel.setText(
+          String.format(
+              "Budget: %s", Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
+      usernameLabel.setText(Database.getCurrentAccount().getName());
+      menuPaneLabel1.setText(
+          String.format(
+              "Remaining: %dkr", Database.getCurrentAccount().getSelectedBudget().getNetBalance()));
+      menuPaneLabel2.setText(
+          String.format(
+              "Budget spent: %dkr",
+              Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
   }
 
   /**
