@@ -292,8 +292,10 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void deleteBudget(ActionEvent event) {
-    // System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
-    // System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
-    // Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
+    System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
+    System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
+    Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
+    System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
+    System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
   }
 }
