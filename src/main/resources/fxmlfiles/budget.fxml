@@ -38,18 +38,25 @@
                         <Font name="Segoe UI Bold" size="22.0"/>
                     </font>
                 </Label>
-            <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0" style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT" AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="21.0" />
-            <Label fx:id="budgetNameInBudget" layoutX="278.0" layoutY="21.0" prefHeight="17.0" prefWidth="171.0" text="N/A" AnchorPane.leftAnchor="278.0" AnchorPane.rightAnchor="450.66666666666663" AnchorPane.topAnchor="21.0">
-               <graphic>
-                  <Label prefHeight="17.0" prefWidth="98.0" text="BUDGETNAME:">
-                     <font>
-                        <Font name="System Bold" size="12.0" />
-                     </font></Label>
-               </graphic>
-            </Label>
-         </children>
-      </AnchorPane>
-        <HBox layoutY="70.0" prefHeight="331.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+                <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0"
+                       style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT"
+                       AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0"
+                       AnchorPane.topAnchor="21.0"/>
+                <Label fx:id="budgetNameInBudget" layoutX="278.0" layoutY="21.0" prefHeight="17.0" prefWidth="171.0"
+                       text="N/A" AnchorPane.leftAnchor="278.0" AnchorPane.rightAnchor="450.66666666666663"
+                       AnchorPane.topAnchor="21.0">
+                    <graphic>
+                        <Label prefHeight="17.0" prefWidth="98.0" text="BUDGETNAME:">
+                            <font>
+                                <Font name="System Bold" size="12.0"/>
+                            </font>
+                        </Label>
+                    </graphic>
+                </Label>
+            </children>
+        </AnchorPane>
+        <HBox layoutY="70.0" prefHeight="331.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="1.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
             <children>
                 <VBox prefHeight="292.0" prefWidth="163.0" spacing="10.0">
                     <children>
@@ -108,8 +115,6 @@
                                 </Label>
                             </graphic>
                         </Label>
-                     </graphic>
-                  </Label>
                         <TableView fx:id="expenseTableView" prefHeight="159.0" prefWidth="365.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="expenseColumn" editable="false" prefWidth="180.0" resizable="false"
@@ -122,28 +127,31 @@
                             </columnResizePolicy>
                         </TableView>
                     </children>
-               <padding>
-                  <Insets bottom="10.0" />
-               </padding>
+                    <padding>
+                        <Insets bottom="10.0"/>
+                    </padding>
                 </VBox>
                 <VBox prefHeight="330.0" prefWidth="343.0" HBox.hgrow="ALWAYS">
                     <children>
-                  <GridPane prefHeight="330.0" prefWidth="317.0" VBox.vgrow="ALWAYS">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                    </columnConstraints>
-                    <rowConstraints>
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                      <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                    </rowConstraints>
-                     <children>
-                        <PieChart fx:id="totalChart" title="Total" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                              <PieChart fx:id="expenseChart" legendVisible="false" prefHeight="165.0" prefWidth="343.0" title="Expense" GridPane.rowIndex="2" />
-                              <PieChart fx:id="incomeChart" legendVisible="false" prefHeight="165.0" prefWidth="306.0" title="Income" />
-                     </children>
-                  </GridPane>
+                        <GridPane prefHeight="330.0" prefWidth="317.0" VBox.vgrow="ALWAYS">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <PieChart fx:id="totalChart" title="Total" GridPane.columnIndex="1"
+                                          GridPane.rowIndex="1"/>
+                                <PieChart fx:id="expenseChart" legendVisible="false" prefHeight="165.0"
+                                          prefWidth="343.0" title="Expense" GridPane.rowIndex="2"/>
+                                <PieChart fx:id="incomeChart" legendVisible="false" prefHeight="165.0" prefWidth="306.0"
+                                          title="Income"/>
+                            </children>
+                        </GridPane>
                     </children>
                 </VBox>
             </children>
