@@ -55,11 +55,12 @@ public class Expense extends MoneyAction {
   public void setExpenseCategory(ExpenseCategory expenseCategory) {
     this.expenseCategory = expenseCategory;
   }
-
   public String getExpenseAssString() {
-    return "Amount=" + this.getAmount() + "\n" +
-        " Description=" + this.getDescription() + "\n" +
-        " Type=" + this.getRecurringType() + "\n" +
-        " ExpenseCategory=" + this.expenseCategory + ")";
+    StringBuilder sb = new StringBuilder();
+    sb.append("Amount: ").append(this.getAmount()).append(".KR").append("\n");
+    sb.append("Description: ").append(this.getDescription()).append("\n");
+    sb.append("Type: ").append(this.getRecurringType()).append("\n");
+    sb.append("ExpenseCategory: ").append(this.expenseCategory).append(")");
+    return sb.toString();
   }
 }

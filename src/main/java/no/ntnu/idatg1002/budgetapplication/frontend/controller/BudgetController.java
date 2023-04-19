@@ -46,9 +46,7 @@ public class BudgetController implements Initializable {
   @FXML private Button previousButtonInBudget;
   @FXML private PieChart incomeChart;
   @FXML private PieChart expenseChart;
-  @FXML private DialogPane newDialogPane;
-  @FXML
-  private JFXTextArea informationText;
+
 
 
 
@@ -250,7 +248,29 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void getInformationFromSelectedItem(ActionEvent event) throws IOException {
-
+    if (incomeTableView.getSelectionModel()
+        .isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
+      Alert.AlertType type = AlertType.NONE;
+      Alert alert = new Alert(type,"");
+      Income income = incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
+      alert.setTitle("Income Info");
+      alert.setContentText(income.getIncomeAssString());
+      alert.getButtonTypes().add(ButtonType.CANCEL);
+      alert.showAndWait();
+    } else if (expenseTableView.getSelectionModel()
+        .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
+      Alert.AlertType type = AlertType.NONE;
+      Alert alert = new Alert(type,"");
+      Expense expense = expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
+      alert.setTitle("Expense Info");
+      alert.setContentText(expense.getExpenseAssString());
+      alert.getButtonTypes().add(ButtonType.CANCEL);
+      alert.showAndWait();
+    } else {
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setContentText("Please Select An Item To Show More Info.");
+      alert.showAndWait();
+    }
   }
 
   @FXML
