@@ -2,17 +2,23 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class ResetPinCodeEnterUserController {
 
@@ -22,23 +28,36 @@ public class ResetPinCodeEnterUserController {
   @FXML // URL location of the FXML file that was given to the FXMLLoader
   private URL location;
 
-  @FXML // fx:id="budgetApplicationText"
-  private Text budgetApplicationText; // Value injected by FXMLLoader
-  @FXML // fx:id="resetPasswordText"
-  private Text resetPasswordText; // Value injected by FXMLLoader
-  @FXML // fx:id="usernameText"
-  private Text usernameText; // Value injected by FXMLLoader
+  @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
+  @FXML private Text resetPasswordText; // Value injected by FXMLLoader
+  @FXML private Text usernameText; // Value injected by FXMLLoader
 
-  @FXML // fx:id="usernameTextField"
-  private TextField usernameTextField; // Value injected by FXMLLoader
+  @FXML private TextField usernameTextField; // Value injected by FXMLLoader
 
-  @FXML // fx:id="backToLoginButton"
-  private Button backToLoginButton; // Value injected by FXMLLoader
-  @FXML // fx:id="continueButton"
-  private Button continueButton; // Value injected by FXMLLoader
+  @FXML private Button backToLoginButton; // Value injected by FXMLLoader
+  @FXML private Button continueButton; // Value injected by FXMLLoader
+
+  @FXML // This method is called by the FXMLLoader when initialization is complete
+  void initialize() {
+    configureUsernameTextField();
+  }
 
   @FXML
   void continueResetPassword(ActionEvent event) throws IOException {
+    if (!usernameTextField.getText().isEmpty() && (isValidUser(usernameTextField.getText()))) {
+      switchToEnterNewPinCode(event);
+    } else if (usernameTextField.getText().isEmpty()) {
+      showEmptyTextFieldAlert();
+    } else {
+      showInvalidLoginAlert();
+    }
+
+    // FOR TESTING - REMOVE THIS
+    switchToEnterNewPinCode(event);
+    // FOR TESTING - REMOVE THIS
+  }
+
+  private void switchToEnterNewPinCode(Event event) throws IOException {
     Parent root =
         FXMLLoader.load(
             Objects.requireNonNull(
@@ -63,19 +82,80 @@ public class ResetPinCodeEnterUserController {
     scene.setRoot(root);
   }
 
-  @FXML // This method is called by the FXMLLoader when initialization is complete
-  void initialize() {
-    assert backToLoginButton != null
-        : "fx:id=\"backToLoginButton\" was not injected: check your FXML file 'resetPinCodeEnterUser.fxml'.";
-    assert budgetApplicationText != null
-        : "fx:id=\"budgetApplicationText\" was not injected: check your FXML file 'resetPinCodeEnterUser.fxml'.";
-    assert continueButton != null
-        : "fx:id=\"continueButton\" was not injected: check your FXML file 'resetPinCodeEnterUser.fxml'.";
-    assert resetPasswordText != null
-        : "fx:id=\"resetPasswordText\" was not injected: check your FXML file 'resetPinCodeEnterUser.fxml'.";
-    assert usernameText != null
-        : "fx:id=\"usernameText\" was not injected: check your FXML file 'resetPinCodeEnterUser.fxml'.";
-    assert usernameTextField != null
-        : "fx:id=\"usernameTextField\" was not injected: check your FXML file 'resetPinCodeEnterUser.fxml'.";
+  private void configureUsernameTextField() {
+    usernameTextField
+        .textProperty()
+        .addListener(
+            (observableValue, oldValue, newValue) -> {
+              if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                usernameTextField.clear();
+              }
+            });
+  }
+
+  private boolean isValidUser(String user) {
+    boolean valid = false;
+
+    if (isEmail(user)) {
+      valid = isValidEmail(user);
+    } else {
+      valid = isValidUsername(user);
+    }
+
+    return valid;
+  }
+
+  private boolean assertAllFieldsValid() {
+    return (!usernameTextField.getText().isEmpty());
+  }
+
+  private boolean isEmail(String stringToBeChecked) {
+    return stringToBeChecked.contains("@");
+  }
+
+  private boolean isValidUsername(String username) {
+    boolean isValidUsername = false;
+    var accounts = Database.getAccounts();
+
+    for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+      if (Objects.equals(entry.getValue().getName(), username)) {
+        isValidUsername = true;
+        break;
+      }
+    }
+
+    return isValidUsername;
+  }
+
+  private boolean isValidEmail(String email) {
+    boolean isValidEmail = false;
+    var accounts = Database.getAccounts();
+
+    for (Map.Entry<String, Account> entry : accounts.entrySet()) {
+      if (Objects.equals(entry.getValue().getEmail(), email)) {
+        isValidEmail = true;
+        break;
+      }
+    }
+
+    return isValidEmail;
+  }
+
+  private void showEmptyTextFieldAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please fill out username or email");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
+  private void showInvalidLoginAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Invalid username or email");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
   }
 }
