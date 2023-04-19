@@ -2,7 +2,6 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.ElementCollection;
-import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -10,10 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import javafx.scene.chart.PieChart;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
