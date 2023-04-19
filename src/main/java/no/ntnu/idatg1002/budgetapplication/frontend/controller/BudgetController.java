@@ -33,16 +33,14 @@ public class BudgetController implements Initializable {
   @FXML private TableView<Income> incomeTableView;
   @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
   @FXML private TableColumn<Expense, Integer> expenseColumn;
-  @FXML private TableColumn<Income, ExpenseCategory> incomeCategoryColumn;
+  @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
   @FXML private TableColumn<Income, Integer> incomeColumn;
   @FXML private final Button monthlyExpenseButton;
   @FXML private Button newExpenseButton;
   @FXML private Button newIncomeButton;
   @FXML private Button previousButtonInBudget;
-  @FXML
-  private PieChart incomeChart;
-  @FXML
-  private PieChart expenseChart;
+  @FXML private PieChart incomeChart;
+  @FXML private PieChart expenseChart;
 
   /**
    * Constructor for the BudgetController class.
@@ -67,20 +65,19 @@ public class BudgetController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+
     expenseColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     expenseColumn.setReorderable(false);
-    expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("category"));
+    expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("expenseCategory"));
     expenseCategoryColumn.setReorderable(false);
+
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     incomeColumn.setReorderable(false);
-    incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("type"));
+    incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategory"));
     incomeCategoryColumn.setReorderable(false);
-    expenseTableView.setItems(
-        FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
-    incomeTableView.setItems(
-        FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
+
+    updateItems();
+
     pieChartUpdateIncome();
     pieChartUpdateExpense();
   }
@@ -178,16 +175,12 @@ public class BudgetController implements Initializable {
   private void pieChartUpdateIncome() {
     incomeChart.setData(
         FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getPieChartIncomeData()
-        )
-    );
+            Database.getCurrentAccount().getSelectedBudget().getPieChartIncomeData()));
   }
 
   private void pieChartUpdateExpense() {
     expenseChart.setData(
         FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData())
-    );
+            Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData()));
   }
 }
-
