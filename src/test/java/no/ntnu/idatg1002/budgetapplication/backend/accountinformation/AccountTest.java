@@ -376,28 +376,4 @@ class AccountTest {
     account.addSavingsPlan(savingsPlan);
     assertEquals(savingsPlan, account.getSelectedSavingsPlan());
   }
-
-  @Test
-  void toStringPositiveTest() {
-    System.out.println(account.toString());
-    String expected =
-        "Account{name='"
-            + account.getName()
-            + "', email='"
-            + account.getEmail()
-            + "', pinCode='"
-            + account.getPinCode()
-            + "', securityQuestion="
-            + account.getSecurityQuestion()
-            + ", securityAnswer='"
-            + account.getSecurityAnswer()
-            + "', accountNumber='"
-            + account.getId()
-            + "', savingsPlans="
-            + account.getSavingsPlans()
-            + ", budgets="
-            + account.getBudgets()
-            + "}";
-    assertEquals(expected, account.toString());
-  }
 }

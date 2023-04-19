@@ -47,9 +47,6 @@ public class BudgetController implements Initializable {
   @FXML private PieChart incomeChart;
   @FXML private PieChart expenseChart;
 
-
-
-
   /**
    * Constructor for the BudgetController class.
    *
@@ -84,21 +81,25 @@ public class BudgetController implements Initializable {
     incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategory"));
     incomeCategoryColumn.setReorderable(false);
 
-    incomeTableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldIncomeSelected
-        , newIncomeSelected) -> {
-      if (newIncomeSelected != null) {
-        expenseTableView.getSelectionModel().clearSelection();
-      }
-    });
+    incomeTableView
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observableValue, oldIncomeSelected, newIncomeSelected) -> {
+              if (newIncomeSelected != null) {
+                expenseTableView.getSelectionModel().clearSelection();
+              }
+            });
 
-    expenseTableView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldExpenseSelected
-        , newExpenseSelected) -> {
-      if (newExpenseSelected != null) {
-        incomeTableView.getSelectionModel().clearSelection();
-      }
-    });
-
-
+    expenseTableView
+        .getSelectionModel()
+        .selectedItemProperty()
+        .addListener(
+            (observableValue, oldExpenseSelected, newExpenseSelected) -> {
+              if (newExpenseSelected != null) {
+                incomeTableView.getSelectionModel().clearSelection();
+              }
+            });
 
     updateItems();
 
@@ -210,31 +211,43 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void deleteRowFromTable(ActionEvent event) {
-    if (incomeTableView.getSelectionModel().isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
+    if (incomeTableView
+        .getSelectionModel()
+        .isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
       Alert.AlertType type = AlertType.CONFIRMATION;
-      Alert alert = new Alert(type,"Delete Item");
+      Alert alert = new Alert(type, "Delete Item");
       alert.initModality(Modality.APPLICATION_MODAL);
       alert.setTitle("Are You Sure?");
       alert.setContentText("Are You Sure You Want To Delete This Income?");
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
-        Database.getCurrentAccount().getSelectedBudget().removeBudgetIncome(incomeTableView.getSelectionModel().getSelectedItem());
-        incomeTableView.getItems().removeAll(incomeTableView.getSelectionModel().getSelectedItems());
+        Database.getCurrentAccount()
+            .getSelectedBudget()
+            .removeBudgetIncome(incomeTableView.getSelectionModel().getSelectedItem());
+        incomeTableView
+            .getItems()
+            .removeAll(incomeTableView.getSelectionModel().getSelectedItems());
         pieChartUpdateIncome();
       } else {
         alert.close();
       }
-    } else if (expenseTableView.getSelectionModel().isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
+    } else if (expenseTableView
+        .getSelectionModel()
+        .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
       Alert.AlertType type = AlertType.CONFIRMATION;
-      Alert alert = new Alert(type,"");
+      Alert alert = new Alert(type, "");
       alert.initModality(Modality.APPLICATION_MODAL);
       alert.getDialogPane();
       alert.setTitle("Are You Sure?");
       alert.setContentText("Are You Sure You Want To Delete This Expense?");
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
-        Database.getCurrentAccount().getSelectedBudget().removeBudgetExpenses(expenseTableView.getSelectionModel().getSelectedItem());
-        expenseTableView.getItems().removeAll(expenseTableView.getSelectionModel().getSelectedItems());
+        Database.getCurrentAccount()
+            .getSelectedBudget()
+            .removeBudgetExpenses(expenseTableView.getSelectionModel().getSelectedItem());
+        expenseTableView
+            .getItems()
+            .removeAll(expenseTableView.getSelectionModel().getSelectedItems());
         pieChartUpdateExpense();
       } else {
         alert.close();
@@ -248,20 +261,24 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void getInformationFromSelectedItem(ActionEvent event) throws IOException {
-    if (incomeTableView.getSelectionModel()
+    if (incomeTableView
+        .getSelectionModel()
         .isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
       Alert.AlertType type = AlertType.NONE;
-      Alert alert = new Alert(type,"");
-      Income income = incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
+      Alert alert = new Alert(type, "");
+      Income income =
+          incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Income Info");
       alert.setContentText(income.getIncomeAssString());
       alert.getButtonTypes().add(ButtonType.CANCEL);
       alert.showAndWait();
-    } else if (expenseTableView.getSelectionModel()
+    } else if (expenseTableView
+        .getSelectionModel()
         .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
       Alert.AlertType type = AlertType.NONE;
-      Alert alert = new Alert(type,"");
-      Expense expense = expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
+      Alert alert = new Alert(type, "");
+      Expense expense =
+          expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Expense Info");
       alert.setContentText(expense.getExpenseAssString());
       alert.getButtonTypes().add(ButtonType.CANCEL);
@@ -275,6 +292,8 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void deleteBudget(ActionEvent event) {
-
+    // System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
+    // System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
+    // Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
   }
 }

@@ -1,17 +1,18 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.view;
 
-import java.awt.Label;
 import java.util.Objects;
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class PrimaryView extends Application {
+
+  public static void mainApp(String[] args) {
+    launch();
+  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -23,21 +24,17 @@ public class PrimaryView extends Application {
             .toExternalForm();
     scene.getStylesheets().add(css);
     primaryStage.setTitle("Bee on Budget");
-     primaryStage
-        .getIcons()
-        .add(
-            new Image(
-                Objects.requireNonNull(getClass().getResource("/images/simpleLogoBoY.png"))
-                    .openStream()));
+    // primaryStage
+    //    .getIcons()
+    //    .add(
+    //        new Image(
+    //            Objects.requireNonNull(getClass().getResource("/images/simpleLogoBoY.png"))
+    //                .openStream()));
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
     primaryStage.setMinHeight(500);
     primaryStage.setMinWidth(1000);
     // primaryStage.setFullScreen(true);
     primaryStage.show();
-  }
-
-  public static void mainApp(String[] args) {
-    launch();
   }
 }
