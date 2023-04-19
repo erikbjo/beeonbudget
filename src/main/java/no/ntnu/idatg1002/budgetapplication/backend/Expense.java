@@ -1,13 +1,21 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 /**
  * Represents an expense entry in the budget application. Inherits from the MoneyAction class. An
  * Expense object includes an amount, a description, a recurring type, and an expense category.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Simon Husås Houmb
  * @version 2.0
  */
+@Entity
 public class Expense extends MoneyAction {
+  @Id
+  @GeneratedValue
+  private Long id;
 
   private ExpenseCategory expenseCategory;
 
@@ -24,6 +32,10 @@ public class Expense extends MoneyAction {
       int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
     super(amount, description, type);
     this.expenseCategory = expenseCategory;
+  }
+
+  public Expense() {
+
   }
 
   /**

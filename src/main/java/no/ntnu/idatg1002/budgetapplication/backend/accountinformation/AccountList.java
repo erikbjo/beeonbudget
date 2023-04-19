@@ -2,37 +2,15 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
-/**
- * Represents the database that hold all the accounts added to the application.
- */
-public class Database {
-  private static HashMap<String, Account> accounts = new HashMap<>();
-  private static ArrayList<String> emails = new ArrayList<>();
+public class AccountList implements AccountListInterface {
+  HashMap<String, Account> accounts;
+  ArrayList<String> emails;
+
   private static Account currentAccount;
 
-  private Database() {}
-
-  /**
-   * Returns a Map of all the accounts in the database.
-   *
-   * @return all accounts in the database as a Map.
-   */
-  public static Map<String, Account> getAccounts() {
-    return accounts;
-  }
-
-
-  /**
-   * Returns all emails registered to accounts in the database.
-   *
-   * @return all emails registered to accounts in the database as a List.
-   */
-  public static List<String> getEmails() {
-    return emails;
-  }
 
   /**
    * Adds a new account to the database. If the account already exists or
@@ -40,9 +18,10 @@ public class Database {
    *
    * @param account the account to be added to the database.
    * @throws IllegalArgumentException if an instance of the account already exists or
-   * if the account number of the account is already taken.
+   *     if the account number of the account is already taken.
    */
-  public static void addAccount(Account account) throws IllegalArgumentException {
+  @Override
+  public void addAccount(Account account) throws IllegalArgumentException {
     if (accounts.containsValue(account)) {
       throw new IllegalArgumentException("Instance of account already exists.");
     } else if (accounts.containsKey(account.getId())) {
@@ -53,11 +32,30 @@ public class Database {
     }
   }
 
+  /**
+   * Returns all emails registered to accounts in the database.
+   *
+   * @return all emails registered to accounts in the database as a List.
+   */
+  public List<String> getEmails() {
+    return emails;
+  }
+
+  @Override
+  public Iterator<Account> iterator() {
+    return this.accounts.values().iterator();
+  }
+
+  @Override
+  public void printAccounts() {
+    throw new UnsupportedOperationException();
+  }
+
   public static Account getCurrentAccount() {
     return currentAccount;
   }
 
   public static void setCurrentAccount(Account currentAccount) {
-    Database.currentAccount = currentAccount;
+    AccountList.currentAccount = currentAccount;
   }
 }

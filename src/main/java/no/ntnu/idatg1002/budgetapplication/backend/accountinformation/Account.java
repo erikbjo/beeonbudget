@@ -1,10 +1,15 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
@@ -15,22 +20,29 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
  * @author Simon Husås Houmb, Erik Bjørnsen
  * @version 1.0 (2023-03-15)
  */
-@Entity
+@Entity(name = "Account")
+@Table(name = "account")
 public class Account {
   @Id
-  private final String accountNumber;
-  /** The Rand. */
-  Random rand = new Random();
+  private final String id = generateAccountNumber();
 
   private String name;
   private String email;
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  private final ArrayList<SavingsPlan> savingsPlans;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
+  @Transient
   private SavingsPlan selectedSavingsPlan;
-  private final ArrayList<Budget> budgets;
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final List<Budget> budgets = new ArrayList<>();
+  @Transient
   private Budget selectedBudget;
+  @Transient
+  private Random rand;
+
+  public Account() {}
 
   /**
    * Creates a new account with a name, email, 4 digit pinCode, chosen securityQuestion and
@@ -54,9 +66,6 @@ public class Account {
     setPinCode(pinCode);
     this.securityQuestion = securityQuestion;
     setSecurityAnswer(securityAnswer);
-    this.accountNumber = generateAccountNumber();
-    this.savingsPlans = new ArrayList<>();
-    this.budgets = new ArrayList<>();
   }
 
   /**
@@ -187,8 +196,8 @@ public class Account {
    *
    * @return the accountNumber as a String.
    */
-  public String getAccountNumber() {
-    return accountNumber;
+  public String getId() {
+    return id;
   }
 
   /**
@@ -392,20 +401,21 @@ public class Account {
    * @return the random AccountNumber as a String
    */
   private String generateAccountNumber() {
+    rand = new Random();
     boolean idTaken = true;
-    StringBuilder id;
+    StringBuilder stringBuilderId;
     do {
-      id = new StringBuilder("ID-");
+      stringBuilderId = new StringBuilder("ID-");
 
       for (int i = 0; i < 14; i++) {
-        int n = rand.nextInt(10);
-        id.append(n);
+        int n = this.rand.nextInt(10);
+        stringBuilderId.append(n);
       }
-      if (!Database.getAccounts().containsKey(id.toString())) {
+      if (!Database.getAccounts().containsKey(stringBuilderId.toString())) {
         idTaken = false;
       }
     } while (idTaken);
-    return id.toString();
+    return stringBuilderId.toString();
   }
 
   @Override
@@ -426,7 +436,7 @@ public class Account {
         + securityAnswer
         + '\''
         + ", accountNumber='"
-        + accountNumber
+        + id
         + '\''
         + ", savingsPlans="
         + savingsPlans
