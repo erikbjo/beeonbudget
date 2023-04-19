@@ -16,12 +16,7 @@ import no.ntnu.idatg1002.budgetapplication.frontend.view.PrimaryView;
 public class Main {
   private AccountListInterface accountList;
 
-  public Main() {
-    accountList = new AccountDAO();
-  }
-
   public static void main(String[] args) {
-    Main main = new Main();
 
     Account adminAccount =
         new Account(

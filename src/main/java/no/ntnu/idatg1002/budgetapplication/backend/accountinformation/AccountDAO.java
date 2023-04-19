@@ -11,9 +11,15 @@ public class AccountDAO implements AccountListInterface {
   private final EntityManagerFactory emf;
   private EntityManager em;
 
+  private static final AccountDAO instance = new AccountDAO();
+
   public AccountDAO() {
     this.emf = Persistence.createEntityManagerFactory("accountdb");
     this.em = this.emf.createEntityManager();
+  }
+
+  public static AccountDAO getInstance() {
+    return instance;
   }
 
   @Override
