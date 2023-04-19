@@ -95,4 +95,12 @@ public abstract class MoneyAction {
   public void setRecurringType(RecurringType type) {
     this.type = type;
   }
+
+  public String getExpenseAssString() {
+    return "Expense(amount=" +
+        this.getAmount() + ", description=" +
+        this.getDescription() + ", type=" +
+        this.getRecurringType() + ", expenseCategory=" +
+        ")";
+  }
 }
