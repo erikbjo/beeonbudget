@@ -50,7 +50,7 @@ public class PrimaryController implements Initializable {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/budget.fxml"));
     Parent root = loader.load();
     String css =
-        Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/budget.css"))
             .toExternalForm();
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);

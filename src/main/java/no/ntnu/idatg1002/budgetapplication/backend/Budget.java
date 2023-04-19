@@ -1,7 +1,10 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.scene.chart.PieChart;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
@@ -14,6 +17,7 @@ public class Budget {
   private final List<Income> incomeList;
   private final List<ExpenseCategory> expenseCategoryList;
   private String budgetName;
+  private Boolean categoryExists;
 
   /**
    * Instantiates a new Budget.
@@ -177,5 +181,41 @@ public class Budget {
    */
   public List<ExpenseCategory> getCategoryList() {
     return expenseCategoryList;
+  }
+
+  public List<PieChart.Data> getPieChartExpenseData() {
+    Map<String , Double> categories = new HashMap<>();
+    for (Expense expense : this.getExpenseList()) {
+      String category = expense.getCategory().toString();
+      double amount = expense.getAmount();
+      if (categories.containsKey(category)) {
+        categories.put(category, categories.get(category) + amount);
+      } else {
+        categories.put(category, amount);
+      }
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
+  }
+
+  public List<PieChart.Data> getPieChartIncomeData() {
+    Map<String , Double> categories = new HashMap<>();
+    for (Income income: this.getIncomeList()) {
+      String category = income.getIncomeCategory().toString();
+      double amount = income.getAmount();
+      if (categories.containsKey(category)) {
+        categories.put(category, categories.get(category) + amount);
+      } else {
+        categories.put(category, amount);
+      }
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
   }
 }

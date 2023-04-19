@@ -24,6 +24,8 @@ public class PrimaryView extends Application {
         getClass().getResource("/images/simpleLogoBoY.png").openStream()));
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
+    primaryStage.setMinHeight(500);
+    primaryStage.setMinWidth(1000);
     //primaryStage.setFullScreen(true);
     primaryStage.show();
   }

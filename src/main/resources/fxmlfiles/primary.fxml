@@ -12,9 +12,9 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
+<AnchorPane minHeight="400.0" minWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
    <children>
-      <AnchorPane style="-fx-background-color: #f3e60c;" AnchorPane.bottomAnchor="255.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane minWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.bottomAnchor="255.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="581.0" layoutY="29.0" prefHeight="17.0" prefWidth="120.0" text="username" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="0.33333333333337123">
                <font>
@@ -69,7 +69,7 @@
       </AnchorPane>
       <AnchorPane fx:id="menuPane" layoutX="-4.0" layoutY="120.0" prefHeight="255.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="118.0">
          <children>
-            <JFXButton fx:id="savingsPlanButton" cache="true" focusTraversable="false" layoutX="8.0" layoutY="10.0" onAction="#switchToSavingPlan" prefHeight="45.0" prefWidth="230.0" text="Savings Plan">
+            <JFXButton fx:id="savingsPlanButton" cache="true" layoutX="8.0" layoutY="10.0" onAction="#switchToSavingPlan" prefHeight="45.0" prefWidth="230.0" text="Savings Plan">
                <ripplerFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -79,7 +79,7 @@
                   </LinearGradient>
                </ripplerFill>
             </JFXButton>
-            <JFXButton fx:id="budgetButton" cache="true" focusTraversable="false" layoutX="8.0" layoutY="55.0" onAction="#switchToBudget" prefHeight="45.0" prefWidth="230.0" text="Budget">
+            <JFXButton fx:id="budgetButton" cache="true" layoutX="8.0" layoutY="55.0" onAction="#switchToBudget" prefHeight="45.0" prefWidth="230.0" text="Budget">
                <ripplerFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -89,7 +89,7 @@
                   </LinearGradient>
                </ripplerFill>
             </JFXButton>
-            <JFXButton fx:id="addExpenseButton" cache="true" focusTraversable="false" layoutX="8.0" layoutY="100.0" onAction="#onAddExpense" prefHeight="45.0" prefWidth="230.0" text="Add Expences">
+            <JFXButton fx:id="addExpenseButton" cache="true" layoutX="8.0" layoutY="100.0" onAction="#onAddExpense" prefHeight="45.0" prefWidth="230.0" text="Add Expences">
                <ripplerFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
@@ -99,7 +99,7 @@
                   </LinearGradient>
                </ripplerFill>
             </JFXButton>
-            <JFXButton fx:id="addIncomeButton" cache="true" focusTraversable="false" layoutX="8.0" layoutY="145.0" onAction="#onAddIncome" prefHeight="45.0" prefWidth="230.0" text="Add Income">
+            <JFXButton fx:id="addIncomeButton" cache="true" layoutX="8.0" layoutY="145.0" onAction="#onAddIncome" prefHeight="45.0" prefWidth="230.0" text="Add Income">
                <ripplerFill>
                   <LinearGradient endX="1.0" endY="1.0">
                      <stops>
