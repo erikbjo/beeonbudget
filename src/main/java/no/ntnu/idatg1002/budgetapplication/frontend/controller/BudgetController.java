@@ -1,6 +1,5 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
-import com.jfoenix.controls.JFXTextArea;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -22,25 +21,23 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
-import org.controlsfx.control.action.Action;
 
 /** Controller for the Budget GUI */
 public class BudgetController implements Initializable {
+  private final ObservableList<String> budgetInformation;
+  @FXML private final Button monthlyExpenseButton;
   private Stage stage;
   private Scene scene;
-  private final ObservableList<String> budgetInformation;
   @FXML private TableView<Expense> expenseTableView;
   @FXML private TableView<Income> incomeTableView;
   @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
   @FXML private TableColumn<Expense, Integer> expenseColumn;
   @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
   @FXML private TableColumn<Income, Integer> incomeColumn;
-  @FXML private final Button monthlyExpenseButton;
   @FXML private Button newExpenseButton;
   @FXML private Button newIncomeButton;
   @FXML private Button previousButtonInBudget;
@@ -102,9 +99,6 @@ public class BudgetController implements Initializable {
             });
 
     updateItems();
-
-    pieChartUpdateIncome();
-    pieChartUpdateExpense();
   }
 
   /**
@@ -155,7 +149,6 @@ public class BudgetController implements Initializable {
     result.ifPresent(
         income -> Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income));
     updateItems();
-    pieChartUpdateIncome();
   }
 
   /**
@@ -175,7 +168,6 @@ public class BudgetController implements Initializable {
     result.ifPresent(
         expense -> Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense));
     updateItems();
-    pieChartUpdateExpense();
   }
 
   /**
@@ -184,29 +176,45 @@ public class BudgetController implements Initializable {
    * the corresponding table views.
    */
   private void updateItems() {
-    // update expenses
-    expenseTableView.setItems(
-        FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
-    // update incomes
-    incomeTableView.setItems(
-        FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
+    expenseTableView.getItems().clear();
+    incomeTableView.getItems().clear();
+    try {
+      // update expenses
+      expenseTableView.setItems(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
+      // update incomes
+      incomeTableView.setItems(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
+    } catch (Exception ignored) {
+
+    }
+    pieChartUpdateExpense();
+    pieChartUpdateIncome();
   }
 
   @FXML
   void onMonthlyExpense() {}
 
   private void pieChartUpdateIncome() {
-    incomeChart.setData(
-        FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getPieChartIncomeData()));
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      incomeChart.setData(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getPieChartIncomeData()));
+    } else {
+      incomeChart.getData().clear();
+    }
   }
 
   private void pieChartUpdateExpense() {
-    expenseChart.setData(
-        FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData()));
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      expenseChart.setData(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData()));
+    } else {
+      expenseChart.getData().clear();
+    }
   }
 
   @FXML
@@ -292,10 +300,7 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void deleteBudget(ActionEvent event) {
-    System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
-    System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
     Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
-    System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
-    System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
+    updateItems();
   }
 }

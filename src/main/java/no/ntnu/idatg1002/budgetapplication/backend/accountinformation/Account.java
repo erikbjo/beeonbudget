@@ -9,7 +9,6 @@ import jakarta.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
@@ -23,25 +22,22 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
-  @Id private final String id = generateAccountNumber();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final List<Budget> budgets = new ArrayList<>();
 
   private String name;
   private String email;
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
-
   @Transient private SavingsPlan selectedSavingsPlan;
-
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<Budget> budgets = new ArrayList<>();
-
   @Transient private Budget selectedBudget;
   @Transient private Integer currentBudgetIndex = null;
   @Transient private Random rand;
+  @Id private final String id = generateAccountNumber();
 
   public Account() {}
 
@@ -301,6 +297,10 @@ public class Account {
     return nameTaken;
   }
 
+  public Integer getCurrentBudgetIndex() {
+    return currentBudgetIndex;
+  }
+
   /** Initialize selected budget. */
   public void initializeSelectedBudget() {
     if (budgets.size() == 1) { // means that the budget just entered is the first one
@@ -334,7 +334,11 @@ public class Account {
    * @return the selected budget
    */
   public Budget getSelectedBudget() {
-    return budgets.get(currentBudgetIndex);
+    if (currentBudgetIndex != null) {
+      return budgets.get(currentBudgetIndex);
+    } else {
+      throw new IndexOutOfBoundsException();
+    }
   }
 
   /**
