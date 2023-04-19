@@ -1,14 +1,26 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 /** Sample Skeleton for 'registerNewAccount.fxml' Controller Class */
-import java.io.IOException;import java.net.URL;
-import java.util.Objects;import java.util.ResourceBundle;
+import java.io.IOException;
+import java.net.URL;
+import java.util.Objects;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;import javafx.scene.Node;import javafx.scene.Parent;import javafx.scene.Scene;import javafx.scene.control.Button;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class RegisterNewAccountController {
 
@@ -18,74 +30,148 @@ public class RegisterNewAccountController {
   @FXML // URL location of the FXML file that was given to the FXMLLoader
   private URL location;
 
-  @FXML // fx:id="emailText"
-  private Text emailText; // Value injected by FXMLLoader
-  @FXML // fx:id="pinCodeText"
-  private Text pinCodeText; // Value injected by FXMLLoader
-  @FXML // fx:id="registerNewAccountText"
-  private Text registerNewAccountText; // Value injected by FXMLLoader
-  @FXML // fx:id="securityQuestionAnswerText"
-  private Text securityQuestionAnswerText; // Value injected by FXMLLoader
-  @FXML // fx:id="securityQuestionText"
-  private Text securityQuestionText; // Value injected by FXMLLoader
-  @FXML // fx:id="usernameText"
-  private Text usernameText; // Value injected by FXMLLoader
+  @FXML private Text emailText; // Value injected by FXMLLoader
+  @FXML private Text pinCodeText; // Value injected by FXMLLoader
+  @FXML private Text registerNewAccountText; // Value injected by FXMLLoader
+  @FXML private Text securityQuestionAnswerText; // Value injected by FXMLLoader
+  @FXML private Text securityQuestionText; // Value injected by FXMLLoader
+  @FXML private Text usernameText; // Value injected by FXMLLoader
 
-  @FXML // fx:id="securityQuestionAnswerTextField"
-  private TextField securityQuestionAnswerTextField; // Value injected by FXMLLoader
-  @FXML // fx:id="usernameTextField"
-  private TextField usernameTextField; // Value injected by FXMLLoader
-  @FXML // fx:id="pinCodeTextField"
-  private TextField pinCodeTextField; // Value injected by FXMLLoader
-  @FXML // fx:id="emailTextField"
-  private TextField emailTextField; // Value injected by FXMLLoader
+  @FXML private TextField securityQuestionAnswerTextField; // Value injected by FXMLLoader
+  @FXML private TextField usernameTextField; // Value injected by FXMLLoader
+  @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
+  @FXML private TextField emailTextField; // Value injected by FXMLLoader
 
-  @FXML // fx:id="registerNewAccountButton"
-  private Button registerNewAccountButton; // Value injected by FXMLLoader
-  @FXML // fx:id="securityQuestionComboBox"
-  private ComboBox<SecurityQuestion> securityQuestionComboBox; // Value injected by FXMLLoader
+  @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
+  @FXML private ComboBox<String> securityQuestionComboBox; // Value injected by FXMLLoader
+
+  @FXML // This method is called by the FXMLLoader when initialization is complete
+  void initialize() {
+    for (SecurityQuestion securityQuestion : SecurityQuestion.values()) {
+      securityQuestionComboBox.getItems().add(securityQuestion.getSecurityQuestionString());
+
+      configureAllTextFields();
+    }
+  }
 
   @FXML
   void registerNewAccount(ActionEvent event) throws IOException {
+    if (assertAllFieldsValid()) {
+      Account newAccount =
+          new Account(
+              usernameTextField.getText(),
+              emailTextField.getText(),
+              pinCodeTextField.getText(),
+              reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
+              securityQuestionAnswerTextField.getText());
+      Database.addAccount(newAccount);
+      Database.setCurrentAccount(newAccount);
+      goToPrimaryScreen(event);
+    } else {
+      generateDynamicFeedbackAlert();
+    }
+  }
 
+  private boolean assertAllFieldsValid() {
+    return (!usernameTextField.getText().isEmpty()
+        && !emailTextField.getText().isEmpty()
+        && !pinCodeTextField.getText().isEmpty()
+        && !securityQuestionComboBox.getValue().isEmpty()
+        && !securityQuestionAnswerTextField.getText().isEmpty());
+  }
 
+  private void goToPrimaryScreen(Event event) throws IOException {
     Parent root =
-            FXMLLoader.load(
-                    Objects.requireNonNull(
-                            getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css =
-            Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
-                    .toExternalForm();
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
     scene.setRoot(root);
   }
 
-  @FXML // This method is called by the FXMLLoader when initialization is complete
-  void initialize() {
-    assert emailText != null
-        : "fx:id=\"emailText\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert emailTextField != null
-        : "fx:id=\"emailTextField\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert pinCodeText != null
-        : "fx:id=\"pinCodeText\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert pinCodeTextField != null
-        : "fx:id=\"pinCodeTextField\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert registerNewAccountButton != null
-        : "fx:id=\"registerNewAccountButton\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert registerNewAccountText != null
-        : "fx:id=\"registerNewAccountText\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert securityQuestionAnswerText != null
-        : "fx:id=\"securityQuestionAnswerText\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert securityQuestionAnswerTextField != null
-        : "fx:id=\"securityQuestionAnswerTextField\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert securityQuestionComboBox != null
-        : "fx:id=\"securityQuestionComboBox\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert securityQuestionText != null
-        : "fx:id=\"securityQuestionText\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert usernameText != null
-        : "fx:id=\"usernameText\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
-    assert usernameTextField != null
-        : "fx:id=\"usernameTextField\" was not injected: check your FXML file 'registerNewAccount.fxml'.";
+  private SecurityQuestion reverseStringToSecurityQuestion(String questionString) {
+    for (SecurityQuestion securityQuestion : SecurityQuestion.values()) {
+      if (securityQuestion.getSecurityQuestionString().equalsIgnoreCase(questionString)) {
+        return securityQuestion;
+      }
+    }
+    return null;
+  }
+
+  private void configureAllTextFields() {
+    configurePinCodeTextField();
+    configureSecurityQuestionAnswerTextField();
+    makeTextFieldNotStartWithSpace(usernameTextField);
+    makeTextFieldNotStartWithSpace(emailTextField);
+  }
+
+  private void configurePinCodeTextField() {
+    pinCodeTextField
+        .textProperty()
+        .addListener(
+            (observableValue, oldValue, newValue) -> {
+              // numeric only
+              if (!newValue.matches("\\d*")) {
+                pinCodeTextField.setText(newValue.replaceAll("[^\\d]", ""));
+              }
+              // max 4 digits
+              if (newValue.length() > 4) {
+                pinCodeTextField.setText(oldValue);
+              }
+            });
+  }
+
+  private void configureSecurityQuestionAnswerTextField() {
+    securityQuestionAnswerTextField
+        .textProperty()
+        .addListener(
+            (observableValue, oldValue, newValue) -> {
+              // need to have selected a question
+              if (reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()) == null
+                  || (oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                securityQuestionAnswerTextField.clear();
+              }
+            });
+  }
+
+  private void makeTextFieldNotStartWithSpace(TextField textField) {
+    textField
+        .textProperty()
+        .addListener(
+            (observableValue, oldValue, newValue) -> {
+              if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                textField.clear();
+              }
+            });
+  }
+
+  private void generateDynamicFeedbackAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+
+    StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
+
+    if (usernameTextField.getText().isEmpty()) {
+      builder.append("Username \n");
+    }
+    if (emailTextField.getText().isEmpty()) {
+      builder.append("Email \n");
+    }
+    if (pinCodeTextField.getText().isEmpty()) {
+      builder.append("Pin code \n");
+    }
+    if (securityQuestionComboBox.getValue() == null) {
+      builder.append("Security question \n");
+    }
+    if (securityQuestionAnswerTextField.getText().isEmpty()) {
+      builder.append("Security question answer \n");
+    }
+
+    alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
   }
 }
