@@ -1,9 +1,15 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
@@ -40,13 +46,43 @@ public class LoginController {
   private Button registerNewAccountButton; // Value injected by FXMLLoader
 
   @FXML
-  void forgotPinCode(ActionEvent event) {}
+  void forgotPinCode(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(
+                getClass().getResource("/fxmlfiles/resetPinCodeEnterUser.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
 
   @FXML
-  void loginAccount(ActionEvent event) {}
+  void loginAccount(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
 
   @FXML
-  void registerNewAccount(ActionEvent event) {}
+  void registerNewAccount(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(getClass().getResource("/fxmlfiles/registerNewAccount.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {

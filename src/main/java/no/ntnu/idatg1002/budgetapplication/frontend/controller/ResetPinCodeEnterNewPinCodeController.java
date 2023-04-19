@@ -1,9 +1,15 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
+import java.io.IOException;
 import java.net.URL;
+import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
@@ -38,10 +44,28 @@ public class ResetPinCodeEnterNewPinCodeController {
   private Button backToLoginButton; // Value injected by FXMLLoader
 
   @FXML
-  void goBackToLogin(ActionEvent event) {}
+  void goBackToLogin(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
 
   @FXML
-  void setNewPinCode(ActionEvent event) {}
+  void setNewPinCode(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
