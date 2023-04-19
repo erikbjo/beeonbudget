@@ -191,7 +191,8 @@ public class BudgetController implements Initializable {
   private void updateItems() {
     expenseTableView.getItems().clear();
     incomeTableView.getItems().clear();
-    try {
+
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       // update expenses
       expenseTableView.setItems(
           FXCollections.observableArrayList(
@@ -200,9 +201,8 @@ public class BudgetController implements Initializable {
       incomeTableView.setItems(
           FXCollections.observableArrayList(
               Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
-    } catch (Exception ignored) {
-
     }
+
     pieChartUpdateExpense();
     pieChartUpdateIncome();
   }
