@@ -273,7 +273,7 @@ public class Account {
       throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.add(budget);
-      initializeSelectedBudget();
+      currentBudgetIndex = this.budgets.indexOf(budget);
     }
   }
 

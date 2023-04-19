@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
@@ -150,6 +151,16 @@ public class BudgetController implements Initializable {
     Optional<Income> result = dialog.showAndWait();
     result.ifPresent(
         income -> Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income));
+    updateItems();
+  }
+
+  @FXML
+  public void onNewBudget(ActionEvent event) throws IOException {
+    AddBudgetDialog dialog = new AddBudgetDialog();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+    Optional<Budget> result = dialog.showAndWait();
+    result.ifPresent(budget -> Database.getCurrentAccount().addBudget(budget));
     updateItems();
   }
 
