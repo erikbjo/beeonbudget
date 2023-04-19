@@ -44,7 +44,7 @@ public class ResetPinCodeEnterUserController {
 
   @FXML
   void continueResetPassword(ActionEvent event) throws IOException {
-    if (!usernameTextField.getText().isEmpty() && (isValidUser(usernameTextField.getText()))) {
+    if (assertAllFieldsValid() && (isValidUser(usernameTextField.getText()))) {
       switchToEnterNewPinCode(event);
     } else if (usernameTextField.getText().isEmpty()) {
       showEmptyTextFieldAlert();

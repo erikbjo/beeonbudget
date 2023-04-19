@@ -25,6 +25,7 @@
                         <Region prefHeight="25.0" prefWidth="200.0" />
                         <Text fx:id="securityQuestionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Security question" />
                         <TextField fx:id="securityQuestionTextField" disable="true" />
+                  <Text fx:id="answerText" strokeType="OUTSIDE" strokeWidth="0.0" text="Answer" />
                         <TextField fx:id="securityQuestionAnswerTextField" promptText="Answer" />
                         <Text fx:id="newPinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="New 4-digit pin code" />
                         <TextField fx:id="pinCodeTextField" promptText="4-digit pin code" />
