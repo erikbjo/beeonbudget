@@ -32,7 +32,7 @@ public class Main {
     adminBudget.addBudgetExpenses(
         new Expense(100, "testdesc", RecurringType.DAILY, ExpenseCategory.FOOD));
     adminBudget.addBudgetIncome(
-        new Income(500, "testdesc", RecurringType.NONRECURRING, IncomeCategory.RENTAL_INCOME));
+        new Income(500, "testdesc", RecurringType.DAILY, IncomeCategory.WAGE));
     Database.getCurrentAccount().addBudget(adminBudget);
 
     // for testing

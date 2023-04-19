@@ -1,54 +1,83 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.scene.control.Button?>
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="700.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController">
-   <children>
-      <TableView fx:id="expenseTableView" focusTraversable="false" layoutX="319.0" layoutY="235.0" prefHeight="153.0" prefWidth="367.0" AnchorPane.leftAnchor="319.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="235.0">
-        <columns>
-          <TableColumn fx:id="expenseColumn" editable="false" prefWidth="180.0" text="Expense" />
-            <TableColumn fx:id="expenseCategoryColumn" editable="false" prefWidth="185.0" text="Category" />
-        </columns>
-         <columnResizePolicy>
-            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-         </columnResizePolicy>
-      </TableView>
-      <Pane prefHeight="70.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <Label layoutX="68.0" layoutY="22.0" prefHeight="32.0" prefWidth="100.0" text="Budget">
-               <font>
-                  <Font name="Segoe UI Bold" size="22.0" />
-               </font>
-            </Label>
-            <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" layoutX="14.0" layoutY="11.0" onMouseClicked="#switchToPrimaryFromBudgetMouseEvent" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/simpleLogoBoY.png" />
-               </image>
-            </ImageView>
-         </children>
-      </Pane>
-      <TableView fx:id="incomeTableView" focusTraversable="false" layoutY="73.0" prefHeight="138.0" prefWidth="367.0" AnchorPane.leftAnchor="319.0" AnchorPane.rightAnchor="13.666666666666686" AnchorPane.topAnchor="73.0">
-        <columns>
-          <TableColumn fx:id="incomeColumn" editable="false" prefWidth="182.0" text="Income" />
-          <TableColumn fx:id="incomeCategoryColumn" editable="false" prefWidth="184.0" text="Type" />
-        </columns>
-      </TableView>
-      <JFXButton fx:id="previousButtonInBudget" layoutX="7.0" layoutY="73.0" onAction="#switchToPrimaryFromBudget" text="Back" />
-      <JFXButton fx:id="newIncomeButton" layoutX="73.0" layoutY="120.0" onAction="#onNewIncome" prefHeight="45.0" prefWidth="161.0" text="New Income" textAlignment="CENTER" />
-      <JFXButton fx:id="newExpenseButton" layoutX="73.0" layoutY="289.0" onAction="#onNewExpense" prefHeight="45.0" prefWidth="161.0" text="New Expense" />
-   </children>
+<AnchorPane fx:id="contentPane" minHeight="400.0" minWidth="900.0" prefHeight="400.0" prefWidth="900.0"
+            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController">
+    <children>
+        <Pane prefHeight="70.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <Label layoutX="68.0" layoutY="22.0" prefHeight="32.0" prefWidth="100.0" text="Budget">
+                    <font>
+                        <Font name="Segoe UI Bold" size="22.0"/>
+                    </font>
+                </Label>
+                <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" layoutX="14.0" layoutY="11.0"
+                           onMouseClicked="#switchToPrimaryFromBudgetMouseEvent" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../images/simpleLogoBoY.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </Pane>
+        <HBox layoutY="70.0" prefHeight="331.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="0.0"
+              AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+            <children>
+                <VBox prefHeight="292.0" prefWidth="163.0" spacing="10.0">
+                    <children>
+                        <JFXButton fx:id="previousButtonInBudget" onAction="#switchToPrimaryFromBudget" text="Back"/>
+                        <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" prefHeight="45.0" prefWidth="161.0"
+                                   text="New Income" textAlignment="CENTER"/>
+                        <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" prefHeight="45.0" prefWidth="161.0"
+                                   text="New Expense"/>
+                    </children>
+                </VBox>
+                <VBox prefHeight="304.0" prefWidth="365.0" spacing="10.0">
+                    <children>
+                        <TableView fx:id="incomeTableView" fixedCellSize="0.0" focusTraversable="false"
+                                   prefHeight="149.0" prefWidth="381.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="incomeColumn" editable="false" maxWidth="200.0" prefWidth="182.0"
+                                             resizable="false" text="Income"/>
+                                <TableColumn fx:id="incomeCategoryColumn" editable="false" maxWidth="200.0"
+                                             prefWidth="184.0" resizable="false" sortable="false" text="Category"/>
+                            </columns>
+                        </TableView>
+                        <TableView fx:id="expenseTableView" focusTraversable="false" prefHeight="159.0"
+                                   prefWidth="367.0" VBox.vgrow="ALWAYS">
+                            <columns>
+                                <TableColumn fx:id="expenseColumn" editable="false" prefWidth="180.0" resizable="false"
+                                             text="Expense"/>
+                                <TableColumn fx:id="expenseCategoryColumn" editable="false" prefWidth="185.0"
+                                             resizable="false" sortable="false" text="Category"/>
+                            </columns>
+                            <columnResizePolicy>
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                            </columnResizePolicy>
+                        </TableView>
+                    </children>
+                </VBox>
+                <VBox prefHeight="330.0" prefWidth="343.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <PieChart fx:id="incomeChart" prefHeight="165.0" prefWidth="306.0" VBox.vgrow="ALWAYS"/>
+                        <PieChart fx:id="expenseChart" prefHeight="165.0" prefWidth="343.0" VBox.vgrow="ALWAYS"/>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
 </AnchorPane>

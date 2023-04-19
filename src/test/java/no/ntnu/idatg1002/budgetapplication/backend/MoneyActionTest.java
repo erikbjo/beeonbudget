@@ -12,7 +12,8 @@ class MoneyActionTest {
 
   @BeforeEach
   void setUp() {
-    testAction = new Income(50, "Test description", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME);
+    testAction =
+        new Income(50, "Test description", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME);
     testExpense = new Expense(50, "Test expense", RecurringType.DAILY, ExpenseCategory.HOUSING);
   }
 
@@ -23,7 +24,8 @@ class MoneyActionTest {
   void checkThatConstructorNeedsToHaveValidParameters() {
     Exception thrownDescriptionError =
         assertThrows(
-            IllegalArgumentException.class, () -> new Income(100, " ", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME));
+            IllegalArgumentException.class,
+            () -> new Income(100, " ", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME));
     assertEquals("Description must not be empty or blank.", thrownDescriptionError.getMessage());
   }
 
@@ -77,23 +79,23 @@ class MoneyActionTest {
 
   @Test
   void checkThatGetCategoryReturnsCorrectCategory() {
-    assertEquals(ExpenseCategory.HOUSING, testExpense.getCategory());
+    assertEquals(ExpenseCategory.HOUSING, testExpense.getExpenseCategory());
   }
 
   @Test
   void checkThatSetCategorySetsCategory() {
-    testExpense.setCategory(ExpenseCategory.HEALTHCARE);
-    assertEquals(ExpenseCategory.HEALTHCARE, testExpense.getCategory());
+    testExpense.setExpenseCategory(ExpenseCategory.HEALTHCARE);
+    assertEquals(ExpenseCategory.HEALTHCARE, testExpense.getExpenseCategory());
   }
 
   @Test
   void checkThatGetTypeReturnsCorrectType() {
-    assertEquals(RecurringType.YEARLY, testAction.getType());
+    assertEquals(RecurringType.YEARLY, testAction.getRecurringType());
   }
 
   @Test
   void checkThatSetTypeSetsType() {
-    testAction.setType(RecurringType.NONRECURRING);
-    assertEquals(RecurringType.NONRECURRING, testAction.getType());
+    testAction.setRecurringType(RecurringType.NONRECURRING);
+    assertEquals(RecurringType.NONRECURRING, testAction.getRecurringType());
   }
 }

@@ -280,12 +280,19 @@ public class Account {
     }
   }
 
+  /**
+   * Checks if the given budget's name is already taken by any other budget in the list. This method
+   * iterates through the list of budgets and compares the names of each budget with the given
+   * budget's name. If a match is found, the method returns true. If no match is found, the method
+   * returns false.
+   *
+   * @param budget the Budget object whose name needs to be checked for uniqueness
+   * @return true if the budget name is already taken, false otherwise
+   */
   private boolean checkIfBudgetNameIsTaken(Budget budget) {
     boolean nameTaken = false;
     for (Budget budgetForLoop : budgets) {
       if (budgetForLoop.getBudgetName().equals(budget.getBudgetName())) {
-        // name already exists, do something
-        // for example, return or throw an exception
         nameTaken = true;
         break;
       }
@@ -416,32 +423,5 @@ public class Account {
       }
     } while (idTaken);
     return stringBuilderId.toString();
-  }
-
-  @Override
-  public String toString() {
-    return "Account{"
-        + "name='"
-        + name
-        + '\''
-        + ", email='"
-        + email
-        + '\''
-        + ", pinCode='"
-        + pinCode
-        + '\''
-        + ", securityQuestion="
-        + securityQuestion
-        + ", securityAnswer='"
-        + securityAnswer
-        + '\''
-        + ", accountNumber='"
-        + id
-        + '\''
-        + ", savingsPlans="
-        + savingsPlans
-        + ", budgets="
-        + budgets
-        + '}';
   }
 }
