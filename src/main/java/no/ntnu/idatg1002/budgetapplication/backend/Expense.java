@@ -60,7 +60,7 @@ public class Expense extends MoneyAction {
     sb.append("Amount: ").append(this.getAmount()).append(".KR").append("\n");
     sb.append("Description: ").append(this.getDescription()).append("\n");
     sb.append("Type: ").append(this.getRecurringType()).append("\n");
-    sb.append("ExpenseCategory: ").append(this.expenseCategory).append(")");
+    sb.append("ExpenseCategory: ").append(this.expenseCategory);
     return sb.toString();
   }
 }
