@@ -32,17 +32,39 @@ public class BudgetController implements Initializable {
   @FXML private final Button monthlyExpenseButton;
   private Stage stage;
   private Scene scene;
-  @FXML private TableView<Expense> expenseTableView;
-  @FXML private TableView<Income> incomeTableView;
-  @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
-  @FXML private TableColumn<Expense, Integer> expenseColumn;
-  @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
-  @FXML private TableColumn<Income, Integer> incomeColumn;
-  @FXML private Button newExpenseButton;
-  @FXML private Button newIncomeButton;
-  @FXML private Button previousButtonInBudget;
-  @FXML private PieChart incomeChart;
-  @FXML private PieChart expenseChart;
+  private final ObservableList<String> budgetInformation;
+  @FXML
+  private TableView<Expense> expenseTableView;
+  @FXML
+  private TableView<Income> incomeTableView;
+  @FXML
+  private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
+  @FXML
+  private TableColumn<Expense, Integer> expenseColumn;
+  @FXML
+  private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
+  @FXML
+  private TableColumn<Income, Integer> incomeColumn;
+  @FXML
+  private final Button monthlyExpenseButton;
+  @FXML
+  private Button newExpenseButton;
+  @FXML
+  private Button newIncomeButton;
+  @FXML
+  private Button previousButtonInBudget;
+  @FXML
+  private PieChart incomeChart;
+  @FXML
+  private PieChart expenseChart;
+  @FXML
+  private Label totalExpenseInBudget;
+  @FXML
+  private Label totalIncomeInBudget;
+  @FXML
+  private Label userNameInBudget;
+  @FXML
+  private Label budgetNameInBudget;
 
   /**
    * Constructor for the BudgetController class.
@@ -225,8 +247,11 @@ public class BudgetController implements Initializable {
       Alert.AlertType type = AlertType.CONFIRMATION;
       Alert alert = new Alert(type, "Delete Item");
       alert.initModality(Modality.APPLICATION_MODAL);
+      Income income =
+          incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Are You Sure?");
-      alert.setContentText("Are You Sure You Want To Delete This Income?");
+      alert.setContentText("Are You Sure You Want To Delete This Income?" + "\n"
+      +income.getIncomeAssString());
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
         Database.getCurrentAccount()
@@ -246,8 +271,11 @@ public class BudgetController implements Initializable {
       Alert alert = new Alert(type, "");
       alert.initModality(Modality.APPLICATION_MODAL);
       alert.getDialogPane();
+      Expense expense =
+          expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Are You Sure?");
-      alert.setContentText("Are You Sure You Want To Delete This Expense?");
+      alert.setContentText("Are You Sure You Want To Delete This Expense?" + "\n"
+      +expense.getExpenseAssString());
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
         Database.getCurrentAccount()
@@ -302,5 +330,9 @@ public class BudgetController implements Initializable {
   private void deleteBudget(ActionEvent event) {
     Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
     updateItems();
+  }
+
+  public void updateTotalIncome() {
+    
   }
 }

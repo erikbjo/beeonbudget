@@ -9,52 +9,83 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="contentPane" minHeight="400.0" minWidth="900.0" prefHeight="400.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController">
     <children>
-        <Pane prefHeight="70.0" prefWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <children>
-                <Label layoutX="68.0" layoutY="22.0" prefHeight="32.0" prefWidth="100.0" text="Budget">
-                    <font>
-                        <Font name="Segoe UI Bold" size="22.0" />
-                    </font>
-                </Label>
-                <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" focusTraversable="true" layoutX="14.0" layoutY="11.0" onMouseClicked="#switchToPrimaryFromBudgetMouseEvent" pickOnBounds="true" preserveRatio="true">
+      <AnchorPane prefHeight="58.0" prefWidth="900.0" style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+                <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" focusTraversable="true" layoutX="14.0" layoutY="5.0" onMouseClicked="#switchToPrimaryFromBudgetMouseEvent" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="837.0" AnchorPane.topAnchor="5.0">
                     <image>
                         <Image url="@../images/simpleLogoBoY.png" />
                     </image>
                 </ImageView>
-            </children>
-        </Pane>
-        <HBox layoutY="70.0" prefHeight="331.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+                <Label layoutX="63.0" layoutY="14.0" prefHeight="32.0" prefWidth="100.0" text="Budget" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="737.0" AnchorPane.topAnchor="14.0">
+                    <font>
+                        <Font name="Segoe UI Bold" size="22.0" />
+                    </font>
+                </Label>
+            <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0" style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT" AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="21.0" />
+            <Label fx:id="budgetNameInBudget" layoutX="278.0" layoutY="21.0" prefHeight="17.0" prefWidth="171.0" text="N/A" AnchorPane.leftAnchor="278.0" AnchorPane.rightAnchor="450.66666666666663" AnchorPane.topAnchor="21.0">
+               <graphic>
+                  <Label prefHeight="17.0" prefWidth="98.0" text="BUDGETNAME:">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font></Label>
+               </graphic>
+            </Label>
+         </children>
+      </AnchorPane>
+        <HBox layoutY="70.0" prefHeight="331.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="-1.3333333333333144" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
             <children>
                 <VBox prefHeight="292.0" prefWidth="163.0" spacing="10.0">
                     <children>
-                        <JFXButton fx:id="previousButtonInBudget" onAction="#switchToPrimaryFromBudget" text="Back" />
-                        <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" prefHeight="45.0" prefWidth="161.0" text="New Income" textAlignment="CENTER" />
-                        <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" prefHeight="45.0" prefWidth="161.0" text="New Expense" />
-                  <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" prefWidth="161.0" text="Details" />
-                  <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" prefWidth="161.0" text="Delete Item" />
-                  <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" prefWidth="161.0" text="Delete Budget" />
                   <HBox alignment="CENTER" prefWidth="200.0">
                      <children>
                         <JFXButton text="Previous" />
                         <JFXButton text="Next" />
                      </children>
                   </HBox>
+                        <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" prefHeight="45.0" prefWidth="161.0" text="New Income" textAlignment="CENTER" />
+                        <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" prefHeight="45.0" prefWidth="161.0" text="New Expense" />
+                  <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" prefWidth="161.0" text="Details" />
+                  <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" prefWidth="161.0" text="Delete Item" />
+                  <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" prefWidth="161.0" text="Delete Budget" />
+                  <JFXButton maxWidth="161.0" text="New Budget" />
+                  <HBox alignment="TOP_CENTER" focusTraversable="true" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                              <JFXButton fx:id="previousButtonInBudget" contentDisplay="CENTER" onAction="#switchToPrimaryFromBudget" text="Back" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
                 <VBox prefHeight="304.0" prefWidth="365.0" spacing="10.0">
                     <children>
+                  <Label fx:id="totalIncomeInBudget" text="null">
+                     <graphic>
+                        <Label text="Current Total Income:">
+                           <font>
+                              <Font name="System Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </graphic>
+                  </Label>
                         <TableView fx:id="incomeTableView" fixedCellSize="0.0" pickOnBounds="false" prefHeight="149.0" prefWidth="381.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="incomeColumn" editable="false" maxWidth="200.0" prefWidth="182.0" resizable="false" text="Income" />
                                 <TableColumn fx:id="incomeCategoryColumn" editable="false" maxWidth="200.0" prefWidth="184.0" resizable="false" sortable="false" text="Category" />
                             </columns>
                         </TableView>
+                  <Label fx:id="totalExpenseInBudget" text="null">
+                     <graphic>
+                        <Label text="Current Total Expense:">
+                           <font>
+                              <Font name="Arial Bold" size="12.0" />
+                           </font>
+                        </Label>
+                     </graphic>
+                  </Label>
                         <TableView fx:id="expenseTableView" prefHeight="159.0" prefWidth="367.0" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="expenseColumn" editable="false" prefWidth="180.0" resizable="false" text="Expense" />
@@ -68,8 +99,8 @@
                 </VBox>
                 <VBox prefHeight="330.0" prefWidth="343.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <PieChart fx:id="incomeChart" prefHeight="165.0" prefWidth="306.0" VBox.vgrow="ALWAYS" />
-                        <PieChart fx:id="expenseChart" prefHeight="165.0" prefWidth="343.0" VBox.vgrow="ALWAYS" />
+                        <PieChart fx:id="expenseChart" prefHeight="165.0" prefWidth="343.0" title="Expense" VBox.vgrow="ALWAYS" />
+                        <PieChart fx:id="incomeChart" prefHeight="165.0" prefWidth="306.0" title="Income" VBox.vgrow="ALWAYS" />
                     </children>
                 </VBox>
             </children>
