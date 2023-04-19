@@ -73,12 +73,11 @@ public class AccountDAO implements AccountListInterface {
   @Override
   public void printAccounts() {
     List<Account> accountList = getAllAccounts();
-
     for (Account account : accountList) {
-      System.out.println("Account Details : "
-          + " " + account.getId()
-          + " " + account.getName()
-          + " " + account.getEmail());
+      System.out.println("Account Details"
+          + " :: " + account.getId()
+          + " :: " + account.getName()
+          + " :: " + account.getEmail());
     }
   }
 
