@@ -240,7 +240,7 @@ public class BudgetController implements Initializable {
         alert.close();
       }
     } else {
-      Alert alert = new Alert(AlertType.INFORMATION);
+      Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please Select a item to Delete");
       alert.showAndWait();
     }
