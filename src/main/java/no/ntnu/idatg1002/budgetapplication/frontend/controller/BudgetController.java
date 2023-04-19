@@ -34,18 +34,38 @@ public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
   private final ObservableList<String> budgetInformation;
-  @FXML private TableView<Expense> expenseTableView;
-  @FXML private TableView<Income> incomeTableView;
-  @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
-  @FXML private TableColumn<Expense, Integer> expenseColumn;
-  @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
-  @FXML private TableColumn<Income, Integer> incomeColumn;
-  @FXML private final Button monthlyExpenseButton;
-  @FXML private Button newExpenseButton;
-  @FXML private Button newIncomeButton;
-  @FXML private Button previousButtonInBudget;
-  @FXML private PieChart incomeChart;
-  @FXML private PieChart expenseChart;
+  @FXML
+  private TableView<Expense> expenseTableView;
+  @FXML
+  private TableView<Income> incomeTableView;
+  @FXML
+  private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
+  @FXML
+  private TableColumn<Expense, Integer> expenseColumn;
+  @FXML
+  private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
+  @FXML
+  private TableColumn<Income, Integer> incomeColumn;
+  @FXML
+  private final Button monthlyExpenseButton;
+  @FXML
+  private Button newExpenseButton;
+  @FXML
+  private Button newIncomeButton;
+  @FXML
+  private Button previousButtonInBudget;
+  @FXML
+  private PieChart incomeChart;
+  @FXML
+  private PieChart expenseChart;
+  @FXML
+  private Label totalExpenseInBudget;
+  @FXML
+  private Label totalIncomeInBudget;
+  @FXML
+  private Label userNameInBudget;
+  @FXML
+  private Label budgetNameInBudget;
 
   /**
    * Constructor for the BudgetController class.
@@ -301,5 +321,9 @@ public class BudgetController implements Initializable {
     // System.out.println("Budgets: " + Database.getCurrentAccount().getBudgets());
     // System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
     // Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
+  }
+
+  public void updateTotalIncome() {
+    
   }
 }
