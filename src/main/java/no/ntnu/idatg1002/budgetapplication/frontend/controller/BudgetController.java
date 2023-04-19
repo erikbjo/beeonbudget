@@ -217,8 +217,11 @@ public class BudgetController implements Initializable {
       Alert.AlertType type = AlertType.CONFIRMATION;
       Alert alert = new Alert(type, "Delete Item");
       alert.initModality(Modality.APPLICATION_MODAL);
+      Income income =
+          incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Are You Sure?");
-      alert.setContentText("Are You Sure You Want To Delete This Income?");
+      alert.setContentText("Are You Sure You Want To Delete This Income?" + "\n"
+      +income.getIncomeAssString());
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
         Database.getCurrentAccount()
@@ -238,8 +241,11 @@ public class BudgetController implements Initializable {
       Alert alert = new Alert(type, "");
       alert.initModality(Modality.APPLICATION_MODAL);
       alert.getDialogPane();
+      Expense expense =
+          expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Are You Sure?");
-      alert.setContentText("Are You Sure You Want To Delete This Expense?");
+      alert.setContentText("Are You Sure You Want To Delete This Expense?" + "\n"
+      +expense.getExpenseAssString());
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
         Database.getCurrentAccount()

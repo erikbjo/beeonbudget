@@ -27,6 +27,7 @@
                         <Image url="@../images/simpleLogoBoY.png" />
                     </image>
                 </ImageView>
+            <Label fx:id="userName" contentDisplay="RIGHT" layoutX="826.0" layoutY="29.0" text="User" textAlignment="RIGHT" />
             </children>
         </Pane>
         <HBox layoutY="70.0" prefHeight="331.0" prefWidth="900.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
@@ -62,8 +63,8 @@
                 </VBox>
                 <VBox prefHeight="330.0" prefWidth="343.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <PieChart fx:id="incomeChart" prefHeight="165.0" prefWidth="306.0" VBox.vgrow="ALWAYS" />
-                        <PieChart fx:id="expenseChart" prefHeight="165.0" prefWidth="343.0" VBox.vgrow="ALWAYS" />
+                        <PieChart fx:id="expenseChart" prefHeight="165.0" prefWidth="343.0" title="Expense" VBox.vgrow="ALWAYS" />
+                        <PieChart fx:id="incomeChart" prefHeight="165.0" prefWidth="306.0" title="Income" VBox.vgrow="ALWAYS" />
                     </children>
                 </VBox>
             </children>
