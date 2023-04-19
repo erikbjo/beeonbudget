@@ -10,10 +10,14 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 
 public class LoginController {
 
@@ -39,6 +43,7 @@ public class LoginController {
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
     configurePinCodeTextField();
+    configureUsernameTextField();
   }
 
   @FXML
@@ -57,6 +62,20 @@ public class LoginController {
 
   @FXML
   void loginAccount(ActionEvent event) throws IOException {
+    if (assertAllFieldsValid()) {
+      //
+      // Put database integration here ie:
+      // if (login successfully) -> go to primary
+      // else showInvalidLogin
+      //
+      showInvalidLoginAlert();
+      goToPrimaryScreen(event);
+    } else {
+      generateDynamicFeedbackAlert();
+    }
+  }
+
+  private void goToPrimaryScreen(ActionEvent event) throws IOException {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css =
@@ -80,6 +99,10 @@ public class LoginController {
     scene.setRoot(root);
   }
 
+  private boolean assertAllFieldsValid() {
+    return (!usernameTextField.getText().isEmpty() && pinCodeTextField.getText().length() == 4);
+  }
+
   private void configurePinCodeTextField() {
     pinCodeTextField
         .textProperty()
@@ -94,5 +117,48 @@ public class LoginController {
                 pinCodeTextField.setText(oldValue);
               }
             });
+  }
+
+  private void configureUsernameTextField() {
+    usernameTextField
+        .textProperty()
+        .addListener(
+            (observableValue, oldValue, newValue) -> {
+              if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
+                usernameTextField.clear();
+              }
+            });
+  }
+
+  private void showInvalidLoginAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Invalid username or pin code");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
+  private void generateDynamicFeedbackAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+
+    StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
+
+    if (usernameTextField.getText().isEmpty()) {
+      builder.append("Username \n");
+    }
+    if (pinCodeTextField.getText().isEmpty()) {
+      builder.append("Pin code \n");
+    } else {
+      if (pinCodeTextField.getText().length() < 4) {
+        builder.append("Full pin code \n");
+      }
+    }
+
+    alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
   }
 }
