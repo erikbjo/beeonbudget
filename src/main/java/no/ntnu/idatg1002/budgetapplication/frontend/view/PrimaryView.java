@@ -23,12 +23,12 @@ public class PrimaryView extends Application {
             .toExternalForm();
     scene.getStylesheets().add(css);
     primaryStage.setTitle("Bee on Budget");
-    // primaryStage
-    //    .getIcons()
-    //    .add(
-    //        new Image(
-    //            Objects.requireNonNull(getClass().getResource("/images/simpleLogoBoY.png"))
-    //                .openStream()));
+    primaryStage
+        .getIcons()
+        .add(
+            new Image(
+                Objects.requireNonNull(getClass().getResource("/images/simpleLogoBoY.png"))
+                    .openStream()));
     primaryStage.setScene(scene);
     primaryStage.setMaximized(true);
     primaryStage.setMinHeight(500);

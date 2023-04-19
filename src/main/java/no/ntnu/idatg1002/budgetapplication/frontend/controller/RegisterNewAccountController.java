@@ -43,6 +43,7 @@ public class RegisterNewAccountController {
   @FXML private TextField emailTextField; // Value injected by FXMLLoader
 
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
+  @FXML private Button backToLoginButton; // Value injected by FXMLLoader
   @FXML private ComboBox<String> securityQuestionComboBox; // Value injected by FXMLLoader
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
@@ -52,6 +53,18 @@ public class RegisterNewAccountController {
 
       configureAllTextFields();
     }
+  }
+
+  @FXML
+  void goBackToLogin(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
   }
 
   @FXML
