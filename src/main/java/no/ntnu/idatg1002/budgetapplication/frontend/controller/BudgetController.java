@@ -32,21 +32,39 @@ public class BudgetController implements Initializable {
   private final ObservableList<String> budgetInformation;
   private Stage stage;
   private Scene scene;
-  @FXML private TableView<Expense> expenseTableView;
-  @FXML private TableView<Income> incomeTableView;
-  @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
-  @FXML private TableColumn<Expense, Integer> expenseColumn;
-  @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
-  @FXML private TableColumn<Income, Integer> incomeColumn;
-  @FXML private Button newExpenseButton;
-  @FXML private Button newIncomeButton;
-  @FXML private Button previousButtonInBudget;
-  @FXML private PieChart incomeChart;
-  @FXML private PieChart expenseChart;
-  @FXML private Label totalExpenseInBudget;
-  @FXML private Label totalIncomeInBudget;
-  @FXML private Label userNameInBudget;
-  @FXML private Label budgetNameInBudget;
+
+  @FXML
+  private TableView<Expense> expenseTableView;
+  @FXML
+  private TableView<Income> incomeTableView;
+  @FXML
+  private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
+  @FXML
+  private TableColumn<Expense, Integer> expenseColumn;
+  @FXML
+  private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
+  @FXML
+  private TableColumn<Income, Integer> incomeColumn;
+  @FXML
+  private Button newExpenseButton;
+  @FXML
+  private Button newIncomeButton;
+  @FXML
+  private Button previousButtonInBudget;
+  @FXML
+  private PieChart incomeChart;
+  @FXML
+  private PieChart expenseChart;
+  @FXML
+  private Label totalExpenseInBudget;
+  @FXML
+  private Label totalIncomeInBudget;
+  @FXML
+  private Label userNameInBudget;
+  @FXML
+  private Label budgetNameInBudget;
+  @FXML
+  private PieChart totalChart;
 
   /**
    * Constructor for the BudgetController class.
@@ -205,6 +223,8 @@ public class BudgetController implements Initializable {
 
     pieChartUpdateExpense();
     pieChartUpdateIncome();
+    pieChartUpdateTotal();
+    updateBudgetView();
   }
 
   private void pieChartUpdateIncome() {
@@ -226,6 +246,18 @@ public class BudgetController implements Initializable {
       expenseChart.getData().clear();
     }
   }
+
+  private void pieChartUpdateTotal() {
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      totalChart.setData(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getTotalIncomeAndOutCome()));
+    } else {
+      totalChart.getData().clear();
+    }
+  }
+
+
 
   @FXML
   private void deleteRowFromTable(ActionEvent event) {
@@ -249,6 +281,7 @@ public class BudgetController implements Initializable {
             .getItems()
             .removeAll(incomeTableView.getSelectionModel().getSelectedItems());
         pieChartUpdateIncome();
+        updateBudgetView();
       } else {
         alert.close();
       }
@@ -273,6 +306,7 @@ public class BudgetController implements Initializable {
             .getItems()
             .removeAll(expenseTableView.getSelectionModel().getSelectedItems());
         pieChartUpdateExpense();
+        updateBudgetView();
       } else {
         alert.close();
       }
@@ -320,5 +354,12 @@ public class BudgetController implements Initializable {
     updateItems();
   }
 
-  public void updateTotalIncome() {}
+  public void updateBudgetView() {
+    budgetNameInBudget.setText(Database.getCurrentAccount().getSelectedBudget().getBudgetName());
+    totalIncomeInBudget.setText(
+        String.valueOf(Database.getCurrentAccount().getSelectedBudget().getTotalIncome()));
+    totalExpenseInBudget.setText(
+        String.valueOf(Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
+    userNameInBudget.setText(Database.getCurrentAccount().getName());
+  }
 }
