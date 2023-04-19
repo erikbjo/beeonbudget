@@ -1,14 +1,22 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 /**
  * Represents a money action in the budget application, serving as a superclass for Expense and
  * Income classes. MoneyAction instances store information about the amount, description, and
  * recurring-type of a financial transaction.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Simon Husås Houmb
  * @version 2.0
  */
+@Entity
 public abstract class MoneyAction {
+  @Id
+  @GeneratedValue
+  private Long id;
   private int amount;
   private String description;
   private RecurringType type;
@@ -32,6 +40,10 @@ public abstract class MoneyAction {
     this.amount = amount;
     this.description = description;
     this.type = type;
+  }
+
+  protected MoneyAction() {
+
   }
 
   /**
@@ -94,5 +106,13 @@ public abstract class MoneyAction {
    */
   public void setRecurringType(RecurringType type) {
     this.type = type;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
+  }
+
+  public Long getId() {
+    return id;
   }
 }

@@ -8,12 +8,21 @@ import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountListInterface;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.frontend.view.PrimaryView;
 
 public class Main {
+  private AccountListInterface accountList;
+
+  public Main() {
+    accountList = new AccountDAO();
+  }
 
   public static void main(String[] args) {
+    Main main = new Main();
+
     Account adminAccount =
         new Account(
             "Admin", "admin@bob.com", "8008", SecurityQuestion.FAVORITE_FOOD, "Klubb og duppe");
@@ -31,6 +40,11 @@ public class Main {
     System.out.println(
         "Selected savingsplan: " + Database.getCurrentAccount().getSelectedSavingsPlan());
     System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
+
+    /*
+    main.accountList.addAccount(adminAccount);
+    main.accountList.printAccounts();
+     */
 
     PrimaryView.mainApp(args);
   }

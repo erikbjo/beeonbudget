@@ -282,8 +282,8 @@ class AccountTest {
 
     @Test
     void accountNumberIsCorrectFormat() {
-      assertEquals("ID-", account.getAccountNumber().substring(0, 3));
-      assertEquals(17, account.getAccountNumber().length());
+      assertEquals("ID-", account.getId().substring(0, 3));
+      assertEquals(17, account.getId().length());
     }
   }
 
@@ -392,7 +392,7 @@ class AccountTest {
             + ", securityAnswer='"
             + account.getSecurityAnswer()
             + "', accountNumber='"
-            + account.getAccountNumber()
+            + account.getId()
             + "', savingsPlans="
             + account.getSavingsPlans()
             + ", budgets="
