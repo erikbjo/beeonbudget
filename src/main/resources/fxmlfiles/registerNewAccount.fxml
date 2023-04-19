@@ -36,6 +36,7 @@
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="30.0">
                             <children>
                                 <Button fx:id="registerNewAccountButton" mnemonicParsing="false" onAction="#registerNewAccount" text="Register" />
+                        <Button fx:id="backToLoginButton" mnemonicParsing="false" onAction="#goBackToLogin" text="Back to login" />
                             </children>
                             <opaqueInsets>
                                 <Insets />
