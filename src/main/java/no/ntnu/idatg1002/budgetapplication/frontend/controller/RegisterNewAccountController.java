@@ -66,7 +66,7 @@ public class RegisterNewAccountController {
               securityQuestionAnswerTextField.getText());
       Database.addAccount(newAccount);
       Database.setCurrentAccount(newAccount);
-      goToPrimaryScreen(event);
+      goToLoginScreen(event);
     } else {
       generateDynamicFeedbackAlert();
     }
@@ -80,14 +80,10 @@ public class RegisterNewAccountController {
         && !securityQuestionAnswerTextField.getText().isEmpty());
   }
 
-  private void goToPrimaryScreen(Event event) throws IOException {
+  private void goToLoginScreen(Event event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
-    String css =
-        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
-            .toExternalForm();
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
     Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
     scene.setRoot(root);
   }
 
