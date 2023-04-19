@@ -39,6 +39,12 @@
                   <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" prefWidth="161.0" text="Details" />
                   <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" prefWidth="161.0" text="Delete Item" />
                   <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" prefWidth="161.0" text="Delete Budget" />
+                  <HBox alignment="CENTER" prefWidth="200.0">
+                     <children>
+                        <JFXButton text="Previous" />
+                        <JFXButton text="Next" />
+                     </children>
+                  </HBox>
                     </children>
                 </VBox>
                 <VBox prefHeight="304.0" prefWidth="365.0" spacing="10.0">
