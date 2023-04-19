@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.RegisterNewAccountController">
+    <children>
+        <HBox alignment="CENTER" layoutX="184.0" layoutY="114.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+                <VBox alignment="CENTER_LEFT" prefWidth="100.0" spacing="5.0">
+                    <children>
+                        <Text fx:id="registerNewAccountText" strokeType="OUTSIDE" strokeWidth="0.0" text="Register a new account">
+                            <font>
+                                <Font size="24.0" />
+                            </font>
+                        </Text>
+                        <Region prefHeight="25.0" prefWidth="200.0" />
+                        <Text fx:id="usernameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
+                        <TextField fx:id="usernameTextField" promptText="Username" />
+                        <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                        <TextField fx:id="emailTextField" promptText="Email" />
+                        <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pin code" />
+                        <TextField fx:id="pinCodeTextField" promptText="Pincode" />
+                        <Text fx:id="securityQuestionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Security question" />
+                        <ComboBox fx:id="securityQuestionComboBox" prefWidth="150.0" promptText="Question" />
+                        <Text fx:id="securityQuestionAnswerText" strokeType="OUTSIDE" strokeWidth="0.0" text="Answer" />
+                        <TextField fx:id="securityQuestionAnswerTextField" promptText="Answer" />
+                        <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="30.0">
+                            <children>
+                                <Button fx:id="registerNewAccountButton" mnemonicParsing="false" onAction="#registerNewAccount" text="Register" />
+                            </children>
+                            <opaqueInsets>
+                                <Insets />
+                            </opaqueInsets>
+                        </HBox>
+                    </children>
+                    <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                    </padding>
+                </VBox>
+            </children>
+        </HBox>
+    </children>
+</AnchorPane>

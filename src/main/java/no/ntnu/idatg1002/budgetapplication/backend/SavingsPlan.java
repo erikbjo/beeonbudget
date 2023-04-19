@@ -1,12 +1,20 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 /**
  * Represents a savings plan. Each savings plan holds some information about that plan.
  *
- * @author Igor Dzugaj, Erik Bjørnsen
+ * @author Igor Dzugaj, Erik Bjørnsen, Simon Husås Houmb
  * @version 2.0
  */
+@Entity
 public class SavingsPlan {
+  @Id
+  @GeneratedValue
+  private Long id;
   private String goalName;
   private int totalGoalAmount;
   private int totalSaved;
@@ -28,6 +36,10 @@ public class SavingsPlan {
     }
 
     this.goalName = goalName;
+  }
+
+  public SavingsPlan() {
+
   }
 
   /**

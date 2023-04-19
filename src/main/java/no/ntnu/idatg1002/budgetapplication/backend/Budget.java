@@ -1,5 +1,14 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -9,13 +18,24 @@ import javafx.scene.chart.PieChart;
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
- * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen
+ * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb
  * @version 3.0 (2023-03-28)
  */
+@Entity
 public class Budget {
-  private final List<Expense> expenseList;
-  private final List<Income> incomeList;
-  private final List<ExpenseCategory> expenseCategoryList;
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "account_id")
+  private final List<Expense> expenseList = new ArrayList<>();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "account_id")
+  private final List<Income> incomeList = new ArrayList<>();
+  @ElementCollection
+  @Enumerated(EnumType.ORDINAL)
+  private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
   private String budgetName;
   private Boolean categoryExists;
 
@@ -30,9 +50,10 @@ public class Budget {
       throw new IllegalArgumentException("Budget name must not be empty or blank.");
     }
     this.budgetName = budgetName;
-    incomeList = new ArrayList<>();
-    expenseList = new ArrayList<>();
-    expenseCategoryList = new ArrayList<>();
+  }
+
+  public Budget() {
+
   }
 
   /**
