@@ -42,10 +42,6 @@
   -fx-effect: innershadow(one-pass-box, rgba(0,0,0,2.8), 10, 0, 0, 0);
 }
 
-#savingsPlanButton {
-
-}
-
-#savingsPlanButton {
-
+.dialog {
+  -fx-border-color: Black;
 }

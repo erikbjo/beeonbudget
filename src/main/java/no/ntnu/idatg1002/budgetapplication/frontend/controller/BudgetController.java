@@ -186,7 +186,7 @@ public class BudgetController implements Initializable {
   private void pieChartUpdateExpense() {
     expenseChart.setData(
         FXCollections.observableArrayList(
-            Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseDataTest())
+            Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData())
     );
   }
 }

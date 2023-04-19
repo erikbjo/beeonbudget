@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.chart.PieChart;
-import javafx.scene.chart.PieChart.Data;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
@@ -185,42 +184,37 @@ public class Budget {
   }
 
   public List<PieChart.Data> getPieChartExpenseData() {
-    ArrayList<PieChart.Data> data = new ArrayList<>();
-    for (Expense expense : this.getExpenseList()) {
-      //data.add(new Data(expense.getCategory().toString(), expense.getAmount()));
-      for (PieChart.Data dataPie : data) {
-        if (dataPie.getName().equals(expense.getCategory().toString())) {
-          // Update the existing data with the new amount
-          dataPie.setPieValue(dataPie.getPieValue() + expense.getAmount());
-        } else {
-          data.add(new PieChart.Data(expense.getCategory().toString(), expense.getAmount()));
-        }
-      }
-    }
-    return data;
-  }
-  public List<PieChart.Data> getPieChartExpenseDataTest() {
-    Map<String, Double> categoryAmounts = new HashMap<>();
+    Map<String , Double> categories = new HashMap<>();
     for (Expense expense : this.getExpenseList()) {
       String category = expense.getCategory().toString();
       double amount = expense.getAmount();
-      if (categoryAmounts.containsKey(category)) {
-        categoryAmounts.put(category, categoryAmounts.get(category) + amount);
+      if (categories.containsKey(category)) {
+        categories.put(category, categories.get(category) + amount);
       } else {
-        categoryAmounts.put(category, amount);
+        categories.put(category, amount);
       }
     }
     List<PieChart.Data> data = new ArrayList<>();
-    for (Map.Entry<String, Double> entry : categoryAmounts.entrySet()) {
+    for (Map.Entry<String, Double> entry : categories.entrySet()) {
       data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;
   }
 
   public List<PieChart.Data> getPieChartIncomeData() {
-    ArrayList<PieChart.Data> data = new ArrayList<>();
-    for (Income income : this.getIncomeList()) {
-      data.add(new PieChart.Data(income.getIncomeCategory().toString(), income.getAmount()));
+    Map<String , Double> categories = new HashMap<>();
+    for (Income income: this.getIncomeList()) {
+      String category = income.getIncomeCategory().toString();
+      double amount = income.getAmount();
+      if (categories.containsKey(category)) {
+        categories.put(category, categories.get(category) + amount);
+      } else {
+        categories.put(category, amount);
+      }
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;
   }

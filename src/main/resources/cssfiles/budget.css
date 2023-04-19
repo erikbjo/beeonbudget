@@ -37,3 +37,8 @@
   -fx-pref-height: 0;
   -fx-max-height: 0;
 }
+
+.Vbox {
+  -fx-border-radius: 2px;
+  -fx-border-color: Black;
+}

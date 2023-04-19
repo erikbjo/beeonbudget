@@ -12,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
@@ -54,6 +55,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
+    this.initStyle(StageStyle.UNDECORATED);
 
 
     // adds enums to combo boxes
