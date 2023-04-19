@@ -100,8 +100,8 @@ public class Budget {
   private void updateCategoryList() {
     expenseCategoryList.clear();
     for (Expense expense : expenseList) {
-      if (!expenseCategoryList.contains(expense.getCategory())) {
-        expenseCategoryList.add(expense.getCategory());
+      if (!expenseCategoryList.contains(expense.getExpenseCategory())) {
+        expenseCategoryList.add(expense.getExpenseCategory());
       }
     }
   }
@@ -184,9 +184,9 @@ public class Budget {
   }
 
   public List<PieChart.Data> getPieChartExpenseData() {
-    Map<String , Double> categories = new HashMap<>();
+    Map<String, Double> categories = new HashMap<>();
     for (Expense expense : this.getExpenseList()) {
-      String category = expense.getCategory().toString();
+      String category = expense.getExpenseCategory().toString();
       double amount = expense.getAmount();
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);
@@ -202,8 +202,8 @@ public class Budget {
   }
 
   public List<PieChart.Data> getPieChartIncomeData() {
-    Map<String , Double> categories = new HashMap<>();
-    for (Income income: this.getIncomeList()) {
+    Map<String, Double> categories = new HashMap<>();
+    for (Income income : this.getIncomeList()) {
       String category = income.getIncomeCategory().toString();
       double amount = income.getAmount();
       if (categories.containsKey(category)) {

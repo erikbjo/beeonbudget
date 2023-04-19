@@ -31,7 +31,7 @@ public class Expense extends MoneyAction {
    *
    * @return the expense category of this expense
    */
-  public ExpenseCategory getCategory() {
+  public ExpenseCategory getExpenseCategory() {
     return expenseCategory;
   }
 
@@ -40,7 +40,7 @@ public class Expense extends MoneyAction {
    *
    * @param expenseCategory the new expense category to be associated with this expenses
    */
-  public void setCategory(ExpenseCategory expenseCategory) {
+  public void setExpenseCategory(ExpenseCategory expenseCategory) {
     this.expenseCategory = expenseCategory;
   }
 }

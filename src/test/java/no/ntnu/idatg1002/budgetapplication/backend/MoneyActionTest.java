@@ -79,13 +79,13 @@ class MoneyActionTest {
 
   @Test
   void checkThatGetCategoryReturnsCorrectCategory() {
-    assertEquals(ExpenseCategory.HOUSING, testExpense.getCategory());
+    assertEquals(ExpenseCategory.HOUSING, testExpense.getExpenseCategory());
   }
 
   @Test
   void checkThatSetCategorySetsCategory() {
-    testExpense.setCategory(ExpenseCategory.HEALTHCARE);
-    assertEquals(ExpenseCategory.HEALTHCARE, testExpense.getCategory());
+    testExpense.setExpenseCategory(ExpenseCategory.HEALTHCARE);
+    assertEquals(ExpenseCategory.HEALTHCARE, testExpense.getExpenseCategory());
   }
 
   @Test
