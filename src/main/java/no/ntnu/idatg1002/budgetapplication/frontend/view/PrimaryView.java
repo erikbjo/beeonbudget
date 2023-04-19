@@ -23,7 +23,7 @@ public class PrimaryView extends Application {
             .toExternalForm();
     scene.getStylesheets().add(css);
     primaryStage.setTitle("Bee on Budget");
-    primaryStage
+     primaryStage
         .getIcons()
         .add(
             new Image(
