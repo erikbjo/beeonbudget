@@ -48,7 +48,6 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
-    this.initStyle(StageStyle.UNDECORATED);
 
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
     categoryComboBox.getItems().addAll(ExpenseCategory.values());
