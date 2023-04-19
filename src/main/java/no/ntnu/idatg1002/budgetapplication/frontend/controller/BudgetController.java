@@ -23,13 +23,13 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
 /** Controller for the Budget GUI */
 public class BudgetController implements Initializable {
   private final ObservableList<String> budgetInformation;
-  @FXML private final Button monthlyExpenseButton;
   private Stage stage;
   private Scene scene;
 
@@ -75,7 +75,6 @@ public class BudgetController implements Initializable {
     this.budgetInformation = FXCollections.observableArrayList("assffsa");
     this.incomeTableView = new TableView<>();
     this.expenseTableView = new TableView<>();
-    this.monthlyExpenseButton = new Button();
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
     this.previousButtonInBudget = new Button();
@@ -173,6 +172,16 @@ public class BudgetController implements Initializable {
     updateItems();
   }
 
+  @FXML
+  public void onNewBudget(ActionEvent event) throws IOException {
+    AddBudgetDialog dialog = new AddBudgetDialog();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+    Optional<Budget> result = dialog.showAndWait();
+    result.ifPresent(budget -> Database.getCurrentAccount().addBudget(budget));
+    updateItems();
+  }
+
   /**
    * This method handles the event when the user clicks the "New Expense" button. It displays a
    * dialog box where the user can enter the details of the new expense. If the user confirms the
@@ -200,7 +209,8 @@ public class BudgetController implements Initializable {
   private void updateItems() {
     expenseTableView.getItems().clear();
     incomeTableView.getItems().clear();
-    try {
+
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       // update expenses
       expenseTableView.setItems(
           FXCollections.observableArrayList(
@@ -209,9 +219,8 @@ public class BudgetController implements Initializable {
       incomeTableView.setItems(
           FXCollections.observableArrayList(
               Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
-    } catch (Exception ignored) {
-
     }
+
     pieChartUpdateExpense();
     pieChartUpdateIncome();
     pieChartUpdateTotal();
@@ -261,8 +270,8 @@ public class BudgetController implements Initializable {
       Income income =
           incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Are You Sure?");
-      alert.setContentText("Are You Sure You Want To Delete This Income?" + "\n"
-      +income.getIncomeAssString());
+      alert.setContentText(
+          "Are You Sure You Want To Delete This Income?" + "\n" + income.getIncomeAssString());
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
         Database.getCurrentAccount()
@@ -286,8 +295,8 @@ public class BudgetController implements Initializable {
       Expense expense =
           expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
       alert.setTitle("Are You Sure?");
-      alert.setContentText("Are You Sure You Want To Delete This Expense?" + "\n"
-      +expense.getExpenseAssString());
+      alert.setContentText(
+          "Are You Sure You Want To Delete This Expense?" + "\n" + expense.getExpenseAssString());
       Optional<ButtonType> result = alert.showAndWait();
       if (result.get() == ButtonType.OK) {
         Database.getCurrentAccount()
