@@ -38,7 +38,11 @@
   -fx-max-height: 0;
 }
 
-.Vbox {
-  -fx-border-radius: 2px;
-  -fx-border-color: Black;
+#menuBudgetButtonVbox{
+  -fx-background-color: #f5f5f5;
+  -fx-border-width: 1px;
+  -fx-padding: 5;
+  -fx-border-radius: 4px;
+  -fx-border-color: #e0e0e0;
+  -fx-effect: dropshadow(gaussian, rgba(0, 0, 0, 0.1), 10, 0, 0, 1);
 }
