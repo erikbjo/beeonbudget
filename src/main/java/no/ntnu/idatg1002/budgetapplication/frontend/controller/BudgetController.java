@@ -105,6 +105,7 @@ public class BudgetController implements Initializable {
               }
             });
 
+    userNameInBudget.setText(SessionAccount.getInstance().getAccount().getName());
     updateAllInBudgetView();
   }
 
@@ -517,7 +518,6 @@ public class BudgetController implements Initializable {
   private void setDefaultBudgetInfoText() {
     String noBudgetSelected = "No budget selected";
     budgetNameInBudget.setText(noBudgetSelected);
-    userNameInBudget.setText(noBudgetSelected);
   }
 
   /**
