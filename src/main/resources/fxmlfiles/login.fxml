@@ -24,8 +24,8 @@
                         </Text>
                         <Text fx:id="loginOrRegisterText" strokeType="OUTSIDE" strokeWidth="0.0" text="Log in / Register" />
                         <Region prefHeight="25.0" prefWidth="200.0" />
-                        <Text fx:id="usernameText" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" />
-                        <TextField fx:id="usernameTextField" />
+                        <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
+                        <TextField fx:id="emailTextField" />
                         <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pin code" />
                         <TextField fx:id="pinCodeTextField" />
                         <Hyperlink fx:id="forgotPinCodeHyperlink" onAction="#forgotPinCode" text="Forgot your pin code?" />
