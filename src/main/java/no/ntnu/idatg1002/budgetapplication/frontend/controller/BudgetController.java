@@ -148,13 +148,17 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void onNextBudget() {
-    try {
-      SessionAccount.getInstance().getAccount().selectNextBudget();
-      updateAllInBudgetView();
-    } catch (IndexOutOfBoundsException e) {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.setContentText("There is no next budget");
-      alert.showAndWait();
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      try {
+        SessionAccount.getInstance().getAccount().selectNextBudget();
+        updateAllInBudgetView();
+      } catch (IndexOutOfBoundsException e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setContentText("There is no next budget");
+        alert.showAndWait();
+      }
+    } else {
+      showNoBudgetErrorFromSelectNewBudget();
     }
   }
 
@@ -166,13 +170,17 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void onPreviousBudget() {
-    try {
-      SessionAccount.getInstance().getAccount().selectPreviousBudget();
-      updateAllInBudgetView();
-    } catch (IndexOutOfBoundsException e) {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.setContentText("There is no previous budget");
-      alert.showAndWait();
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      try {
+        SessionAccount.getInstance().getAccount().selectPreviousBudget();
+        updateAllInBudgetView();
+      } catch (IndexOutOfBoundsException e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setContentText("There is no previous budget");
+        alert.showAndWait();
+      }
+    } else {
+      showNoBudgetErrorFromSelectNewBudget();
     }
   }
 
@@ -186,17 +194,22 @@ public class BudgetController implements Initializable {
    */
   @FXML
   public void onNewIncome(ActionEvent event) throws IOException {
-    AddIncomeDialog dialog = new AddIncomeDialog();
-    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      AddIncomeDialog dialog = new AddIncomeDialog();
+      dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    Optional<Income> result = dialog.showAndWait();
-    result.ifPresent(
-        income ->
-            SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income));
-    updateItems();
-    updateIncomePieChart();
-    updateTotalPieChart();
-    updateBudgetMoneyText();
+      Optional<Income> result = dialog.showAndWait();
+      result.ifPresent(
+          income -> {
+            SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income);
+            updateItems();
+            updateIncomePieChart();
+            updateTotalPieChart();
+            updateBudgetMoneyText();
+          });
+    } else {
+      showNoBudgetErrorFromNewMoneyAction();
+    }
   }
 
   /**
@@ -227,20 +240,25 @@ public class BudgetController implements Initializable {
    */
   @FXML
   public void onNewExpense(ActionEvent event) throws IOException {
-    AddExpenseDialog dialog = new AddExpenseDialog();
-    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      AddExpenseDialog dialog = new AddExpenseDialog();
+      dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    Optional<Expense> result = dialog.showAndWait();
-    result.ifPresent(
-        expense ->
+      Optional<Expense> result = dialog.showAndWait();
+      result.ifPresent(
+          expense -> {
             SessionAccount.getInstance()
                 .getAccount()
                 .getSelectedBudget()
-                .addBudgetExpenses(expense));
-    updateItems();
-    updateBudgetMoneyText();
-    updateExpensePieChart();
-    updateTotalPieChart();
+                .addBudgetExpenses(expense);
+            updateItems();
+            updateBudgetMoneyText();
+            updateExpensePieChart();
+            updateTotalPieChart();
+          });
+    } else {
+      showNoBudgetErrorFromNewMoneyAction();
+    }
   }
 
   /**
@@ -389,21 +407,52 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void deleteBudget(ActionEvent event) {
-    Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type, "");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.getDialogPane();
-    Budget budget = SessionAccount.getInstance().getAccount().getSelectedBudget();
-    alert.setTitle("Are You Sure?");
-    alert.setContentText(
-        "Are You Sure You Want To Delete This Budget?" + "\n" + budget.getBudgetName());
-    Optional<ButtonType> result = alert.showAndWait();
-    if (result.isPresent() && (result.get() == ButtonType.OK)) {
-      SessionAccount.getInstance()
-          .getAccount()
-          .removeBudget(SessionAccount.getInstance().getAccount().getSelectedBudget());
-      updateAllInBudgetView();
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      Alert.AlertType type = AlertType.CONFIRMATION;
+      Alert alert = new Alert(type, "");
+      alert.initModality(Modality.APPLICATION_MODAL);
+      alert.getDialogPane();
+      Budget budget = SessionAccount.getInstance().getAccount().getSelectedBudget();
+      alert.setTitle("Are You Sure?");
+      alert.setContentText(
+          "Are You Sure You Want To Delete This Budget?" + "\n" + budget.getBudgetName());
+      Optional<ButtonType> result = alert.showAndWait();
+      if (result.isPresent() && (result.get() == ButtonType.OK)) {
+        SessionAccount.getInstance()
+            .getAccount()
+            .removeBudget(SessionAccount.getInstance().getAccount().getSelectedBudget());
+        updateAllInBudgetView();
+      }
+    } else {
+      showNoBudgetErrorFromDeleteBudget();
     }
+  }
+
+  private void showNoBudgetErrorFromNewMoneyAction() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please create a budget before adding an expense or income");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
+  private void showNoBudgetErrorFromSelectNewBudget() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please create a budget before trying to switch budget");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
+  private void showNoBudgetErrorFromDeleteBudget() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("There is no budget to be deleted");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
   }
 
   // UPDATE METHODS BELOW
