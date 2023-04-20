@@ -5,6 +5,8 @@ import java.util.Iterator;
 public interface AccountListInterface extends Iterable<Account> {
   void addAccount(Account account);
 
+  void removeAccount(Account account);
+
   Iterator<Account> iterator();
 
   void printAccounts();
