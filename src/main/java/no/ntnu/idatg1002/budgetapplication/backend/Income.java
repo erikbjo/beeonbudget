@@ -1,5 +1,9 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+
 /**
  * Represents an income entry in the budget application. Inherits from the MoneyAction class. An
  * Income object includes an amount, a description, a recurring type, and an income category.
@@ -7,7 +11,11 @@ package no.ntnu.idatg1002.budgetapplication.backend;
  * @author Erik Bjørnsen
  * @version 2.0
  */
+@Entity
 public class Income extends MoneyAction {
+  @Id
+  @GeneratedValue
+  private Long id;
   private IncomeCategory incomeCategory;
 
   /**
@@ -22,6 +30,10 @@ public class Income extends MoneyAction {
   public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory) {
     super(amount, description, type);
     this.incomeCategory = incomeCategory;
+  }
+
+  public Income() {
+
   }
 
   /**
@@ -40,5 +52,14 @@ public class Income extends MoneyAction {
    */
   public void setIncomeCategory(IncomeCategory incomeCategory) {
     this.incomeCategory = incomeCategory;
+  }
+
+  public String getIncomeAssString() {
+    StringBuilder stringBuilder = new StringBuilder();
+    stringBuilder.append("Amount: ").append(this.getAmount()).append(".KR").append("\n");
+    stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
+    stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
+    stringBuilder.append("ExpenseCategory: ").append(this.incomeCategory);
+    return stringBuilder.toString();
   }
 }

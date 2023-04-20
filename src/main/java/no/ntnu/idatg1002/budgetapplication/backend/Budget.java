@@ -1,19 +1,43 @@
 package no.ntnu.idatg1002.budgetapplication.backend;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ElementCollection;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import javafx.scene.chart.PieChart;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
- * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen
+ * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb
  * @version 3.0 (2023-03-28)
  */
+@Entity
 public class Budget {
-  private final List<Expense> expenseList;
-  private final List<Income> incomeList;
-  private final List<ExpenseCategory> expenseCategoryList;
+  @Id
+  @GeneratedValue
+  private Long id;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "account_id")
+  private final List<Expense> expenseList = new ArrayList<>();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @JoinColumn(name = "account_id")
+  private final List<Income> incomeList = new ArrayList<>();
+  @ElementCollection
+  @Enumerated(EnumType.ORDINAL)
+  private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
   private String budgetName;
+  private Boolean categoryExists;
 
   /**
    * Instantiates a new Budget.
@@ -26,9 +50,10 @@ public class Budget {
       throw new IllegalArgumentException("Budget name must not be empty or blank.");
     }
     this.budgetName = budgetName;
-    incomeList = new ArrayList<>();
-    expenseList = new ArrayList<>();
-    expenseCategoryList = new ArrayList<>();
+  }
+
+  public Budget() {
+
   }
 
   /**
@@ -96,8 +121,8 @@ public class Budget {
   private void updateCategoryList() {
     expenseCategoryList.clear();
     for (Expense expense : expenseList) {
-      if (!expenseCategoryList.contains(expense.getCategory())) {
-        expenseCategoryList.add(expense.getCategory());
+      if (!expenseCategoryList.contains(expense.getExpenseCategory())) {
+        expenseCategoryList.add(expense.getExpenseCategory());
       }
     }
   }
@@ -177,5 +202,60 @@ public class Budget {
    */
   public List<ExpenseCategory> getCategoryList() {
     return expenseCategoryList;
+  }
+
+  public List<PieChart.Data> getPieChartExpenseData() {
+    Map<String, Double> categories = new HashMap<>();
+    for (Expense expense : this.getExpenseList()) {
+      String category = expense.getExpenseCategory().toString();
+      double amount = expense.getAmount();
+      if (categories.containsKey(category)) {
+        categories.put(category, categories.get(category) + amount);
+      } else {
+        categories.put(category, amount);
+      }
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
+  }
+
+  public List<PieChart.Data> getPieChartIncomeData() {
+    Map<String, Double> categories = new HashMap<>();
+    for (Income income : this.getIncomeList()) {
+      String category = income.getIncomeCategory().toString();
+      double amount = income.getAmount();
+      if (categories.containsKey(category)) {
+        categories.put(category, categories.get(category) + amount);
+      } else {
+        categories.put(category, amount);
+      }
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
+  }
+
+  public List<PieChart.Data> getTotalIncomeAndOutCome() {
+    Map<String, Double> incomeOrExpense = new HashMap<>();
+    for (Income income : this.getIncomeList()) {
+      String incomeString = "Income";
+      double amount = income.getAmount();
+      incomeOrExpense.put(incomeString, incomeOrExpense.getOrDefault(incomeString, 0.0) + amount);
+    }
+    for (Expense expense : this.getExpenseList()) {
+      String expenseString = "Expense";
+      double amount = expense.getAmount();
+      incomeOrExpense.put(expenseString, incomeOrExpense.getOrDefault(expenseString, 0.0) + amount);
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : incomeOrExpense.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
   }
 }

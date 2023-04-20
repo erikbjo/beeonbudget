@@ -1,6 +1,13 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
@@ -12,20 +19,27 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
  * @author Simon Husås Houmb, Erik Bjørnsen
  * @version 1.0 (2023-03-15)
  */
+@Entity(name = "Account")
+@Table(name = "account")
 public class Account {
-  private final String accountNumber;
-  /** The Rand. */
-  Random rand = new Random();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final List<Budget> budgets = new ArrayList<>();
 
   private String name;
   private String email;
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  private final ArrayList<SavingsPlan> savingsPlans;
-  private SavingsPlan selectedSavingsPlan;
-  private final ArrayList<Budget> budgets;
-  private Budget selectedBudget;
+  @Transient private SavingsPlan selectedSavingsPlan;
+  @Transient private Budget selectedBudget;
+  @Transient private Integer currentBudgetIndex = null;
+  @Transient private Random rand;
+  @Id private final String id = generateAccountNumber();
+
+  public Account() {}
 
   /**
    * Creates a new account with a name, email, 4 digit pinCode, chosen securityQuestion and
@@ -49,9 +63,6 @@ public class Account {
     setPinCode(pinCode);
     this.securityQuestion = securityQuestion;
     setSecurityAnswer(securityAnswer);
-    this.accountNumber = generateAccountNumber();
-    this.savingsPlans = new ArrayList<>();
-    this.budgets = new ArrayList<>();
   }
 
   /**
@@ -182,8 +193,8 @@ public class Account {
    *
    * @return the accountNumber as a String.
    */
-  public String getAccountNumber() {
-    return accountNumber;
+  public String getId() {
+    return id;
   }
 
   /**
@@ -191,7 +202,7 @@ public class Account {
    *
    * @return the savingsPlans collection as a Map.
    */
-  public ArrayList<SavingsPlan> getSavingsPlans() {
+  public List<SavingsPlan> getSavingsPlans() {
     return savingsPlans;
   }
 
@@ -242,7 +253,7 @@ public class Account {
    *
    * @return the account's Budget.
    */
-  public ArrayList<Budget> getBudgets() {
+  public List<Budget> getBudgets() {
     return budgets;
   }
 
@@ -262,16 +273,23 @@ public class Account {
       throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.add(budget);
-      initializeSelectedBudget(budget);
+      currentBudgetIndex = this.budgets.indexOf(budget);
     }
   }
 
+  /**
+   * Checks if the given budget's name is already taken by any other budget in the list. This method
+   * iterates through the list of budgets and compares the names of each budget with the given
+   * budget's name. If a match is found, the method returns true. If no match is found, the method
+   * returns false.
+   *
+   * @param budget the Budget object whose name needs to be checked for uniqueness
+   * @return true if the budget name is already taken, false otherwise
+   */
   private boolean checkIfBudgetNameIsTaken(Budget budget) {
     boolean nameTaken = false;
     for (Budget budgetForLoop : budgets) {
       if (budgetForLoop.getBudgetName().equals(budget.getBudgetName())) {
-        // name already exists, do something
-        // for example, return or throw an exception
         nameTaken = true;
         break;
       }
@@ -279,23 +297,34 @@ public class Account {
     return nameTaken;
   }
 
-  /**
-   * Removes a budget to the account's budget collection.
-   *
-   * @param budget the budget to be added.
-   */
-  public void removeBudget(Budget budget) {
-    this.budgets.remove(budget);
+  public Integer getCurrentBudgetIndex() {
+    return currentBudgetIndex;
+  }
+
+  /** Initialize selected budget. */
+  public void initializeSelectedBudget() {
+    if (budgets.size() == 1) { // means that the budget just entered is the first one
+      currentBudgetIndex = 0;
+    }
   }
 
   /**
-   * Initialize selected budget.
+   * Removes a budget from the account's budget collection.
    *
-   * @param budget the budget
+   * @param budget the budget to be removed.
    */
-  public void initializeSelectedBudget(Budget budget) {
-    if (budgets.size() == 1) { // means that the budget just entered is the first one
-      selectedBudget = budget;
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget);
+    updateSelectedBudget();
+  }
+
+  private void updateSelectedBudget() {
+    if (budgets.isEmpty()) {
+      currentBudgetIndex = null;
+    } else if (budgets.size() > 1) {
+      selectNextBudget();
+    } else {
+      initializeSelectedBudget();
     }
   }
 
@@ -305,7 +334,11 @@ public class Account {
    * @return the selected budget
    */
   public Budget getSelectedBudget() {
-    return selectedBudget;
+    if (currentBudgetIndex != null) {
+      return budgets.get(currentBudgetIndex);
+    } else {
+      throw new IndexOutOfBoundsException();
+    }
   }
 
   /**
@@ -314,8 +347,8 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no next budget
    */
   public void selectNextBudget() throws IndexOutOfBoundsException {
-    if (budgets.size() > budgets.indexOf(selectedBudget)) {
-      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) + 1);
+    if (currentBudgetIndex < budgets.size() - 1) {
+      currentBudgetIndex += 1;
     } else {
       throw new IndexOutOfBoundsException();
     }
@@ -327,8 +360,8 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no previous budget
    */
   public void selectPreviousBudget() throws IndexOutOfBoundsException {
-    if (budgets.indexOf(selectedBudget) > 0) {
-      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
+    if (currentBudgetIndex > 0 && !budgets.isEmpty()) {
+      currentBudgetIndex -= 1;
     } else {
       throw new IndexOutOfBoundsException();
     }
@@ -373,10 +406,10 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no previous savings plan
    */
   public void selectPreviousSavingsPlan() throws IndexOutOfBoundsException {
-    if (savingsPlans.indexOf(selectedSavingsPlan) > 0) {
-      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
-    } else {
+    if (savingsPlans.indexOf(selectedSavingsPlan) == 0) {
       throw new IndexOutOfBoundsException();
+    } else {
+      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
     }
   }
 
@@ -387,46 +420,20 @@ public class Account {
    * @return the random AccountNumber as a String
    */
   private String generateAccountNumber() {
+    rand = new Random();
     boolean idTaken = true;
-    StringBuilder id;
+    StringBuilder stringBuilderId;
     do {
-      id = new StringBuilder("ID-");
+      stringBuilderId = new StringBuilder("ID-");
 
       for (int i = 0; i < 14; i++) {
-        int n = rand.nextInt(10);
-        id.append(n);
+        int n = this.rand.nextInt(10);
+        stringBuilderId.append(n);
       }
-      if (!Database.getAccounts().containsKey(id.toString())) {
+      if (!Database.getAccounts().containsKey(stringBuilderId.toString())) {
         idTaken = false;
       }
     } while (idTaken);
-    return id.toString();
-  }
-
-  @Override
-  public String toString() {
-    return "Account{"
-        + "name='"
-        + name
-        + '\''
-        + ", email='"
-        + email
-        + '\''
-        + ", pinCode='"
-        + pinCode
-        + '\''
-        + ", securityQuestion="
-        + securityQuestion
-        + ", securityAnswer='"
-        + securityAnswer
-        + '\''
-        + ", accountNumber='"
-        + accountNumber
-        + '\''
-        + ", savingsPlans="
-        + savingsPlans
-        + ", budgets="
-        + budgets
-        + '}';
+    return stringBuilderId.toString();
   }
 }

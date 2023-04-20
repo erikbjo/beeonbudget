@@ -282,8 +282,8 @@ class AccountTest {
 
     @Test
     void accountNumberIsCorrectFormat() {
-      assertEquals("ID-", account.getAccountNumber().substring(0, 3));
-      assertEquals(17, account.getAccountNumber().length());
+      assertEquals("ID-", account.getId().substring(0, 3));
+      assertEquals(17, account.getId().length());
     }
   }
 
@@ -375,29 +375,5 @@ class AccountTest {
   void testThatSelectedSavingsPlanIsInitializedCorrectly() {
     account.addSavingsPlan(savingsPlan);
     assertEquals(savingsPlan, account.getSelectedSavingsPlan());
-  }
-
-  @Test
-  void toStringPositiveTest() {
-    System.out.println(account.toString());
-    String expected =
-        "Account{name='"
-            + account.getName()
-            + "', email='"
-            + account.getEmail()
-            + "', pinCode='"
-            + account.getPinCode()
-            + "', securityQuestion="
-            + account.getSecurityQuestion()
-            + ", securityAnswer='"
-            + account.getSecurityAnswer()
-            + "', accountNumber='"
-            + account.getAccountNumber()
-            + "', savingsPlans="
-            + account.getSavingsPlans()
-            + ", budgets="
-            + account.getBudgets()
-            + "}";
-    assertEquals(expected, account.toString());
   }
 }

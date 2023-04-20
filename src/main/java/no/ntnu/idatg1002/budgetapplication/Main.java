@@ -8,12 +8,16 @@ import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountListInterface;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.frontend.view.PrimaryView;
 
 public class Main {
+  private AccountListInterface accountList;
 
   public static void main(String[] args) {
+
     Account adminAccount =
         new Account(
             "Admin", "admin@bob.com", "8008", SecurityQuestion.FAVORITE_FOOD, "Klubb og duppe");
@@ -23,7 +27,7 @@ public class Main {
     adminBudget.addBudgetExpenses(
         new Expense(100, "testdesc", RecurringType.DAILY, ExpenseCategory.FOOD));
     adminBudget.addBudgetIncome(
-        new Income(500, "testdesc", RecurringType.NONRECURRING, IncomeCategory.RENTAL_INCOME));
+        new Income(500, "testdesc", RecurringType.DAILY, IncomeCategory.WAGE));
     Database.getCurrentAccount().addBudget(adminBudget);
 
     // for testing
@@ -31,6 +35,11 @@ public class Main {
     System.out.println(
         "Selected savingsplan: " + Database.getCurrentAccount().getSelectedSavingsPlan());
     System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
+
+    /*
+    main.accountList.addAccount(adminAccount);
+    main.accountList.printAccounts();
+     */
 
     PrimaryView.mainApp(args);
   }
