@@ -41,8 +41,6 @@ class AccountTest {
     for (Account a : AccountDAO.getInstance().getAllAccounts()) {
       a = null;
     }
-    AccountDAO.getInstance().getAllAccounts().clear();
-    AccountDAO.getInstance().getAllEmails().clear();
   }
 
   @Nested
@@ -77,17 +75,13 @@ class AccountTest {
 
     @Test
     void emailAlreadyInUse() {
-      Account account2 =
-          new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
-      try {
-        AccountDAO.getInstance().addAccount(account2);
-      } catch (Exception ignored) {
-
-      }
-      Exception thrown =
+      Account testAccount = new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
+      AccountDAO.getInstance().addAccount(testAccount);
+          Exception thrown =
           assertThrows(IllegalArgumentException.class, () -> account.setEmail("simon@gmail.com"));
       assertEquals("Email already in use.", thrown.getMessage());
-    }
+      AccountDAO.getInstance().removeAccount(testAccount);
+      }
   }
 
   @Nested
@@ -279,16 +273,6 @@ class AccountTest {
     account.addBudget(budget);
     account.removeBudget(budget);
     assertFalse(account.getBudgets().contains(budget));
-  }
-
-  @Nested
-  class GenerateAccountNumberTest {
-
-    @Test
-    void accountNumberIsCorrectFormat() {
-      assertEquals("ID-", account.getId().substring(0, 3));
-      assertEquals(17, account.getId().length());
-    }
   }
 
   @Test

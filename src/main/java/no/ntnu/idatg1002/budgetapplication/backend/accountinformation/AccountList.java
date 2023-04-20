@@ -32,6 +32,11 @@ public class AccountList implements AccountListInterface {
     }
   }
 
+  @Override
+  public void removeAccount(Account account) {
+    throw new UnsupportedOperationException();
+  }
+
   /**
    * Returns all emails registered to accounts in the database.
    *
