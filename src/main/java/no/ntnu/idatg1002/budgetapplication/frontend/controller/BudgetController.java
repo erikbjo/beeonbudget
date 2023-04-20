@@ -33,38 +33,24 @@ public class BudgetController implements Initializable {
   private Stage stage;
   private Scene scene;
 
-  @FXML
-  private TableView<Expense> expenseTableView;
-  @FXML
-  private TableView<Income> incomeTableView;
-  @FXML
-  private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
-  @FXML
-  private TableColumn<Expense, Integer> expenseColumn;
-  @FXML
-  private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
-  @FXML
-  private TableColumn<Income, Integer> incomeColumn;
-  @FXML
-  private Button newExpenseButton;
-  @FXML
-  private Button newIncomeButton;
-  @FXML
-  private Button previousButtonInBudget;
-  @FXML
-  private PieChart incomeChart;
-  @FXML
-  private PieChart expenseChart;
-  @FXML
-  private Label totalExpenseInBudget;
-  @FXML
-  private Label totalIncomeInBudget;
-  @FXML
-  private Label userNameInBudget;
-  @FXML
-  private Label budgetNameInBudget;
-  @FXML
-  private PieChart totalChart;
+  @FXML private TableView<Expense> expenseTableView;
+  @FXML private TableView<Income> incomeTableView;
+  @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
+  @FXML private TableColumn<Expense, Integer> expenseColumn;
+  @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
+  @FXML private TableColumn<Income, Integer> incomeColumn;
+  @FXML private Button newExpenseButton;
+  @FXML private Button newIncomeButton;
+  @FXML private Button previousButtonInBudget;
+  @FXML private PieChart incomeChart;
+  @FXML private PieChart expenseChart;
+  @FXML private Label totalExpenseInBudget;
+  @FXML private Label totalIncomeInBudget;
+  @FXML private Label userNameInBudget;
+  @FXML private Label budgetNameInBudget;
+  @FXML private PieChart totalChart;
+  @FXML private Button nextBudgetButton;
+  @FXML private Button previousBudgetButton;
 
   /**
    * Constructor for the BudgetController class.
@@ -153,6 +139,29 @@ public class BudgetController implements Initializable {
     scene.setRoot(root);
   }
 
+  @FXML
+  private void onNextBudget() {
+    try {
+      Database.getCurrentAccount().selectNextBudget();
+      updateBudgetView();
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("no next budget");
+      System.out.println(Database.getCurrentAccount().getBudgets());
+    }
+  }
+
+  @FXML
+  private void onPreviousBudget() {
+    try {
+      Database.getCurrentAccount().selectPreviousBudget();
+      updateBudgetView();
+    } catch (IndexOutOfBoundsException e) {
+      System.out.println("no previous budget");
+      System.out.println(Database.getCurrentAccount().getBudgets());
+      System.out.println("Current index: " + Database.getCurrentAccount().getCurrentBudgetIndex());
+    }
+  }
+
   /**
    * This method handles the event when the user clicks the "New Income" button. It displays a
    * dialog box where the user can enter the details of the new income. If the user confirms the new
@@ -200,64 +209,6 @@ public class BudgetController implements Initializable {
         expense -> Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense));
     updateItems();
   }
-
-  /**
-   * This method updates the items displayed in the expense and income table views. It retrieves the
-   * expense and income lists from the currently selected budget and sets them as the new items for
-   * the corresponding table views.
-   */
-  private void updateItems() {
-    expenseTableView.getItems().clear();
-    incomeTableView.getItems().clear();
-
-    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
-      // update expenses
-      expenseTableView.setItems(
-          FXCollections.observableArrayList(
-              Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
-      // update incomes
-      incomeTableView.setItems(
-          FXCollections.observableArrayList(
-              Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
-    }
-
-    pieChartUpdateExpense();
-    pieChartUpdateIncome();
-    pieChartUpdateTotal();
-    updateBudgetView();
-  }
-
-  private void pieChartUpdateIncome() {
-    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
-      incomeChart.setData(
-          FXCollections.observableArrayList(
-              Database.getCurrentAccount().getSelectedBudget().getPieChartIncomeData()));
-    } else {
-      incomeChart.getData().clear();
-    }
-  }
-
-  private void pieChartUpdateExpense() {
-    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
-      expenseChart.setData(
-          FXCollections.observableArrayList(
-              Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData()));
-    } else {
-      expenseChart.getData().clear();
-    }
-  }
-
-  private void pieChartUpdateTotal() {
-    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
-      totalChart.setData(
-          FXCollections.observableArrayList(
-              Database.getCurrentAccount().getSelectedBudget().getTotalIncomeAndOutCome()));
-    } else {
-      totalChart.getData().clear();
-    }
-  }
-
-
 
   @FXML
   private void deleteRowFromTable(ActionEvent event) {
@@ -350,16 +301,97 @@ public class BudgetController implements Initializable {
 
   @FXML
   private void deleteBudget(ActionEvent event) {
-    Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
+    Alert.AlertType type = AlertType.CONFIRMATION;
+    Alert alert = new Alert(type, "");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    alert.getDialogPane();
+    Budget budget = Database.getCurrentAccount().getSelectedBudget();
+    alert.setTitle("Are You Sure?");
+    alert.setContentText(
+        "Are You Sure You Want To Delete This Budget?" + "\n" + budget.getBudgetName());
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+      Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
+    }
     updateItems();
   }
 
+  // UPDATE METHODS BELOW
+
+  /**
+   * This method updates the items displayed in the expense and income table views. It retrieves the
+   * expense and income lists from the currently selected budget and sets them as the new items for
+   * the corresponding table views.
+   */
+  private void updateItems() {
+    expenseTableView.getItems().clear();
+    incomeTableView.getItems().clear();
+
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      // update expenses
+      expenseTableView.setItems(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getExpenseList()));
+      // update incomes
+      incomeTableView.setItems(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getIncomeList()));
+    }
+
+    pieChartUpdateExpense();
+    pieChartUpdateIncome();
+    pieChartUpdateTotal();
+    updateBudgetView();
+  }
+
+  private void pieChartUpdateIncome() {
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      incomeChart.setData(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getPieChartIncomeData()));
+    } else {
+      incomeChart.getData().clear();
+    }
+  }
+
+  private void pieChartUpdateExpense() {
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      expenseChart.setData(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getPieChartExpenseData()));
+    } else {
+      expenseChart.getData().clear();
+    }
+  }
+
+  private void pieChartUpdateTotal() {
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      totalChart.setData(
+          FXCollections.observableArrayList(
+              Database.getCurrentAccount().getSelectedBudget().getTotalIncomeAndOutCome()));
+    } else {
+      totalChart.getData().clear();
+    }
+  }
+
   public void updateBudgetView() {
-    budgetNameInBudget.setText(Database.getCurrentAccount().getSelectedBudget().getBudgetName());
-    totalIncomeInBudget.setText(
-        String.valueOf(Database.getCurrentAccount().getSelectedBudget().getTotalIncome()));
-    totalExpenseInBudget.setText(
-        String.valueOf(Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
-    userNameInBudget.setText(Database.getCurrentAccount().getName());
+    if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
+      budgetNameInBudget.setText(Database.getCurrentAccount().getSelectedBudget().getBudgetName());
+      totalIncomeInBudget.setText(
+          String.valueOf(Database.getCurrentAccount().getSelectedBudget().getTotalIncome()));
+      totalExpenseInBudget.setText(
+          String.valueOf(Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
+      userNameInBudget.setText(Database.getCurrentAccount().getName());
+    } else {
+      setDefaultBudgetView();
+    }
+  }
+
+  private void setDefaultBudgetView() {
+    String noBudgetSelected = "No budget selected";
+    budgetNameInBudget.setText(noBudgetSelected);
+    totalIncomeInBudget.setText(noBudgetSelected);
+    totalExpenseInBudget.setText(noBudgetSelected);
+    userNameInBudget.setText(noBudgetSelected);
   }
 }
