@@ -28,9 +28,8 @@ public class Account {
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  @Transient private Integer currentSavingsPlanIndex = null;
-  @Transient private Budget selectedBudget;
-  @Transient private Integer currentBudgetIndex = createCurrentBudgetIndex();
+  private Integer currentSavingsPlanIndex = null;
+  private Integer currentBudgetIndex = null;
   @Transient private Random rand;
   @Id @GeneratedValue private String id;
 
