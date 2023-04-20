@@ -20,7 +20,9 @@ import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class RegisterNewAccountController {
 
@@ -77,9 +79,15 @@ public class RegisterNewAccountController {
               pinCodeTextField.getText(),
               reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
               securityQuestionAnswerTextField.getText());
-      Database.addAccount(newAccount);
-      Database.setCurrentAccount(newAccount);
-      goToLoginScreen(event);
+      try {
+        AccountDAO.getInstance().addAccount(newAccount);
+        SessionAccount.getInstance().setAccount(newAccount);
+        goToLoginScreen(event);
+      } catch (IllegalArgumentException e) {
+        //can use e.getMessage() to print out to an alert or something similar.
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     } else {
       generateDynamicFeedbackAlert();
     }
