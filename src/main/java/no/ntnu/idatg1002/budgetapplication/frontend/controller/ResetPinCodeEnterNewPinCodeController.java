@@ -2,7 +2,6 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,7 +17,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class ResetPinCodeEnterNewPinCodeController {
 
@@ -51,7 +52,10 @@ public class ResetPinCodeEnterNewPinCodeController {
   private void setSecurityQuestion() {
     try {
       securityQuestionTextField.setText(
-          Database.getCurrentAccount().getSecurityQuestion().getSecurityQuestionString());
+          SessionAccount.getInstance()
+              .getAccount()
+              .getSecurityQuestion()
+              .getSecurityQuestionString());
     } catch (Exception e) {
       e.printStackTrace();
       securityQuestionTextField.setText("Invalid");
@@ -133,10 +137,10 @@ public class ResetPinCodeEnterNewPinCodeController {
     boolean valid = false;
     String answer = securityQuestionAnswerTextField.getText();
 
-    var accounts = Database.getAccounts();
+    var accounts = AccountDAO.getInstance().getAllAccounts();
 
-    for (Map.Entry<String, Account> entry : accounts.entrySet()) {
-      if (Objects.equals(Database.getCurrentAccount().getSecurityAnswer(), answer)) {
+    for (Account ignored : accounts) {
+      if (Objects.equals(SessionAccount.getInstance().getAccount().getSecurityAnswer(), answer)) {
         valid = true;
         break;
       }
@@ -146,7 +150,7 @@ public class ResetPinCodeEnterNewPinCodeController {
   }
 
   private void setPinCode(String pinCode) {
-    Database.getCurrentAccount().setPinCode(pinCode);
+    SessionAccount.getInstance().getAccount().setPinCode(pinCode);
   }
 
   private void generateDynamicFeedbackAlert() {
