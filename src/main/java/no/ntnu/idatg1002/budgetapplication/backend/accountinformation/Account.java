@@ -1,11 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,7 +32,7 @@ public class Account {
   @Transient private Budget selectedBudget;
   @Transient private Integer currentBudgetIndex = null;
   @Transient private Random rand;
-  @Id private final String id = generateAccountNumber();
+  @Id @GeneratedValue private String id;
 
   public Account() {}
 
@@ -432,9 +427,7 @@ public class Account {
         int n = this.rand.nextInt(10);
         stringBuilderId.append(n);
       }
-      if (!AccountDAO.getInstance().getAllAccountIds().contains(stringBuilderId.toString())) {
-        idTaken = false;
-      }
+      idTaken = false;
     } while (idTaken);
     return stringBuilderId.toString();
   }
