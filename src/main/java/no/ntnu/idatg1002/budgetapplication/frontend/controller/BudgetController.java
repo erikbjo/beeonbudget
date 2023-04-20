@@ -105,7 +105,7 @@ public class BudgetController implements Initializable {
               }
             });
 
-    updateItems();
+    updateAllInBudgetView();
   }
 
   /**
@@ -143,10 +143,11 @@ public class BudgetController implements Initializable {
   private void onNextBudget() {
     try {
       Database.getCurrentAccount().selectNextBudget();
-      updateBudgetInfoText();
+      updateAllInBudgetView();
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("no next budget");
-      System.out.println(Database.getCurrentAccount().getBudgets());
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setContentText("There is no next budget");
+      alert.showAndWait();
     }
   }
 
@@ -154,11 +155,11 @@ public class BudgetController implements Initializable {
   private void onPreviousBudget() {
     try {
       Database.getCurrentAccount().selectPreviousBudget();
-      updateBudgetInfoText();
+      updateAllInBudgetView();
     } catch (IndexOutOfBoundsException e) {
-      System.out.println("no previous budget");
-      System.out.println(Database.getCurrentAccount().getBudgets());
-      System.out.println("Current index: " + Database.getCurrentAccount().getCurrentBudgetIndex());
+      Alert alert = new Alert(AlertType.WARNING);
+      alert.setContentText("There is no previous budget");
+      alert.showAndWait();
     }
   }
 
