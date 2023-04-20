@@ -139,6 +139,12 @@ public class BudgetController implements Initializable {
     scene.setRoot(root);
   }
 
+  /**
+   * Handles the action event for the "Next Budget" button. This method attempts to select the next
+   * budget from the current account's budgets. If successful, the budget view is updated to display
+   * the selected budget's information. If there is no next budget, a warning alert is shown to
+   * inform the user.
+   */
   @FXML
   private void onNextBudget() {
     try {
@@ -151,6 +157,12 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /**
+   * Handles the action event for the "Previous Budget" button. This method attempts to select the
+   * previous budget from the current account's budgets. If successful, the budget view is updated
+   * to display the selected budget's information. If there is no previous budget, a warning alert
+   * is shown to inform the user.
+   */
   @FXML
   private void onPreviousBudget() {
     try {
@@ -180,11 +192,19 @@ public class BudgetController implements Initializable {
     result.ifPresent(
         income -> Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income));
     updateItems();
-    pieChartUpdateIncome();
-    pieChartUpdateTotal();
+    updateIncomePieChart();
+    updateTotalPieChart();
     updateBudgetMoneyText();
   }
 
+  /**
+   * This method handles the event when the user clicks the "New Budget" button. It displays a
+   * dialog box where the user can enter the name of the new budget. If the user confirms the new
+   * budget is set as the active one, and the UI is updated.
+   *
+   * @param event The ActionEvent that triggers the method call
+   * @throws IOException if the AddBudgetDialog.fxml file cannot be loaded
+   */
   @FXML
   public void onNewBudget(ActionEvent event) throws IOException {
     AddBudgetDialog dialog = new AddBudgetDialog();
@@ -213,10 +233,17 @@ public class BudgetController implements Initializable {
         expense -> Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense));
     updateItems();
     updateBudgetMoneyText();
-    pieChartUpdateExpense();
-    pieChartUpdateTotal();
+    updateExpensePieChart();
+    updateTotalPieChart();
   }
 
+  /**
+   * Handles the action event for the "Delete Row" button. This method determines if a row is
+   * selected in either the income or expense table views. If a row is selected, the corresponding
+   * deletion method is called. If no row is selected, a warning alert is shown to inform the user.
+   *
+   * @param event The action event object for the "Delete Row" button.
+   */
   @FXML
   private void deleteRowFromTable(ActionEvent event) {
     if (incomeTableView
@@ -234,6 +261,10 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /**
+   * Deletes the selected income row from the income table view after user confirmation. Updates
+   * income pie chart, total pie chart, and budget money text.
+   */
   private void deleteIncomeFromTable() {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "Delete Item");
@@ -250,13 +281,18 @@ public class BudgetController implements Initializable {
           .getSelectedBudget()
           .removeBudgetIncome(incomeTableView.getSelectionModel().getSelectedItem());
       incomeTableView.getItems().removeAll(incomeTableView.getSelectionModel().getSelectedItems());
-      pieChartUpdateIncome();
+      updateIncomePieChart();
+      updateTotalPieChart();
       updateBudgetMoneyText();
     } else {
       alert.close();
     }
   }
 
+  /**
+   * Deletes the selected expense row from the expense table view after user confirmation. Updates
+   * expense pie chart, total pie chart, and budget money text.
+   */
   private void deleteExpenseFromTable() {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "");
@@ -276,15 +312,21 @@ public class BudgetController implements Initializable {
       expenseTableView
           .getItems()
           .removeAll(expenseTableView.getSelectionModel().getSelectedItems());
-      pieChartUpdateExpense();
+      updateExpensePieChart();
+      updateTotalPieChart();
       updateBudgetMoneyText();
     } else {
       alert.close();
     }
   }
 
+  /**
+   * Handles the action event for fetching information from the selected item in either the income
+   * or expense table views. Displays an alert with the respective item's information if an item is
+   * selected, otherwise shows a warning alert to select an item.
+   */
   @FXML
-  private void getInformationFromSelectedItem(ActionEvent event) throws IOException {
+  private void getInformationFromSelectedItem() {
     if (incomeTableView
         .getSelectionModel()
         .isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
@@ -300,6 +342,10 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /**
+   * Displays an alert containing the information of the selected income item. The alert shows the
+   * income's details as a string and has a cancel button to close the alert.
+   */
   private void getInformationFromSelectedIncome() {
     Alert.AlertType type = AlertType.NONE;
     Alert alert = new Alert(type, "");
@@ -311,6 +357,10 @@ public class BudgetController implements Initializable {
     alert.showAndWait();
   }
 
+  /**
+   * Displays an alert containing the information of the selected expense item. The alert shows the
+   * expense's details as a string and has a cancel button to close the alert.
+   */
   private void getInformationFromSelectedExpense() {
     Alert.AlertType type = AlertType.NONE;
     Alert alert = new Alert(type, "");
@@ -322,6 +372,13 @@ public class BudgetController implements Initializable {
     alert.showAndWait();
   }
 
+  /**
+   * Handles the action event for deleting a budget. Displays a confirmation alert asking the user
+   * if they are sure they want to delete the selected budget. If the user confirms, the budget is
+   * removed from the current account and the budget view is updated.
+   *
+   * @param event the action event triggered by the user
+   */
   @FXML
   private void deleteBudget(ActionEvent event) {
     Alert.AlertType type = AlertType.CONFIRMATION;
@@ -335,12 +392,13 @@ public class BudgetController implements Initializable {
     Optional<ButtonType> result = alert.showAndWait();
     if (result.isPresent() && (result.get() == ButtonType.OK)) {
       Database.getCurrentAccount().removeBudget(Database.getCurrentAccount().getSelectedBudget());
+      updateAllInBudgetView();
     }
-    updateAllInBudgetView();
   }
 
   // UPDATE METHODS BELOW
 
+  /** This method calls all the other update methods, so that all the whole UI is updated. */
   private void updateAllInBudgetView() {
     updateItems();
     updateAllPieCharts();
@@ -369,13 +427,15 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /** Updates all the pie charts. */
   private void updateAllPieCharts() {
-    pieChartUpdateIncome();
-    pieChartUpdateExpense();
-    pieChartUpdateTotal();
+    updateIncomePieChart();
+    updateExpensePieChart();
+    updateTotalPieChart();
   }
 
-  private void pieChartUpdateIncome() {
+  /** Updates the pie chart for income */
+  private void updateIncomePieChart() {
     if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       incomeChart.setData(
           FXCollections.observableArrayList(
@@ -385,7 +445,8 @@ public class BudgetController implements Initializable {
     }
   }
 
-  private void pieChartUpdateExpense() {
+  /** Updates the pie chart for expense */
+  private void updateExpensePieChart() {
     if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       expenseChart.setData(
           FXCollections.observableArrayList(
@@ -395,7 +456,8 @@ public class BudgetController implements Initializable {
     }
   }
 
-  private void pieChartUpdateTotal() {
+  /** Updates the pie chart for income and expense */
+  private void updateTotalPieChart() {
     if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       totalChart.setData(
           FXCollections.observableArrayList(
@@ -405,6 +467,7 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /** Updates all the texts that is connected with current budget */
   public void updateBudgetInfoText() {
     if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       budgetNameInBudget.setText(Database.getCurrentAccount().getSelectedBudget().getBudgetName());
@@ -414,6 +477,7 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /** Updates all the texts that is connected with the expenses and incomes in the current budget */
   public void updateBudgetMoneyText() {
     if (Database.getCurrentAccount().getCurrentBudgetIndex() != null) {
       totalIncomeInBudget.setText(
@@ -425,12 +489,20 @@ public class BudgetController implements Initializable {
     }
   }
 
+  /**
+   * Sets all the texts that is connected to the current budget, to show that there is no budget
+   * currently selected.
+   */
   private void setDefaultBudgetInfoText() {
     String noBudgetSelected = "No budget selected";
     budgetNameInBudget.setText(noBudgetSelected);
     userNameInBudget.setText(noBudgetSelected);
   }
 
+  /**
+   * Sets all the texts that is connected to the incomes and expenses in the current budget, to show
+   * that there is no budget currently selected.
+   */
   private void setDefaultBudgetMoneyText() {
     String noBudgetSelected = "No budget selected";
     totalIncomeInBudget.setText(noBudgetSelected);
