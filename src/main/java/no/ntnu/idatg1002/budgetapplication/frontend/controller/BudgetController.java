@@ -222,56 +222,64 @@ public class BudgetController implements Initializable {
     if (incomeTableView
         .getSelectionModel()
         .isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
-      Alert.AlertType type = AlertType.CONFIRMATION;
-      Alert alert = new Alert(type, "Delete Item");
-      alert.initModality(Modality.APPLICATION_MODAL);
-      Income income =
-          incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
-      alert.setTitle("Are You Sure?");
-      alert.setContentText(
-          "Are You Sure You Want To Delete This Income?" + "\n" + income.getIncomeAssString());
-      Optional<ButtonType> result = alert.showAndWait();
-      if (result.isPresent() && result.get() == ButtonType.OK) {
-        Database.getCurrentAccount()
-            .getSelectedBudget()
-            .removeBudgetIncome(incomeTableView.getSelectionModel().getSelectedItem());
-        incomeTableView
-            .getItems()
-            .removeAll(incomeTableView.getSelectionModel().getSelectedItems());
-        pieChartUpdateIncome();
-        updateBudgetMoneyText();
-      } else {
-        alert.close();
-      }
+      deleteIncomeFromTable();
     } else if (expenseTableView
         .getSelectionModel()
         .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
-      Alert.AlertType type = AlertType.CONFIRMATION;
-      Alert alert = new Alert(type, "");
-      alert.initModality(Modality.APPLICATION_MODAL);
-      alert.getDialogPane();
-      Expense expense =
-          expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
-      alert.setTitle("Are You Sure?");
-      alert.setContentText(
-          "Are You Sure You Want To Delete This Expense?" + "\n" + expense.getExpenseAssString());
-      Optional<ButtonType> result = alert.showAndWait();
-      if (result.isPresent() && (result.get() == ButtonType.OK)) {
-        Database.getCurrentAccount()
-            .getSelectedBudget()
-            .removeBudgetExpenses(expenseTableView.getSelectionModel().getSelectedItem());
-        expenseTableView
-            .getItems()
-            .removeAll(expenseTableView.getSelectionModel().getSelectedItems());
-        pieChartUpdateExpense();
-        updateBudgetMoneyText();
-      } else {
-        alert.close();
-      }
+      deleteExpenseFromTable();
     } else {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please Select a item to Delete");
       alert.showAndWait();
+    }
+  }
+
+  private void deleteIncomeFromTable() {
+    Alert.AlertType type = AlertType.CONFIRMATION;
+    Alert alert = new Alert(type, "Delete Item");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    Income income =
+        incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
+    alert.setTitle("Are You Sure?");
+    alert.setContentText(
+        "Are You Sure You Want To Delete This Income?" + "\n" + income.getIncomeAssString());
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      Database.getCurrentAccount()
+          .getSelectedBudget()
+          .removeBudgetIncome(incomeTableView.getSelectionModel().getSelectedItem());
+      incomeTableView.getItems().removeAll(incomeTableView.getSelectionModel().getSelectedItems());
+      pieChartUpdateIncome();
+      updateBudgetMoneyText();
+    } else {
+      alert.close();
+    }
+  }
+
+  private void deleteExpenseFromTable() {
+    Alert.AlertType type = AlertType.CONFIRMATION;
+    Alert alert = new Alert(type, "");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    alert.getDialogPane();
+    Expense expense =
+        expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
+    alert.setTitle("Are You Sure?");
+    alert.setContentText(
+        "Are You Sure You Want To Delete This Expense?" + "\n" + expense.getExpenseAssString());
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && (result.get() == ButtonType.OK)) {
+      Database.getCurrentAccount()
+          .getSelectedBudget()
+          .removeBudgetExpenses(expenseTableView.getSelectionModel().getSelectedItem());
+      expenseTableView
+          .getItems()
+          .removeAll(expenseTableView.getSelectionModel().getSelectedItems());
+      pieChartUpdateExpense();
+      updateBudgetMoneyText();
+    } else {
+      alert.close();
     }
   }
 
@@ -280,30 +288,38 @@ public class BudgetController implements Initializable {
     if (incomeTableView
         .getSelectionModel()
         .isSelected(incomeTableView.getSelectionModel().getSelectedIndex())) {
-      Alert.AlertType type = AlertType.NONE;
-      Alert alert = new Alert(type, "");
-      Income income =
-          incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
-      alert.setTitle("Income Info");
-      alert.setContentText(income.getIncomeAssString());
-      alert.getButtonTypes().add(ButtonType.CANCEL);
-      alert.showAndWait();
+      getInformationFromSelectedIncome();
     } else if (expenseTableView
         .getSelectionModel()
         .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
-      Alert.AlertType type = AlertType.NONE;
-      Alert alert = new Alert(type, "");
-      Expense expense =
-          expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
-      alert.setTitle("Expense Info");
-      alert.setContentText(expense.getExpenseAssString());
-      alert.getButtonTypes().add(ButtonType.CANCEL);
-      alert.showAndWait();
+      getInformationFromSelectedExpense();
     } else {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please Select An Item To Show More Info.");
       alert.showAndWait();
     }
+  }
+
+  private void getInformationFromSelectedIncome() {
+    Alert.AlertType type = AlertType.NONE;
+    Alert alert = new Alert(type, "");
+    Income income =
+        incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
+    alert.setTitle("Income Info");
+    alert.setContentText(income.getIncomeAssString());
+    alert.getButtonTypes().add(ButtonType.CANCEL);
+    alert.showAndWait();
+  }
+
+  private void getInformationFromSelectedExpense() {
+    Alert.AlertType type = AlertType.NONE;
+    Alert alert = new Alert(type, "");
+    Expense expense =
+        expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
+    alert.setTitle("Expense Info");
+    alert.setContentText(expense.getExpenseAssString());
+    alert.getButtonTypes().add(ButtonType.CANCEL);
+    alert.showAndWait();
   }
 
   @FXML
