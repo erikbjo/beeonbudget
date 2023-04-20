@@ -15,7 +15,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
@@ -68,7 +68,7 @@ public class PrimaryController implements Initializable {
     Optional<Income> result = dialog.showAndWait();
     result.ifPresent(
         income -> {
-          Database.getCurrentAccount().getSelectedBudget().addBudgetIncome(income);
+          SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income);
           updatePrimaryView();
         });
   }
@@ -86,7 +86,7 @@ public class PrimaryController implements Initializable {
     Optional<Expense> result = dialog.showAndWait();
     result.ifPresent(
         expense -> {
-          Database.getCurrentAccount().getSelectedBudget().addBudgetExpenses(expense);
+          SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetExpenses(expense);
           updatePrimaryView();
         });
   }
@@ -115,15 +115,17 @@ public class PrimaryController implements Initializable {
     try {
       budgetLabel.setText(
           String.format(
-              "Budget: %s", Database.getCurrentAccount().getSelectedBudget().getBudgetName()));
-      usernameLabel.setText(Database.getCurrentAccount().getName());
+              "Budget: %s",
+              SessionAccount.getInstance().getAccount().getSelectedBudget().getBudgetName()));
+      usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
       menuPaneLabel1.setText(
           String.format(
-              "Remaining: %dkr", Database.getCurrentAccount().getSelectedBudget().getNetBalance()));
+              "Remaining: %dkr",
+              SessionAccount.getInstance().getAccount().getSelectedBudget().getNetBalance()));
       menuPaneLabel2.setText(
           String.format(
               "Budget spent: %dkr",
-              Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
+              SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
     } catch (Exception ignored) {
 
     }

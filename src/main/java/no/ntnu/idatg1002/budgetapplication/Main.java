@@ -21,25 +21,19 @@ public class Main {
     Account adminAccount =
         new Account(
             "Admin", "admin@bob.com", "8008", SecurityQuestion.FAVORITE_FOOD, "Klubb og duppe");
-    Database.addAccount(adminAccount);
-    Database.setCurrentAccount(adminAccount);
     Budget adminBudget = new Budget("testBudget");
     adminBudget.addBudgetExpenses(
         new Expense(100, "testdesc", RecurringType.DAILY, ExpenseCategory.FOOD));
     adminBudget.addBudgetIncome(
         new Income(500, "testdesc", RecurringType.DAILY, IncomeCategory.WAGE));
-    Database.getCurrentAccount().addBudget(adminBudget);
+    adminAccount.addBudget(adminBudget);
 
-    // for testing
-    System.out.println("Budget size: " + adminAccount.getBudgets().size());
-    System.out.println(
-        "Selected savingsplan: " + Database.getCurrentAccount().getSelectedSavingsPlan());
-    System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
-
-    /*
-    main.accountList.addAccount(adminAccount);
-    main.accountList.printAccounts();
-     */
+    try {
+      AccountDAO.getInstance().addAccount(adminAccount);
+      AccountDAO.getInstance().printAccounts();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     PrimaryView.mainApp(args);
   }
