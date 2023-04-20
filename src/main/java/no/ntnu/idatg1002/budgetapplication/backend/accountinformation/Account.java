@@ -189,9 +189,9 @@ public class Account {
   }
 
   /**
-   * Returns the account number.
+   * Returns the account id.
    *
-   * @return the accountNumber as a String.
+   * @return the id as a String.
    */
   public String getId() {
     return id;
@@ -321,7 +321,9 @@ public class Account {
   private void updateSelectedBudget() {
     if (budgets.isEmpty()) {
       currentBudgetIndex = null;
-    } else if (budgets.size() > 1) {
+    } else if (currentBudgetIndex > budgets.size() - 1) {
+      selectPreviousBudget();
+    } else if (currentBudgetIndex < budgets.size() - 1) {
       selectNextBudget();
     } else {
       initializeSelectedBudget();
