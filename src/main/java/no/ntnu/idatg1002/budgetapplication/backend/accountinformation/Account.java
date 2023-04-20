@@ -345,27 +345,23 @@ public class Account {
 
   /**
    * Select next budget in budgets arraylist.
-   *
-   * @throws IndexOutOfBoundsException if there is no next budget
    */
-  public void selectNextBudget() throws IndexOutOfBoundsException {
+  public void selectNextBudget() {
     if (currentBudgetIndex < budgets.size() - 1) {
       currentBudgetIndex += 1;
     } else {
-      throw new IndexOutOfBoundsException();
+      currentBudgetIndex = 0;
     }
   }
 
   /**
    * Select previous budget in budgets arraylist.
-   *
-   * @throws IndexOutOfBoundsException if there is no previous budget
    */
-  public void selectPreviousBudget() throws IndexOutOfBoundsException {
+  public void selectPreviousBudget() {
     if (currentBudgetIndex > 0 && !budgets.isEmpty()) {
       currentBudgetIndex -= 1;
     } else {
-      throw new IndexOutOfBoundsException();
+      currentBudgetIndex = budgets.size() - 1;
     }
   }
 
@@ -391,25 +387,21 @@ public class Account {
 
   /**
    * Select next savings plan in savings plan arraylist.
-   *
-   * @throws IndexOutOfBoundsException if there is no next savings plan
    */
   public void selectNextSavingsPlan() throws IndexOutOfBoundsException {
     if (savingsPlans.size() > savingsPlans.indexOf(selectedSavingsPlan)) {
       selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) + 1);
     } else {
-      throw new IndexOutOfBoundsException();
+      selectedSavingsPlan = savingsPlans.get(0);
     }
   }
 
   /**
    * Select previous savings plan in savings plan arraylist.
-   *
-   * @throws IndexOutOfBoundsException if there is no previous savings plan
    */
-  public void selectPreviousSavingsPlan() throws IndexOutOfBoundsException {
+  public void selectPreviousSavingsPlan() {
     if (savingsPlans.indexOf(selectedSavingsPlan) == 0) {
-      throw new IndexOutOfBoundsException();
+      selectedSavingsPlan = savingsPlans.get(savingsPlans.size() - 1);
     } else {
       selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
     }
