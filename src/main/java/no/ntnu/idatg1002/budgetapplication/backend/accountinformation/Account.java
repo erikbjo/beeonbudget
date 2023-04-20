@@ -111,7 +111,7 @@ public class Account {
       throw new IllegalArgumentException("Email must not be empty or blank.");
     } else if (!email.contains("@")) {
       throw new IllegalArgumentException("Email does not contain '@'.");
-    } else if (Database.getEmails().contains(email)) {
+    } else if (AccountDAO.getInstance().getAllEmails().contains(email)) {
       throw new IllegalArgumentException("Email already in use.");
     } else {
       this.email = email;
@@ -432,7 +432,7 @@ public class Account {
         int n = this.rand.nextInt(10);
         stringBuilderId.append(n);
       }
-      if (!Database.getAccounts().containsKey(stringBuilderId.toString())) {
+      if (!AccountDAO.getInstance().getAllAccountIds().contains(stringBuilderId.toString())) {
         idTaken = false;
       }
     } while (idTaken);
