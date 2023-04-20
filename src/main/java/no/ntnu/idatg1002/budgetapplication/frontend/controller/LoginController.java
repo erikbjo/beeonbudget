@@ -14,6 +14,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
@@ -95,6 +97,13 @@ public class LoginController {
     scene.setRoot(root);
   }
 
+  @FXML
+  public void onPinCodeTextFieldKeyPressed(KeyEvent event) throws IOException {
+    if (event.getCode().equals(KeyCode.ENTER)) {
+      loginAccount(new ActionEvent());
+    }
+  }
+
   private boolean assertAllFieldsValid() {
     return (!emailTextField.getText().isEmpty() && pinCodeTextField.getText().length() == 4);
   }
@@ -157,4 +166,5 @@ public class LoginController {
     alert.initModality(Modality.NONE);
     alert.showAndWait();
   }
+
 }

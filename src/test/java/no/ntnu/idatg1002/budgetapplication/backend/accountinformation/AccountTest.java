@@ -33,7 +33,7 @@ class AccountTest {
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
-    savingsPlan = new SavingsPlan("Test goal");
+    savingsPlan = new SavingsPlan("Test savingsplan");
   }
 
   @AfterEach
@@ -298,81 +298,57 @@ class AccountTest {
   }
 
   @Test
-  void testThatSelectedBudgetCanBeIncremented() {
+  void testThatSelectedBudgetCanBeIncrementedAndLoops() {
     account.addBudget(budget);
     account.addBudget(new Budget("Test budget 2"));
+    account.addBudget(new Budget("Test budget 3"));
+    assertEquals("Test budget 3", account.getSelectedBudget().getBudgetName());
+    //Selected loops
     account.selectNextBudget();
-    assertEquals(account.getSelectedBudget().getBudgetName(), "Test budget 2");
+    assertEquals("Test budget", account.getSelectedBudget().getBudgetName());
+    //Selected increments
+    account.selectNextBudget();
+    assertEquals("Test budget 2", account.getSelectedBudget().getBudgetName());
   }
 
   @Test
-  void testThatSelectedBudgetCanBeIncrementedNegative() {
-    account.addBudget(budget);
-    account.addBudget(new Budget("Test budget 2"));
-    account.selectNextBudget();
-
-    Exception thrown =
-        assertThrows(IndexOutOfBoundsException.class, () -> account.selectNextBudget());
-
-    assertEquals(account.getSelectedBudget().getBudgetName(), "Test budget 2");
-  }
-
-  @Test
-  void testThatSelectedSavingsPlanCanBeIncremented() {
+  void testThatSelectedSavingsPlanCanBeIncrementedAndLoops() {
     account.addSavingsPlan(savingsPlan);
     account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
+    account.addSavingsPlan(new SavingsPlan("Test savingsplan 3"));
+    assertEquals("Test savingsplan 3", account.getSelectedSavingsPlan().getGoalName());
+    //Selected loops
     account.selectNextSavingsPlan();
-    assertEquals(account.getSelectedSavingsPlan().getGoalName(), "Test savingsplan 2");
+    assertEquals("Test savingsplan", account.getSelectedSavingsPlan().getGoalName());
+    //Selected increments
+    account.selectNextSavingsPlan();
+    assertEquals("Test savingsplan 2", account.getSelectedSavingsPlan().getGoalName());
   }
 
   @Test
-  void testThatSelectedSavingsPlanCanBeIncrementedNegative() {
-    account.addSavingsPlan(savingsPlan);
-    account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
-    account.selectNextSavingsPlan();
-
-    Exception thrown =
-        assertThrows(IndexOutOfBoundsException.class, () -> account.selectNextSavingsPlan());
-
-    assertEquals(account.getSelectedSavingsPlan().getGoalName(), "Test savingsplan 2");
-  }
-
-  @Test
-  void testThatSelectedBudgetCanBeDecreased() {
+  void testThatSelectedBudgetCanBeDecreasedAndLoops() {
     account.addBudget(budget);
     account.addBudget(new Budget("Test budget 2"));
-    account.selectNextBudget();
+    assertEquals("Test budget 2", account.getSelectedBudget().getBudgetName());
+    //Selected decreases
     account.selectPreviousBudget();
-    assertEquals(account.getSelectedBudget().getBudgetName(), "Test budget");
+    assertEquals("Test budget", account.getSelectedBudget().getBudgetName());
+    //Selected loops
+    account.selectPreviousBudget();
+    assertEquals("Test budget 2", account.getSelectedBudget().getBudgetName());
   }
 
   @Test
-  void testThatSelectedSavingsPlanCanBeDecreased() {
+  void testThatSelectedSavingsPlanCanBeDecreasedAndLoops() {
     account.addSavingsPlan(savingsPlan);
     account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
-    account.selectNextSavingsPlan();
+    assertEquals("Test savingsplan 2", account.getSelectedSavingsPlan().getGoalName());
+    //Selected decreases
     account.selectPreviousSavingsPlan();
-    assertEquals(account.getSelectedSavingsPlan().getGoalName(), savingsPlan.getGoalName());
-  }
-
-  @Test
-  void testThatSelectedSavingsPlanCanBeDecreasedNegative() {
-    account.addSavingsPlan(savingsPlan);
-
-    Exception thrown =
-        assertThrows(IndexOutOfBoundsException.class, () -> account.selectPreviousSavingsPlan());
-
-    assertEquals(account.getSelectedSavingsPlan().getGoalName(), savingsPlan.getGoalName());
-  }
-
-  @Test
-  void testThatSelectedBudgetCanBeDecreasedNegative() {
-    account.addBudget(budget);
-
-    Exception thrown =
-        assertThrows(IndexOutOfBoundsException.class, () -> account.selectPreviousBudget());
-
-    assertEquals(account.getSelectedBudget().getBudgetName(), budget.getBudgetName());
+    assertEquals("Test savingsplan", account.getSelectedSavingsPlan().getGoalName());
+    //Selected loops
+    account.selectPreviousSavingsPlan();
+    assertEquals("Test savingsplan 2", account.getSelectedSavingsPlan().getGoalName());
   }
 
   @Test
