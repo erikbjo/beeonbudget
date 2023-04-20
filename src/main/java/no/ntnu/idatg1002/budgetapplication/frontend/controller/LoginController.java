@@ -17,9 +17,12 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class LoginController {
+
 
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
@@ -30,20 +33,17 @@ public class LoginController {
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text loginOrRegisterText; // Value injected by FXMLLoader
   @FXML private Text pinCodeText; // Value injected by FXMLLoader
-  @FXML private Text usernameText; // Value injected by FXMLLoader
-
+  @FXML public Text emailText;
   @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
-  @FXML private TextField usernameTextField; // Value injected by FXMLLoader
-
+  @FXML public TextField emailTextField;
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
-
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
     configurePinCodeTextField();
-    configureUsernameTextField();
+    configureEmailTextField();
   }
 
   @FXML
@@ -63,13 +63,14 @@ public class LoginController {
   @FXML
   void loginAccount(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
-      //
-      // Put database integration here ie:
-      // if (login successfully) -> go to primary
-      // else showInvalidLogin
-      //
-      showInvalidLoginAlert();
-      goToPrimaryScreen(event);
+      if (AccountDAO.getInstance()
+          .loginIsValid(emailTextField.getText(), pinCodeTextField.getText())) {
+        SessionAccount.getInstance().setAccount(AccountDAO.getInstance()
+            .getAccountByEmail(emailTextField.getText()));
+        goToPrimaryScreen(event);
+      } else {
+        showInvalidLoginAlert();
+      }
     } else {
       generateDynamicFeedbackAlert();
     }
@@ -100,7 +101,7 @@ public class LoginController {
   }
 
   private boolean assertAllFieldsValid() {
-    return (!usernameTextField.getText().isEmpty() && pinCodeTextField.getText().length() == 4);
+    return (!emailTextField.getText().isEmpty() && pinCodeTextField.getText().length() == 4);
   }
 
   private void configurePinCodeTextField() {
@@ -119,13 +120,13 @@ public class LoginController {
             });
   }
 
-  private void configureUsernameTextField() {
-    usernameTextField
+  private void configureEmailTextField() {
+    emailTextField
         .textProperty()
         .addListener(
             (observableValue, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
-                usernameTextField.clear();
+                emailTextField.clear();
               }
             });
   }
@@ -146,8 +147,8 @@ public class LoginController {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (usernameTextField.getText().isEmpty()) {
-      builder.append("Username \n");
+    if (emailTextField.getText().isEmpty()) {
+      builder.append("Email \n");
     }
     if (pinCodeTextField.getText().isEmpty()) {
       builder.append("Pin code \n");

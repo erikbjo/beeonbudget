@@ -189,9 +189,9 @@ public class Account {
   }
 
   /**
-   * Returns the account number.
+   * Returns the account id.
    *
-   * @return the accountNumber as a String.
+   * @return the id as a String.
    */
   public String getId() {
     return id;

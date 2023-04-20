@@ -24,9 +24,17 @@ public class AccountDAO implements AccountListInterface {
 
   @Override
   public void addAccount(Account account) {
-    this.em.getTransaction().begin();
-    this.em.persist(account);
-    this.em.getTransaction().commit();
+    if (AccountDAO.getInstance().getAllAccounts().contains(account)) {
+      throw new IllegalArgumentException("Instance of account already exists in the database.");
+    } else if (AccountDAO.getInstance().getAllAccountIds().contains(account.getId())) {
+      throw new IllegalArgumentException("Account with the same account number already exists in the database.");
+    } else if (AccountDAO.getInstance().getAllEmails().contains(account.getEmail())) {
+      throw new IllegalArgumentException("Email already exists in the database.");
+    } else {
+      this.em.getTransaction().begin();
+      this.em.persist(account);
+      this.em.getTransaction().commit();
+    }
   }
 
   @Override
@@ -43,15 +51,32 @@ public class AccountDAO implements AccountListInterface {
     return em.createQuery("SELECT a FROM Account a", Account.class).getResultList();
   }
 
+  public List<String> getAllEmails() {
+    return em.createQuery("SELECT a.email FROM Account a", String.class).getResultList();
+  }
+
+  public List<String> getAllAccountIds() {
+    return em.createQuery("SELECT a.id FROM Account a", String.class).getResultList();
+  }
+
+  public Account getAccountByEmail(String email) {
+    return em.createQuery("SELECT a FROM Account a WHERE a.email LIKE '" + email + "'",
+        Account.class).getSingleResult();
+  }
+
+  public boolean loginIsValid(String email, String pinCode) {
+    List<String> allEmails = getAllEmails();
+    return allEmails.contains(email) && getAccountByEmail(email).getPinCode().equals(pinCode);
+  }
+
   @Override
   public void printAccounts() {
     List<Account> accountList = getAllAccounts();
-
     for (Account account : accountList) {
-      System.out.println("Account Details : "
-          + " " + account.getId()
-          + " " + account.getName()
-          + " " + account.getEmail());
+      System.out.println("Account Details"
+          + " :: " + account.getId()
+          + " :: " + account.getName()
+          + " :: " + account.getEmail());
     }
   }
 
