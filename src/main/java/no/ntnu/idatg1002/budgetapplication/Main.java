@@ -36,10 +36,12 @@ public class Main {
         "Selected savingsplan: " + Database.getCurrentAccount().getSelectedSavingsPlan());
     System.out.println("Selected budget: " + Database.getCurrentAccount().getSelectedBudget());
 
-    /*
-    main.accountList.addAccount(adminAccount);
-    main.accountList.printAccounts();
-     */
+    try {
+      AccountDAO.getInstance().addAccount(adminAccount);
+      AccountDAO.getInstance().printAccounts();
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     PrimaryView.mainApp(args);
   }
