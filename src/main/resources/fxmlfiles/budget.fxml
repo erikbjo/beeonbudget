@@ -62,8 +62,12 @@
                     <children>
                         <HBox alignment="CENTER" prefWidth="200.0">
                             <children>
-                                <JFXButton text="Previous"/>
-                                <JFXButton text="Next"/>
+                                <JFXButton text="Previous" fx:id="previousBudgetButton" onAction="#onPreviousBudget"
+                                           prefHeight="45.0" prefWidth="161.0"
+                                           textAlignment="CENTER"/>
+                                <JFXButton text="Next" fx:id="nextBudgetButton" onAction="#onNextBudget"
+                                           prefHeight="45.0" prefWidth="161.0"
+                                           textAlignment="CENTER"/>
                             </children>
                         </HBox>
                         <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" prefHeight="45.0" prefWidth="161.0"
