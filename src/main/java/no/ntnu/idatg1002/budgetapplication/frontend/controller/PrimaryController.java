@@ -13,6 +13,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
@@ -62,15 +63,19 @@ public class PrimaryController implements Initializable {
    */
   @FXML
   public void onAddIncome(ActionEvent event) throws IOException {
-    AddIncomeDialog dialog = new AddIncomeDialog();
-    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      AddIncomeDialog dialog = new AddIncomeDialog();
+      dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    Optional<Income> result = dialog.showAndWait();
-    result.ifPresent(
-        income -> {
-          SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income);
-          updatePrimaryView();
-        });
+      Optional<Income> result = dialog.showAndWait();
+      result.ifPresent(
+          income -> {
+            SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income);
+            updatePrimaryView();
+          });
+    } else {
+      showNoBudgetError();
+    }
   }
 
   /**
@@ -80,15 +85,22 @@ public class PrimaryController implements Initializable {
    */
   @FXML
   public void onAddExpense(Event event) throws IOException {
-    AddExpenseDialog dialog = new AddExpenseDialog();
-    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      AddExpenseDialog dialog = new AddExpenseDialog();
+      dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
-    Optional<Expense> result = dialog.showAndWait();
-    result.ifPresent(
-        expense -> {
-          SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetExpenses(expense);
-          updatePrimaryView();
-        });
+      Optional<Expense> result = dialog.showAndWait();
+      result.ifPresent(
+          expense -> {
+            SessionAccount.getInstance()
+                .getAccount()
+                .getSelectedBudget()
+                .addBudgetExpenses(expense);
+            updatePrimaryView();
+          });
+    } else {
+      showNoBudgetError();
+    }
   }
 
   /**
@@ -112,12 +124,18 @@ public class PrimaryController implements Initializable {
 
   /** Updates the dynamic labels of the view. */
   public void updatePrimaryView() {
+    if (SessionAccount.getInstance().getAccount() == null) {
+      System.out.println("Account is null");
+    }
+    try {
+      usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
+    } catch (Exception ignored) {
+    }
     try {
       budgetLabel.setText(
           String.format(
               "Budget: %s",
               SessionAccount.getInstance().getAccount().getSelectedBudget().getBudgetName()));
-      usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
       menuPaneLabel1.setText(
           String.format(
               "Remaining: %dkr",
@@ -127,8 +145,17 @@ public class PrimaryController implements Initializable {
               "Budget spent: %dkr",
               SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
     } catch (Exception ignored) {
-
     }
+  }
+
+  private void showNoBudgetError() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(
+        "Please create a budget in the budget view before adding an expense or income");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
   }
 
   /**

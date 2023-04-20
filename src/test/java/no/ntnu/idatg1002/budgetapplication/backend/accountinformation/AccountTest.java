@@ -38,11 +38,11 @@ class AccountTest {
 
   @AfterEach
   void tearDown() {
-    for (Account a : Database.getAccounts().values()) {
+    for (Account a : AccountDAO.getInstance().getAllAccounts()) {
       a = null;
     }
-    Database.getAccounts().clear();
-    Database.getEmails().clear();
+    AccountDAO.getInstance().getAllAccounts().clear();
+    AccountDAO.getInstance().getAllEmails().clear();
   }
 
   @Nested
@@ -79,7 +79,11 @@ class AccountTest {
     void emailAlreadyInUse() {
       Account account2 =
           new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
-      Database.addAccount(account2);
+      try {
+        AccountDAO.getInstance().addAccount(account2);
+      } catch (Exception ignored) {
+
+      }
       Exception thrown =
           assertThrows(IllegalArgumentException.class, () -> account.setEmail("simon@gmail.com"));
       assertEquals("Email already in use.", thrown.getMessage());

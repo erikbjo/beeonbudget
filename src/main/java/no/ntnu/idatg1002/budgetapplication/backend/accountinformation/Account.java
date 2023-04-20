@@ -1,11 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
-import jakarta.persistence.Transient;
+import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -37,7 +32,7 @@ public class Account {
   @Transient private Budget selectedBudget;
   @Transient private Integer currentBudgetIndex = null;
   @Transient private Random rand;
-  @Id private final String id = generateAccountNumber();
+  @Id @GeneratedValue private String id;
 
   public Account() {}
 
@@ -111,7 +106,7 @@ public class Account {
       throw new IllegalArgumentException("Email must not be empty or blank.");
     } else if (!email.contains("@")) {
       throw new IllegalArgumentException("Email does not contain '@'.");
-    } else if (Database.getEmails().contains(email)) {
+    } else if (AccountDAO.getInstance().getAllEmails().contains(email)) {
       throw new IllegalArgumentException("Email already in use.");
     } else {
       this.email = email;
@@ -432,9 +427,7 @@ public class Account {
         int n = this.rand.nextInt(10);
         stringBuilderId.append(n);
       }
-      if (!Database.getAccounts().containsKey(stringBuilderId.toString())) {
-        idTaken = false;
-      }
+      idTaken = false;
     } while (idTaken);
     return stringBuilderId.toString();
   }
