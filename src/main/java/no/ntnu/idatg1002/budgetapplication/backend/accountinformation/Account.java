@@ -9,7 +9,6 @@ import jakarta.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
