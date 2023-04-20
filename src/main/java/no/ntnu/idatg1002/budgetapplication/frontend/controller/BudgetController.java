@@ -48,6 +48,7 @@ public class BudgetController implements Initializable {
   @FXML private Label totalIncomeInBudget;
   @FXML private Label userNameInBudget;
   @FXML private Label budgetNameInBudget;
+  @FXML private Label totalBudgetSum;
   @FXML private PieChart totalChart;
   @FXML private Button nextBudgetButton;
   @FXML private Button previousBudgetButton;
@@ -555,6 +556,10 @@ public class BudgetController implements Initializable {
       totalExpenseInBudget.setText(
           String.valueOf(
               SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
+      totalBudgetSum.setText(
+          String.valueOf(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalIncome()
+              - SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
     } else {
       setDefaultBudgetMoneyText();
     }
