@@ -3,7 +3,6 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
-import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import java.util.Iterator;
 import java.util.List;
