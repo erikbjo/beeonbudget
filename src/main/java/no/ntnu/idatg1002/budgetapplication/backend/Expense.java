@@ -55,6 +55,7 @@ public class Expense extends MoneyAction {
   public void setExpenseCategory(ExpenseCategory expenseCategory) {
     this.expenseCategory = expenseCategory;
   }
+
   public String getExpenseAssString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Amount: ").append(this.getAmount()).append(".KR").append("\n");
