@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.effect.InnerShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
-
-<AnchorPane fx:id="contentPane" minHeight="500.0" minWidth="900.0" prefHeight="550.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController">
+<?import javafx.scene.text.*?>
+<AnchorPane fx:id="contentPane" minHeight="500.0" minWidth="900.0" prefHeight="550.0" prefWidth="1000.0"
+            xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.BudgetController">
     <children>
-        <AnchorPane style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                    AnchorPane.topAnchor="0.0">
             <children>
                 <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" focusTraversable="true" layoutX="14.0"
                            layoutY="5.0" onMouseClicked="#switchToPrimaryFromBudgetMouseEvent" pickOnBounds="true"
@@ -34,157 +32,192 @@
                         <Font name="Segoe UI Bold" size="22.0"/>
                     </font>
                 </Label>
-            <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0" style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT" AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="21.0" />
-            <Label fx:id="budgetNameInBudget" layoutX="300.0" layoutY="20.0" prefHeight="20.0" prefWidth="199.0" text="N/A">
-               <graphic>
-                  <Label prefHeight="20.0" prefWidth="111.0" text="BUDGETNAME:">
-                     <font>
-                        <Font name="System Bold" size="14.0" />
-                     </font>
-                  </Label>
-               </graphic>
-            </Label>
-         </children>
-      </AnchorPane>
-      <AnchorPane layoutY="58.66666793823242" AnchorPane.bottomAnchor="-1.271565736260527E-6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.66666793823242">
-         <children>
-              <HBox fillHeight="false" prefHeight="441.0" prefWidth="1000.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                  <children>
-                  <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" HBox.hgrow="SOMETIMES">
-                     <children>
-                        <Label alignment="CENTER" text="Change Current Budget">
-                           <font>
-                              <Font name="System Bold" size="12.0" />
-                           </font>
-                           <VBox.margin>
-                              <Insets bottom="10.0" />
-                           </VBox.margin>
+                <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0"
+                       style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT"
+                       AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0"
+                       AnchorPane.topAnchor="21.0"/>
+                <Label fx:id="budgetNameInBudget" layoutX="300.0" layoutY="20.0" prefHeight="20.0" prefWidth="199.0"
+                       text="N/A">
+                    <graphic>
+                        <Label prefHeight="20.0" prefWidth="111.0" text="BUDGETNAME:">
+                            <font>
+                                <Font name="System Bold" size="14.0"/>
+                            </font>
                         </Label>
-                              <HBox alignment="CENTER">
-                                  <children>
-                                      <JFXButton fx:id="previousBudgetButton" onAction="#onPreviousBudget" text="Previous" />
-                                      <JFXButton fx:id="nextBudgetButton" onAction="#onNextBudget" text="Next" />
-                                  </children>
-                              </HBox>
-                        <Line endX="150.00001525878906" endY="73.33329010009766" startX="6.62622594833374" startY="73.33329010009766" />
-                        <AnchorPane>
-                           <children>
-                              <VBox fx:id="menuBudgetButtonVbox" alignment="CENTER" layoutY="23.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                 <children>
-                                          <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" text="New Income" textAlignment="CENTER" />
-                                          <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" text="New Expense" />
-                                          <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" text="Details" />
-                                          <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" text="Delete Item" />
-                                          <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" text="Delete Budget" />
-                                          <JFXButton fx:id="newBudgetButton" onAction="#onNewBudget" text="New Budget" />
-                                            <JFXButton fx:id="previousButtonInBudget" contentDisplay="CENTER" onAction="#switchToPrimaryFromBudget" text="Back" />
-                                 </children>
-                                 <opaqueInsets>
-                                    <Insets />
-                                 </opaqueInsets>
-                              </VBox>
-                           </children>
-                        </AnchorPane>
-                     </children>
-                     <effect>
-                        <InnerShadow />
-                     </effect>
-                  </VBox>
-                      <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="SOMETIMES">
-                     <padding>
-                        <Insets bottom="10.0" />
-                     </padding>
-                     <children>
-                        <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="SOMETIMES">
-                           <children>
-                              <VBox alignment="CENTER" prefHeight="249.0" prefWidth="201.0" spacing="20.0" HBox.hgrow="SOMETIMES">
-                                 <children>
-                                            <Label text="Current Total Expense:">
-                                                <font>
-                                                    <Font name="Arial Bold" size="12.0" />
-                                                </font>
-                                            </Label>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <Label text=" .KR">
-                                             <graphic>
-                                                      <Label fx:id="totalExpenseInBudget" text="N/A" underline="true" />
-                                             </graphic>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                            <Label text="Current Total Income:">
-                                                <font>
-                                                    <Font name="System Bold" size="12.0" />
-                                                </font>
-                                            </Label>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <Label text=" .KR">
-                                             <graphic>
-                                                      <Label fx:id="totalIncomeInBudget" text="N/A" underline="true" />
-                                             </graphic>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <Label text="Current Total Budget:">
-                                       <font>
-                                          <Font name="System Bold" size="12.0" />
-                                       </font>
-                                    </Label>
-                                    <HBox alignment="CENTER">
-                                       <children>
-                                          <Label text=" .KR">
-                                             <graphic>
-                                                <Label fx:id="totlalBudgetSum" text="N/A" underline="true" />
-                                             </graphic>
-                                          </Label>
-                                       </children>
-                                    </HBox>
-                                    <Line endX="112.52507781982422" endY="4.85953426361084" startX="-87.43448638916016" startY="4.4" strokeLineJoin="ROUND" />
-                                 </children>
-                              </VBox>
-                                    <TableView fx:id="incomeTableView" fixedCellSize="0.0" pickOnBounds="false" HBox.hgrow="SOMETIMES">
-                                        <columns>
-                                            <TableColumn fx:id="incomeColumn" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" text="Income" />
-                                            <TableColumn fx:id="incomeCategoryColumn" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" sortable="false" text="Category" />
-                                        </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                                    </TableView>
-                                    <TableView fx:id="expenseTableView" fixedCellSize="0.0" HBox.hgrow="SOMETIMES">
-                                        <columns>
-                                            <TableColumn fx:id="expenseColumn" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" text="Expense" />
-                                            <TableColumn fx:id="expenseCategoryColumn" editable="false" maxWidth="161.99997456868493" minWidth="150.0" prefWidth="161.99997456868493" resizable="false" sortable="false" text="Category" />
-                                        </columns>
-                                 <columnResizePolicy>
-                                    <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                 </columnResizePolicy>
-                                 <HBox.margin>
-                                    <Insets right="10.0" />
-                                 </HBox.margin>
-                                    </TableView>
-                           </children>
-                        </HBox>
-                        <HBox fillHeight="false" VBox.vgrow="SOMETIMES">
-                           <children>
-                              <PieChart fx:id="totalChart" labelLineLength="10.0" legendVisible="false" title="Total" HBox.hgrow="NEVER" />
-                                    <PieChart fx:id="incomeChart" labelLineLength="10.0" legendSide="LEFT" legendVisible="false" title="Income" HBox.hgrow="NEVER" />
-                                    <PieChart fx:id="expenseChart" labelLineLength="10.0" legendSide="LEFT" legendVisible="false" title="Expense" HBox.hgrow="NEVER" />
-                           </children>
-                           <VBox.margin>
-                              <Insets right="10.0" />
-                           </VBox.margin>
-                        </HBox>
-                     </children>
-                     <HBox.margin>
-                        <Insets top="20.0" />
-                     </HBox.margin>
-                      </VBox>
-                  </children>
-              </HBox>
-         </children>
-      </AnchorPane>
+                    </graphic>
+                </Label>
+            </children>
+        </AnchorPane>
+        <AnchorPane layoutY="58.66666793823242" AnchorPane.bottomAnchor="-1.271565736260527E-6"
+                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.66666793823242">
+            <children>
+                <HBox fillHeight="false" prefHeight="441.0" prefWidth="1000.0" spacing="10.0"
+                      AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+                      AnchorPane.topAnchor="0.0">
+                    <children>
+                        <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" HBox.hgrow="SOMETIMES">
+                            <children>
+                                <Label alignment="CENTER" text="Change Current Budget">
+                                    <font>
+                                        <Font name="System Bold" size="12.0"/>
+                                    </font>
+                                    <VBox.margin>
+                                        <Insets bottom="10.0"/>
+                                    </VBox.margin>
+                                </Label>
+                                <HBox alignment="CENTER">
+                                    <children>
+                                        <JFXButton fx:id="previousBudgetButton" onAction="#onPreviousBudget"
+                                                   text="Previous"/>
+                                        <JFXButton fx:id="nextBudgetButton" onAction="#onNextBudget" text="Next"/>
+                                    </children>
+                                </HBox>
+                                <Line endX="150.00001525878906" endY="73.33329010009766" startX="6.62622594833374"
+                                      startY="73.33329010009766"/>
+                                <AnchorPane>
+                                    <children>
+                                        <VBox fx:id="menuBudgetButtonVbox" alignment="CENTER" layoutY="23.0"
+                                              spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                            <children>
+                                                <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome"
+                                                           text="New Income" textAlignment="CENTER"/>
+                                                <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense"
+                                                           text="New Expense"/>
+                                                <JFXButton fx:id="moreInfoButton"
+                                                           onAction="#getInformationFromSelectedItem" text="Details"/>
+                                                <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable"
+                                                           text="Delete Item"/>
+                                                <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget"
+                                                           text="Delete Budget"/>
+                                                <JFXButton fx:id="newBudgetButton" onAction="#onNewBudget"
+                                                           text="New Budget"/>
+                                                <JFXButton fx:id="previousButtonInBudget" contentDisplay="CENTER"
+                                                           onAction="#switchToPrimaryFromBudget" text="Back"/>
+                                            </children>
+                                            <opaqueInsets>
+                                                <Insets/>
+                                            </opaqueInsets>
+                                        </VBox>
+                                    </children>
+                                </AnchorPane>
+                            </children>
+                            <effect>
+                                <InnerShadow/>
+                            </effect>
+                        </VBox>
+                        <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="SOMETIMES">
+                            <padding>
+                                <Insets bottom="10.0"/>
+                            </padding>
+                            <children>
+                                <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="SOMETIMES">
+                                    <children>
+                                        <VBox alignment="CENTER" prefHeight="249.0" prefWidth="201.0" spacing="20.0"
+                                              HBox.hgrow="SOMETIMES">
+                                            <children>
+                                                <Label text="Current Total Expense:">
+                                                    <font>
+                                                        <Font name="Arial Bold" size="12.0"/>
+                                                    </font>
+                                                </Label>
+                                                <HBox alignment="CENTER">
+                                                    <children>
+                                                        <Label text=" .KR">
+                                                            <graphic>
+                                                                <Label fx:id="totalExpenseInBudget" text="N/A"
+                                                                       underline="true"/>
+                                                            </graphic>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Label text="Current Total Income:">
+                                                    <font>
+                                                        <Font name="System Bold" size="12.0"/>
+                                                    </font>
+                                                </Label>
+                                                <HBox alignment="CENTER">
+                                                    <children>
+                                                        <Label text=" .KR">
+                                                            <graphic>
+                                                                <Label fx:id="totalIncomeInBudget" text="N/A"
+                                                                       underline="true"/>
+                                                            </graphic>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Label text="Current Total Budget:">
+                                                    <font>
+                                                        <Font name="System Bold" size="12.0"/>
+                                                    </font>
+                                                </Label>
+                                                <HBox alignment="CENTER">
+                                                    <children>
+                                                        <Label text=" .KR">
+                                                            <graphic>
+                                                                <Label fx:id="totlalBudgetSum" text="N/A"
+                                                                       underline="true"/>
+                                                            </graphic>
+                                                        </Label>
+                                                    </children>
+                                                </HBox>
+                                                <Line endX="112.52507781982422" endY="4.85953426361084"
+                                                      startX="-87.43448638916016" startY="4.4" strokeLineJoin="ROUND"/>
+                                            </children>
+                                        </VBox>
+                                        <TableView fx:id="incomeTableView" fixedCellSize="0.0" pickOnBounds="false"
+                                                   HBox.hgrow="SOMETIMES">
+                                            <columns>
+                                                <TableColumn fx:id="incomeColumn" editable="false" maxWidth="-1.0"
+                                                             minWidth="150.0" prefWidth="-1.0" resizable="false"
+                                                             text="Income"/>
+                                                <TableColumn fx:id="incomeCategoryColumn" editable="false"
+                                                             maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0"
+                                                             resizable="false" sortable="false" text="Category"/>
+                                            </columns>
+                                            <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                            </columnResizePolicy>
+                                        </TableView>
+                                        <TableView fx:id="expenseTableView" fixedCellSize="0.0" HBox.hgrow="SOMETIMES">
+                                            <columns>
+                                                <TableColumn fx:id="expenseColumn" editable="false" maxWidth="-1.0"
+                                                             minWidth="150.0" prefWidth="-1.0" resizable="false"
+                                                             text="Expense"/>
+                                                <TableColumn fx:id="expenseCategoryColumn" editable="false"
+                                                             maxWidth="161.99997456868493" minWidth="150.0"
+                                                             prefWidth="161.99997456868493" resizable="false"
+                                                             sortable="false" text="Category"/>
+                                            </columns>
+                                            <columnResizePolicy>
+                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                                            </columnResizePolicy>
+                                            <HBox.margin>
+                                                <Insets right="10.0"/>
+                                            </HBox.margin>
+                                        </TableView>
+                                    </children>
+                                </HBox>
+                                <HBox fillHeight="false" VBox.vgrow="SOMETIMES">
+                                    <children>
+                                        <PieChart fx:id="totalChart" labelLineLength="10.0" legendVisible="false"
+                                                  title="Total" HBox.hgrow="NEVER"/>
+                                        <PieChart fx:id="incomeChart" labelLineLength="10.0" legendSide="LEFT"
+                                                  legendVisible="false" title="Income" HBox.hgrow="NEVER"/>
+                                        <PieChart fx:id="expenseChart" labelLineLength="10.0" legendSide="LEFT"
+                                                  legendVisible="false" title="Expense" HBox.hgrow="NEVER"/>
+                                    </children>
+                                    <VBox.margin>
+                                        <Insets right="10.0"/>
+                                    </VBox.margin>
+                                </HBox>
+                            </children>
+                            <HBox.margin>
+                                <Insets top="20.0"/>
+                            </HBox.margin>
+                        </VBox>
+                    </children>
+                </HBox>
+            </children>
+        </AnchorPane>
     </children>
 </AnchorPane>
