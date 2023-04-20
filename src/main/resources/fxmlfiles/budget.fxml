@@ -57,8 +57,8 @@
                         </Label>
                               <HBox alignment="CENTER">
                                   <children>
-                                      <JFXButton text="Previous" />
-                                      <JFXButton text="Next" />
+                                      <JFXButton fx:id="previousBudgetButton" onAction="#onPreviousBudget" text="Previous" />
+                                      <JFXButton fx:id="nextBudgetButton" onAction="#onNextBudget" text="Next" />
                                   </children>
                               </HBox>
                         <Line endX="150.00001525878906" endY="73.33329010009766" startX="6.62622594833374" startY="73.33329010009766" />
