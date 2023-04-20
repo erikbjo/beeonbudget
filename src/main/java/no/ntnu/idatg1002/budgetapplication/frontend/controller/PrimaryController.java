@@ -112,12 +112,18 @@ public class PrimaryController implements Initializable {
 
   /** Updates the dynamic labels of the view. */
   public void updatePrimaryView() {
+    if (SessionAccount.getInstance().getAccount() == null) {
+      System.out.println("Account is null");
+    }
+    try {
+      usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
+    } catch (Exception ignored) {
+    }
     try {
       budgetLabel.setText(
           String.format(
               "Budget: %s",
               SessionAccount.getInstance().getAccount().getSelectedBudget().getBudgetName()));
-      usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
       menuPaneLabel1.setText(
           String.format(
               "Remaining: %dkr",
@@ -127,7 +133,6 @@ public class PrimaryController implements Initializable {
               "Budget spent: %dkr",
               SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
     } catch (Exception ignored) {
-
     }
   }
 
@@ -139,6 +144,7 @@ public class PrimaryController implements Initializable {
    */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
+    do {} while (SessionAccount.getInstance().getAccount() == null);
     updatePrimaryView();
   }
 }
