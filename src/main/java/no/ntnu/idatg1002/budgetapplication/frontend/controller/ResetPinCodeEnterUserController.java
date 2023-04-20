@@ -2,7 +2,6 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,7 +17,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 
 public class ResetPinCodeEnterUserController {
 
@@ -98,8 +97,6 @@ public class ResetPinCodeEnterUserController {
 
     if (isEmail(user)) {
       valid = isValidEmail(user);
-    } else {
-      valid = isValidUsername(user);
     }
 
     return valid;
@@ -113,26 +110,12 @@ public class ResetPinCodeEnterUserController {
     return stringToBeChecked.contains("@");
   }
 
-  private boolean isValidUsername(String username) {
-    boolean isValidUsername = false;
-    var accounts = Database.getAccounts();
-
-    for (Map.Entry<String, Account> entry : accounts.entrySet()) {
-      if (Objects.equals(entry.getValue().getName(), username)) {
-        isValidUsername = true;
-        break;
-      }
-    }
-
-    return isValidUsername;
-  }
-
   private boolean isValidEmail(String email) {
     boolean isValidEmail = false;
-    var accounts = Database.getAccounts();
+    var accounts = AccountDAO.getInstance().getAllAccounts();
 
-    for (Map.Entry<String, Account> entry : accounts.entrySet()) {
-      if (Objects.equals(entry.getValue().getEmail(), email)) {
+    for (Account account : accounts) {
+      if (Objects.equals(account.getEmail(), email)) {
         isValidEmail = true;
         break;
       }
