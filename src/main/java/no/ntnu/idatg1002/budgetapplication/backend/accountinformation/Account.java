@@ -23,7 +23,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Table(name = "account")
 public class Account {
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
+  private final List<SavingsPlan> savingsPlans = new ArrayList<>();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   private final List<Budget> budgets = new ArrayList<>();
@@ -33,7 +33,7 @@ public class Account {
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  @Transient private SavingsPlan selectedSavingsPlan;
+  @Transient private Integer currentSavingsPlanIndex = null;
   @Transient private Budget selectedBudget;
   @Transient private Integer currentBudgetIndex = null;
   @Transient private Random rand;
@@ -222,7 +222,7 @@ public class Account {
       throw new IllegalArgumentException("Savings plan goal name is taken.");
     } else {
       this.savingsPlans.add(savingsPlan);
-      initializeSelectedSavingsPlan(savingsPlan);
+      currentSavingsPlanIndex = this.savingsPlans.indexOf(savingsPlan);
     }
   }
 
@@ -246,7 +246,9 @@ public class Account {
    */
   public void removeSavingsPlan(SavingsPlan savingsPlan) {
     this.savingsPlans.remove(savingsPlan);
+    updateSelectedSavingsPlan();
   }
+
 
   /**
    * Returns the account's Budget.
@@ -330,6 +332,18 @@ public class Account {
     }
   }
 
+  private void updateSelectedSavingsPlan() {
+    if (savingsPlans.isEmpty()) {
+      currentSavingsPlanIndex = null;
+    } else if (currentSavingsPlanIndex > savingsPlans.size() - 1) {
+      selectPreviousSavingsPlan();
+    } else if (currentSavingsPlanIndex < savingsPlans.size() - 1) {
+      selectNextSavingsPlan();
+    } else {
+      initializeSelectedSavingsPlan();
+    }
+  }
+
   /**
    * Gets selected budget.
    *
@@ -367,12 +381,10 @@ public class Account {
 
   /**
    * Initialize selected savings plan.
-   *
-   * @param savingsPlan the savings plan
    */
-  public void initializeSelectedSavingsPlan(SavingsPlan savingsPlan) {
-    if (savingsPlans.size() == 1) { // means that the savingsplan just entered is the first one
-      selectedSavingsPlan = savingsPlan;
+  public void initializeSelectedSavingsPlan() {
+    if (savingsPlans.size() == 1) { // means that the budget just entered is the first one
+      currentSavingsPlanIndex = 0;
     }
   }
 
@@ -382,17 +394,20 @@ public class Account {
    * @return the selected savings plan
    */
   public SavingsPlan getSelectedSavingsPlan() {
-    return selectedSavingsPlan;
-  }
+    if (currentSavingsPlanIndex != null) {
+      return savingsPlans.get(currentSavingsPlanIndex);
+    } else {
+      throw new IndexOutOfBoundsException();
+    }  }
 
   /**
    * Select next savings plan in savings plan arraylist.
    */
-  public void selectNextSavingsPlan() throws IndexOutOfBoundsException {
-    if (savingsPlans.size() > savingsPlans.indexOf(selectedSavingsPlan)) {
-      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) + 1);
+  public void selectNextSavingsPlan() {
+    if (currentSavingsPlanIndex < savingsPlans.size() - 1) {
+      currentSavingsPlanIndex += 1;
     } else {
-      selectedSavingsPlan = savingsPlans.get(0);
+      currentSavingsPlanIndex = 0;
     }
   }
 
@@ -400,10 +415,10 @@ public class Account {
    * Select previous savings plan in savings plan arraylist.
    */
   public void selectPreviousSavingsPlan() {
-    if (savingsPlans.indexOf(selectedSavingsPlan) == 0) {
-      selectedSavingsPlan = savingsPlans.get(savingsPlans.size() - 1);
+    if (currentSavingsPlanIndex > 0 && !savingsPlans.isEmpty()) {
+      currentSavingsPlanIndex -= 1;
     } else {
-      selectedSavingsPlan = savingsPlans.get(savingsPlans.indexOf(selectedSavingsPlan) - 1);
+      currentSavingsPlanIndex = savingsPlans.size() - 1;
     }
   }
 
