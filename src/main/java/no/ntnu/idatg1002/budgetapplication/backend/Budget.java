@@ -239,4 +239,23 @@ public class Budget {
     }
     return data;
   }
+
+  public List<PieChart.Data> getTotalIncomeAndOutCome() {
+    Map<String, Double> incomeOrExpense = new HashMap<>();
+    for (Income income : this.getIncomeList()) {
+      String incomeString = "Income";
+      double amount = income.getAmount();
+      incomeOrExpense.put(incomeString, incomeOrExpense.getOrDefault(incomeString, 0.0) + amount);
+    }
+    for (Expense expense : this.getExpenseList()) {
+      String expenseString = "Expense";
+      double amount = expense.getAmount();
+      incomeOrExpense.put(expenseString, incomeOrExpense.getOrDefault(expenseString, 0.0) + amount);
+    }
+    List<PieChart.Data> data = new ArrayList<>();
+    for (Map.Entry<String, Double> entry : incomeOrExpense.entrySet()) {
+      data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
+    }
+    return data;
+  }
 }

@@ -22,24 +22,22 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
-  @Id
-  private final String id = generateAccountNumber();
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  private final List<Budget> budgets = new ArrayList<>();
 
   private String name;
   private String email;
   private String pinCode;
   private SecurityQuestion securityQuestion;
   private String securityAnswer;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private final ArrayList<SavingsPlan> savingsPlans = new ArrayList<>();
-  @Transient
-  private SavingsPlan selectedSavingsPlan;
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<Budget> budgets = new ArrayList<>();
-  @Transient
-  private Budget selectedBudget;
-  @Transient
-  private Random rand;
+  @Transient private SavingsPlan selectedSavingsPlan;
+  @Transient private Budget selectedBudget;
+  @Transient private Integer currentBudgetIndex = null;
+  @Transient private Random rand;
+  @Id private final String id = generateAccountNumber();
 
   public Account() {}
 
@@ -275,7 +273,7 @@ public class Account {
       throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.add(budget);
-      initializeSelectedBudget(budget);
+      currentBudgetIndex = this.budgets.indexOf(budget);
     }
   }
 
@@ -299,23 +297,36 @@ public class Account {
     return nameTaken;
   }
 
-  /**
-   * Removes a budget to the account's budget collection.
-   *
-   * @param budget the budget to be added.
-   */
-  public void removeBudget(Budget budget) {
-    this.budgets.remove(budget);
+  public Integer getCurrentBudgetIndex() {
+    return currentBudgetIndex;
+  }
+
+  /** Initialize selected budget. */
+  public void initializeSelectedBudget() {
+    if (budgets.size() == 1) { // means that the budget just entered is the first one
+      currentBudgetIndex = 0;
+    }
   }
 
   /**
-   * Initialize selected budget.
+   * Removes a budget from the account's budget collection.
    *
-   * @param budget the budget
+   * @param budget the budget to be removed.
    */
-  public void initializeSelectedBudget(Budget budget) {
-    if (budgets.size() == 1) { // means that the budget just entered is the first one
-      selectedBudget = budget;
+  public void removeBudget(Budget budget) {
+    this.budgets.remove(budget);
+    updateSelectedBudget();
+  }
+
+  private void updateSelectedBudget() {
+    if (budgets.isEmpty()) {
+      currentBudgetIndex = null;
+    } else if (currentBudgetIndex > budgets.size() - 1) {
+      selectPreviousBudget();
+    } else if (currentBudgetIndex < budgets.size() - 1) {
+      selectNextBudget();
+    } else {
+      initializeSelectedBudget();
     }
   }
 
@@ -325,7 +336,11 @@ public class Account {
    * @return the selected budget
    */
   public Budget getSelectedBudget() {
-    return selectedBudget;
+    if (currentBudgetIndex != null) {
+      return budgets.get(currentBudgetIndex);
+    } else {
+      throw new IndexOutOfBoundsException();
+    }
   }
 
   /**
@@ -334,8 +349,8 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no next budget
    */
   public void selectNextBudget() throws IndexOutOfBoundsException {
-    if (budgets.size() > budgets.indexOf(selectedBudget)) {
-      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) + 1);
+    if (currentBudgetIndex < budgets.size() - 1) {
+      currentBudgetIndex += 1;
     } else {
       throw new IndexOutOfBoundsException();
     }
@@ -347,10 +362,10 @@ public class Account {
    * @throws IndexOutOfBoundsException if there is no previous budget
    */
   public void selectPreviousBudget() throws IndexOutOfBoundsException {
-    if (budgets.indexOf(selectedBudget) == 0) {
-      throw new IndexOutOfBoundsException();
+    if (currentBudgetIndex > 0 && !budgets.isEmpty()) {
+      currentBudgetIndex -= 1;
     } else {
-      selectedBudget = budgets.get(budgets.indexOf(selectedBudget) - 1);
+      throw new IndexOutOfBoundsException();
     }
   }
 

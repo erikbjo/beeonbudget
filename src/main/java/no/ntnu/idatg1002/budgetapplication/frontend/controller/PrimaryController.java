@@ -124,8 +124,8 @@ public class PrimaryController implements Initializable {
           String.format(
               "Budget spent: %dkr",
               Database.getCurrentAccount().getSelectedBudget().getTotalExpense()));
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (Exception ignored) {
+
     }
   }
 

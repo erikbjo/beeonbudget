@@ -2,17 +2,28 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.ResourceBundle;
+import java.net.URL;
+
+import javafx.beans.binding.Bindings;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.*;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 
-/** This class is the controller for SavingsPlan GUI */
-public class SavingsPlanController {
+/** This class is the controller for SavingsPlan GUI
+ *
+ * @author Igor Dzugaj
+ * @version 1.0
+ */
+public class SavingsPlanController implements Initializable {
 
   @FXML TextField name;
   @FXML TextField totAmount;
@@ -28,6 +39,7 @@ public class SavingsPlanController {
   @FXML Button deposit;
   @FXML Label totalGoalAmountDisplay;
   @FXML Label totalAmountSavedDisplay;
+  @FXML PieChart pieChart;
   private Stage stage;
   private Scene scene;
   private Parent parent;
@@ -99,5 +111,24 @@ public class SavingsPlanController {
     estimateMoneyDisplay.setText("Amount you need to \nbe saving per month: \n" + savingAmount);
     estimateMonthsDisplay.setText("Months until \ncompletion: \n" + savingTime);
     popup.setVisible(false);
+  }
+
+@Override
+  public void initialize(URL url, ResourceBundle resourceBundle){
+    ObservableList<PieChart.Data> pieChartData =
+            FXCollections.observableArrayList(
+                    new PieChart.Data("Money saved", plan.getTotalSaved()),
+                    new PieChart.Data("Money remaining", plan.getTotalGoalAmount()-
+            plan.getTotalSaved())
+            );
+
+    pieChartData.forEach(data ->
+            data.nameProperty().bind(
+                    Bindings.concat(
+                            data.getName(), ": ", data.pieValueProperty()
+                    )
+            )
+    );
+    pieChart.getData().addAll(pieChartData);
   }
 }
