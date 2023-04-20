@@ -38,6 +38,14 @@ public class AccountDAO implements AccountListInterface {
   }
 
   @Override
+  public void removeAccount(Account account) {
+    Account foundAccount = em.find(Account.class, account.getId());
+    em.getTransaction().begin();
+    em.remove(foundAccount);
+    em.getTransaction().commit();
+  }
+
+  @Override
   public Iterator<Account> iterator() {
     TypedQuery<Account> query = this.em.createQuery("SELECT a FROM Account a", Account.class);
     return query.getResultList().iterator();
