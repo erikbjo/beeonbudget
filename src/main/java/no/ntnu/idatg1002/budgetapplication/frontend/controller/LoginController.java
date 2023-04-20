@@ -16,26 +16,21 @@ import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class LoginController {
 
-
+  @FXML public Text emailText;
+  @FXML public TextField emailTextField;
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
-
   @FXML // URL location of the FXML file that was given to the FXMLLoader
   private URL location;
-
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text loginOrRegisterText; // Value injected by FXMLLoader
   @FXML private Text pinCodeText; // Value injected by FXMLLoader
-  @FXML public Text emailText;
   @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
-  @FXML public TextField emailTextField;
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
@@ -65,8 +60,8 @@ public class LoginController {
     if (assertAllFieldsValid()) {
       if (AccountDAO.getInstance()
           .loginIsValid(emailTextField.getText(), pinCodeTextField.getText())) {
-        SessionAccount.getInstance().setAccount(AccountDAO.getInstance()
-            .getAccountByEmail(emailTextField.getText()));
+        SessionAccount.getInstance()
+            .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
         goToPrimaryScreen(event);
       } else {
         showInvalidLoginAlert();

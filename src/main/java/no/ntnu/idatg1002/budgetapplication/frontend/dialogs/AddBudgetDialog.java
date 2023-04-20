@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Database;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class AddBudgetDialog extends Dialog<Budget> {
 
@@ -74,7 +75,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
 
   private boolean assertAllFieldsValid() {
     boolean nameValid =
-        Database.getCurrentAccount().getBudgets().stream()
+        SessionAccount.getInstance().getAccount().getBudgets().stream()
             .noneMatch(
                 budget -> Objects.equals(budget.getBudgetName(), budgetNameTextField.getText()));
 
