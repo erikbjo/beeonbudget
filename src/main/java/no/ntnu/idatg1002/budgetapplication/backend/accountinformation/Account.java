@@ -30,7 +30,7 @@ public class Account {
   private String securityAnswer;
   @Transient private Integer currentSavingsPlanIndex = null;
   @Transient private Budget selectedBudget;
-  @Transient private Integer currentBudgetIndex = null;
+  @Transient private Integer currentBudgetIndex = createCurrentBudgetIndex();
   @Transient private Random rand;
   @Id @GeneratedValue private String id;
 
@@ -244,7 +244,6 @@ public class Account {
     updateSelectedSavingsPlan();
   }
 
-
   /**
    * Returns the account's Budget.
    *
@@ -300,9 +299,21 @@ public class Account {
 
   /** Initialize selected budget. */
   public void initializeSelectedBudget() {
-    if (budgets.size() == 1) { // means that the budget just entered is the first one
+    if (!budgets.isEmpty()) {
       currentBudgetIndex = 0;
+    } else {
+      currentBudgetIndex = null;
     }
+  }
+
+  private Integer createCurrentBudgetIndex() {
+    Integer createdIndex = null;
+
+    if (!budgets.isEmpty()) {
+      createdIndex = budgets.indexOf(budgets.stream().findAny());
+    }
+
+    return createdIndex;
   }
 
   /**
@@ -352,9 +363,7 @@ public class Account {
     }
   }
 
-  /**
-   * Select next budget in budgets arraylist.
-   */
+  /** Select next budget in budgets arraylist. */
   public void selectNextBudget() {
     if (currentBudgetIndex < budgets.size() - 1) {
       currentBudgetIndex += 1;
@@ -363,9 +372,7 @@ public class Account {
     }
   }
 
-  /**
-   * Select previous budget in budgets arraylist.
-   */
+  /** Select previous budget in budgets arraylist. */
   public void selectPreviousBudget() {
     if (currentBudgetIndex > 0 && !budgets.isEmpty()) {
       currentBudgetIndex -= 1;
@@ -374,9 +381,7 @@ public class Account {
     }
   }
 
-  /**
-   * Initialize selected savings plan.
-   */
+  /** Initialize selected savings plan. */
   public void initializeSelectedSavingsPlan() {
     if (savingsPlans.size() == 1) { // means that the budget just entered is the first one
       currentSavingsPlanIndex = 0;
@@ -393,11 +398,10 @@ public class Account {
       return savingsPlans.get(currentSavingsPlanIndex);
     } else {
       throw new IndexOutOfBoundsException();
-    }  }
+    }
+  }
 
-  /**
-   * Select next savings plan in savings plan arraylist.
-   */
+  /** Select next savings plan in savings plan arraylist. */
   public void selectNextSavingsPlan() {
     if (currentSavingsPlanIndex < savingsPlans.size() - 1) {
       currentSavingsPlanIndex += 1;
@@ -406,9 +410,7 @@ public class Account {
     }
   }
 
-  /**
-   * Select previous savings plan in savings plan arraylist.
-   */
+  /** Select previous savings plan in savings plan arraylist. */
   public void selectPreviousSavingsPlan() {
     if (currentSavingsPlanIndex > 0 && !savingsPlans.isEmpty()) {
       currentSavingsPlanIndex -= 1;
