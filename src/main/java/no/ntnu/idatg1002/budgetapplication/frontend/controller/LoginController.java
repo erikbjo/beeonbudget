@@ -14,6 +14,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -22,7 +23,7 @@ import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
-public class LoginController implements Initializable {
+public class LoginController {
 
   @FXML public Text emailText;
   @FXML public TextField emailTextField;
@@ -33,13 +34,14 @@ public class LoginController implements Initializable {
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text loginOrRegisterText; // Value injected by FXMLLoader
   @FXML private Text pinCodeText; // Value injected by FXMLLoader
-  @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
+  @FXML private PasswordField pinCodeTextField; // Value injected by FXMLLoader
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
+    SessionAccount.getInstance().clearAccount();
     configurePinCodeTextField();
     configureEmailTextField();
   }
@@ -94,13 +96,6 @@ public class LoginController implements Initializable {
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
     scene.setRoot(root);
-  }
-
-  @FXML
-  public void onPinCodeTextFieldKeyPressed(KeyEvent event) throws IOException {
-    if (event.getSource() == KeyCode.ENTER) {
-      loginAccount(new ActionEvent());
-    }
   }
 
   private boolean assertAllFieldsValid() {
@@ -164,10 +159,5 @@ public class LoginController implements Initializable {
     alert.setContentText(builder.toString());
     alert.initModality(Modality.NONE);
     alert.showAndWait();
-  }
-
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
-    SessionAccount.getInstance().clearAccount();
   }
 }

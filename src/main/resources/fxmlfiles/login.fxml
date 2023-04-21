@@ -31,7 +31,7 @@
                         <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
                         <TextField fx:id="emailTextField" />
                         <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pin code" />
-                        <PasswordField fx:id="pinCodeTextField" onKeyPressed="#onPinCodeTextFieldKeyPressed" />
+                        <PasswordField fx:id="pinCodeTextField" />
                         <Hyperlink fx:id="forgotPinCodeHyperlink" onAction="#forgotPinCode" text="Forgot your pin code?" />
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                             <children>

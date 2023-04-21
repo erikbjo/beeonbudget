@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -48,6 +50,7 @@ public class RegisterNewAccountController {
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
+    configureSecurityQuestionComboBox();
     for (SecurityQuestion securityQuestion : SecurityQuestion.values()) {
       securityQuestionComboBox.getItems().add(securityQuestion.getSecurityQuestionString());
 
@@ -65,6 +68,18 @@ public class RegisterNewAccountController {
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
     scene.setRoot(root);
+  }
+
+  private void configureSecurityQuestionComboBox() {
+      securityQuestionComboBox
+          .focusedProperty()
+          .addListener((observableValue, oldPropertyValue, newPropertyValue) -> {
+            if (Boolean.TRUE.equals(newPropertyValue)) {
+              securityQuestionComboBox.show();
+            } else {
+              securityQuestionComboBox.hide();
+            }
+          });
   }
 
   @FXML
