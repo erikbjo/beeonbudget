@@ -247,7 +247,8 @@ public class PrimaryController implements Initializable {
     }
   }
 
-  private void logOutUser() {
+  @FXML
+  private void logOutUser(ActionEvent  actionEvent) throws IOException {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "");
     alert.setTitle("Log Out");
@@ -256,7 +257,8 @@ public class PrimaryController implements Initializable {
     alert.setContentText("Are you sure you want to LogOut? ");
     Optional<ButtonType> result = alert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
-
+      SessionAccount.getInstance().clearAccount();
+      goBackToLogin(actionEvent);
     } else {
       alert.close();
     }
@@ -322,5 +324,17 @@ public class PrimaryController implements Initializable {
     alert.setContentText("Please create a budget before trying to switch budget");
     alert.initModality(Modality.NONE);
     alert.showAndWait();
+  }
+
+  @FXML
+  void goBackToLogin(ActionEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
   }
 }

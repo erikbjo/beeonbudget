@@ -92,7 +92,7 @@
                       </JFXButton>
                   <ButtonBar>
                      <buttons>
-                        <JFXButton fx:id="logOutButton" text="Log Out" />
+                        <JFXButton fx:id="logOutButton" onAction="#logOutUser" text="Log Out" />
                         <JFXButton fx:id="quitApplicationButton" onAction="#quitApplication" text="Quit" />
                      </buttons>
                   </ButtonBar>
