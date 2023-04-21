@@ -43,7 +43,7 @@
                   <StackPane prefHeight="190.0" prefWidth="240.0" />
                   <FlowPane alignment="CENTER" columnHalignment="CENTER" prefWrapLength="0.0">
                      <children>
-                        <VBox blendMode="SRC_ATOP" cache="true" cacheHint="QUALITY" depthTest="ENABLE" fillWidth="false" spacing="10.0" style="-fx-border-color: ;">
+                        <VBox blendMode="SRC_ATOP" cache="true" cacheHint="QUALITY" depthTest="ENABLE" fillWidth="false" spacing="10.0">
                            <children>
                                     <Text fx:id="budgetApplicationText" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="BEE ON BUDGET">
                                         <font>

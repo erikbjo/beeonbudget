@@ -34,6 +34,9 @@ public class PrimaryController implements Initializable {
   @FXML private Label budgetLabel;
   @FXML private PieChart budgetMenuChart;
   @FXML private JFXButton quitApplicationButton;
+  @FXML private JFXButton logOutButton;
+  @FXML private Button nextBudgetButton;
+  @FXML private Button previousBudgetButton;
   @FXML private AnchorPane contentPane;
   @FXML private Stage stage;
   @FXML private Scene scene;
@@ -134,8 +137,13 @@ public class PrimaryController implements Initializable {
     scene.setRoot(root);
   }
 
+  private void updatePrimaryView() {
+    updatePrimaryLabel();
+    updateTotalPieChart();
+  }
+
   /** Updates the dynamic labels of the view. */
-  public void updatePrimaryView() {
+  public void updatePrimaryLabel() {
     if (SessionAccount.getInstance().getAccount() == null) {
       System.out.println("Account is null");
     }
@@ -156,7 +164,6 @@ public class PrimaryController implements Initializable {
           String.format(
               "Budget spent: %dkr",
               SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
-      updateTotalPieChart();
     } catch (Exception ignored) {
     }
   }
@@ -195,7 +202,6 @@ public class PrimaryController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     updatePrimaryView();
-    updateTotalPieChart();
   }
 
   /**
@@ -236,6 +242,21 @@ public class PrimaryController implements Initializable {
     }
   }
 
+  private void logOutUser() {
+    Alert.AlertType type = AlertType.CONFIRMATION;
+    Alert alert = new Alert(type, "");
+    alert.setTitle("Log Out");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    alert.getDialogPane();
+    alert.setContentText("Are you sure you want to LogOut? ");
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+
+    } else {
+      alert.close();
+    }
+  }
+
   /**
    * Opens the AddBudgetDialog to create a new budget. Adds the created budget to the session
    * account, updates the primary view, and invokes the appropriate add expense or add income method
@@ -258,5 +279,43 @@ public class PrimaryController implements Initializable {
     } else if (Objects.equals(((Node) event.getSource()).getId(), "addIncomeButton")) {
       onAddIncome(event);
     }
+  }
+  @FXML
+  private void onPreviousBudget() {
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      try {
+        SessionAccount.getInstance().getAccount().selectPreviousBudget();
+        updatePrimaryView();
+      } catch (IndexOutOfBoundsException e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setContentText("There is no previous budget");
+        alert.showAndWait();
+      }
+    } else {
+      showNoBudgetErrorFromSelectNewBudget();
+    }
+  }
+  @FXML
+  private void onNextBudget() {
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      try {
+        SessionAccount.getInstance().getAccount().selectNextBudget();
+        updatePrimaryView();
+      } catch (IndexOutOfBoundsException e) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setContentText("There is no next budget");
+        alert.showAndWait();
+      }
+    } else {
+      showNoBudgetErrorFromSelectNewBudget();
+    }
+  }
+  private void showNoBudgetErrorFromSelectNewBudget() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please create a budget before trying to switch budget");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
   }
 }
