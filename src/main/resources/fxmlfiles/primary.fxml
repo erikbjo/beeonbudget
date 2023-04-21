@@ -1,130 +1,122 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXHamburger?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Blend?>
 <?import javafx.scene.effect.Bloom?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
-<AnchorPane minHeight="400.0" minWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane minHeight="400.0" minWidth="700.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.PrimaryController">
     <children>
-        <AnchorPane minWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.bottomAnchor="255.0"
-                    AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <AnchorPane minWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.bottomAnchor="255.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="581.0" layoutY="29.0"
-                       prefHeight="17.0" prefWidth="120.0" text="username" textAlignment="CENTER" wrapText="true"
-                       AnchorPane.rightAnchor="0.33333333333337123">
-                    <font>
-                        <Font name="System Bold" size="12.0"/>
-                    </font>
-                </Label>
-                <ImageView fitHeight="43.0" fitWidth="38.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true"
-                           preserveRatio="true">
+                <ImageView fitHeight="43.0" fitWidth="38.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
-                        <Image url="@../images/simpleLogoBoYOnlyOutline.png"/>
+                        <Image url="@../images/simpleLogoBoYOnlyOutline.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="55.0" layoutY="38.0" text="Bee On Budget" wrapText="true" AnchorPane.leftAnchor="55.0"
-                       AnchorPane.rightAnchor="526.0">
+                <Label layoutX="55.0" layoutY="38.0" text="Bee On Budget" wrapText="true" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="526.0">
                     <font>
-                        <Font name="Segoe UI Bold" size="17.0"/>
+                        <Font name="Segoe UI Bold" size="17.0" />
                     </font>
                     <effect>
-                        <Blend/>
+                        <Blend />
                     </effect>
                 </Label>
                 <Label layoutY="92.0" text="MENU" AnchorPane.leftAnchor="0.0">
                     <font>
-                        <Font name="System Bold" size="18.0"/>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+            <JFXHamburger layoutX="651.0" layoutY="39.0" />
+                <Label fx:id="usernameLabel" alignment="CENTER" contentDisplay="RIGHT" layoutX="266.0" layoutY="40.0" prefHeight="17.0" prefWidth="120.0" text="username" textAlignment="CENTER" wrapText="true" AnchorPane.rightAnchor="315.33333333333337">
+                    <font>
+                        <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" AnchorPane.bottomAnchor="0.0"
-                    AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="87.0">
+        <AnchorPane fx:id="SummaryPane" layoutX="236.0" layoutY="87.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="236.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="87.0">
             <children>
-                <Label fx:id="menuPaneLabel1" layoutX="39.0" layoutY="190.0" prefHeight="44.0" prefWidth="111.0"
-                       text="Used: N/A" wrapText="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="39.0"
-                       AnchorPane.rightAnchor="304.0">
+                <Label fx:id="menuPaneLabel1" layoutX="39.0" layoutY="190.0" prefHeight="44.0" prefWidth="111.0" text="Used: N/A" wrapText="true" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="39.0" AnchorPane.rightAnchor="304.0">
                     <effect>
-                        <Bloom threshold="0.9"/>
+                        <Bloom threshold="0.9" />
                     </effect>
                     <font>
-                        <Font name="Segoe UI Bold" size="17.0"/>
+                        <Font name="Segoe UI Bold" size="17.0" />
                     </font>
                 </Label>
-                <Label fx:id="menuPaneLabel2" layoutX="328.0" layoutY="202.0" text="Left: N/A" wrapText="true"
-                       AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="24.0">
+                <Label fx:id="menuPaneLabel2" layoutX="328.0" layoutY="202.0" text="Left: N/A" wrapText="true" AnchorPane.bottomAnchor="17.0" AnchorPane.rightAnchor="24.0">
                     <effect>
-                        <Bloom threshold="0.9"/>
+                        <Bloom threshold="0.9" />
                     </effect>
                     <font>
-                        <Font name="Segoe UI Bold" size="17.0"/>
+                        <Font name="Segoe UI Bold" size="17.0" />
                     </font>
                 </Label>
-                <Label fx:id="budgetLabel" alignment="TOP_CENTER" focusTraversable="false" layoutX="197.0"
-                       layoutY="51.0" minWidth="-Infinity" text="Budget: N/A" textAlignment="CENTER"
-                       AnchorPane.bottomAnchor="217.00000000000003" AnchorPane.leftAnchor="197.0"
-                       AnchorPane.rightAnchor="195.66666666666669" AnchorPane.topAnchor="51.000000000000014">
+                <Label fx:id="budgetLabel" alignment="TOP_CENTER" focusTraversable="false" layoutX="197.0" layoutY="51.0" minWidth="-Infinity" text="Budget: N/A" textAlignment="CENTER" AnchorPane.bottomAnchor="217.00000000000003" AnchorPane.leftAnchor="197.0" AnchorPane.rightAnchor="195.66666666666669" AnchorPane.topAnchor="51.000000000000014">
                     <font>
-                        <Font name="System Bold" size="12.0"/>
+                        <Font name="System Bold" size="12.0" />
                     </font>
                 </Label>
-                <PieChart fx:id="budgetChart" layoutX="121.0" layoutY="80.0" prefHeight="156.0" prefWidth="224.0"/>
+                <PieChart fx:id="budgetMenuChart" layoutX="121.0" layoutY="80.0" prefHeight="156.0" prefWidth="224.0" />
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="menuPane" layoutX="-4.0" layoutY="120.0" prefHeight="255.0" prefWidth="240.0"
-                    AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="118.0">
+        <AnchorPane fx:id="menuPane" layoutX="-4.0" layoutY="120.0" prefHeight="255.0" prefWidth="240.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="118.0">
             <children>
-                <JFXButton fx:id="savingsPlanButton" cache="true" layoutX="8.0" layoutY="10.0"
-                           onAction="#switchToSavingPlan" prefHeight="45.0" prefWidth="230.0" text="Savings Plan">
-                    <ripplerFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                            <stops>
-                                <Stop color="BLACK"/>
-                                <Stop color="#f6ff43" offset="1.0"/>
-                            </stops>
-                        </LinearGradient>
-                    </ripplerFill>
-                </JFXButton>
-                <JFXButton fx:id="budgetButton" cache="true" layoutX="8.0" layoutY="55.0" onAction="#switchToBudget"
-                           prefHeight="45.0" prefWidth="230.0" text="Budget">
-                    <ripplerFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                            <stops>
-                                <Stop color="BLACK"/>
-                                <Stop color="#fff170" offset="1.0"/>
-                            </stops>
-                        </LinearGradient>
-                    </ripplerFill>
-                </JFXButton>
-                <JFXButton fx:id="addExpenseButton" cache="true" layoutX="8.0" layoutY="100.0" onAction="#onAddExpense"
-                           prefHeight="45.0" prefWidth="230.0" text="Add Expences">
-                    <ripplerFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                            <stops>
-                                <Stop color="BLACK"/>
-                                <Stop color="#fff06e" offset="1.0"/>
-                            </stops>
-                        </LinearGradient>
-                    </ripplerFill>
-                </JFXButton>
-                <JFXButton fx:id="addIncomeButton" cache="true" layoutX="8.0" layoutY="145.0" onAction="#onAddIncome"
-                           prefHeight="45.0" prefWidth="230.0" text="Add Income">
-                    <ripplerFill>
-                        <LinearGradient endX="1.0" endY="1.0">
-                            <stops>
-                                <Stop color="BLACK"/>
-                                <Stop color="#fff06d" offset="1.0"/>
-                            </stops>
-                        </LinearGradient>
-                    </ripplerFill>
-                </JFXButton>
+            <VBox alignment="CENTER" layoutX="49.0" layoutY="52.0" prefHeight="222.0" prefWidth="145.0" spacing="10.0" AnchorPane.bottomAnchor="53.0" AnchorPane.leftAnchor="49.0" AnchorPane.rightAnchor="48.0" AnchorPane.topAnchor="52.0">
+               <children>
+                      <JFXButton fx:id="savingsPlanButton" cache="true" onAction="#switchToSavingPlan" text="Savings Plan">
+                          <ripplerFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                  <stops>
+                                      <Stop color="BLACK" />
+                                      <Stop color="#f6ff43" offset="1.0" />
+                                  </stops>
+                              </LinearGradient>
+                          </ripplerFill>
+                      </JFXButton>
+                      <JFXButton fx:id="budgetButton" cache="true" onAction="#switchToBudget" text="Budget">
+                          <ripplerFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                  <stops>
+                                      <Stop color="BLACK" />
+                                      <Stop color="#fff170" offset="1.0" />
+                                  </stops>
+                              </LinearGradient>
+                          </ripplerFill>
+                      </JFXButton>
+                      <JFXButton fx:id="addExpenseButton" cache="true" onAction="#onAddExpense" text="Add Expences">
+                          <ripplerFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                  <stops>
+                                      <Stop color="BLACK" />
+                                      <Stop color="#fff06e" offset="1.0" />
+                                  </stops>
+                              </LinearGradient>
+                          </ripplerFill>
+                      </JFXButton>
+                      <JFXButton fx:id="addIncomeButton" cache="true" onAction="#onAddIncome" text="Add Income">
+                          <ripplerFill>
+                              <LinearGradient endX="1.0" endY="1.0">
+                                  <stops>
+                                      <Stop color="BLACK" />
+                                      <Stop color="#fff06d" offset="1.0" />
+                                  </stops>
+                              </LinearGradient>
+                          </ripplerFill>
+                      </JFXButton>
+                  <JFXButton fx:id="quitApplicationButton" onAction="#quitApplication" text="Quit" />
+               </children>
+            </VBox>
             </children>
         </AnchorPane>
     </children>
