@@ -128,7 +128,7 @@ public class ResetPinCodeEnterUserController {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please fill out username or email");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -137,7 +137,7 @@ public class ResetPinCodeEnterUserController {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Invalid username or email");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 }

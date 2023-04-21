@@ -3,6 +3,9 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import java.text.DateFormat;
+import java.util.Date;
+
 
 /**
  * Represents an expense entry in the budget application. Inherits from the MoneyAction class. An
@@ -18,6 +21,7 @@ public class Expense extends MoneyAction {
   private Long id;
 
   private ExpenseCategory expenseCategory;
+  private Date dateAdded;
 
   /**
    * Constructs an Expense object with the specified amount, description, recurring type, and
@@ -32,6 +36,7 @@ public class Expense extends MoneyAction {
       int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
     super(amount, description, type);
     this.expenseCategory = expenseCategory;
+    this.dateAdded = setDateAdded();
   }
 
   public Expense() {
@@ -65,6 +70,11 @@ public class Expense extends MoneyAction {
     sb.append("Description: ").append(this.getDescription()).append("\n");
     sb.append("Type: ").append(this.getRecurringType()).append("\n");
     sb.append("Category: ").append(this.expenseCategory.getExpenseCategoryString());
+    sb.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(dateAdded));
     return sb.toString();
+  }
+  public Date setDateAdded() {
+    dateAdded = new Date();
+    return dateAdded;
   }
 }

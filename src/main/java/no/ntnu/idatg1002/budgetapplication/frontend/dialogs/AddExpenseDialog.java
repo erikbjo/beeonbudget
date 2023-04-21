@@ -200,7 +200,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
@@ -210,7 +210,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }

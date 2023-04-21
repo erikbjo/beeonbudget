@@ -1,5 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication;
 
+import java.util.Date;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;

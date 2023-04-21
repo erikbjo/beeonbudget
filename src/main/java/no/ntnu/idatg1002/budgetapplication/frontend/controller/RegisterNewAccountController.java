@@ -176,6 +176,7 @@ public class RegisterNewAccountController {
             });
   }
 
+  @FXML
   private void generateDynamicFeedbackAlert() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -200,16 +201,17 @@ public class RegisterNewAccountController {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
+  @FXML
   private void generateExceptionAlert(Exception exception) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 }

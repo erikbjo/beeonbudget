@@ -36,9 +36,13 @@ public class LoginController {
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
+  public LoginController() {
+
+  }
+
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
-  void initialize() {
+  public void initialize() {
     SessionAccount.getInstance().clearAccount();
     configurePinCodeTextField();
     configureEmailTextField();
@@ -51,7 +55,7 @@ public class LoginController {
    * @throws IOException if there is an issue loading the FXML file
    */
   @FXML
-  void forgotPinCode(ActionEvent event) throws IOException {
+  public void forgotPinCode(ActionEvent event) throws IOException {
     Parent root =
         FXMLLoader.load(
             Objects.requireNonNull(
@@ -72,7 +76,7 @@ public class LoginController {
    * @throws IOException if there is an issue loading the FXML file
    */
   @FXML
-  void loginAccount(ActionEvent event) throws IOException {
+  public void loginAccount(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
       if (AccountDAO.getInstance()
           .loginIsValid(emailTextField.getText(), pinCodeTextField.getText())) {
@@ -80,10 +84,10 @@ public class LoginController {
             .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
         goToPrimaryScreen((event));
       } else {
-        showInvalidLoginAlert();
+        showInvalidLoginAlert(event);
       }
     } else {
-      generateDynamicFeedbackAlert();
+      generateDynamicFeedbackAlert(event);
     }
   }
 
@@ -93,6 +97,7 @@ public class LoginController {
    * @param event the event associated with the navigation
    * @throws IOException if there is an issue loading the FXML file
    */
+  @FXML
   private void goToPrimaryScreen(ActionEvent event) throws IOException {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
@@ -162,21 +167,19 @@ public class LoginController {
   }
 
   /** Displays an invalid login alert if the username or pin code is incorrect. */
-  private void showInvalidLoginAlert() {
+  @FXML
+  private void showInvalidLoginAlert(ActionEvent actionEvent) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
-    alert.setHeaderText(null);
+    alert.setHeaderText("Warning");
     alert.setContentText("Invalid username or pin code");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
   /** Generates and displays a dynamic feedback alert if any of the required fields are invalid. */
-  private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-
+  @FXML
+  private void generateDynamicFeedbackAlert(ActionEvent event) {
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
     if (emailTextField.getText().isEmpty()) {
@@ -189,9 +192,11 @@ public class LoginController {
         builder.append("Full pin code \n");
       }
     }
-
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText("Warning");
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 

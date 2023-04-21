@@ -157,6 +157,7 @@ public class BudgetController implements Initializable {
           updateAllInBudgetView();
         } catch (IndexOutOfBoundsException e) {
           Alert alert = new Alert(AlertType.WARNING);
+          alert.initModality(Modality.APPLICATION_MODAL);
           alert.setContentText("There is no next budget");
           alert.showAndWait();
         }
@@ -182,6 +183,7 @@ public class BudgetController implements Initializable {
         } catch (IndexOutOfBoundsException e) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setContentText("There is no previous budget");
+          alert.initModality(Modality.APPLICATION_MODAL);
           alert.showAndWait();
         }
       } else {
@@ -289,6 +291,7 @@ public class BudgetController implements Initializable {
       deleteExpenseFromTable();
     } else {
       Alert alert = new Alert(AlertType.WARNING);
+      alert.initModality(Modality.APPLICATION_MODAL);
       alert.setContentText("Please Select a item to Delete");
       alert.showAndWait();
     }
@@ -298,6 +301,7 @@ public class BudgetController implements Initializable {
    * Deletes the selected income row from the income table view after user confirmation. Updates
    * income pie chart, total pie chart, and budget money text.
    */
+  @FXML
   private void deleteIncomeFromTable() {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "Delete Item");
@@ -328,6 +332,7 @@ public class BudgetController implements Initializable {
    * Deletes the selected expense row from the expense table view after user confirmation. Updates
    * expense pie chart, total pie chart, and budget money text.
    */
+  @FXML
   private void deleteExpenseFromTable() {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "");
@@ -375,6 +380,7 @@ public class BudgetController implements Initializable {
     } else {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please Select An Item To Show More Info.");
+      alert.initModality(Modality.APPLICATION_MODAL);
       alert.showAndWait();
     }
   }
@@ -383,6 +389,7 @@ public class BudgetController implements Initializable {
    * Displays an alert containing the information of the selected income item. The alert shows the
    * income's details as a string and has a cancel button to close the alert.
    */
+  @FXML
   private void getInformationFromSelectedIncome() {
     Alert.AlertType type = AlertType.NONE;
     Alert alert = new Alert(type, "");
@@ -391,6 +398,7 @@ public class BudgetController implements Initializable {
     alert.setTitle("Income Info");
     alert.setContentText(income.getIncomeAssString());
     alert.getButtonTypes().add(ButtonType.CANCEL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -398,6 +406,7 @@ public class BudgetController implements Initializable {
    * Displays an alert containing the information of the selected expense item. The alert shows the
    * expense's details as a string and has a cancel button to close the alert.
    */
+  @FXML
   private void getInformationFromSelectedExpense() {
     Alert.AlertType type = AlertType.NONE;
     Alert alert = new Alert(type, "");
@@ -405,6 +414,7 @@ public class BudgetController implements Initializable {
         expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
     alert.setTitle("Expense Info");
     alert.setContentText(expense.getExpenseAssString());
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.getButtonTypes().add(ButtonType.CANCEL);
     alert.showAndWait();
   }
@@ -442,32 +452,35 @@ public class BudgetController implements Initializable {
   }
 
   /** Displays an error alert when trying to add an expense or income without a budget. */
+  @FXML
   private void showNoBudgetErrorFromNewMoneyAction() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please create a budget before adding an expense or income");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
   /** Displays an error alert when trying to switch budgets without any existing budgets. */
+  @FXML
   private void showNoBudgetErrorFromSelectNewBudget() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please create a budget before trying to switch budget");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
   /** Displays an error alert when trying to delete a budget when no budgets are present. */
+  @FXML
   private void showNoBudgetErrorFromDeleteBudget() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("There is no budget to be deleted");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
