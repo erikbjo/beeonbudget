@@ -7,6 +7,7 @@ import java.util.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -19,7 +20,9 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
@@ -126,6 +129,12 @@ public class PrimaryController implements Initializable {
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getResource("/fxmlfiles/savingsPlan.fxml")));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+      @Override
+      public void handle(WindowEvent windowEvent) {
+        AccountDAO.getInstance().close();
+      }
+    });
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
             .toExternalForm();
@@ -231,6 +240,7 @@ public class PrimaryController implements Initializable {
     Optional<ButtonType> result = alert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
       Platform.exit();
+      AccountDAO.getInstance().close();
     } else {
       alert.close();
     }
