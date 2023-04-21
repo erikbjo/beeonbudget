@@ -70,19 +70,19 @@ public class RegisterNewAccountController {
   @FXML
   void registerNewAccount(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
-      Account newAccount =
-          new Account(
-              usernameTextField.getText(),
-              emailTextField.getText(),
-              pinCodeTextField.getText(),
-              reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
-              securityQuestionAnswerTextField.getText());
       try {
+        Account newAccount =
+            new Account(
+                usernameTextField.getText(),
+                emailTextField.getText(),
+                pinCodeTextField.getText(),
+                reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
+                securityQuestionAnswerTextField.getText());
         AccountDAO.getInstance().addAccount(newAccount);
         SessionAccount.getInstance().setAccount(newAccount);
         goToLoginScreen(event);
       } catch (IllegalArgumentException e) {
-        // can use e.getMessage() to print out to an alert or something similar.
+        generateExceptionAlert(e);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -186,6 +186,15 @@ public class RegisterNewAccountController {
     }
 
     alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
+  private void generateExceptionAlert(Exception exception) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.NONE);
     alert.showAndWait();
   }
