@@ -45,10 +45,8 @@ public class LoginController {
 
   @FXML
   void forgotPinCode(ActionEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(
-                getClass().getResource("/fxmlfiles/resetPinCodeEnterUser.fxml")));
+    Parent root = FXMLLoader.load(Objects.requireNonNull(
+        getClass().getResource("/fxmlfiles/resetPinCodeEnterUser.fxml")));
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
             .toExternalForm();
@@ -64,7 +62,7 @@ public class LoginController {
           .loginIsValid(emailTextField.getText(), pinCodeTextField.getText())) {
         SessionAccount.getInstance()
             .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
-        goToPrimaryScreen(event);
+        goToPrimaryScreen((event));
       } else {
         showInvalidLoginAlert();
       }
@@ -99,7 +97,7 @@ public class LoginController {
 
   @FXML
   public void onPinCodeTextFieldKeyPressed(KeyEvent event) throws IOException {
-    if (event.getCode().equals(KeyCode.ENTER)) {
+    if (event.getSource() == KeyCode.ENTER) {
       loginAccount(new ActionEvent());
     }
   }
