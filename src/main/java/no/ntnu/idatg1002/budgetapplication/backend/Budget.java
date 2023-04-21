@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javafx.scene.chart.PieChart;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
@@ -95,10 +96,13 @@ public class Budget {
    */
   private boolean checkIfBudgetNameIsTaken(String budgetName) {
     boolean nameTaken = false;
-    for (Budget budget : SessionAccount.getInstance().getAccount().getBudgets()) {
-      if (budgetName.equals(budget.getBudgetName())) {
+    List<String> takenNames =
+        SessionAccount.getInstance().getAccount().getBudgets().stream()
+            .map(Budget::getBudgetName)
+            .toList();
+    for (String variableBudgetName : takenNames) {
+      if (budgetName.equalsIgnoreCase(variableBudgetName)) {
         nameTaken = true;
-        break;
       }
     }
     return nameTaken;

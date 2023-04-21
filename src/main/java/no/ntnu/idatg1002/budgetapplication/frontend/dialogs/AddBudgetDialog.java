@@ -103,12 +103,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
    * @return true if all fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    boolean nameValid =
-        SessionAccount.getInstance().getAccount().getBudgets().stream()
-            .noneMatch(
-                budget -> Objects.equals(budget.getBudgetName(), budgetNameTextField.getText()));
-
-    return !budgetNameTextField.getText().isEmpty() && nameValid;
+    return !budgetNameTextField.getText().isEmpty();
   }
 
   /** Generates feedback for the user if the budget name field is invalid. */
