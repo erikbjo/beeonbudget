@@ -129,12 +129,7 @@ public class PrimaryController implements Initializable {
         FXMLLoader.load(
             Objects.requireNonNull(getClass().getResource("/fxmlfiles/savingsPlan.fxml")));
     stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
-      @Override
-      public void handle(WindowEvent windowEvent) {
-        AccountDAO.getInstance().close();
-      }
-    });
+    stage.setOnCloseRequest(windowEvent -> AccountDAO.getInstance().close());
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
             .toExternalForm();

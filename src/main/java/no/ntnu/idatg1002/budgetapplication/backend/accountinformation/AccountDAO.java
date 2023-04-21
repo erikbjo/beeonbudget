@@ -99,9 +99,11 @@ public class AccountDAO implements AccountListInterface {
   public void close() {
     if (em.isOpen()) {
       this.em.close();
+      System.out.println("EntityManager was closed.");
     }
     if (emf.isOpen()) {
       this.emf.close();
+      System.out.println("EntityManagerFactory was closed.");
     }
   }
 }
