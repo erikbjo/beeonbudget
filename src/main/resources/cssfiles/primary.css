@@ -1,20 +1,12 @@
-.root {
-
-}
-
-.Text {
-  -fx-text-fill: rgb(255, 0, 0);
-}
-
 #menuPaneLable {
   -fx-text-fill: black;
 }
 #SummaryPane {
-  -fx-background-color: #f6f6f6;
+  -fx-background-color: #dfdfdf;
   -fx-border-color: black;
 }
 #menuPane{
-  -fx-background-color: dfdfdf;
+  -fx-background-color: #f2f2f2;
   -fx-border-color: black;
 }
 
@@ -33,7 +25,6 @@
   -fx-font-size: 16px;
   -fx-touch-action: manipulation;
 }
-
 .button:hover,
 .button:focused {
   -fx-outline: 0px;

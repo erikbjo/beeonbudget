@@ -298,6 +298,7 @@ public class BudgetController implements Initializable {
    * Deletes the selected income row from the income table view after user confirmation. Updates
    * income pie chart, total pie chart, and budget money text.
    */
+  @FXML
   private void deleteIncomeFromTable() {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "Delete Item");
@@ -328,6 +329,7 @@ public class BudgetController implements Initializable {
    * Deletes the selected expense row from the expense table view after user confirmation. Updates
    * expense pie chart, total pie chart, and budget money text.
    */
+  @FXML
   private void deleteExpenseFromTable() {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "");
@@ -383,6 +385,7 @@ public class BudgetController implements Initializable {
    * Displays an alert containing the information of the selected income item. The alert shows the
    * income's details as a string and has a cancel button to close the alert.
    */
+  @FXML
   private void getInformationFromSelectedIncome() {
     Alert.AlertType type = AlertType.NONE;
     Alert alert = new Alert(type, "");
@@ -398,6 +401,7 @@ public class BudgetController implements Initializable {
    * Displays an alert containing the information of the selected expense item. The alert shows the
    * expense's details as a string and has a cancel button to close the alert.
    */
+  @FXML
   private void getInformationFromSelectedExpense() {
     Alert.AlertType type = AlertType.NONE;
     Alert alert = new Alert(type, "");
@@ -442,32 +446,35 @@ public class BudgetController implements Initializable {
   }
 
   /** Displays an error alert when trying to add an expense or income without a budget. */
+  @FXML
   private void showNoBudgetErrorFromNewMoneyAction() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please create a budget before adding an expense or income");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.WINDOW_MODAL);
     alert.showAndWait();
   }
 
   /** Displays an error alert when trying to switch budgets without any existing budgets. */
+  @FXML
   private void showNoBudgetErrorFromSelectNewBudget() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please create a budget before trying to switch budget");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.WINDOW_MODAL);
     alert.showAndWait();
   }
 
   /** Displays an error alert when trying to delete a budget when no budgets are present. */
+  @FXML
   private void showNoBudgetErrorFromDeleteBudget() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("There is no budget to be deleted");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.WINDOW_MODAL);
     alert.showAndWait();
   }
 

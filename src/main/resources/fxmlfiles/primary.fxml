@@ -48,9 +48,9 @@
         </AnchorPane>
         <AnchorPane fx:id="menuPane" layoutX="-4.0" layoutY="120.0" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="118.0">
             <children>
-            <VBox alignment="CENTER" layoutX="26.0" layoutY="53.0" prefHeight="222.0" prefWidth="145.0" spacing="10.0" AnchorPane.bottomAnchor="54.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="26.333333333333343" AnchorPane.topAnchor="53.0">
+            <VBox alignment="CENTER" layoutX="27.0" layoutY="33.0" spacing="10.0" AnchorPane.leftAnchor="27.0" AnchorPane.rightAnchor="27.333333333333343" AnchorPane.topAnchor="33.0">
                <children>
-                      <JFXButton fx:id="savingsPlanButton" cache="true" onAction="#switchToSavingPlan" text="Savings Plan">
+                      <JFXButton fx:id="savingsPlanButton" buttonType="RAISED" cache="true" onAction="#switchToSavingPlan" text="Savings Plan">
                           <ripplerFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                   <stops>
@@ -60,7 +60,7 @@
                               </LinearGradient>
                           </ripplerFill>
                       </JFXButton>
-                      <JFXButton fx:id="budgetButton" cache="true" onAction="#switchToBudget" text="Budget">
+                      <JFXButton fx:id="budgetButton" buttonType="RAISED" cache="true" onAction="#switchToBudget" text="Budget">
                           <ripplerFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                   <stops>
@@ -70,7 +70,7 @@
                               </LinearGradient>
                           </ripplerFill>
                       </JFXButton>
-                      <JFXButton fx:id="addExpenseButton" cache="true" onAction="#onAddExpense" text="Add Expences">
+                      <JFXButton fx:id="addExpenseButton" buttonType="RAISED" cache="true" onAction="#onAddExpense" text="Add Expences">
                           <ripplerFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                   <stops>
@@ -80,7 +80,7 @@
                               </LinearGradient>
                           </ripplerFill>
                       </JFXButton>
-                      <JFXButton fx:id="addIncomeButton" cache="true" onAction="#onAddIncome" text="Add Income">
+                      <JFXButton fx:id="addIncomeButton" buttonType="RAISED" cache="true" onAction="#onAddIncome" text="Add Income">
                           <ripplerFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                   <stops>
@@ -90,10 +90,11 @@
                               </LinearGradient>
                           </ripplerFill>
                       </JFXButton>
+                  <JFXButton fx:id="settingsButton" buttonType="RAISED" text="Settings" />
                   <ButtonBar>
                      <buttons>
-                        <JFXButton fx:id="logOutButton" onAction="#logOutUser" text="Log Out" />
-                        <JFXButton fx:id="quitApplicationButton" onAction="#quitApplication" text="Quit" />
+                        <JFXButton fx:id="logOutButton" buttonType="RAISED" onAction="#logOutUser" text="Log Out" />
+                        <JFXButton fx:id="quitApplicationButton" buttonType="RAISED" onAction="#quitApplication" text="Quit" />
                      </buttons>
                   </ButtonBar>
                </children>

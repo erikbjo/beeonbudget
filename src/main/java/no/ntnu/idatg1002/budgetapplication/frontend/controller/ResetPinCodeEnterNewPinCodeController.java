@@ -182,6 +182,7 @@ public class ResetPinCodeEnterNewPinCodeController {
   }
 
   /** Displays an alert when the security question answer is incorrect. */
+  @FXML
   private void wrongAnswerAlert() {
     Alert alert = new Alert(AlertType.WARNING);
     alert.setTitle("Error");
@@ -192,6 +193,7 @@ public class ResetPinCodeEnterNewPinCodeController {
   }
 
   /** Generates and displays a dynamic feedback alert when fields are not filled out correctly. */
+  @FXML
   private void generateDynamicFeedbackAlert() {
     Alert alert = new Alert(AlertType.WARNING);
     alert.setTitle("Error");

@@ -86,6 +86,7 @@ public class PrimaryController implements Initializable {
       result.ifPresent(
           income -> {
             SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income);
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
             updatePrimaryView();
           });
     } else {
@@ -114,6 +115,7 @@ public class PrimaryController implements Initializable {
                 .getAccount()
                 .getSelectedBudget()
                 .addBudgetExpenses(expense);
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
             updatePrimaryView();
           });
     } else {
@@ -179,6 +181,7 @@ public class PrimaryController implements Initializable {
    * @param event the action event that triggered the dialog
    * @throws IOException if there's an error during dialog creation or processing
    */
+  @FXML
   private void showNoBudgetCreateBudgetConfirmation(ActionEvent event) throws IOException {
     System.out.println("Source: " + event.getSource());
     Alert.AlertType type = AlertType.CONFIRMATION;
@@ -231,6 +234,7 @@ public class PrimaryController implements Initializable {
    *
    * @param event the action event triggered by clicking the "Quit" button
    */
+  @FXML
   public void quitApplication(ActionEvent event) {
     Alert.AlertType type = AlertType.CONFIRMATION;
     Alert alert = new Alert(type, "");
@@ -289,41 +293,47 @@ public class PrimaryController implements Initializable {
   }
   @FXML
   private void onPreviousBudget() {
-    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
-      try {
-        SessionAccount.getInstance().getAccount().selectPreviousBudget();
-        updatePrimaryView();
-      } catch (IndexOutOfBoundsException e) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setContentText("There is no previous budget");
-        alert.showAndWait();
+    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1) {
+      if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+        try {
+          SessionAccount.getInstance().getAccount().selectPreviousBudget();
+          updatePrimaryView();
+        } catch (IndexOutOfBoundsException e) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setContentText("There is no previous budget");
+          alert.showAndWait();
+        }
+      } else {
+        showNoBudgetErrorFromSelectNewBudget();
       }
-    } else {
-      showNoBudgetErrorFromSelectNewBudget();
     }
   }
   @FXML
   private void onNextBudget() {
-    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
-      try {
-        SessionAccount.getInstance().getAccount().selectNextBudget();
-        updatePrimaryView();
-      } catch (IndexOutOfBoundsException e) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setContentText("There is no next budget");
-        alert.showAndWait();
+    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1) {
+      if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+        try {
+          SessionAccount.getInstance().getAccount().selectNextBudget();
+          updatePrimaryView();
+        } catch (IndexOutOfBoundsException e) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setContentText("There is no next budget");
+          alert.showAndWait();
+        }
+      } else {
+        showNoBudgetErrorFromSelectNewBudget();
       }
-    } else {
-      showNoBudgetErrorFromSelectNewBudget();
     }
   }
+
+  @FXML
   private void showNoBudgetErrorFromSelectNewBudget() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please create a budget before trying to switch budget");
-    alert.initModality(Modality.NONE);
-    alert.showAndWait();
+      Alert alert = new Alert(Alert.AlertType.WARNING);
+      alert.setTitle("Error");
+      alert.setHeaderText(null);
+      alert.setContentText("Please create a budget before trying to switch budget");
+      alert.initModality(Modality.APPLICATION_MODAL);
+      alert.showAndWait();
   }
 
   @FXML

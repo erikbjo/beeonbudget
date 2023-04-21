@@ -176,6 +176,7 @@ public class RegisterNewAccountController {
             });
   }
 
+  @FXML
   private void generateDynamicFeedbackAlert() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -204,6 +205,7 @@ public class RegisterNewAccountController {
     alert.showAndWait();
   }
 
+  @FXML
   private void generateExceptionAlert(Exception exception) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
