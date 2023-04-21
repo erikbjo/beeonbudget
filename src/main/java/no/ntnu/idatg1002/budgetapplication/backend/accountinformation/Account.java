@@ -17,9 +17,8 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
-  @Id
-  @GeneratedValue
-  private String id;
+  @Id @GeneratedValue private String id;
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "account_id")
   private final List<SavingsPlan> savingsPlans = new ArrayList<>();
@@ -285,16 +284,6 @@ public class Account {
     } else {
       currentBudgetIndex = null;
     }
-  }
-
-  private Integer createCurrentBudgetIndex() {
-    Integer createdIndex = null;
-
-    if (!budgets.isEmpty()) {
-      createdIndex = budgets.indexOf(budgets.stream().findAny());
-    }
-
-    return createdIndex;
   }
 
   /**
