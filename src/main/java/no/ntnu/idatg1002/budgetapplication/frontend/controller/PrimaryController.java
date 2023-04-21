@@ -22,6 +22,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
@@ -81,7 +82,7 @@ public class PrimaryController implements Initializable {
             updatePrimaryView();
           });
     } else {
-      showNoBudgetError();
+      showNoBudgetCreateBudgetConfirmation(event);
     }
   }
 
@@ -91,7 +92,7 @@ public class PrimaryController implements Initializable {
    * @param event the event that triggered the method.
    */
   @FXML
-  public void onAddExpense(Event event) throws IOException {
+  public void onAddExpense(ActionEvent event) throws IOException {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       AddExpenseDialog dialog = new AddExpenseDialog();
       dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
@@ -106,7 +107,7 @@ public class PrimaryController implements Initializable {
             updatePrimaryView();
           });
     } else {
-      showNoBudgetError();
+      showNoBudgetCreateBudgetConfirmation(event);
     }
   }
 
@@ -166,6 +167,24 @@ public class PrimaryController implements Initializable {
     alert.showAndWait();
   }
 
+  private void showNoBudgetCreateBudgetConfirmation(ActionEvent event) throws IOException {
+    System.out.println("Source: " + event.getSource());
+    Alert.AlertType type = AlertType.CONFIRMATION;
+    Alert alert = new Alert(type, "Delete Item");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    alert.setTitle("No Budget");
+    alert.setContentText(
+        "You need to have a budget before adding an expense or income. "
+            + "\nYou have no budgets currently, do you want to make one?");
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      showCreateBudgetDialogFromNoBudget(event);
+    } else {
+      alert.close();
+    }
+  }
+
   /**
    * Initializes the controller by updating the dynamic labels.
    *
@@ -177,6 +196,7 @@ public class PrimaryController implements Initializable {
     updatePrimaryView();
     updateTotalPieChart();
   }
+
   private void updateTotalPieChart() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       budgetMenuChart.setData(
@@ -192,7 +212,7 @@ public class PrimaryController implements Initializable {
 
   public void quitApplication(ActionEvent event) {
     Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type,"");
+    Alert alert = new Alert(type, "");
     alert.setTitle("Quit");
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.getDialogPane();
@@ -204,6 +224,20 @@ public class PrimaryController implements Initializable {
       alert.close();
     }
   }
+
+  private void showCreateBudgetDialogFromNoBudget(ActionEvent event) throws IOException {
+    AddBudgetDialog dialog = new AddBudgetDialog();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+    Optional<Budget> result = dialog.showAndWait();
+    result.ifPresent(budget -> SessionAccount.getInstance().getAccount().addBudget(budget));
+
+    updatePrimaryView();
+
+    if (Objects.equals(((Node) event.getSource()).getId(), "addExpenseButton")) {
+      onAddExpense(event);
+    } else if (Objects.equals(((Node) event.getSource()).getId(), "addIncomeButton")) {
+      onAddIncome(event);
+    }
+  }
 }
-
-
