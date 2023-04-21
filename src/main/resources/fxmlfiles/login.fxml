@@ -19,73 +19,89 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #e6e6e6;" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+            prefWidth="600.0" style="-fx-background-color: #e6e6e6;" xmlns="http://javafx.com/javafx/19"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.LoginController">
     <children>
-      <GridPane alignment="CENTER" layoutX="14.0" layoutY="25.0" prefHeight="355.0" prefWidth="587.0" AnchorPane.bottomAnchor="19.666666666666686" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="25.0">
-         <columnConstraints>
-            <ColumnConstraints halignment="CENTER" maxWidth="421.66664632161456" minWidth="10.0" prefWidth="257.3333333333333" />
-            <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" maxWidth="337.0" minWidth="10.0" prefWidth="318.00000000000006" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-         </rowConstraints>
-         <children>
-            <ImageView fitHeight="355.0" fitWidth="309.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../images/BOBv4.png" />
-               </image>
-               <effect>
-                  <DropShadow blurType="GAUSSIAN" height="10.5" radius="2.125" width="0.0" />
-               </effect>
-            </ImageView>
-            <VBox GridPane.columnIndex="1" GridPane.valignment="CENTER">
-               <children>
-                  <StackPane prefHeight="190.0" prefWidth="240.0" />
-                  <FlowPane alignment="CENTER" columnHalignment="CENTER" prefWrapLength="0.0">
-                     <children>
-                        <VBox blendMode="SRC_ATOP" cache="true" cacheHint="QUALITY" depthTest="ENABLE" fillWidth="false" spacing="10.0" style="-fx-border-color: ;">
-                           <children>
-                                    <Text fx:id="budgetApplicationText" fontSmoothingType="LCD" strokeType="OUTSIDE" strokeWidth="0.0" text="BEE ON BUDGET">
-                                        <font>
-                                            <Font size="24.0" />
-                                        </font>
-                                    </Text>
-                                    <Text fx:id="loginOrRegisterText" strokeType="OUTSIDE" strokeWidth="0.0" text="Log in / Register">
-                                 <font>
-                                    <Font size="13.0" />
-                                 </font>
-                              </Text>
-                                    <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
-                                    <TextField fx:id="emailTextField" prefHeight="25.0" prefWidth="197.0" />
-                                    <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pin code" />
-                                    <PasswordField fx:id="pinCodeTextField" onKeyPressed="#onPinCodeTextFieldKeyPressed" prefHeight="25.0" prefWidth="198.0" />
-                                    <Hyperlink fx:id="forgotPinCodeHyperlink" onAction="#forgotPinCode" text="Forgot your pin code?" underline="true" />
-                                    <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
-                                        <children>
-                                            <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false" onAction="#loginAccount" text="Log in" />
-                                            <Button mnemonicParsing="false" onAction="#registerNewAccount" text="Register" />
-                                        </children>
-                                        <opaqueInsets>
-                                            <Insets />
-                                        </opaqueInsets>
-                                    </HBox>
-                           </children>
-                           <opaqueInsets>
-                              <Insets bottom="10.0" left="10.0" right="10.0" top="30.0" />
-                           </opaqueInsets>
-                           <padding>
-                              <Insets bottom="20.0" left="10.0" right="10.0" top="10.0" />
-                           </padding>
-                        </VBox>
-                     </children>
-                     <effect>
-                        <DropShadow />
-                     </effect>
-                  </FlowPane>
-                  <StackPane prefHeight="150.0" prefWidth="200.0" />
-               </children>
-            </VBox>
-         </children>
-      </GridPane>
+        <GridPane alignment="CENTER" layoutX="14.0" layoutY="25.0" prefHeight="355.0" prefWidth="587.0"
+                  AnchorPane.bottomAnchor="19.666666666666686" AnchorPane.leftAnchor="14.0"
+                  AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="25.0">
+            <columnConstraints>
+                <ColumnConstraints halignment="CENTER" maxWidth="421.66664632161456" minWidth="10.0"
+                                   prefWidth="257.3333333333333"/>
+                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" maxWidth="337.0" minWidth="10.0"
+                                   prefWidth="318.00000000000006"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <ImageView fitHeight="355.0" fitWidth="309.0" pickOnBounds="true" preserveRatio="true">
+                    <image>
+                        <Image url="@../images/BOBv4.png"/>
+                    </image>
+                    <effect>
+                        <DropShadow blurType="GAUSSIAN" height="10.5" radius="2.125" width="0.0"/>
+                    </effect>
+                </ImageView>
+                <VBox GridPane.columnIndex="1" GridPane.valignment="CENTER">
+                    <children>
+                        <StackPane prefHeight="190.0" prefWidth="240.0"/>
+                        <FlowPane alignment="CENTER" columnHalignment="CENTER" prefWrapLength="0.0">
+                            <children>
+                                <VBox blendMode="SRC_ATOP" cache="true" cacheHint="QUALITY" depthTest="ENABLE"
+                                      fillWidth="false" spacing="10.0">
+                                    <children>
+                                        <Text fx:id="budgetApplicationText" fontSmoothingType="LCD" strokeType="OUTSIDE"
+                                              strokeWidth="0.0" text="BEE ON BUDGET">
+                                            <font>
+                                                <Font size="24.0"/>
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="loginOrRegisterText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Log in / Register">
+                                            <font>
+                                                <Font size="13.0"/>
+                                            </font>
+                                        </Text>
+                                        <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="Email"/>
+                                        <TextField fx:id="emailTextField" prefHeight="25.0" prefWidth="197.0"/>
+                                        <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0"
+                                              text="Pin code"/>
+                                        <PasswordField fx:id="pinCodeTextField"
+                                                       prefHeight="25.0"
+                                                       prefWidth="198.0"/>
+                                        <Hyperlink fx:id="forgotPinCodeHyperlink" onAction="#forgotPinCode"
+                                                   text="Forgot your pin code?" underline="true"/>
+                                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+                                            <children>
+                                                <Button fx:id="loginButton" defaultButton="true" mnemonicParsing="false"
+                                                        onAction="#loginAccount" text="Log in"/>
+                                                <Button mnemonicParsing="false" onAction="#registerNewAccount"
+                                                        text="Register"/>
+                                            </children>
+                                            <opaqueInsets>
+                                                <Insets/>
+                                            </opaqueInsets>
+                                        </HBox>
+                                    </children>
+                                    <opaqueInsets>
+                                        <Insets bottom="10.0" left="10.0" right="10.0" top="30.0"/>
+                                    </opaqueInsets>
+                                    <padding>
+                                        <Insets bottom="20.0" left="10.0" right="10.0" top="10.0"/>
+                                    </padding>
+                                </VBox>
+                            </children>
+                            <effect>
+                                <DropShadow/>
+                            </effect>
+                        </FlowPane>
+                        <StackPane prefHeight="150.0" prefWidth="200.0"/>
+                    </children>
+                </VBox>
+            </children>
+        </GridPane>
     </children>
 </AnchorPane>
