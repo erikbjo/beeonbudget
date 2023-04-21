@@ -21,7 +21,7 @@
     <children>
         <AnchorPane minWidth="700.0" style="-fx-background-color: #f3e60c;" AnchorPane.bottomAnchor="255.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
-                <ImageView fitHeight="43.0" fitWidth="38.0" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fitHeight="43.0" fitWidth="38.0" focusTraversable="true" layoutX="14.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
                     <image>
                         <Image url="@../images/simpleLogoBoYOnlyOutline.png" />
                     </image>

@@ -201,7 +201,7 @@ public class RegisterNewAccountController {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -211,7 +211,7 @@ public class RegisterNewAccountController {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 }

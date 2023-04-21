@@ -157,6 +157,7 @@ public class BudgetController implements Initializable {
           updateAllInBudgetView();
         } catch (IndexOutOfBoundsException e) {
           Alert alert = new Alert(AlertType.WARNING);
+          alert.initModality(Modality.APPLICATION_MODAL);
           alert.setContentText("There is no next budget");
           alert.showAndWait();
         }
@@ -182,6 +183,7 @@ public class BudgetController implements Initializable {
         } catch (IndexOutOfBoundsException e) {
           Alert alert = new Alert(AlertType.WARNING);
           alert.setContentText("There is no previous budget");
+          alert.initModality(Modality.APPLICATION_MODAL);
           alert.showAndWait();
         }
       } else {
@@ -289,6 +291,7 @@ public class BudgetController implements Initializable {
       deleteExpenseFromTable();
     } else {
       Alert alert = new Alert(AlertType.WARNING);
+      alert.initModality(Modality.APPLICATION_MODAL);
       alert.setContentText("Please Select a item to Delete");
       alert.showAndWait();
     }
@@ -377,6 +380,7 @@ public class BudgetController implements Initializable {
     } else {
       Alert alert = new Alert(AlertType.WARNING);
       alert.setContentText("Please Select An Item To Show More Info.");
+      alert.initModality(Modality.APPLICATION_MODAL);
       alert.showAndWait();
     }
   }
@@ -394,6 +398,7 @@ public class BudgetController implements Initializable {
     alert.setTitle("Income Info");
     alert.setContentText(income.getIncomeAssString());
     alert.getButtonTypes().add(ButtonType.CANCEL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -409,6 +414,7 @@ public class BudgetController implements Initializable {
         expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
     alert.setTitle("Expense Info");
     alert.setContentText(expense.getExpenseAssString());
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.getButtonTypes().add(ButtonType.CANCEL);
     alert.showAndWait();
   }
@@ -452,7 +458,7 @@ public class BudgetController implements Initializable {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please create a budget before adding an expense or income");
-    alert.initModality(Modality.WINDOW_MODAL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -463,7 +469,7 @@ public class BudgetController implements Initializable {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please create a budget before trying to switch budget");
-    alert.initModality(Modality.WINDOW_MODAL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -474,7 +480,7 @@ public class BudgetController implements Initializable {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("There is no budget to be deleted");
-    alert.initModality(Modality.WINDOW_MODAL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
