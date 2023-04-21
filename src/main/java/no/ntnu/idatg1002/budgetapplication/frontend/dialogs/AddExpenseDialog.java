@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -66,14 +67,18 @@ public class AddExpenseDialog extends Dialog<Expense> {
   private void handleSubmit() {
     Expense newExpense;
     if (assertAllFieldsValid()) {
-      newExpense =
-          new Expense(
-              Integer.parseInt(getExpenseAmountFieldText()),
-              getExpenseDescriptionFieldText(),
-              getRecurringIntervalComboBoxValue(),
-              getExpenseCategoryComboBoxValue());
-      this.setResult(newExpense);
-      this.close();
+      try {
+        newExpense =
+            new Expense(
+                Integer.parseInt(getExpenseAmountFieldText()),
+                getExpenseDescriptionFieldText(),
+                getRecurringIntervalComboBoxValue(),
+                getExpenseCategoryComboBoxValue());
+        this.setResult(newExpense);
+        this.close();
+      } catch (Exception exception) {
+        generateExceptionAlert(exception);
+      }
     } else {
       generateDynamicFeedbackAlert();
     }
@@ -190,6 +195,16 @@ public class AddExpenseDialog extends Dialog<Expense> {
     }
 
     alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
+  }
+
+  private void generateExceptionAlert(Exception exception) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.NONE);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();

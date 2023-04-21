@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -69,14 +70,18 @@ public class AddIncomeDialog extends Dialog<Income> {
   private void handleSubmit() {
     Income newIncome;
     if (assertAllFieldsValid()) {
-      newIncome =
-          new Income(
-              Integer.parseInt(getIncomeAmountFieldText()),
-              getIncomeDescriptionFieldText(),
-              getRecurringIntervalComboBoxValue(),
-              getIncomeCategoryComboBoxValue());
-      this.setResult(newIncome);
-      this.close();
+      try {
+        newIncome =
+            new Income(
+                Integer.parseInt(getIncomeAmountFieldText()),
+                getIncomeDescriptionFieldText(),
+                getRecurringIntervalComboBoxValue(),
+                getIncomeCategoryComboBoxValue());
+        this.setResult(newIncome);
+        this.close();
+      } catch (Exception exception) {
+        generateExceptionAlert(exception);
+      }
     } else {
       generateDynamicFeedbackAlert();
     }
@@ -193,6 +198,16 @@ public class AddIncomeDialog extends Dialog<Income> {
     }
 
     alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
+  }
+
+  private void generateExceptionAlert(Exception exception) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.NONE);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
