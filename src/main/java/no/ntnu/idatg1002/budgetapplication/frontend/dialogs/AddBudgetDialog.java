@@ -23,7 +23,8 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML private Button cancelButton;
   @FXML private Button submitButton;
 
-  public AddBudgetDialog() throws IOException {
+  /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
+  public AddBudgetDialog() {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addBudgetDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
@@ -43,6 +44,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     configureBudgetNameAmountField();
   }
 
+  /** Configures the budget name text field to prevent starting with a space. */
   private void configureBudgetNameAmountField() {
     budgetNameTextField
         .textProperty()
@@ -54,12 +56,23 @@ public class AddBudgetDialog extends Dialog<Budget> {
             });
   }
 
+  /**
+   * Closes the AddBudgetDialog when the "Cancel" button is clicked.
+   *
+   * @param event the action event triggered by clicking the "Cancel" button
+   */
   @FXML
   void closeDialog(ActionEvent event) {
     Stage stage = (Stage) cancelButton.getScene().getWindow();
     stage.close();
   }
 
+  /**
+   * Handles the "Submit" button click, creating a new budget if all fields are valid. Displays
+   * dynamic feedback if the fields are invalid.
+   *
+   * @param event the action event triggered by clicking the "Submit" button
+   */
   @FXML
   void handleSubmit(ActionEvent event) {
     Budget newBudget;
@@ -72,6 +85,11 @@ public class AddBudgetDialog extends Dialog<Budget> {
     }
   }
 
+  /**
+   * Checks if all fields in the dialog are valid for budget creation.
+   *
+   * @return true if all fields are valid, false otherwise
+   */
   private boolean assertAllFieldsValid() {
     boolean nameValid =
         SessionAccount.getInstance().getAccount().getBudgets().stream()
@@ -81,6 +99,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return !budgetNameTextField.getText().isEmpty() && nameValid;
   }
 
+  /** Generates dynamic feedback for the user if the fields are invalid. */
   private void generateDynamicFeedbackAlert() {
     System.out.println("placeholder");
   }
