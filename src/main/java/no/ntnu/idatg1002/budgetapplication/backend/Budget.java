@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javafx.scene.chart.PieChart;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
@@ -68,6 +69,7 @@ public class Budget {
    * @param budgetName The name of the budget you want to create.
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
    * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
+   * @throws IllegalArgumentException "Budget name is taken."
    */
   public void setBudgetName(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
@@ -76,7 +78,30 @@ public class Budget {
     if (budgetName.length() > 24) {
       throw new IllegalArgumentException("Budget name must not exceed 24 characters.");
     }
+    if (checkIfBudgetNameIsTaken(budgetName)) {
+      throw new IllegalArgumentException("Budget name is taken.");
+    }
     this.budgetName = budgetName;
+  }
+
+  /**
+   * Checks if the given budget's name is already taken by any other budget in the list. This method
+   * iterates through the list of budgets and compares the names of each budget with the given
+   * budget's name. If a match is found, the method returns true. If no match is found, the method
+   * returns false.
+   *
+   * @param budgetName the Budget name that needs to be checked for uniqueness
+   * @return true if the budget name is already taken, false otherwise
+   */
+  private boolean checkIfBudgetNameIsTaken(String budgetName) {
+    boolean nameTaken = false;
+    for (Budget budget : SessionAccount.getInstance().getAccount().getBudgets()) {
+      if (budgetName.equals(budget.getBudgetName())) {
+        nameTaken = true;
+        break;
+      }
+    }
+    return nameTaken;
   }
 
   /**

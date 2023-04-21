@@ -85,9 +85,13 @@ public class AddBudgetDialog extends Dialog<Budget> {
   void handleSubmit(ActionEvent event) {
     Budget newBudget;
     if (assertAllFieldsValid()) {
-      newBudget = new Budget(budgetNameTextField.getText());
-      this.setResult(newBudget);
-      this.close();
+      try {
+        newBudget = new Budget(budgetNameTextField.getText());
+        this.setResult(newBudget);
+        this.close();
+      } catch (Exception exception) {
+        generateExceptionAlert(exception);
+      }
     } else {
       generateFeedbackAlert();
     }
@@ -113,6 +117,16 @@ public class AddBudgetDialog extends Dialog<Budget> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please fill out the budget name");
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
+  }
+
+  private void generateExceptionAlert(Exception exception) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.NONE);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
