@@ -12,16 +12,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class ResetPinCodeEnterNewPinCodeController {
-
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
 
@@ -105,18 +103,16 @@ public class ResetPinCodeEnterNewPinCodeController {
     if (assertAllFieldsValid()) {
       if (isAnswerValid()) {
         setPinCode(pinCodeTextField.getText());
-        goToPrimary(event);
+        goToLogin(event);
+      } else {
+        wrongAnswerAlert();
       }
     } else {
       generateDynamicFeedbackAlert();
     }
-
-    // FOR TESTING - REMOVE THIS
-    goToPrimary(event);
-    // FOR TESTING - REMOVE THIS
   }
 
-  private void goToPrimary(Event event) throws IOException {
+  private void goToLogin(Event event) throws IOException {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
     String css =
@@ -129,31 +125,35 @@ public class ResetPinCodeEnterNewPinCodeController {
 
   private boolean assertAllFieldsValid() {
     return (!pinCodeTextField.getText().isEmpty()
+        && pinCodeTextField.getText().length() == 4
         && !securityQuestionAnswerTextField.getText().isEmpty());
   }
 
   private boolean isAnswerValid() {
-    boolean valid = false;
+    boolean isValid = false;
     String answer = securityQuestionAnswerTextField.getText();
 
-    var accounts = AccountDAO.getInstance().getAllAccounts();
-
-    for (Account ignored : accounts) {
-      if (Objects.equals(SessionAccount.getInstance().getAccount().getSecurityAnswer(), answer)) {
-        valid = true;
-        break;
-      }
+    if (answer.equalsIgnoreCase(SessionAccount.getInstance().getAccount().getSecurityAnswer())) {
+      isValid = true;
     }
-
-    return valid;
+    return isValid;
   }
 
   private void setPinCode(String pinCode) {
     SessionAccount.getInstance().getAccount().setPinCode(pinCode);
   }
 
+  private void wrongAnswerAlert() {
+    Alert alert = new Alert(AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText("Wrong answer given");
+    alert.setContentText("Please enter a valid answer.");
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
   private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
+    Alert alert = new Alert(AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
 
@@ -164,11 +164,9 @@ public class ResetPinCodeEnterNewPinCodeController {
     }
     if (pinCodeTextField.getText().isEmpty()) {
       builder.append("Pin code \n");
-    } else {
-      if (pinCodeTextField.getText().length() < 4) {
+    } else if (pinCodeTextField.getText().length() < 4) {
         builder.append("Full pin code \n");
       }
-    }
 
     alert.setContentText(builder.toString());
     alert.initModality(Modality.NONE);

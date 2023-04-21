@@ -14,13 +14,16 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.LoginController">
     <children>
-        <HBox alignment="CENTER" layoutX="184.0" layoutY="114.0" prefHeight="400.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <HBox alignment="CENTER" layoutX="184.0" layoutY="114.0" prefHeight="400.0" prefWidth="600.0"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"
+              AnchorPane.topAnchor="0.0">
             <children>
                 <VBox alignment="CENTER_LEFT" prefWidth="100.0" spacing="5.0">
                     <children>
-                        <Text fx:id="budgetApplicationText" strokeType="OUTSIDE" strokeWidth="0.0" text="Budget application">
+                        <Text fx:id="budgetApplicationText" strokeType="OUTSIDE" strokeWidth="0.0"
+                              text="Budget application">
                             <font>
-                                <Font size="24.0" />
+                                <Font size="24.0"/>
                             </font>
                         </Text>
                         <Text fx:id="loginOrRegisterText" strokeType="OUTSIDE" strokeWidth="0.0" text="Log in / Register" />
@@ -36,12 +39,12 @@
                                 <Button mnemonicParsing="false" onAction="#registerNewAccount" text="Register" />
                             </children>
                             <opaqueInsets>
-                                <Insets />
+                                <Insets/>
                             </opaqueInsets>
                         </HBox>
                     </children>
                     <padding>
-                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0" />
+                        <Insets bottom="2.0" left="2.0" right="2.0" top="2.0"/>
                     </padding>
                 </VBox>
             </children>
