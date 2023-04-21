@@ -36,4 +36,8 @@ public class SessionAccount {
   public void setAccount(Account account) {
     this.account = account;
   }
+
+  public void clearAccount() {
+    this.account = null;
+  }
 }

@@ -7,12 +7,14 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -32,13 +34,14 @@ public class LoginController {
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text loginOrRegisterText; // Value injected by FXMLLoader
   @FXML private Text pinCodeText; // Value injected by FXMLLoader
-  @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
+  @FXML private PasswordField pinCodeTextField; // Value injected by FXMLLoader
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
+    SessionAccount.getInstance().clearAccount();
     configurePinCodeTextField();
     configureEmailTextField();
   }
@@ -93,13 +96,6 @@ public class LoginController {
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
     scene.setRoot(root);
-  }
-
-  @FXML
-  public void onPinCodeTextFieldKeyPressed(KeyEvent event) throws IOException {
-    if (event.getSource() == KeyCode.ENTER) {
-      loginAccount(new ActionEvent());
-    }
   }
 
   private boolean assertAllFieldsValid() {
@@ -164,5 +160,4 @@ public class LoginController {
     alert.initModality(Modality.NONE);
     alert.showAndWait();
   }
-
 }

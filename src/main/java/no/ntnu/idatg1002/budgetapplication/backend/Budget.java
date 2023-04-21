@@ -25,8 +25,10 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAcc
  */
 @Entity
 public class Budget {
-  @Id @GeneratedValue private Long id;
-
+  @Id
+  @GeneratedValue
+  private Long id;
+  private String budgetName;
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
   private final List<Expense> expenseList = new ArrayList<>();
@@ -38,9 +40,6 @@ public class Budget {
   @ElementCollection
   @Enumerated(EnumType.ORDINAL)
   private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
-
-  private String budgetName;
-  private Boolean categoryExists;
 
   /**
    * Instantiates a new Budget.

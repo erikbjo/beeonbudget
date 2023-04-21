@@ -25,8 +25,8 @@ public enum ExpenseCategory {
   HEALTHCARE,
   /** Indicates expenses related to insurance, such as home, auto, or life insurance. */
   INSURANCE,
-  /** Indicates expenses that do not fit into other predefined categories. */
-  OTHER,
   /** Indicates expenses related to energy, such as electricity or gas bills. */
-  ENERGY;
+  ENERGY,
+  /** Indicates expenses that do not fit into other predefined categories. */
+  OTHER;
 }
