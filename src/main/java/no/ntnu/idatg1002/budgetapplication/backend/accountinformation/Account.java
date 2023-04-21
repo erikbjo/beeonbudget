@@ -17,10 +17,14 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @Id @GeneratedValue private String id;
+
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "account_id")
   private final List<SavingsPlan> savingsPlans = new ArrayList<>();
 
-  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+  @JoinColumn(name = "account_id")
   private final List<Budget> budgets = new ArrayList<>();
 
   private String name;
@@ -31,7 +35,6 @@ public class Account {
   private Integer currentSavingsPlanIndex = null;
   private Integer currentBudgetIndex = null;
   @Transient private Random rand;
-  @Id @GeneratedValue private String id;
 
   public Account() {}
 
@@ -281,16 +284,6 @@ public class Account {
     } else {
       currentBudgetIndex = null;
     }
-  }
-
-  private Integer createCurrentBudgetIndex() {
-    Integer createdIndex = null;
-
-    if (!budgets.isEmpty()) {
-      createdIndex = budgets.indexOf(budgets.stream().findAny());
-    }
-
-    return createdIndex;
   }
 
   /**

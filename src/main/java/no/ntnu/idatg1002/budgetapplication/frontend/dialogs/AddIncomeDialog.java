@@ -7,6 +7,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
@@ -59,24 +60,33 @@ public class AddIncomeDialog extends Dialog<Income> {
     configureIncomeDescriptionField();
   }
 
+  /** Closes the dialog when the "Cancel" button is clicked. */
   @FXML
   private void closeDialog() {
     Stage stage = (Stage) cancelButton.getScene().getWindow();
     stage.close();
   }
 
+  /**
+   * Handles the "Submit" button click, creating a new income if all fields are valid. Displays an
+   * exception alert or dynamic feedback if there's an error or fields are invalid.
+   */
   @FXML
   private void handleSubmit() {
     Income newIncome;
     if (assertAllFieldsValid()) {
-      newIncome =
-          new Income(
-              Integer.parseInt(getIncomeAmountFieldText()),
-              getIncomeDescriptionFieldText(),
-              getRecurringIntervalComboBoxValue(),
-              getIncomeCategoryComboBoxValue());
-      this.setResult(newIncome);
-      this.close();
+      try {
+        newIncome =
+            new Income(
+                Integer.parseInt(getIncomeAmountFieldText()),
+                getIncomeDescriptionFieldText(),
+                getRecurringIntervalComboBoxValue(),
+                getIncomeCategoryComboBoxValue());
+        this.setResult(newIncome);
+        this.close();
+      } catch (Exception exception) {
+        generateExceptionAlert(exception);
+      }
     } else {
       generateDynamicFeedbackAlert();
     }
@@ -193,6 +203,21 @@ public class AddIncomeDialog extends Dialog<Income> {
     }
 
     alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
+  }
+
+  /**
+   * Displays an alert with the given exception's message.
+   *
+   * @param exception the exception containing the error message to display
+   */
+  private void generateExceptionAlert(Exception exception) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.NONE);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();

@@ -26,6 +26,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAcc
 @Entity
 public class Budget {
   @Id @GeneratedValue private Long id;
+  private String budgetName;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
@@ -38,9 +39,6 @@ public class Budget {
   @ElementCollection
   @Enumerated(EnumType.ORDINAL)
   private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
-
-  private String budgetName;
-  private Boolean categoryExists;
 
   /**
    * Instantiates a new Budget.
@@ -234,6 +232,11 @@ public class Budget {
     return expenseCategoryList;
   }
 
+  /**
+   * Generates pie chart data for expenses by category.
+   *
+   * @return a list of PieChart.Data objects representing expenses by category
+   */
   public List<PieChart.Data> getPieChartExpenseData() {
     Map<String, Double> categories = new HashMap<>();
     for (Expense expense : this.getExpenseList()) {
@@ -252,6 +255,11 @@ public class Budget {
     return data;
   }
 
+  /**
+   * Generates pie chart data for incomes by category.
+   *
+   * @return a list of PieChart.Data objects representing incomes by category
+   */
   public List<PieChart.Data> getPieChartIncomeData() {
     Map<String, Double> categories = new HashMap<>();
     for (Income income : this.getIncomeList()) {
@@ -270,6 +278,11 @@ public class Budget {
     return data;
   }
 
+  /**
+   * Generates pie chart data for total income and outcome.
+   *
+   * @return a list of PieChart.Data objects representing the total income and outcome
+   */
   public List<PieChart.Data> getTotalIncomeAndOutCome() {
     Map<String, Double> incomeOrExpense = new HashMap<>();
     for (Income income : this.getIncomeList()) {

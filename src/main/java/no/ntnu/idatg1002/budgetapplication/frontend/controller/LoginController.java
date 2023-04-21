@@ -13,9 +13,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
@@ -32,21 +31,30 @@ public class LoginController {
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text loginOrRegisterText; // Value injected by FXMLLoader
   @FXML private Text pinCodeText; // Value injected by FXMLLoader
-  @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
+  @FXML private PasswordField pinCodeTextField; // Value injected by FXMLLoader
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
+    SessionAccount.getInstance().clearAccount();
     configurePinCodeTextField();
     configureEmailTextField();
   }
 
+  /**
+   * Handles the "Forgot Pin Code" hyperlink click, navigating to the Reset Pin Code screen.
+   *
+   * @param event the event associated with the hyperlink click
+   * @throws IOException if there is an issue loading the FXML file
+   */
   @FXML
   void forgotPinCode(ActionEvent event) throws IOException {
-    Parent root = FXMLLoader.load(Objects.requireNonNull(
-        getClass().getResource("/fxmlfiles/resetPinCodeEnterUser.fxml")));
+    Parent root =
+        FXMLLoader.load(
+            Objects.requireNonNull(
+                getClass().getResource("/fxmlfiles/resetPinCodeEnterUser.fxml")));
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
             .toExternalForm();
@@ -55,6 +63,13 @@ public class LoginController {
     scene.setRoot(root);
   }
 
+  /**
+   * Logs the user in when the "Login" button is clicked, navigating to the Primary screen. Displays
+   * an invalid login alert or dynamic feedback alert if necessary.
+   *
+   * @param event the event associated with the button click
+   * @throws IOException if there is an issue loading the FXML file
+   */
   @FXML
   void loginAccount(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
@@ -71,6 +86,12 @@ public class LoginController {
     }
   }
 
+  /**
+   * Navigates to the Primary screen.
+   *
+   * @param event the event associated with the navigation
+   * @throws IOException if there is an issue loading the FXML file
+   */
   private void goToPrimaryScreen(ActionEvent event) throws IOException {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
@@ -82,6 +103,12 @@ public class LoginController {
     scene.setRoot(root);
   }
 
+  /**
+   * Handles the "Register New Account" button click, navigating to the Register New Account screen.
+   *
+   * @param event the event associated with the button click
+   * @throws IOException if there is an issue loading the FXML file
+   */
   @FXML
   void registerNewAccount(ActionEvent event) throws IOException {
     Parent root =
@@ -95,17 +122,16 @@ public class LoginController {
     scene.setRoot(root);
   }
 
-  @FXML
-  public void onPinCodeTextFieldKeyPressed(KeyEvent event) throws IOException {
-    if (event.getSource() == KeyCode.ENTER) {
-      loginAccount(new ActionEvent());
-    }
-  }
-
+  /**
+   * Validates the email and pin code fields.
+   *
+   * @return true if both fields are valid, false otherwise
+   */
   private boolean assertAllFieldsValid() {
     return (!emailTextField.getText().isEmpty() && pinCodeTextField.getText().length() == 4);
   }
 
+  /** Configures the pin code TextField to accept only numeric input and limit input to 4 digits. */
   private void configurePinCodeTextField() {
     pinCodeTextField
         .textProperty()
@@ -122,6 +148,7 @@ public class LoginController {
             });
   }
 
+  /** Configures the email TextField to prevent input of leading spaces. */
   private void configureEmailTextField() {
     emailTextField
         .textProperty()
@@ -133,6 +160,7 @@ public class LoginController {
             });
   }
 
+  /** Displays an invalid login alert if the username or pin code is incorrect. */
   private void showInvalidLoginAlert() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -142,6 +170,7 @@ public class LoginController {
     alert.showAndWait();
   }
 
+  /** Generates and displays a dynamic feedback alert if any of the required fields are invalid. */
   private void generateDynamicFeedbackAlert() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -164,5 +193,4 @@ public class LoginController {
     alert.initModality(Modality.NONE);
     alert.showAndWait();
   }
-
 }

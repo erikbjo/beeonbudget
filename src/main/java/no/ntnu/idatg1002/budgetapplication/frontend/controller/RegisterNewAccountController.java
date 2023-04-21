@@ -1,5 +1,5 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
-/** Sample Skeleton for 'registerNewAccount.fxml' Controller Class */
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
@@ -48,6 +48,7 @@ public class RegisterNewAccountController {
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
+    configureSecurityQuestionComboBox();
     for (SecurityQuestion securityQuestion : SecurityQuestion.values()) {
       securityQuestionComboBox.getItems().add(securityQuestion.getSecurityQuestionString());
 
@@ -67,22 +68,35 @@ public class RegisterNewAccountController {
     scene.setRoot(root);
   }
 
+  private void configureSecurityQuestionComboBox() {
+    securityQuestionComboBox
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                securityQuestionComboBox.show();
+              } else {
+                securityQuestionComboBox.hide();
+              }
+            });
+  }
+
   @FXML
   void registerNewAccount(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
-      Account newAccount =
-          new Account(
-              usernameTextField.getText(),
-              emailTextField.getText(),
-              pinCodeTextField.getText(),
-              reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
-              securityQuestionAnswerTextField.getText());
       try {
+        Account newAccount =
+            new Account(
+                usernameTextField.getText(),
+                emailTextField.getText(),
+                pinCodeTextField.getText(),
+                reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
+                securityQuestionAnswerTextField.getText());
         AccountDAO.getInstance().addAccount(newAccount);
         SessionAccount.getInstance().setAccount(newAccount);
         goToLoginScreen(event);
       } catch (IllegalArgumentException e) {
-        // can use e.getMessage() to print out to an alert or something similar.
+        generateExceptionAlert(e);
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -186,6 +200,15 @@ public class RegisterNewAccountController {
     }
 
     alert.setContentText(builder.toString());
+    alert.initModality(Modality.NONE);
+    alert.showAndWait();
+  }
+
+  private void generateExceptionAlert(Exception exception) {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.NONE);
     alert.showAndWait();
   }

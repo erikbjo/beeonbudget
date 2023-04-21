@@ -30,13 +30,13 @@
                         <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pin code" />
                         <TextField fx:id="pinCodeTextField" promptText="Pincode" />
                         <Text fx:id="securityQuestionText" strokeType="OUTSIDE" strokeWidth="0.0" text="Security question" />
-                        <ComboBox fx:id="securityQuestionComboBox" prefWidth="150.0" promptText="Question" />
+                        <ComboBox fx:id="securityQuestionComboBox" promptText="Question" />
                         <Text fx:id="securityQuestionAnswerText" strokeType="OUTSIDE" strokeWidth="0.0" text="Answer" />
                         <TextField fx:id="securityQuestionAnswerTextField" promptText="Answer" />
                         <HBox alignment="CENTER" prefHeight="60.0" prefWidth="200.0" spacing="30.0">
                             <children>
-                                <Button fx:id="registerNewAccountButton" mnemonicParsing="false" onAction="#registerNewAccount" text="Register" />
-                                <Button fx:id="backToLoginButton" mnemonicParsing="false" onAction="#goBackToLogin" text="Back to login" />
+                                <Button fx:id="registerNewAccountButton" defaultButton="true" mnemonicParsing="false" onAction="#registerNewAccount" text="Register" />
+                                <Button fx:id="backToLoginButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToLogin" text="Back to login" />
                             </children>
                             <opaqueInsets>
                                 <Insets />

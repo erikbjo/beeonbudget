@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -18,9 +19,13 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class ResetPinCodeEnterUserController {
-
+  @FXML
+  public Text resetPinCodeText;
+  @FXML
+  public TextField emailTextField;
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
 
@@ -29,9 +34,6 @@ public class ResetPinCodeEnterUserController {
 
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text resetPasswordText; // Value injected by FXMLLoader
-  @FXML private Text usernameText; // Value injected by FXMLLoader
-
-  @FXML private TextField usernameTextField; // Value injected by FXMLLoader
 
   @FXML private Button backToLoginButton; // Value injected by FXMLLoader
   @FXML private Button continueButton; // Value injected by FXMLLoader
@@ -43,17 +45,15 @@ public class ResetPinCodeEnterUserController {
 
   @FXML
   void continueResetPassword(ActionEvent event) throws IOException {
-    if (assertAllFieldsValid() && (isValidUser(usernameTextField.getText()))) {
+    if (assertAllFieldsValid() && (isValidUser(emailTextField.getText()))) {
+      SessionAccount.getInstance()
+          .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
       switchToEnterNewPinCode(event);
-    } else if (usernameTextField.getText().isEmpty()) {
+    } else if (emailTextField.getText().isEmpty()) {
       showEmptyTextFieldAlert();
     } else {
       showInvalidLoginAlert();
     }
-
-    // FOR TESTING - REMOVE THIS
-    switchToEnterNewPinCode(event);
-    // FOR TESTING - REMOVE THIS
   }
 
   private void switchToEnterNewPinCode(Event event) throws IOException {
@@ -82,12 +82,12 @@ public class ResetPinCodeEnterUserController {
   }
 
   private void configureUsernameTextField() {
-    usernameTextField
+    emailTextField
         .textProperty()
         .addListener(
             (observableValue, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
-                usernameTextField.clear();
+                emailTextField.clear();
               }
             });
   }
@@ -103,7 +103,7 @@ public class ResetPinCodeEnterUserController {
   }
 
   private boolean assertAllFieldsValid() {
-    return (!usernameTextField.getText().isEmpty());
+    return (!emailTextField.getText().isEmpty());
   }
 
   private boolean isEmail(String stringToBeChecked) {
@@ -112,7 +112,7 @@ public class ResetPinCodeEnterUserController {
 
   private boolean isValidEmail(String email) {
     boolean isValidEmail = false;
-    var accounts = AccountDAO.getInstance().getAllAccounts();
+    List<Account> accounts = AccountDAO.getInstance().getAllAccounts();
 
     for (Account account : accounts) {
       if (Objects.equals(account.getEmail(), email)) {
@@ -120,7 +120,6 @@ public class ResetPinCodeEnterUserController {
         break;
       }
     }
-
     return isValidEmail;
   }
 

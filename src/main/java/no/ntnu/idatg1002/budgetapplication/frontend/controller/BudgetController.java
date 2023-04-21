@@ -22,12 +22,13 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
-/** Controller for the Budget GUI */
+/** Controller for the Budget GUI. */
 public class BudgetController implements Initializable {
   private final ObservableList<String> budgetInformation;
   private Stage stage;
@@ -41,7 +42,7 @@ public class BudgetController implements Initializable {
   @FXML private TableColumn<Income, Integer> incomeColumn;
   @FXML private Button newExpenseButton;
   @FXML private Button newIncomeButton;
-  @FXML private Button previousButtonInBudget;
+  @FXML private Button backButtonBudget;
   @FXML private PieChart incomeChart;
   @FXML private PieChart expenseChart;
   @FXML private Label totalExpenseInBudget;
@@ -64,7 +65,7 @@ public class BudgetController implements Initializable {
     this.expenseTableView = new TableView<>();
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
-    this.previousButtonInBudget = new Button();
+    this.backButtonBudget = new Button();
   }
 
   /**
@@ -207,6 +208,7 @@ public class BudgetController implements Initializable {
             updateIncomePieChart();
             updateTotalPieChart();
             updateBudgetMoneyText();
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
           });
     } else {
       showNoBudgetErrorFromNewMoneyAction();
@@ -228,6 +230,7 @@ public class BudgetController implements Initializable {
 
     Optional<Budget> result = dialog.showAndWait();
     result.ifPresent(budget -> SessionAccount.getInstance().getAccount().addBudget(budget));
+    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     updateAllInBudgetView();
   }
 
@@ -256,6 +259,7 @@ public class BudgetController implements Initializable {
             updateBudgetMoneyText();
             updateExpensePieChart();
             updateTotalPieChart();
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
           });
     } else {
       showNoBudgetErrorFromNewMoneyAction();
@@ -310,6 +314,7 @@ public class BudgetController implements Initializable {
       updateIncomePieChart();
       updateTotalPieChart();
       updateBudgetMoneyText();
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     } else {
       alert.close();
     }
@@ -342,6 +347,7 @@ public class BudgetController implements Initializable {
       updateExpensePieChart();
       updateTotalPieChart();
       updateBudgetMoneyText();
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     } else {
       alert.close();
     }
@@ -423,12 +429,14 @@ public class BudgetController implements Initializable {
             .getAccount()
             .removeBudget(SessionAccount.getInstance().getAccount().getSelectedBudget());
         updateAllInBudgetView();
+        AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
       }
     } else {
       showNoBudgetErrorFromDeleteBudget();
     }
   }
 
+  /** Displays an error alert when trying to add an expense or income without a budget. */
   private void showNoBudgetErrorFromNewMoneyAction() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -438,6 +446,7 @@ public class BudgetController implements Initializable {
     alert.showAndWait();
   }
 
+  /** Displays an error alert when trying to switch budgets without any existing budgets. */
   private void showNoBudgetErrorFromSelectNewBudget() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -447,6 +456,7 @@ public class BudgetController implements Initializable {
     alert.showAndWait();
   }
 
+  /** Displays an error alert when trying to delete a budget when no budgets are present. */
   private void showNoBudgetErrorFromDeleteBudget() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
@@ -494,7 +504,7 @@ public class BudgetController implements Initializable {
     updateTotalPieChart();
   }
 
-  /** Updates the pie chart for income */
+  /** Updates the pie chart for income. */
   private void updateIncomePieChart() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       incomeChart.setData(
@@ -508,7 +518,7 @@ public class BudgetController implements Initializable {
     }
   }
 
-  /** Updates the pie chart for expense */
+  /** Updates the pie chart for expense. */
   private void updateExpensePieChart() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       expenseChart.setData(
@@ -522,7 +532,7 @@ public class BudgetController implements Initializable {
     }
   }
 
-  /** Updates the pie chart for income and expense */
+  /** Updates the pie chart for income and expense. */
   private void updateTotalPieChart() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       totalChart.setData(
@@ -536,7 +546,7 @@ public class BudgetController implements Initializable {
     }
   }
 
-  /** Updates all the texts that is connected with current budget */
+  /** Updates all the texts that is connected with current budget. */
   public void updateBudgetInfoText() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       budgetNameInBudget.setText(
@@ -547,7 +557,9 @@ public class BudgetController implements Initializable {
     }
   }
 
-  /** Updates all the texts that is connected with the expenses and incomes in the current budget */
+  /**
+   * Updates all the texts that is connected with the expenses and incomes in the current budget.
+   */
   public void updateBudgetMoneyText() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       totalIncomeInBudget.setText(
@@ -559,7 +571,10 @@ public class BudgetController implements Initializable {
       totalBudgetSum.setText(
           String.valueOf(
               SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalIncome()
-              - SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
+                  - SessionAccount.getInstance()
+                      .getAccount()
+                      .getSelectedBudget()
+                      .getTotalExpense()));
     } else {
       setDefaultBudgetMoneyText();
     }
