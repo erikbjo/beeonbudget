@@ -19,21 +19,24 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
+/**
+ * Controller for resetting the user's pin code by answering the security question.
+ *
+ * @author Erik Bjørnsen, Simon Husås Houmb
+ * @version 1.1
+ */
 public class ResetPinCodeEnterNewPinCodeController {
 
+  @FXML public TextField emailTextField;
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
-
   @FXML // URL location of the FXML file that was given to the FXMLLoader
   private URL location;
-
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text newPinCodeText; // Value injected by FXMLLoader
   @FXML private Text resetPasswordText; // Value injected by FXMLLoader
   @FXML private Text securityQuestionText; // Value injected by FXMLLoader
   @FXML private Text answerText; // Value Injected by FXMLLoader
-
-  @FXML public TextField emailTextField;
   @FXML private TextField securityQuestionAnswerTextField; // Value injected by FXMLLoader
   @FXML private TextField securityQuestionTextField; // Value injected by FXMLLoader
   @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
@@ -41,6 +44,7 @@ public class ResetPinCodeEnterNewPinCodeController {
   @FXML private Button setNewPinCodeButton; // Value injected by FXMLLoader
   @FXML private Button backToLoginButton; // Value injected by FXMLLoader
 
+  /** Initializes the controller and sets up the necessary components. */
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
     setEmail();
@@ -49,17 +53,17 @@ public class ResetPinCodeEnterNewPinCodeController {
     configureSecurityQuestionAnswerTextField();
   }
 
+  /** Sets the email field to the user's email. */
   public void setEmail() {
     try {
-      emailTextField.setText(
-          SessionAccount.getInstance()
-              .getAccount()
-              .getEmail());
+      emailTextField.setText(SessionAccount.getInstance().getAccount().getEmail());
     } catch (Exception e) {
       e.printStackTrace();
       emailTextField.setText("Invalid");
-    }  }
+    }
+  }
 
+  /** Sets the security question field to the user's security question. */
   private void setSecurityQuestion() {
     try {
       securityQuestionTextField.setText(
@@ -73,6 +77,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     }
   }
 
+  /** Configures the pin code text field to only accept numeric input with a maximum of 4 digits. */
   private void configurePinCodeTextField() {
     pinCodeTextField
         .textProperty()
@@ -89,6 +94,7 @@ public class ResetPinCodeEnterNewPinCodeController {
             });
   }
 
+  /** Configures the security question answer text field to avoid unnecessary whitespace. */
   private void configureSecurityQuestionAnswerTextField() {
     securityQuestionAnswerTextField
         .textProperty()
@@ -100,6 +106,7 @@ public class ResetPinCodeEnterNewPinCodeController {
             });
   }
 
+  /** Navigates back to the login screen. */
   @FXML
   void goBackToLogin(ActionEvent event) throws IOException {
     Parent root =
@@ -112,6 +119,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     scene.setRoot(root);
   }
 
+  /** Validates the fields and sets the new pin code if the security question answer is correct. */
   @FXML
   void setNewPinCode(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
@@ -126,6 +134,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     }
   }
 
+  /** Goes to the login screen after successfully setting the new pin code. */
   private void goToLogin(Event event) throws IOException {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
@@ -137,12 +146,22 @@ public class ResetPinCodeEnterNewPinCodeController {
     scene.setRoot(root);
   }
 
+  /**
+   * Checks if all fields are valid.
+   *
+   * @return true if all fields are valid, false otherwise
+   */
   private boolean assertAllFieldsValid() {
     return (!pinCodeTextField.getText().isEmpty()
         && pinCodeTextField.getText().length() == 4
         && !securityQuestionAnswerTextField.getText().isEmpty());
   }
 
+  /**
+   * Validates the security question answer.
+   *
+   * @return true if the answer is valid, false otherwise
+   */
   private boolean isAnswerValid() {
     boolean isValid = false;
     String answer = securityQuestionAnswerTextField.getText();
@@ -153,10 +172,16 @@ public class ResetPinCodeEnterNewPinCodeController {
     return isValid;
   }
 
+  /**
+   * Sets the new pin code for the user's account.
+   *
+   * @param pinCode the new pin code to set
+   */
   private void setPinCode(String pinCode) {
     SessionAccount.getInstance().getAccount().setPinCode(pinCode);
   }
 
+  /** Displays an alert when the security question answer is incorrect. */
   private void wrongAnswerAlert() {
     Alert alert = new Alert(AlertType.WARNING);
     alert.setTitle("Error");
@@ -166,6 +191,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     alert.showAndWait();
   }
 
+  /** Generates and displays a dynamic feedback alert when fields are not filled out correctly. */
   private void generateDynamicFeedbackAlert() {
     Alert alert = new Alert(AlertType.WARNING);
     alert.setTitle("Error");
@@ -179,8 +205,8 @@ public class ResetPinCodeEnterNewPinCodeController {
     if (pinCodeTextField.getText().isEmpty()) {
       builder.append("Pin code \n");
     } else if (pinCodeTextField.getText().length() < 4) {
-        builder.append("Full pin code \n");
-      }
+      builder.append("Full pin code \n");
+    }
 
     alert.setContentText(builder.toString());
     alert.initModality(Modality.NONE);
