@@ -13,7 +13,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import javafx.scene.chart.PieChart;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
@@ -240,7 +239,7 @@ public class Budget {
   public List<PieChart.Data> getPieChartExpenseData() {
     Map<String, Double> categories = new HashMap<>();
     for (Expense expense : this.getExpenseList()) {
-      String category = expense.getExpenseCategory().toString();
+      String category = expense.getExpenseCategory().getExpenseCategoryString();
       double amount = expense.getAmount();
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);
@@ -263,7 +262,7 @@ public class Budget {
   public List<PieChart.Data> getPieChartIncomeData() {
     Map<String, Double> categories = new HashMap<>();
     for (Income income : this.getIncomeList()) {
-      String category = income.getIncomeCategory().toString();
+      String category = income.getIncomeCategory().getIncomeCategoryLabel();
       double amount = income.getAmount();
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);

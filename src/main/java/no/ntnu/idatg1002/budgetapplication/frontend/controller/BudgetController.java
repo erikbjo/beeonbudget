@@ -79,12 +79,12 @@ public class BudgetController implements Initializable {
 
     expenseColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     expenseColumn.setReorderable(false);
-    expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("expenseCategory"));
+    expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("expenseCategoryString"));
     expenseCategoryColumn.setReorderable(false);
 
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     incomeColumn.setReorderable(false);
-    incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategory"));
+    incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategoryString"));
     incomeCategoryColumn.setReorderable(false);
 
     incomeTableView

@@ -60,13 +60,16 @@ public class Expense extends MoneyAction {
   public void setExpenseCategory(ExpenseCategory expenseCategory) {
     this.expenseCategory = expenseCategory;
   }
+  public String getExpenseCategoryString() {
+    return this.expenseCategory.getExpenseCategoryString();
+  }
 
   public String getExpenseAssString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("Amount: ").append(this.getAmount()).append(".KR").append("\n");
+    sb.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     sb.append("Description: ").append(this.getDescription()).append("\n");
     sb.append("Type: ").append(this.getRecurringType()).append("\n");
-    sb.append("ExpenseCategory: ").append(this.expenseCategory).append("\n");
+    sb.append("Category: ").append(this.expenseCategory.getExpenseCategoryString());
     sb.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(dateAdded));
     return sb.toString();
   }

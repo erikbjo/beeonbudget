@@ -54,12 +54,16 @@ public class Income extends MoneyAction {
     this.incomeCategory = incomeCategory;
   }
 
+  public String getIncomeCategoryString() {
+    return this.incomeCategory.getIncomeCategoryLabel();
+  }
+
   public String getIncomeAssString() {
     StringBuilder stringBuilder = new StringBuilder();
-    stringBuilder.append("Amount: ").append(this.getAmount()).append(".KR").append("\n");
+    stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
-    stringBuilder.append("ExpenseCategory: ").append(this.incomeCategory);
+    stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel());
     return stringBuilder.toString();
   }
 }
