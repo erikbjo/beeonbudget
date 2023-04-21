@@ -7,7 +7,6 @@ import java.util.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -22,6 +21,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
@@ -63,10 +63,12 @@ public class PrimaryController implements Initializable {
   }
 
   /**
-   * Shows a dialog for adding a new income and updates the income table.
+   * Handles the action event for adding an income. If there's a selected budget, opens the
+   * AddIncomeDialog and adds the income to the budget. If there's no budget, prompts the user to
+   * create one.
    *
-   * @param event the event that triggered the method.
-   * @throws IOException if the AddIncomeDialog.fxml file cannot be loaded.
+   * @param event the action event triggered by clicking the "Add Expense" button
+   * @throws IOException if there's an error during dialog creation or processing
    */
   @FXML
   public void onAddIncome(ActionEvent event) throws IOException {
@@ -81,17 +83,20 @@ public class PrimaryController implements Initializable {
             updatePrimaryView();
           });
     } else {
-      showNoBudgetError();
+      showNoBudgetCreateBudgetConfirmation(event);
     }
   }
 
   /**
-   * Shows a dialog for adding a new expense and updates the expense table.
+   * Handles the action event for adding an expense. If there's a selected budget, opens the
+   * AddExpenseDialog and adds the expense to the budget. If there's no budget, prompts the user to
+   * create one.
    *
-   * @param event the event that triggered the method.
+   * @param event the action event triggered by clicking the "Add Expense" button
+   * @throws IOException if there's an error during dialog creation or processing
    */
   @FXML
-  public void onAddExpense(Event event) throws IOException {
+  public void onAddExpense(ActionEvent event) throws IOException {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       AddExpenseDialog dialog = new AddExpenseDialog();
       dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
@@ -106,7 +111,7 @@ public class PrimaryController implements Initializable {
             updatePrimaryView();
           });
     } else {
-      showNoBudgetError();
+      showNoBudgetCreateBudgetConfirmation(event);
     }
   }
 
@@ -156,14 +161,29 @@ public class PrimaryController implements Initializable {
     }
   }
 
-  private void showNoBudgetError() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
+  /**
+   * Displays a confirmation dialog prompting the user to create a budget if none exists. If the
+   * user confirms, opens the AddBudgetDialog and creates the budget.
+   *
+   * @param event the action event that triggered the dialog
+   * @throws IOException if there's an error during dialog creation or processing
+   */
+  private void showNoBudgetCreateBudgetConfirmation(ActionEvent event) throws IOException {
+    System.out.println("Source: " + event.getSource());
+    Alert.AlertType type = AlertType.CONFIRMATION;
+    Alert alert = new Alert(type, "Delete Item");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    alert.setTitle("No Budget");
     alert.setContentText(
-        "Please create a budget in the budget view before adding an expense or income");
-    alert.initModality(Modality.NONE);
-    alert.showAndWait();
+        "You need to have a budget before adding an expense or income. "
+            + "\nYou have no budgets currently, do you want to make one?");
+
+    Optional<ButtonType> result = alert.showAndWait();
+    if (result.isPresent() && result.get() == ButtonType.OK) {
+      showCreateBudgetDialogFromNoBudget(event);
+    } else {
+      alert.close();
+    }
   }
 
   /**
@@ -177,6 +197,11 @@ public class PrimaryController implements Initializable {
     updatePrimaryView();
     updateTotalPieChart();
   }
+
+  /**
+   * Updates the total pie chart data based on the selected budget. If there's a selected budget,
+   * displays the total income and outcome. If there's no budget, clears the chart data.
+   */
   private void updateTotalPieChart() {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       budgetMenuChart.setData(
@@ -190,9 +215,15 @@ public class PrimaryController implements Initializable {
     }
   }
 
+  /**
+   * Handles the action event for quitting the application. Displays a confirmation dialog and exits
+   * the application if the user confirms.
+   *
+   * @param event the action event triggered by clicking the "Quit" button
+   */
   public void quitApplication(ActionEvent event) {
     Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type,"");
+    Alert alert = new Alert(type, "");
     alert.setTitle("Quit");
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.getDialogPane();
@@ -204,6 +235,28 @@ public class PrimaryController implements Initializable {
       alert.close();
     }
   }
+
+  /**
+   * Opens the AddBudgetDialog to create a new budget. Adds the created budget to the session
+   * account, updates the primary view, and invokes the appropriate add expense or add income method
+   * based on the event source.
+   *
+   * @param event the action event that triggered the dialog
+   * @throws IOException if there's an error during dialog creation or processing
+   */
+  private void showCreateBudgetDialogFromNoBudget(ActionEvent event) throws IOException {
+    AddBudgetDialog dialog = new AddBudgetDialog();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+    Optional<Budget> result = dialog.showAndWait();
+    result.ifPresent(budget -> SessionAccount.getInstance().getAccount().addBudget(budget));
+
+    updatePrimaryView();
+
+    if (Objects.equals(((Node) event.getSource()).getId(), "addExpenseButton")) {
+      onAddExpense(event);
+    } else if (Objects.equals(((Node) event.getSource()).getId(), "addIncomeButton")) {
+      onAddIncome(event);
+    }
+  }
 }
-
-

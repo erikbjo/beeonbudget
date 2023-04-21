@@ -264,32 +264,10 @@ public class Account {
   public void addBudget(Budget budget) throws IllegalArgumentException {
     if (budgets.contains(budget)) {
       throw new IllegalArgumentException("An instance of the budget already exists.");
-    } else if (checkIfBudgetNameIsTaken(budget)) {
-      throw new IllegalArgumentException("Budget name is taken.");
     } else {
       this.budgets.add(budget);
       currentBudgetIndex = this.budgets.indexOf(budget);
     }
-  }
-
-  /**
-   * Checks if the given budget's name is already taken by any other budget in the list. This method
-   * iterates through the list of budgets and compares the names of each budget with the given
-   * budget's name. If a match is found, the method returns true. If no match is found, the method
-   * returns false.
-   *
-   * @param budget the Budget object whose name needs to be checked for uniqueness
-   * @return true if the budget name is already taken, false otherwise
-   */
-  private boolean checkIfBudgetNameIsTaken(Budget budget) {
-    boolean nameTaken = false;
-    for (Budget budgetForLoop : budgets) {
-      if (budgetForLoop.getBudgetName().equals(budget.getBudgetName())) {
-        nameTaken = true;
-        break;
-      }
-    }
-    return nameTaken;
   }
 
   public Integer getCurrentBudgetIndex() {

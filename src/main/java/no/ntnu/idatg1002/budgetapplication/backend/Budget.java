@@ -13,29 +13,32 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import javafx.scene.chart.PieChart;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
- * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb
- * @version 3.0 (2023-03-28)
+ * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb, Eskil Alstad
+ * @version 3.0
  */
 @Entity
 public class Budget {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
   private final List<Expense> expenseList = new ArrayList<>();
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
   private final List<Income> incomeList = new ArrayList<>();
+
   @ElementCollection
   @Enumerated(EnumType.ORDINAL)
   private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
+
   private String budgetName;
   private Boolean categoryExists;
 
@@ -44,17 +47,13 @@ public class Budget {
    *
    * @param budgetName the budget name
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
+   * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
    */
   public Budget(String budgetName) throws IllegalArgumentException {
-    if (budgetName == null || budgetName.trim().isEmpty()) {
-      throw new IllegalArgumentException("Budget name must not be empty or blank.");
-    }
-    this.budgetName = budgetName;
+    setBudgetName(budgetName);
   }
 
-  public Budget() {
-
-  }
+  public Budget() {}
 
   /**
    * This function returns the name of the budget.
@@ -70,12 +69,43 @@ public class Budget {
    *
    * @param budgetName The name of the budget you want to create.
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
+   * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
+   * @throws IllegalArgumentException "Budget name is taken."
    */
   public void setBudgetName(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
       throw new IllegalArgumentException("Budget name must not be empty or blank.");
     }
+    if (budgetName.length() > 24) {
+      throw new IllegalArgumentException("Budget name must not exceed 24 characters.");
+    }
+    if (checkIfBudgetNameIsTaken(budgetName)) {
+      throw new IllegalArgumentException("Budget name is taken.");
+    }
     this.budgetName = budgetName;
+  }
+
+  /**
+   * Checks if the given budget's name is already taken by any other budget in the list. This method
+   * iterates through the list of budgets and compares the names of each budget with the given
+   * budget's name. If a match is found, the method returns true. If no match is found, the method
+   * returns false.
+   *
+   * @param budgetName the Budget name that needs to be checked for uniqueness
+   * @return true if the budget name is already taken, false otherwise
+   */
+  private boolean checkIfBudgetNameIsTaken(String budgetName) {
+    boolean nameTaken = false;
+    List<String> takenNames =
+        SessionAccount.getInstance().getAccount().getBudgets().stream()
+            .map(Budget::getBudgetName)
+            .toList();
+    for (String variableBudgetName : takenNames) {
+      if (budgetName.equalsIgnoreCase(variableBudgetName)) {
+        nameTaken = true;
+      }
+    }
+    return nameTaken;
   }
 
   /**
