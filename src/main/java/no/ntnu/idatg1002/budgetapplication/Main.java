@@ -22,7 +22,7 @@ public class Main {
       adminBudget.addBudgetExpenses(
           new Expense(100, "testdesc", RecurringType.DAILY, ExpenseCategory.FOOD));
       adminBudget.addBudgetIncome(
-          new Income(500, "testdesc", RecurringType.DAILY, IncomeCategory.WAGE));
+          new Income(500, "testdesc", RecurringType.DAILY, IncomeCategory.SALARY));
 
         AccountDAO.getInstance().addAccount(adminAccount);
         AccountDAO.getInstance().printAccounts();

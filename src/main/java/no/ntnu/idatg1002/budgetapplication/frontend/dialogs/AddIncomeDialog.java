@@ -24,7 +24,7 @@ public class AddIncomeDialog extends Dialog<Income> {
 
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
-  @FXML private ComboBox<IncomeCategory> incomeCategoryComboBox;
+  @FXML private ComboBox<String> incomeCategoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
   @FXML private Button cancelButton;
 
@@ -54,7 +54,7 @@ public class AddIncomeDialog extends Dialog<Income> {
 
     // adds enums to combo boxes
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
-    incomeCategoryComboBox.getItems().addAll(IncomeCategory.values());
+    incomeCategoryComboBox.getItems().addAll(IncomeCategory.labelValues());
 
     configureIncomeAmountField();
     configureIncomeDescriptionField();
@@ -155,7 +155,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    * @return the selected income category of the income
    */
   private IncomeCategory getIncomeCategoryComboBoxValue() {
-    return incomeCategoryComboBox.getValue();
+    return IncomeCategory.valueOfLabel(incomeCategoryComboBox.getValue());
   }
 
   /**

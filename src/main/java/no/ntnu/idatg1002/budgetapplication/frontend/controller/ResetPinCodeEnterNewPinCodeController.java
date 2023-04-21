@@ -17,6 +17,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 /**
@@ -125,6 +126,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     if (assertAllFieldsValid()) {
       if (isAnswerValid()) {
         setPinCode(pinCodeTextField.getText());
+        AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
         goToLogin(event);
       } else {
         wrongAnswerAlert();

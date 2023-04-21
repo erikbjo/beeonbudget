@@ -26,7 +26,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
   @FXML private TextField expenseAmountField;
   @FXML private TextField expenseDescriptionField;
-  @FXML private ComboBox<ExpenseCategory> categoryComboBox;
+  @FXML private ComboBox<String> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
   @FXML private Button cancelButton;
   /**
@@ -51,7 +51,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     this.setTitle("Add Expense");
 
     recurringIntervalComboBox.getItems().addAll(RecurringType.values());
-    categoryComboBox.getItems().addAll(ExpenseCategory.values());
+    categoryComboBox.getItems().addAll(ExpenseCategory.stringValues());
 
     configureExpenseAmountField();
     configureExpenseDescriptionField();
@@ -152,7 +152,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    * @return the selected expense category of the expense
    */
   private ExpenseCategory getExpenseCategoryComboBoxValue() {
-    return categoryComboBox.getValue();
+    return ExpenseCategory.valueOfLabel(categoryComboBox.getValue());
   }
 
   /**

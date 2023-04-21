@@ -30,7 +30,7 @@
                     </font>
                 </Label>
                 <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0" style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT" AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="21.0" />
-                <Label fx:id="budgetNameInBudget" layoutX="300.0" layoutY="20.0" prefHeight="20.0" prefWidth="199.0" text="N/A">
+                <Label fx:id="budgetNameInBudget" layoutX="300.0" layoutY="20.0" prefHeight="20.0" text="N/A">
                     <graphic>
                         <Label prefHeight="20.0" prefWidth="111.0" text="BUDGETNAME:">
                             <font>

@@ -1,7 +1,7 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
 /**
- * Singleton class to hold the current session's account.
+ * Singleton class to hold the current session's account logged in to the application.
  */
 public class SessionAccount {
   private Account account;
@@ -29,7 +29,7 @@ public class SessionAccount {
   }
 
   /**
-   * Sets the Account used in this session.
+   * Sets the Account used in this session. Could for example be used when logging in.
    *
    * @param account The Account to set.
    */
@@ -37,6 +37,10 @@ public class SessionAccount {
     this.account = account;
   }
 
+  /**
+   * Clears the Account used in the session. Could for example be used when logging out.
+   *
+   */
   public void clearAccount() {
     this.account = null;
   }
