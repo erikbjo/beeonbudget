@@ -60,12 +60,17 @@ public class AddIncomeDialog extends Dialog<Income> {
     configureIncomeDescriptionField();
   }
 
+  /** Closes the dialog when the "Cancel" button is clicked. */
   @FXML
   private void closeDialog() {
     Stage stage = (Stage) cancelButton.getScene().getWindow();
     stage.close();
   }
 
+  /**
+   * Handles the "Submit" button click, creating a new income if all fields are valid. Displays an
+   * exception alert or dynamic feedback if there's an error or fields are invalid.
+   */
   @FXML
   private void handleSubmit() {
     Income newIncome;
@@ -203,6 +208,11 @@ public class AddIncomeDialog extends Dialog<Income> {
     alert.showAndWait();
   }
 
+  /**
+   * Displays an alert with the given exception's message.
+   *
+   * @param exception the exception containing the error message to display
+   */
   private void generateExceptionAlert(Exception exception) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");

@@ -1,11 +1,9 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
-/** Sample Skeleton for 'registerNewAccount.fxml' Controller Class */
+
 import java.io.IOException;
 import java.net.URL;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -71,15 +69,16 @@ public class RegisterNewAccountController {
   }
 
   private void configureSecurityQuestionComboBox() {
-      securityQuestionComboBox
-          .focusedProperty()
-          .addListener((observableValue, oldPropertyValue, newPropertyValue) -> {
-            if (Boolean.TRUE.equals(newPropertyValue)) {
-              securityQuestionComboBox.show();
-            } else {
-              securityQuestionComboBox.hide();
-            }
-          });
+    securityQuestionComboBox
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                securityQuestionComboBox.show();
+              } else {
+                securityQuestionComboBox.hide();
+              }
+            });
   }
 
   @FXML

@@ -57,12 +57,17 @@ public class AddExpenseDialog extends Dialog<Expense> {
     configureExpenseDescriptionField();
   }
 
+  /** Closes the dialog when the "Cancel" button is clicked. */
   @FXML
   private void closeDialog() {
     Stage stage = (Stage) cancelButton.getScene().getWindow();
     stage.close();
   }
 
+  /**
+   * Handles the "Submit" button click, creating a new expense if all fields are valid. Displays an
+   * exception alert or dynamic feedback if there's an error or fields are invalid.
+   */
   @FXML
   private void handleSubmit() {
     Expense newExpense;
