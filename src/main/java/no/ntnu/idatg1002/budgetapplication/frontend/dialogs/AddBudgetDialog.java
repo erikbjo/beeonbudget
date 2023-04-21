@@ -8,10 +8,18 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
+/**
+ * Represents a custom dialog for adding a budget in the budget application. The dialog includes a
+ * field for entering the budget name.
+ *
+ * @author Erik Bjørnsen
+ * @version 1.1
+ */
 public class AddBudgetDialog extends Dialog<Budget> {
 
   @FXML private ResourceBundle resources;
@@ -81,7 +89,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
       this.setResult(newBudget);
       this.close();
     } else {
-      generateDynamicFeedbackAlert();
+      generateFeedbackAlert();
     }
   }
 
@@ -99,8 +107,14 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return !budgetNameTextField.getText().isEmpty() && nameValid;
   }
 
-  /** Generates dynamic feedback for the user if the fields are invalid. */
-  private void generateDynamicFeedbackAlert() {
-    System.out.println("placeholder");
+  /** Generates feedback for the user if the budget name field is invalid. */
+  private void generateFeedbackAlert() {
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please fill out the budget name");
+    alert.initModality(Modality.NONE);
+    alert.initOwner(this.getDialogPane().getScene().getWindow());
+    alert.showAndWait();
   }
 }

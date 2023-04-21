@@ -23,19 +23,20 @@ import javafx.scene.chart.PieChart;
  */
 @Entity
 public class Budget {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
   private final List<Expense> expenseList = new ArrayList<>();
+
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
   private final List<Income> incomeList = new ArrayList<>();
+
   @ElementCollection
   @Enumerated(EnumType.ORDINAL)
   private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
+
   private String budgetName;
   private Boolean categoryExists;
 
@@ -44,17 +45,13 @@ public class Budget {
    *
    * @param budgetName the budget name
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
+   * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
    */
   public Budget(String budgetName) throws IllegalArgumentException {
-    if (budgetName == null || budgetName.trim().isEmpty()) {
-      throw new IllegalArgumentException("Budget name must not be empty or blank.");
-    }
-    this.budgetName = budgetName;
+    setBudgetName(budgetName);
   }
 
-  public Budget() {
-
-  }
+  public Budget() {}
 
   /**
    * This function returns the name of the budget.
@@ -70,10 +67,14 @@ public class Budget {
    *
    * @param budgetName The name of the budget you want to create.
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
+   * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
    */
   public void setBudgetName(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
       throw new IllegalArgumentException("Budget name must not be empty or blank.");
+    }
+    if (budgetName.length() > 24) {
+      throw new IllegalArgumentException("Budget name must not exceed 24 characters.");
     }
     this.budgetName = budgetName;
   }
