@@ -41,7 +41,7 @@ public class BudgetController implements Initializable {
   @FXML private TableColumn<Income, Integer> incomeColumn;
   @FXML private Button newExpenseButton;
   @FXML private Button newIncomeButton;
-  @FXML private Button previousButtonInBudget;
+  @FXML private Button backButtonBudget;
   @FXML private PieChart incomeChart;
   @FXML private PieChart expenseChart;
   @FXML private Label totalExpenseInBudget;
@@ -64,7 +64,7 @@ public class BudgetController implements Initializable {
     this.expenseTableView = new TableView<>();
     this.newExpenseButton = new Button();
     this.newIncomeButton = new Button();
-    this.previousButtonInBudget = new Button();
+    this.backButtonBudget = new Button();
   }
 
   /**

@@ -70,9 +70,9 @@
                                                 <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" text="New Expense" />
                                                 <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" text="Details" />
                                                 <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" text="Delete Item" />
-                                                <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" text="Delete Budget" />
                                                 <JFXButton fx:id="newBudgetButton" onAction="#onNewBudget" text="New Budget" />
-                                                <JFXButton fx:id="previousButtonInBudget" contentDisplay="CENTER" onAction="#switchToPrimaryFromBudget" text="Back" />
+                                                <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" text="Delete Budget" />
+                                                <JFXButton fx:id="backButtonBudget" contentDisplay="CENTER" onAction="#switchToPrimaryFromBudget" text="Back" />
                                             </children>
                                             <opaqueInsets>
                                                 <Insets />
