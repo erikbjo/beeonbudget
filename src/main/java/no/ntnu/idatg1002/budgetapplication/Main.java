@@ -30,10 +30,11 @@ public class Main {
         e.printStackTrace();
       }
 
-    for (Account a : AccountDAO.getInstance().getAllAccounts()) {
-      System.out.println("budgets: " + a.getBudgets());
-      System.out.println("savingsPlans: " + a.getSavingsPlans());
-      System.out.println("");
+   for (Account a : AccountDAO.getInstance().getAllAccounts()) {
+      System.out.println("Account: " + (AccountDAO.getInstance().getAllAccounts().indexOf(a) + 1)
+          + "/" + AccountDAO.getInstance().getAllAccounts().size());
+      System.out.println("budgets: " + a.getBudgets().size());
+      System.out.println("savingsPlans: " + a.getSavingsPlans().size() + "\n");
     }
 
       PrimaryView.mainApp(args);
