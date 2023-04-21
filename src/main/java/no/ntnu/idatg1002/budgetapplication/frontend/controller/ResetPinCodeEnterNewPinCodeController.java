@@ -20,6 +20,7 @@ import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class ResetPinCodeEnterNewPinCodeController {
+
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
 
@@ -32,6 +33,7 @@ public class ResetPinCodeEnterNewPinCodeController {
   @FXML private Text securityQuestionText; // Value injected by FXMLLoader
   @FXML private Text answerText; // Value Injected by FXMLLoader
 
+  @FXML public TextField emailTextField;
   @FXML private TextField securityQuestionAnswerTextField; // Value injected by FXMLLoader
   @FXML private TextField securityQuestionTextField; // Value injected by FXMLLoader
   @FXML private TextField pinCodeTextField; // Value injected by FXMLLoader
@@ -41,10 +43,22 @@ public class ResetPinCodeEnterNewPinCodeController {
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
+    setEmail();
     setSecurityQuestion();
     configurePinCodeTextField();
     configureSecurityQuestionAnswerTextField();
   }
+
+  public void setEmail() {
+    try {
+      emailTextField.setText(
+          SessionAccount.getInstance()
+              .getAccount()
+              .getEmail());
+    } catch (Exception e) {
+      e.printStackTrace();
+      emailTextField.setText("Invalid");
+    }  }
 
   private void setSecurityQuestion() {
     try {
