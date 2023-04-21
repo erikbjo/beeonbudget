@@ -18,8 +18,8 @@ import javafx.scene.chart.PieChart;
 /**
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
- * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb
- * @version 3.0 (2023-03-28)
+ * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb, Eskil Alstad
+ * @version 3.0
  */
 @Entity
 public class Budget {
