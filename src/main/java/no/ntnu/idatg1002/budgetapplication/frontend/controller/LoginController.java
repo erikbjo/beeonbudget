@@ -15,6 +15,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
@@ -192,5 +193,8 @@ public class LoginController {
     alert.setContentText(builder.toString());
     alert.initModality(Modality.NONE);
     alert.showAndWait();
+  }
+
+  public void onPinCodeTextFieldKeyPressed(KeyEvent keyEvent) {
   }
 }
