@@ -45,6 +45,13 @@ public class AccountDAO implements AccountListInterface {
     em.getTransaction().commit();
   }
 
+  public void update(Account account) {
+    em.getTransaction().begin();
+    em.merge(account);
+    em.flush();
+    em.getTransaction().commit();
+  }
+
   @Override
   public Iterator<Account> iterator() {
     TypedQuery<Account> query = this.em.createQuery("SELECT a FROM Account a", Account.class);
@@ -88,8 +95,15 @@ public class AccountDAO implements AccountListInterface {
     }
   }
 
-  void close() {
-    this.em.close();
-    this.emf.close();
+
+  public void close() {
+    if (em.isOpen()) {
+      this.em.close();
+      System.out.println("EntityManager was closed.");
+    }
+    if (emf.isOpen()) {
+      this.emf.close();
+      System.out.println("EntityManagerFactory was closed.");
+    }
   }
 }

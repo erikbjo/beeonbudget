@@ -22,6 +22,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
@@ -207,6 +208,7 @@ public class BudgetController implements Initializable {
             updateIncomePieChart();
             updateTotalPieChart();
             updateBudgetMoneyText();
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
           });
     } else {
       showNoBudgetErrorFromNewMoneyAction();
@@ -228,6 +230,7 @@ public class BudgetController implements Initializable {
 
     Optional<Budget> result = dialog.showAndWait();
     result.ifPresent(budget -> SessionAccount.getInstance().getAccount().addBudget(budget));
+    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     updateAllInBudgetView();
   }
 
@@ -256,6 +259,7 @@ public class BudgetController implements Initializable {
             updateBudgetMoneyText();
             updateExpensePieChart();
             updateTotalPieChart();
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
           });
     } else {
       showNoBudgetErrorFromNewMoneyAction();
@@ -310,6 +314,7 @@ public class BudgetController implements Initializable {
       updateIncomePieChart();
       updateTotalPieChart();
       updateBudgetMoneyText();
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     } else {
       alert.close();
     }
@@ -342,6 +347,7 @@ public class BudgetController implements Initializable {
       updateExpensePieChart();
       updateTotalPieChart();
       updateBudgetMoneyText();
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     } else {
       alert.close();
     }
@@ -423,6 +429,7 @@ public class BudgetController implements Initializable {
             .getAccount()
             .removeBudget(SessionAccount.getInstance().getAccount().getSelectedBudget());
         updateAllInBudgetView();
+        AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
       }
     } else {
       showNoBudgetErrorFromDeleteBudget();
