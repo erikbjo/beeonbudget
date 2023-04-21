@@ -188,7 +188,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     alert.setTitle("Error");
     alert.setHeaderText("Wrong answer given");
     alert.setContentText("Please enter a valid answer.");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
@@ -211,7 +211,7 @@ public class ResetPinCodeEnterNewPinCodeController {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 }

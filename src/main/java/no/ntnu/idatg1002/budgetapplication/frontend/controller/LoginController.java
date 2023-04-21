@@ -87,7 +87,7 @@ public class LoginController {
         showInvalidLoginAlert(event);
       }
     } else {
-      generateDynamicFeedbackAlert();
+      generateDynamicFeedbackAlert(event);
     }
   }
 
@@ -173,13 +173,13 @@ public class LoginController {
     alert.setTitle("Error");
     alert.setHeaderText("Warning");
     alert.setContentText("Invalid username or pin code");
-    alert.initModality(Modality.WINDOW_MODAL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
   /** Generates and displays a dynamic feedback alert if any of the required fields are invalid. */
   @FXML
-  private void generateDynamicFeedbackAlert() {
+  private void generateDynamicFeedbackAlert(ActionEvent event) {
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
     if (emailTextField.getText().isEmpty()) {
@@ -196,7 +196,7 @@ public class LoginController {
     alert.setTitle("Error");
     alert.setHeaderText("Warning");
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.WINDOW_MODAL);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }
 
