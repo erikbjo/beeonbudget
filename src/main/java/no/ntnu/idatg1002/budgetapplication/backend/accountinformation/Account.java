@@ -335,19 +335,23 @@ public class Account {
 
   /** Select next budget in budgets arraylist. */
   public void selectNextBudget() {
-    if (currentBudgetIndex < budgets.size() - 1) {
-      currentBudgetIndex += 1;
-    } else {
-      currentBudgetIndex = 0;
+    if (budgets.size() > 1){
+      if (currentBudgetIndex < budgets.size() - 1) {
+        currentBudgetIndex += 1;
+      } else {
+        currentBudgetIndex = 0;
+      }
     }
   }
 
   /** Select previous budget in budgets arraylist. */
   public void selectPreviousBudget() {
-    if (currentBudgetIndex > 0 && !budgets.isEmpty()) {
-      currentBudgetIndex -= 1;
-    } else {
-      currentBudgetIndex = budgets.size() - 1;
+    if (budgets.size() > 1){
+      if (currentBudgetIndex > 0) {
+        currentBudgetIndex -= 1;
+      } else {
+        currentBudgetIndex = budgets.size() - 1;
+      }
     }
   }
 
@@ -373,19 +377,23 @@ public class Account {
 
   /** Select next savings plan in savings plan arraylist. */
   public void selectNextSavingsPlan() {
-    if (currentSavingsPlanIndex < savingsPlans.size() - 1) {
-      currentSavingsPlanIndex += 1;
-    } else {
-      currentSavingsPlanIndex = 0;
+    if (savingsPlans.size() > 1){
+      if (currentSavingsPlanIndex < savingsPlans.size() - 1) {
+        currentSavingsPlanIndex += 1;
+      } else {
+        currentSavingsPlanIndex = 0;
+      }
     }
   }
 
   /** Select previous savings plan in savings plan arraylist. */
   public void selectPreviousSavingsPlan() {
-    if (currentSavingsPlanIndex > 0 && !savingsPlans.isEmpty()) {
-      currentSavingsPlanIndex -= 1;
-    } else {
-      currentSavingsPlanIndex = savingsPlans.size() - 1;
+    if (savingsPlans.size() > 1) {
+      if (currentSavingsPlanIndex > 0) {
+        currentSavingsPlanIndex -= 1;
+      } else {
+        currentSavingsPlanIndex = savingsPlans.size() - 1;
+      }
     }
   }
 

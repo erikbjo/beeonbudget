@@ -150,17 +150,19 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void onNextBudget() {
-    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
-      try {
-        SessionAccount.getInstance().getAccount().selectNextBudget();
-        updateAllInBudgetView();
-      } catch (IndexOutOfBoundsException e) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setContentText("There is no next budget");
-        alert.showAndWait();
+    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1){
+      if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+        try {
+          SessionAccount.getInstance().getAccount().selectNextBudget();
+          updateAllInBudgetView();
+        } catch (IndexOutOfBoundsException e) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setContentText("There is no next budget");
+          alert.showAndWait();
+        }
+      } else {
+        showNoBudgetErrorFromSelectNewBudget();
       }
-    } else {
-      showNoBudgetErrorFromSelectNewBudget();
     }
   }
 
@@ -172,17 +174,19 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void onPreviousBudget() {
-    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
-      try {
-        SessionAccount.getInstance().getAccount().selectPreviousBudget();
-        updateAllInBudgetView();
-      } catch (IndexOutOfBoundsException e) {
-        Alert alert = new Alert(AlertType.WARNING);
-        alert.setContentText("There is no previous budget");
-        alert.showAndWait();
+    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1){
+      if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+        try {
+          SessionAccount.getInstance().getAccount().selectPreviousBudget();
+          updateAllInBudgetView();
+        } catch (IndexOutOfBoundsException e) {
+          Alert alert = new Alert(AlertType.WARNING);
+          alert.setContentText("There is no previous budget");
+          alert.showAndWait();
+        }
+      } else {
+        showNoBudgetErrorFromSelectNewBudget();
       }
-    } else {
-      showNoBudgetErrorFromSelectNewBudget();
     }
   }
 
@@ -428,6 +432,7 @@ public class BudgetController implements Initializable {
         SessionAccount.getInstance()
             .getAccount()
             .removeBudget(SessionAccount.getInstance().getAccount().getSelectedBudget());
+        SessionAccount.getInstance().getAccount().selectPreviousBudget();
         updateAllInBudgetView();
         AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
       }
