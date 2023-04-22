@@ -9,6 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +28,10 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAcc
 public class Budget {
   @Id @GeneratedValue private Long id;
   private String budgetName;
+  private LocalDate startDate;
+  private LocalDate endDate;
+  private Period intervalLength;
+
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
@@ -46,8 +52,18 @@ public class Budget {
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
    * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
    */
-  public Budget(String budgetName) throws IllegalArgumentException {
+  public Budget(String budgetName, LocalDate startDate, LocalDate endDate) throws IllegalArgumentException {
     setBudgetName(budgetName);
+    this.startDate = startDate;
+    this.endDate = endDate;
+    setIntervalLength();
+  }
+
+  public Budget(String budgetName) {
+    setBudgetName(budgetName);
+    this.startDate = LocalDate.now();
+    this.endDate = LocalDate.now().plusDays(30);
+    setIntervalLength();
   }
 
   public Budget() {}
@@ -80,6 +96,30 @@ public class Budget {
       throw new IllegalArgumentException("Budget name is taken.");
     }
     this.budgetName = budgetName;
+  }
+
+  public LocalDate getStartDate() {
+    return startDate;
+  }
+
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
+
+  public LocalDate getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
+  }
+
+  public Period getIntervalLength() {
+    return this.intervalLength;
+  }
+
+  public void setIntervalLength() {
+    this.intervalLength = this.startDate.until(this.endDate);
   }
 
   /**

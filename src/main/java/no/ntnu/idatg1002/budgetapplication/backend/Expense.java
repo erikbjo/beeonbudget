@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.text.DateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 
 /**
@@ -21,7 +21,7 @@ public class Expense extends MoneyAction {
   private Long id;
 
   private ExpenseCategory expenseCategory;
-  private Date dateAdded;
+  private LocalDate dateAdded;
 
   /**
    * Constructs an Expense object with the specified amount, description, recurring type, and
@@ -33,10 +33,11 @@ public class Expense extends MoneyAction {
    * @param expenseCategory the expense category associated with the expense
    */
   public Expense(
-      int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
+      int amount, String description, RecurringType type, ExpenseCategory expenseCategory,
+      LocalDate dateAdded) {
     super(amount, description, type);
     this.expenseCategory = expenseCategory;
-    this.dateAdded = setExpenseDateAdded();
+    this.dateAdded = dateAdded;
   }
 
   public Expense() {
@@ -72,9 +73,5 @@ public class Expense extends MoneyAction {
     sb.append("Category: ").append(this.expenseCategory.getExpenseCategoryString());
     sb.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(dateAdded));
     return sb.toString();
-  }
-  private Date setExpenseDateAdded() {
-    dateAdded = new Date();
-    return dateAdded;
   }
 }

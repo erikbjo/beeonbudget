@@ -4,7 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.text.DateFormat;
-import java.util.Date;
+import java.time.LocalDate;
 
 /**
  * Represents an income entry in the budget application. Inherits from the MoneyAction class. An
@@ -19,7 +19,7 @@ public class Income extends MoneyAction {
   @GeneratedValue
   private Long id;
   private IncomeCategory incomeCategory;
-  private Date incomeDate;
+  private LocalDate dateAdded;
 
   /**
    * Constructs an Income object with the specified amount, description, recurring type, and income
@@ -30,10 +30,17 @@ public class Income extends MoneyAction {
    * @param type the recurring type of the income
    * @param incomeCategory the income category associated with the income
    */
+  public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory,
+      LocalDate dateAdded) {
+    super(amount, description, type);
+    this.incomeCategory = incomeCategory;
+    this.dateAdded = dateAdded;
+  }
+
   public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory) {
     super(amount, description, type);
     this.incomeCategory = incomeCategory;
-    this.incomeDate =setIncomeDateAdded();
+    this.dateAdded = LocalDate.now();
   }
 
   public Income() {
@@ -68,16 +75,8 @@ public class Income extends MoneyAction {
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
     stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
-    stringBuilder.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(incomeDate));
+    stringBuilder.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(
+        dateAdded));
     return stringBuilder.toString();
-  }
-
-  private Date setIncomeDateAdded() {
-    this.incomeDate = new Date();
-    return incomeDate;
-  }
-
-  public Date getIncomeDate() {
-    return incomeDate;
   }
 }
