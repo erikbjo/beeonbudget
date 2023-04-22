@@ -40,6 +40,13 @@ public class Expense extends MoneyAction {
     this.dateAdded = dateAdded;
   }
 
+  public Expense(
+      int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
+    super(amount, description, type);
+    this.expenseCategory = expenseCategory;
+    this.dateAdded = LocalDate.now();
+  }
+
   public Expense() {
 
   }

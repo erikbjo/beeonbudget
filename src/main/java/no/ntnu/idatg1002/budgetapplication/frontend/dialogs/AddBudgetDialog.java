@@ -53,6 +53,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
 
     this.setDialogPane(dialogPane);
     this.setTitle("Add Budget");
+    startDatePicker.setValue(LocalDate.now());
 
     configureBudgetNameAmountField();
   }
@@ -109,7 +110,9 @@ public class AddBudgetDialog extends Dialog<Budget> {
    * @return true if all fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank();
+    return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank()
+        && !startDatePicker.getEditor().getText().isEmpty()
+        && !endDatePicker.getEditor().getText().isEmpty();
   }
 
 
@@ -118,7 +121,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
-    alert.setContentText("Please fill out the budget name");
+    alert.setContentText("Please fill out the budget name and/or choose a start and end date");
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
@@ -134,13 +137,11 @@ public class AddBudgetDialog extends Dialog<Budget> {
 
   @FXML
   public LocalDate getStartDate(ActionEvent event){
-      LocalDate startDate = getStartDatePicker().getValue();
-      return startDate;
+      return getStartDatePicker().getValue();
   }
 
   @FXML
   public LocalDate getEndDate(ActionEvent event) {
-    LocalDate endDate = getEndDatePicker().getValue();
-    return endDate;
+    return getEndDatePicker().getValue();
   }
 }
