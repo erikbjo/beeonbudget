@@ -24,28 +24,38 @@
                         <Image url="@../images/simpleLogoBoY.png" />
                     </image>
                 </ImageView>
-                <Label layoutX="63.0" layoutY="14.0" prefHeight="32.0" prefWidth="100.0" text="Budget" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="737.0" AnchorPane.topAnchor="14.0">
+                <Label layoutX="63.0" layoutY="14.0" prefHeight="32.0" prefWidth="100.0" text="Budget:" AnchorPane.bottomAnchor="12.0" AnchorPane.leftAnchor="63.0" AnchorPane.rightAnchor="737.0" AnchorPane.topAnchor="14.0">
                     <font>
                         <Font name="Segoe UI Bold" size="22.0" />
                     </font>
                 </Label>
                 <Label fx:id="userNameInBudget" contentDisplay="RIGHT" layoutX="838.0" layoutY="21.0" style="-fx-background-color: #f3e60c;" text="User" textAlignment="RIGHT" AnchorPane.bottomAnchor="19.666666666666668" AnchorPane.rightAnchor="38.0" AnchorPane.topAnchor="21.0" />
-                <Label fx:id="budgetNameInBudget" layoutX="300.0" layoutY="20.0" prefHeight="20.0" text="N/A">
-                    <graphic>
-                        <Label prefHeight="20.0" prefWidth="111.0" text="BUDGETNAME:">
-                            <font>
-                                <Font name="System Bold" size="14.0" />
-                            </font>
-                        </Label>
-                    </graphic>
-                </Label>
+            <HBox alignment="CENTER" layoutX="147.0" layoutY="16.0">
+               <children>
+                      <Label fx:id="budgetNameInBudget" text="N/A">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                      </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER" layoutX="525.0" layoutY="19.0" spacing="5.0">
+               <children>
+                  <Label text="Budget Date:">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="budgetDateLabel" alignment="CENTER" text="N/A|" textAlignment="CENTER" />
+               </children>
+            </HBox>
             </children>
         </AnchorPane>
         <AnchorPane layoutY="58.66666793823242" AnchorPane.bottomAnchor="-1.271565736260527E-6" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="58.66666793823242">
             <children>
                 <HBox fillHeight="false" prefHeight="441.0" prefWidth="1000.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" HBox.hgrow="SOMETIMES">
+                        <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" prefHeight="493.0" prefWidth="145.0" HBox.hgrow="SOMETIMES">
                             <children>
                                 <Label alignment="CENTER" text="Change Current Budget">
                                     <font>
@@ -64,7 +74,7 @@
                                 <Line endX="150.00001525878906" endY="73.33329010009766" startX="6.62622594833374" startY="73.33329010009766" />
                                 <AnchorPane>
                                     <children>
-                                        <VBox fx:id="menuBudgetButtonVbox" alignment="CENTER" layoutY="23.0" spacing="10.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                        <VBox fx:id="menuBudgetButtonVbox" alignment="CENTER" layoutY="23.0" spacing="10.0" AnchorPane.bottomAnchor="0.3333333333333144" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                             <children>
                                                 <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" text="New Income" textAlignment="CENTER" />
                                                 <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" text="New Expense" />

@@ -72,11 +72,14 @@
                         <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#closeDialog" text="Cancel" />
                     </children>
                 </HBox>
-            <DatePicker fx:id="expenseDate" editable="false" GridPane.rowIndex="4">
+            <VBox alignment="CENTER" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
-            </DatePicker>
+               <children>
+                  <DatePicker fx:id="expenseDate" editable="false" />
+               </children>
+            </VBox>
             </children>
         </GridPane>
     </children>
