@@ -56,4 +56,9 @@ public interface DAO<T> extends Iterable<T> {
    * Prints entity specific details of all the entity instances in the database.
    */
   void printAllDetails();
+
+  /**
+   * Closes the EntityManagerFactory and the EntityManager.
+   */
+  void close();
 }
