@@ -224,13 +224,20 @@ public class Account {
   }
 
   private boolean checkIfSavingsPlanNameIsTaken(SavingsPlan savingsPlan) {
+    boolean savingsPlanPresent = false;
+    try {
+      savingsPlanPresent = savingsPlans.stream().findAny().isPresent();
+    } catch (Exception ignored) {
+    }
     boolean nameTaken = false;
-    for (SavingsPlan savingsPlanForLoop : savingsPlans) {
-      if (savingsPlanForLoop.getGoalName().equals(savingsPlan.getGoalName())) {
-        // name already exists, do something
-        // for example, return or throw an exception
-        nameTaken = true;
-        break;
+    if (!savingsPlans.isEmpty() && savingsPlanPresent) {
+      for (SavingsPlan savingsPlanForLoop : savingsPlans) {
+        if (savingsPlanForLoop.getGoalName().equals(savingsPlan.getGoalName())) {
+          // name already exists, do something
+          // for example, return or throw an exception
+          nameTaken = true;
+          break;
+        }
       }
     }
     return nameTaken;

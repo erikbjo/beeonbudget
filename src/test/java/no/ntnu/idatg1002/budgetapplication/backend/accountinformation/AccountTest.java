@@ -24,23 +24,32 @@ class AccountTest {
 
   @BeforeEach
   void setUp() {
-    account = new Account("Test", "test@test.com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
+    if (!AccountDAO.getInstance().getAllEmails().contains("test@test.com")) {
+      System.out.println(AccountDAO.getInstance().getAllEmails());
 
-    budget = new Budget("Test budget");
-    income =
-        new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE);
-    expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
-    budget.addBudgetIncome(income);
-    budget.addBudgetExpenses(expense);
+      account = new Account("Test", "test@test.com", "1234", SecurityQuestion.CAR_BRAND, "BMW");
 
-    savingsPlan = new SavingsPlan("Test savingsplan");
+      AccountDAO.getInstance().add(account);
+      SessionAccount.getInstance().setAccount(account);
+
+      budget = new Budget("Test budget");
+      income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE);
+      expense =
+          new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
+      budget.addBudgetIncome(income);
+      budget.addBudgetExpenses(expense);
+
+      savingsPlan = new SavingsPlan("Test savingsplan");
+    } else {
+      account = AccountDAO.getInstance().getAccountByEmail("test@test.com");
+      SessionAccount.getInstance().setAccount(account);
+    }
   }
 
   @AfterEach
   void tearDown() {
-    for (Account a : AccountDAO.getInstance().getAll()) {
-      a = null;
-    }
+    AccountDAO.getInstance().remove(account);
+    SessionAccount.getInstance().clearAccount();
   }
 
   @Nested
@@ -75,13 +84,14 @@ class AccountTest {
 
     @Test
     void emailAlreadyInUse() {
-      Account testAccount = new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
+      Account testAccount =
+          new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
       AccountDAO.getInstance().add(testAccount);
-          Exception thrown =
+      Exception thrown =
           assertThrows(IllegalArgumentException.class, () -> account.setEmail("simon@gmail.com"));
       assertEquals("Email already in use.", thrown.getMessage());
       AccountDAO.getInstance().remove(testAccount);
-      }
+    }
   }
 
   @Nested
@@ -287,10 +297,10 @@ class AccountTest {
     account.addBudget(new Budget("Test budget 2"));
     account.addBudget(new Budget("Test budget 3"));
     assertEquals("Test budget 3", account.getSelectedBudget().getBudgetName());
-    //Selected loops
+    // Selected loops
     account.selectNextBudget();
     assertEquals("Test budget", account.getSelectedBudget().getBudgetName());
-    //Selected increments
+    // Selected increments
     account.selectNextBudget();
     assertEquals("Test budget 2", account.getSelectedBudget().getBudgetName());
   }
@@ -301,10 +311,10 @@ class AccountTest {
     account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
     account.addSavingsPlan(new SavingsPlan("Test savingsplan 3"));
     assertEquals("Test savingsplan 3", account.getSelectedSavingsPlan().getGoalName());
-    //Selected loops
+    // Selected loops
     account.selectNextSavingsPlan();
     assertEquals("Test savingsplan", account.getSelectedSavingsPlan().getGoalName());
-    //Selected increments
+    // Selected increments
     account.selectNextSavingsPlan();
     assertEquals("Test savingsplan 2", account.getSelectedSavingsPlan().getGoalName());
   }
@@ -314,10 +324,10 @@ class AccountTest {
     account.addBudget(budget);
     account.addBudget(new Budget("Test budget 2"));
     assertEquals("Test budget 2", account.getSelectedBudget().getBudgetName());
-    //Selected decreases
+    // Selected decreases
     account.selectPreviousBudget();
     assertEquals("Test budget", account.getSelectedBudget().getBudgetName());
-    //Selected loops
+    // Selected loops
     account.selectPreviousBudget();
     assertEquals("Test budget 2", account.getSelectedBudget().getBudgetName());
   }
@@ -327,10 +337,10 @@ class AccountTest {
     account.addSavingsPlan(savingsPlan);
     account.addSavingsPlan(new SavingsPlan("Test savingsplan 2"));
     assertEquals("Test savingsplan 2", account.getSelectedSavingsPlan().getGoalName());
-    //Selected decreases
+    // Selected decreases
     account.selectPreviousSavingsPlan();
     assertEquals("Test savingsplan", account.getSelectedSavingsPlan().getGoalName());
-    //Selected loops
+    // Selected loops
     account.selectPreviousSavingsPlan();
     assertEquals("Test savingsplan 2", account.getSelectedSavingsPlan().getGoalName());
   }
