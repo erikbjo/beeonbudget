@@ -6,8 +6,9 @@ import jakarta.persistence.Persistence;
 import jakarta.persistence.TypedQuery;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
-public class AccountDAO implements DAO {
+public class AccountDAO implements DAO<Account> {
   private final EntityManagerFactory emf;
   private EntityManager em;
 
@@ -23,7 +24,7 @@ public class AccountDAO implements DAO {
   }
 
   @Override
-  public void addAccount(Account account) {
+  public void add(Account account) {
     if (AccountDAO.getInstance().getAll().contains(account)) {
       throw new IllegalArgumentException("Instance of account already exists in the database.");
     } else if (AccountDAO.getInstance().getAllAccountIds().contains(account.getId())) {
@@ -38,7 +39,7 @@ public class AccountDAO implements DAO {
   }
 
   @Override
-  public void removeAccount(Account account) {
+  public void remove(Account account) {
     Account foundAccount = em.find(Account.class, account.getId());
     em.getTransaction().begin();
     em.remove(foundAccount);
@@ -60,8 +61,8 @@ public class AccountDAO implements DAO {
   }
 
   @Override
-  public Account find(String accountNumber) {
-    return em.find(Account.class, accountNumber);
+  public Optional<Account> find(String id) {
+    return Optional.ofNullable(em.find(Account.class, id));
   }
 
   @Override
@@ -88,7 +89,7 @@ public class AccountDAO implements DAO {
   }
 
   @Override
-  public void printDetails() {
+  public void printAllDetails() {
     List<Account> accountList = getAll();
     for (Account account : accountList) {
       System.out.println("Account Details"
@@ -97,7 +98,6 @@ public class AccountDAO implements DAO {
           + " :: " + account.getEmail());
     }
   }
-
 
   public void close() {
     if (em.isOpen()) {
