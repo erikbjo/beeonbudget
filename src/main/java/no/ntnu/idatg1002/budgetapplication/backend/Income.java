@@ -77,7 +77,7 @@ public class Income extends MoneyAction {
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
     stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
-    stringBuilder.append("Date Added: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
+    stringBuilder.append("Income Date: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
         FormatStyle.SHORT)));
     return stringBuilder.toString();
   }

@@ -1,19 +1,20 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
-import java.util.Locale;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
@@ -27,11 +28,12 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
  */
 public class AddIncomeDialog extends Dialog<Income> {
 
+  @FXML public Button submitButton;
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
   @FXML private ComboBox<String> incomeCategoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
-  @FXML private DatePicker incomeDate;
+  @FXML private DatePicker incomeDatePicker;
   @FXML private Button cancelButton;
 
   /**
@@ -57,14 +59,8 @@ public class AddIncomeDialog extends Dialog<Income> {
 
     this.setDialogPane(dialogPane);
     this.setTitle("Add Income");
-
-    // adds enums to combo boxes
-    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
-    incomeCategoryComboBox.getItems().addAll(IncomeCategory.labelValues());
-
-    configureIncomeAmountField();
-    configureIncomeDescriptionField();
   }
+
 
   /** Closes the dialog when the "Cancel" button is clicked. */
   @FXML
@@ -88,7 +84,7 @@ public class AddIncomeDialog extends Dialog<Income> {
                 getIncomeDescriptionFieldText(),
                 getRecurringIntervalComboBoxValue(),
                 getIncomeCategoryComboBoxValue(),
-                getIncomeDate());
+                getIncomeDateValue());
         this.setResult(newIncome);
         this.close();
       } catch (Exception exception) {
@@ -130,6 +126,19 @@ public class AddIncomeDialog extends Dialog<Income> {
             });
   }
 
+  private void configureIncomeDatePicker() {
+    incomeDatePicker
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                incomeDatePicker.show();
+              } else {
+                incomeDatePicker.hide();
+              }
+            });
+  }
+
   /**
    * Returns the text from the income description input field.
    *
@@ -158,8 +167,8 @@ public class AddIncomeDialog extends Dialog<Income> {
   }
 
   @FXML
-  private LocalDate getIncomeDate() {
-    LocalDate date = incomeDate.getValue();
+  private LocalDate getIncomeDateValue() {
+    LocalDate date = incomeDatePicker.getValue();
     return date;
   }
 
@@ -183,7 +192,13 @@ public class AddIncomeDialog extends Dialog<Income> {
         && !getIncomeDescriptionFieldText().isEmpty()
         && !getIncomeDescriptionFieldText().isBlank()
         && getRecurringIntervalComboBoxValue() != null
-        && getIncomeCategoryComboBoxValue() != null);
+        && getIncomeCategoryComboBoxValue() != null
+        && getIncomeDateValue() != null
+        && !getIncomeDateValue().isBefore(
+        SessionAccount.getInstance().getAccount().getSelectedBudget()
+            .getStartDate())
+        && !getIncomeDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        .getEndDate()));
   }
 
   /**
@@ -215,9 +230,30 @@ public class AddIncomeDialog extends Dialog<Income> {
     if (getIncomeCategoryComboBoxValue() == null) {
       builder.append("Category \n");
     }
+    if (getIncomeDateValue() == null) {
+      builder.append("Income date added \n");
+    }
+    if (getIncomeDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        .getStartDate())
+        || getIncomeDateValue().isAfter(
+        SessionAccount.getInstance().getAccount().getSelectedBudget()
+            .getEndDate())) {
+      builder.append("Income date need to be inside budget period: \n");
+      builder.append(SessionAccount.getInstance().getAccount().getSelectedBudget()
+          .getStartToEndString());
 
-    warningAlert.setContentText(builder.toString());
-    warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
-    warningAlert.showAndWait();
+      warningAlert.setContentText(builder.toString());
+      warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
+      warningAlert.showAndWait();
+    }
+  }
+
+  @FXML
+  public void initialize() {
+    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
+    incomeCategoryComboBox.getItems().addAll(IncomeCategory.labelValues());
+    configureIncomeAmountField();
+    configureIncomeDescriptionField();
+    configureIncomeDatePicker();
   }
 }

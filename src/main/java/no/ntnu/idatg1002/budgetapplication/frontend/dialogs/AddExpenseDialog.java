@@ -1,20 +1,20 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
+import java.net.URL;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
-import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
@@ -28,11 +28,12 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
  */
 public class AddExpenseDialog extends Dialog<Expense> {
 
+  @FXML public Button submitButton;
   @FXML private TextField expenseAmountField;
   @FXML private TextField expenseDescriptionField;
   @FXML private ComboBox<String> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
-  @FXML private DatePicker expenseDate;
+  @FXML private DatePicker expenseDatePicker;
   @FXML private Button cancelButton;
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
@@ -54,12 +55,6 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
     this.setDialogPane(dialogPane);
     this.setTitle("Add Expense");
-
-    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
-    categoryComboBox.getItems().addAll(ExpenseCategory.stringValues());
-
-    configureExpenseAmountField();
-    configureExpenseDescriptionField();
   }
 
   /** Closes the dialog when the "Cancel" button is clicked. */
@@ -84,7 +79,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
                 getExpenseDescriptionFieldText(),
                 getRecurringIntervalComboBoxValue(),
                 getExpenseCategoryComboBoxValue(),
-                getExpenseDate());
+                getExpenseDateValue());
         this.setResult(newExpense);
         this.close();
       } catch (Exception exception) {
@@ -126,6 +121,19 @@ public class AddExpenseDialog extends Dialog<Expense> {
             });
   }
 
+  private void configureExpenseDatePicker() {
+    expenseDatePicker
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                expenseDatePicker.show();
+              } else {
+                expenseDatePicker.hide();
+              }
+            });
+  }
+
   /**
    * Returns the text from the expense description input field.
    *
@@ -162,8 +170,8 @@ public class AddExpenseDialog extends Dialog<Expense> {
     return ExpenseCategory.valueOfLabel(categoryComboBox.getValue());
   }
 
-  private LocalDate getExpenseDate() {
-    LocalDate date = expenseDate.getValue();
+  private LocalDate getExpenseDateValue() {
+    LocalDate date = expenseDatePicker.getValue();
     return date;
   }
 
@@ -178,7 +186,12 @@ public class AddExpenseDialog extends Dialog<Expense> {
         && !getExpenseDescriptionFieldText().isEmpty()
         && !getExpenseDescriptionFieldText().isBlank()
         && getRecurringIntervalComboBoxValue() != null
-        && getExpenseCategoryComboBoxValue() != null);
+        && getExpenseCategoryComboBoxValue() != null
+        && getExpenseDateValue() != null
+        && !getExpenseDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        .getStartDate())
+        && !getExpenseDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        .getEndDate()));
   }
 
   /**
@@ -210,9 +223,29 @@ public class AddExpenseDialog extends Dialog<Expense> {
     if (getExpenseCategoryComboBoxValue() == null) {
       builder.append("Category \n");
     }
+    if (getExpenseDateValue() == null) {
+      builder.append("Expense date added \n");
+    }
+    if (getExpenseDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        .getStartDate())
+    || getExpenseDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        .getEndDate())) {
+      builder.append("Expense date need to be inside budget period: \n");
+      builder.append(SessionAccount.getInstance().getAccount().getSelectedBudget()
+          .getStartToEndString());
+    }
 
     warningAlert.setContentText(builder.toString());
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
+  }
+
+  @FXML
+  public void initialize() {
+    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
+    categoryComboBox.getItems().addAll(ExpenseCategory.stringValues());
+    configureExpenseAmountField();
+    configureExpenseDescriptionField();
+    configureExpenseDatePicker();
   }
 }
