@@ -1,6 +1,7 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,6 +32,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
   @FXML private TextField expenseDescriptionField;
   @FXML private ComboBox<String> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
+  @FXML private DatePicker expenseDate;
   @FXML private Button cancelButton;
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
@@ -157,6 +159,11 @@ public class AddExpenseDialog extends Dialog<Expense> {
    */
   private ExpenseCategory getExpenseCategoryComboBoxValue() {
     return ExpenseCategory.valueOfLabel(categoryComboBox.getValue());
+  }
+
+  private LocalDate getExpenseDate() {
+    LocalDate date = expenseDate.getValue();
+    return date;
   }
 
   /**

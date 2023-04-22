@@ -1,6 +1,8 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.util.Locale;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -29,6 +31,7 @@ public class AddIncomeDialog extends Dialog<Income> {
   @FXML private TextField incomeDescriptionField;
   @FXML private ComboBox<String> incomeCategoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
+  @FXML private DatePicker incomeDate;
   @FXML private Button cancelButton;
 
   /**
@@ -151,6 +154,12 @@ public class AddIncomeDialog extends Dialog<Income> {
    */
   private RecurringType getRecurringIntervalComboBoxValue() {
     return recurringIntervalComboBox.getValue();
+  }
+
+  @FXML
+  private LocalDate getIncomeDate() {
+    LocalDate date = incomeDate.getValue();
+    return date;
   }
 
   /**
