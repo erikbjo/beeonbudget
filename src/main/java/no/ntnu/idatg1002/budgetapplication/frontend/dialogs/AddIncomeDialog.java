@@ -203,7 +203,7 @@ public class AddIncomeDialog extends Dialog<Income> {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
@@ -213,7 +213,7 @@ public class AddIncomeDialog extends Dialog<Income> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
