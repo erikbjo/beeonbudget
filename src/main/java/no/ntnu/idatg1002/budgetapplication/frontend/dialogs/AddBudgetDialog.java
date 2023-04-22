@@ -103,7 +103,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
    * @return true if all fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return !budgetNameTextField.getText().isEmpty();
+    return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank();
   }
 
   /** Generates feedback for the user if the budget name field is invalid. */

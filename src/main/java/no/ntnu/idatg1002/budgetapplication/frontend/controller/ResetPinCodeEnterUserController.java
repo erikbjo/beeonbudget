@@ -47,7 +47,7 @@ public class ResetPinCodeEnterUserController {
       SessionAccount.getInstance()
           .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
       switchToEnterNewPinCode(event);
-    } else if (emailTextField.getText().isEmpty()) {
+    } else if (emailTextField.getText().isEmpty() || emailTextField.getText().isBlank()) {
       showEmptyTextFieldAlert();
     } else {
       showInvalidLoginAlert();

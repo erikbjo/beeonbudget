@@ -112,7 +112,7 @@ public class RegisterNewAccountController {
         && !emailTextField.getText().isBlank()
         && !pinCodeTextField.getText().isEmpty()
         && !pinCodeTextField.getText().isBlank()
-        && !securityQuestionComboBox.getValue().isEmpty()
+        && securityQuestionComboBox.getValue() != null
         && !securityQuestionAnswerTextField.getText().isEmpty()
         && !securityQuestionAnswerTextField.getText().isBlank());
   }
