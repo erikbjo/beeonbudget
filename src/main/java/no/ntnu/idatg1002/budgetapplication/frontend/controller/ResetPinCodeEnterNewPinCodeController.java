@@ -19,6 +19,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Controller for resetting the user's pin code by answering the security question.
@@ -188,20 +189,15 @@ public class ResetPinCodeEnterNewPinCodeController {
   /** Displays an alert when the security question answer is incorrect. */
   @FXML
   private void wrongAnswerAlert() {
-    Alert alert = new Alert(AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText("Wrong answer given");
-    alert.setContentText("Please enter a valid answer.");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert =
+        new WarningAlert("Please enter a valid answer", "Wrong answer given");
+    warningAlert.showAndWait();
   }
 
   /** Generates and displays a dynamic feedback alert when fields are not filled out correctly. */
   @FXML
   private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
+    WarningAlert warningAlert = new WarningAlert();
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
@@ -215,8 +211,7 @@ public class ResetPinCodeEnterNewPinCodeController {
       builder.append("Full pin code \n");
     }
 
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    warningAlert.setContentText(builder.toString());
+    warningAlert.showAndWait();
   }
 }
