@@ -24,6 +24,7 @@ import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
@@ -236,35 +237,27 @@ public class PrimaryController implements Initializable {
    */
   @FXML
   public void quitApplication(ActionEvent event) {
-    Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type, "");
-    alert.setTitle("Quit");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.getDialogPane();
-    alert.setContentText("Are you sure you want to quit? ");
-    Optional<ButtonType> result = alert.showAndWait();
+    ConfirmationAlert confirmationAlert =
+        new ConfirmationAlert("Quit", "Are you sure you want to quit?");
+    Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
       Platform.exit();
       AccountDAO.getInstance().close();
     } else {
-      alert.close();
+      confirmationAlert.close();
     }
   }
 
   @FXML
-  private void logOutUser(ActionEvent  actionEvent) throws IOException {
-    Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type, "");
-    alert.setTitle("Log Out");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.getDialogPane();
-    alert.setContentText("Are you sure you want to LogOut? ");
-    Optional<ButtonType> result = alert.showAndWait();
+  private void logOutUser(ActionEvent actionEvent) throws IOException {
+    ConfirmationAlert confirmationAlert =
+        new ConfirmationAlert("Log out", "Are you sure you want to log out?");
+    Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
       SessionAccount.getInstance().clearAccount();
       goBackToLogin(actionEvent);
     } else {
-      alert.close();
+      confirmationAlert.close();
     }
   }
 
@@ -291,6 +284,7 @@ public class PrimaryController implements Initializable {
       onAddIncome(event);
     }
   }
+
   @FXML
   private void onPreviousBudget() {
     if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1) {
@@ -308,6 +302,7 @@ public class PrimaryController implements Initializable {
       }
     }
   }
+
   @FXML
   private void onNextBudget() {
     if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1) {
@@ -328,12 +323,12 @@ public class PrimaryController implements Initializable {
 
   @FXML
   private void showNoBudgetErrorFromSelectNewBudget() {
-      Alert alert = new Alert(Alert.AlertType.WARNING);
-      alert.setTitle("Error");
-      alert.setHeaderText(null);
-      alert.setContentText("Please create a budget before trying to switch budget");
-      alert.initModality(Modality.APPLICATION_MODAL);
-      alert.showAndWait();
+    Alert alert = new Alert(Alert.AlertType.WARNING);
+    alert.setTitle("Error");
+    alert.setHeaderText(null);
+    alert.setContentText("Please create a budget before trying to switch budget");
+    alert.initModality(Modality.APPLICATION_MODAL);
+    alert.showAndWait();
   }
 
   @FXML

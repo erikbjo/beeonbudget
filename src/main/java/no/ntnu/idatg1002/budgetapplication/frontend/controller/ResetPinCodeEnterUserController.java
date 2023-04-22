@@ -22,10 +22,8 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
 public class ResetPinCodeEnterUserController {
-  @FXML
-  public Text resetPinCodeText;
-  @FXML
-  public TextField emailTextField;
+  @FXML public Text resetPinCodeText;
+  @FXML public TextField emailTextField;
   @FXML // ResourceBundle that was given to the FXMLLoader
   private ResourceBundle resources;
 
@@ -49,7 +47,7 @@ public class ResetPinCodeEnterUserController {
       SessionAccount.getInstance()
           .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
       switchToEnterNewPinCode(event);
-    } else if (emailTextField.getText().isEmpty()) {
+    } else if (emailTextField.getText().isEmpty() || emailTextField.getText().isBlank()) {
       showEmptyTextFieldAlert();
     } else {
       showInvalidLoginAlert();
@@ -103,7 +101,7 @@ public class ResetPinCodeEnterUserController {
   }
 
   private boolean assertAllFieldsValid() {
-    return (!emailTextField.getText().isEmpty());
+    return (!emailTextField.getText().isEmpty() && !emailTextField.getText().isBlank());
   }
 
   private boolean isEmail(String stringToBeChecked) {

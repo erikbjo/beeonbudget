@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.util.Objects;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -13,6 +14,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 
 /**
  * Represents a custom dialog for adding an expense in the budget application. The dialog includes
@@ -69,7 +71,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    * exception alert or dynamic feedback if there's an error or fields are invalid.
    */
   @FXML
-  private void handleSubmit() {
+  private void handleSubmit(ActionEvent actionEvent) {
     Expense newExpense;
     if (assertAllFieldsValid()) {
       try {
@@ -82,7 +84,8 @@ public class AddExpenseDialog extends Dialog<Expense> {
         this.setResult(newExpense);
         this.close();
       } catch (Exception exception) {
-        generateExceptionAlert(exception);
+        ExceptionAlert exceptionAlert = new ExceptionAlert(exception);
+        exceptionAlert.showAndWait();
       }
     } else {
       generateDynamicFeedbackAlert();
@@ -162,7 +165,9 @@ public class AddExpenseDialog extends Dialog<Expense> {
    */
   private boolean assertAllFieldsValid() {
     return (!getExpenseAmountFieldText().isEmpty()
+        && !getExpenseAmountFieldText().isBlank()
         && !getExpenseDescriptionFieldText().isEmpty()
+        && !getExpenseDescriptionFieldText().isBlank()
         && getRecurringIntervalComboBoxValue() != null
         && getExpenseCategoryComboBoxValue() != null);
   }
@@ -186,10 +191,10 @@ public class AddExpenseDialog extends Dialog<Expense> {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (getExpenseAmountFieldText().isEmpty()) {
+    if (getExpenseAmountFieldText().isEmpty() || getExpenseAmountFieldText().isBlank()) {
       builder.append("Amount \n");
     }
-    if (getExpenseDescriptionFieldText().isEmpty()) {
+    if (getExpenseDescriptionFieldText().isEmpty() || getExpenseDescriptionFieldText().isBlank()) {
       builder.append("Description \n");
     }
     if (getRecurringIntervalComboBoxValue() == null) {
@@ -200,16 +205,6 @@ public class AddExpenseDialog extends Dialog<Expense> {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
-  }
-
-  private void generateExceptionAlert(Exception exception) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();

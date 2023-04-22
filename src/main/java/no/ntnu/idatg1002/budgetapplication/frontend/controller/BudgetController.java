@@ -24,6 +24,7 @@ import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
@@ -150,7 +151,7 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void onNextBudget() {
-    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1){
+    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1) {
       if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
         try {
           SessionAccount.getInstance().getAccount().selectNextBudget();
@@ -175,7 +176,7 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void onPreviousBudget() {
-    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1){
+    if (SessionAccount.getInstance().getAccount().getBudgets().size() > 1) {
       if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
         try {
           SessionAccount.getInstance().getAccount().selectPreviousBudget();
@@ -303,16 +304,15 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void deleteIncomeFromTable() {
-    Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type, "Delete Item");
-    alert.initModality(Modality.APPLICATION_MODAL);
     Income income =
         incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
-    alert.setTitle("Are You Sure?");
-    alert.setContentText(
-        "Are You Sure You Want To Delete This Income?" + "\n" + income.getIncomeAssString());
 
-    Optional<ButtonType> result = alert.showAndWait();
+    ConfirmationAlert confirmationAlert =
+        new ConfirmationAlert(
+            "Delete item",
+            "Are you sure you want to delete this income?\n" + income.getIncomeAssString());
+
+    Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
       SessionAccount.getInstance()
           .getAccount()
@@ -324,7 +324,7 @@ public class BudgetController implements Initializable {
       updateBudgetMoneyText();
       AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     } else {
-      alert.close();
+      confirmationAlert.close();
     }
   }
 
@@ -334,17 +334,15 @@ public class BudgetController implements Initializable {
    */
   @FXML
   private void deleteExpenseFromTable() {
-    Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type, "");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.getDialogPane();
     Expense expense =
         expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
-    alert.setTitle("Are You Sure?");
-    alert.setContentText(
-        "Are You Sure You Want To Delete This Expense?" + "\n" + expense.getExpenseAssString());
 
-    Optional<ButtonType> result = alert.showAndWait();
+    ConfirmationAlert confirmationAlert =
+        new ConfirmationAlert(
+            "Delete item",
+            "Are you sure you want to delete this income?\n" + expense.getExpenseAssString());
+
+    Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && (result.get() == ButtonType.OK)) {
       SessionAccount.getInstance()
           .getAccount()
@@ -358,7 +356,7 @@ public class BudgetController implements Initializable {
       updateBudgetMoneyText();
       AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     } else {
-      alert.close();
+      confirmationAlert.close();
     }
   }
 
@@ -429,15 +427,14 @@ public class BudgetController implements Initializable {
   @FXML
   private void deleteBudget(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
-      Alert.AlertType type = AlertType.CONFIRMATION;
-      Alert alert = new Alert(type, "");
-      alert.initModality(Modality.APPLICATION_MODAL);
-      alert.getDialogPane();
       Budget budget = SessionAccount.getInstance().getAccount().getSelectedBudget();
-      alert.setTitle("Are You Sure?");
-      alert.setContentText(
-          "Are You Sure You Want To Delete This Budget?" + "\n" + budget.getBudgetName());
-      Optional<ButtonType> result = alert.showAndWait();
+
+      ConfirmationAlert confirmationAlert =
+          new ConfirmationAlert(
+              "Delete budget",
+              "Are you sure you want to delete this budget?\n" + budget.getBudgetName());
+
+      Optional<ButtonType> result = confirmationAlert.showAndWait();
       if (result.isPresent() && (result.get() == ButtonType.OK)) {
         SessionAccount.getInstance()
             .getAccount()
