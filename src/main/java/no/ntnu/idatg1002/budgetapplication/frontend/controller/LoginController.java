@@ -20,6 +20,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 public class LoginController {
 
@@ -169,12 +170,8 @@ public class LoginController {
   /** Displays an invalid login alert if the username or pin code is incorrect. */
   @FXML
   private void showInvalidLoginAlert(ActionEvent actionEvent) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText("Warning");
-    alert.setContentText("Invalid username or pin code");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert("Invalid username or pin code");
+    warningAlert.showAndWait();
   }
 
   /** Generates and displays a dynamic feedback alert if any of the required fields are invalid. */
@@ -192,12 +189,9 @@ public class LoginController {
         builder.append("Full pin code \n");
       }
     }
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText("Warning");
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert();
+    warningAlert.setContentText(builder.toString());
+    warningAlert.showAndWait();
   }
 
   public void onPinCodeTextFieldKeyPressed(KeyEvent keyEvent) {}
