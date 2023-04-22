@@ -23,7 +23,7 @@ public enum ExpenseCategory {
   /** Indicates expenses related to savings */
   SAVINGS("Savings"),
   /** Indicates expenses related to recreational use */
-  RECREATION_ENTERTAINMENT("Recreation & Entertainment"),
+  RECREATION_ENTERTAINMENT("Entertainment"),
   /** Indicates expenses related to investment */
   INVESTMENT("Investment"),
   /** Indicates expenses related to clothing and personal items. */

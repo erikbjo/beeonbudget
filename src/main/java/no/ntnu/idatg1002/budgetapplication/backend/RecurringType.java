@@ -22,27 +22,27 @@ public enum RecurringType {
   /** Indicates a yearly recurring transaction. */
   YEARLY("Yearly");
 
-  private final String label;
+  private final String recurringTypeString;
 
-  RecurringType(String label) {
-    this.label = label;
+  RecurringType(String recurringTypeString) {
+    this.recurringTypeString = recurringTypeString;
   }
 
-  public String getLabel() {
-    return label;
+  public String getRecurringType() {
+    return recurringTypeString;
   }
 
   public static List<String> labelValues() {
     ArrayList<String> labelValues = new ArrayList<>();
     for (RecurringType type : RecurringType.values()) {
-      labelValues.add(type.label);
+      labelValues.add(type.recurringTypeString);
     }
     return labelValues;
   }
 
   public static RecurringType valueOfLabel(String label) {
     for (RecurringType type : values()) {
-      if (type.getLabel().equals(label)) {
+      if (type.getRecurringType().equals(label)) {
         return type;
       }
     }
