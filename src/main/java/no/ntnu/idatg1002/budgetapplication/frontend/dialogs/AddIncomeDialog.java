@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.util.Objects;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
@@ -11,6 +12,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 
 /**
  * Represents a custom dialog for adding an income in the budget application. The dialog includes
@@ -72,7 +74,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    * exception alert or dynamic feedback if there's an error or fields are invalid.
    */
   @FXML
-  private void handleSubmit() {
+  private void handleSubmit(ActionEvent actionEvent) {
     Income newIncome;
     if (assertAllFieldsValid()) {
       try {
@@ -85,7 +87,8 @@ public class AddIncomeDialog extends Dialog<Income> {
         this.setResult(newIncome);
         this.close();
       } catch (Exception exception) {
-        generateExceptionAlert(exception);
+        ExceptionAlert exceptionAlert = new ExceptionAlert(exception);
+        exceptionAlert.showAndWait();
       }
     } else {
       generateDynamicFeedbackAlert();
@@ -164,8 +167,10 @@ public class AddIncomeDialog extends Dialog<Income> {
    * @return true if all input fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return (getIncomeAmountFieldText() != null
-        && getIncomeDescriptionFieldText() != null
+    return (!getIncomeAmountFieldText().isEmpty()
+        && !getIncomeAmountFieldText().isBlank()
+        && !getIncomeDescriptionFieldText().isEmpty()
+        && !getIncomeDescriptionFieldText().isBlank()
         && getRecurringIntervalComboBoxValue() != null
         && getIncomeCategoryComboBoxValue() != null);
   }
@@ -189,10 +194,10 @@ public class AddIncomeDialog extends Dialog<Income> {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (getIncomeAmountFieldText().isEmpty()) {
+    if (getIncomeAmountFieldText().isEmpty() || getIncomeAmountFieldText().isBlank()) {
       builder.append("Amount \n");
     }
-    if (getIncomeDescriptionFieldText().isEmpty()) {
+    if (getIncomeDescriptionFieldText().isEmpty() || getIncomeDescriptionFieldText().isBlank()) {
       builder.append("Description \n");
     }
     if (getRecurringIntervalComboBoxValue() == null) {
