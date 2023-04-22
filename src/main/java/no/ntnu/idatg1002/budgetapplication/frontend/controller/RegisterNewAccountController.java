@@ -26,7 +26,7 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 /**
  * Controller class for registering new accounts in the budget application.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Simon Husås Houmb, Eskil Alstad
  * @version 1.2
  */
 public class RegisterNewAccountController {
