@@ -120,7 +120,8 @@ public class AddBudgetDialog extends Dialog<Budget> {
 
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert("Please fill out the budget name");
+    WarningAlert warningAlert = new WarningAlert(
+        "Please fill out the budget name and/or choose the start and end date");
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
   }
@@ -142,15 +143,5 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML
   public LocalDate getEndDate(ActionEvent event) {
     return getEndDatePicker().getValue();
-  }
-
-  @FXML
-  public void testsubbutton(){
-    if (getStartDate().isBefore(getEndDate())) {
-      System.out.println("Valid");
-    } else {
-      System.out.println("Invalid");
-    }
-    System.out.println(getStartDate().datesUntil(getEndDate()));
   }
 }
