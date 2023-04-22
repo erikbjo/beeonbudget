@@ -7,7 +7,7 @@ import jakarta.persistence.TypedQuery;
 import java.util.Iterator;
 import java.util.List;
 
-public class AccountDAO implements AccountListInterface {
+public class AccountDAO implements DAO {
   private final EntityManagerFactory emf;
   private EntityManager em;
 
@@ -24,7 +24,7 @@ public class AccountDAO implements AccountListInterface {
 
   @Override
   public void addAccount(Account account) {
-    if (AccountDAO.getInstance().getAllAccounts().contains(account)) {
+    if (AccountDAO.getInstance().getAll().contains(account)) {
       throw new IllegalArgumentException("Instance of account already exists in the database.");
     } else if (AccountDAO.getInstance().getAllAccountIds().contains(account.getId())) {
       throw new IllegalArgumentException("Account with the same account number already exists in the database.");
@@ -45,6 +45,7 @@ public class AccountDAO implements AccountListInterface {
     em.getTransaction().commit();
   }
 
+  @Override
   public void update(Account account) {
     em.getTransaction().begin();
     em.merge(account);
@@ -58,11 +59,13 @@ public class AccountDAO implements AccountListInterface {
     return query.getResultList().iterator();
   }
 
-  public Account findAccount(String accountNumber) {
+  @Override
+  public Account find(String accountNumber) {
     return em.find(Account.class, accountNumber);
   }
 
-  public List<Account> getAllAccounts() {
+  @Override
+  public List<Account> getAll() {
     return em.createQuery("SELECT a FROM Account a", Account.class).getResultList();
   }
 
@@ -85,8 +88,8 @@ public class AccountDAO implements AccountListInterface {
   }
 
   @Override
-  public void printAccounts() {
-    List<Account> accountList = getAllAccounts();
+  public void printDetails() {
+    List<Account> accountList = getAll();
     for (Account account : accountList) {
       System.out.println("Account Details"
           + " :: " + account.getId()
