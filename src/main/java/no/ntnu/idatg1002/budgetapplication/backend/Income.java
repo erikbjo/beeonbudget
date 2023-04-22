@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import java.util.Date;
 
 /**
  * Represents an income entry in the budget application. Inherits from the MoneyAction class. An
@@ -17,6 +18,7 @@ public class Income extends MoneyAction {
   @GeneratedValue
   private Long id;
   private IncomeCategory incomeCategory;
+  private Date incomeDate;
 
   /**
    * Constructs an Income object with the specified amount, description, recurring type, and income
@@ -30,6 +32,7 @@ public class Income extends MoneyAction {
   public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory) {
     super(amount, description, type);
     this.incomeCategory = incomeCategory;
+    this.incomeDate =setIncomeDateAdded();
   }
 
   public Income() {
@@ -63,7 +66,17 @@ public class Income extends MoneyAction {
     stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
-    stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel());
+    stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
+    stringBuilder.append("Date Added: ").append(this.incomeDate);
     return stringBuilder.toString();
+  }
+
+  private Date setIncomeDateAdded() {
+    this.incomeDate = new Date();
+    return incomeDate;
+  }
+
+  public Date getIncomeDate() {
+    return incomeDate;
   }
 }
