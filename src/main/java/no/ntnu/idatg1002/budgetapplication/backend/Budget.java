@@ -33,6 +33,8 @@ public class Budget {
   private LocalDate startDate;
   private LocalDate endDate;
   private Period intervalLength;
+  private int totalIncome;
+  private int totalExpense;
 
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -159,9 +161,19 @@ public class Budget {
    * @return The total income of the user.
    */
   public int getTotalIncome() {
-    int totalIncome = 0;
+    totalIncome = 0;
     for (MoneyAction income : incomeList) {
-      totalIncome += income.getAmount();
+      switch (income.getRecurringType()) {
+        case NONRECURRING -> totalIncome += income.getAmount();
+        case DAILY -> totalIncome += income.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getDays();
+        case WEEKLY -> totalIncome += (income.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getDays()/7);
+        case MONTHLY -> totalIncome += income.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getMonths();
+        case YEARLY -> totalIncome += income.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getYears();
+      }
     }
     return totalIncome;
   }
@@ -172,9 +184,19 @@ public class Budget {
    * @return The total expense of the trip.
    */
   public int getTotalExpense() {
-    int totalExpense = 0;
+    totalExpense = 0;
     for (MoneyAction expense : expenseList) {
-      totalExpense += expense.getAmount();
+      switch (expense.getRecurringType()) {
+        case NONRECURRING -> totalExpense += expense.getAmount();
+        case DAILY -> totalExpense += expense.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getDays();
+        case WEEKLY -> totalExpense += (expense.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getDays()/7);
+        case MONTHLY -> totalExpense += expense.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getMonths();
+        case YEARLY -> totalExpense += expense.getAmount() * SessionAccount.getInstance()
+            .getAccount().getSelectedBudget().getIntervalLength().getYears();
+      }
     }
     return totalExpense;
   }
@@ -331,19 +353,17 @@ public class Budget {
    * @return a list of PieChart.Data objects representing the total income and outcome
    */
   public List<PieChart.Data> getTotalIncomeAndOutCome() {
-    Map<String, Double> incomeOrExpense = new HashMap<>();
+    Map<String, Integer> incomeOrExpense = new HashMap<>();
     for (Income income : this.getIncomeList()) {
       String incomeString = "Income";
-      double amount = income.getAmount();
-      incomeOrExpense.put(incomeString, incomeOrExpense.getOrDefault(incomeString, 0.0) + amount);
+      incomeOrExpense.put(incomeString, incomeOrExpense.getOrDefault(incomeString, 0) + getTotalIncome());
     }
     for (Expense expense : this.getExpenseList()) {
       String expenseString = "Expense";
-      double amount = expense.getAmount();
-      incomeOrExpense.put(expenseString, incomeOrExpense.getOrDefault(expenseString, 0.0) + amount);
+      incomeOrExpense.put(expenseString, incomeOrExpense.getOrDefault(expenseString, 0) + getTotalExpense());
     }
     List<PieChart.Data> data = new ArrayList<>();
-    for (Map.Entry<String, Double> entry : incomeOrExpense.entrySet()) {
+    for (Map.Entry<String, Integer> entry : incomeOrExpense.entrySet()) {
       data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;
