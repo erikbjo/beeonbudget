@@ -209,14 +209,4 @@ public class AddExpenseDialog extends Dialog<Expense> {
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
-
-  private void generateExceptionAlert(Exception exception) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
-  }
 }

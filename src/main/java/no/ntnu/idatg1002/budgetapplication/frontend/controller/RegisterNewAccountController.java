@@ -21,6 +21,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 
 public class RegisterNewAccountController {
 
@@ -95,8 +96,9 @@ public class RegisterNewAccountController {
         AccountDAO.getInstance().addAccount(newAccount);
         SessionAccount.getInstance().setAccount(newAccount);
         goToLoginScreen(event);
-      } catch (IllegalArgumentException e) {
-        generateExceptionAlert(e);
+      } catch (IllegalArgumentException exception) {
+        ExceptionAlert exceptionAlert = new ExceptionAlert(exception);
+        exceptionAlert.showAndWait();
       } catch (Exception e) {
         e.printStackTrace();
       }
@@ -206,16 +208,6 @@ public class RegisterNewAccountController {
     }
 
     alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
-  }
-
-  @FXML
-  private void generateExceptionAlert(Exception exception) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
   }

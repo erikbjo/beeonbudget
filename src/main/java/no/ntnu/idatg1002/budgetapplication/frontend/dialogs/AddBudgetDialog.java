@@ -12,6 +12,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 
 /**
  * Represents a custom dialog for adding a budget in the budget application. The dialog includes a
@@ -90,7 +91,8 @@ public class AddBudgetDialog extends Dialog<Budget> {
         this.setResult(newBudget);
         this.close();
       } catch (Exception exception) {
-        generateExceptionAlert(exception);
+        ExceptionAlert exceptionAlert = new ExceptionAlert(exception);
+        exceptionAlert.showAndWait();
       }
     } else {
       generateFeedbackAlert();
@@ -112,21 +114,6 @@ public class AddBudgetDialog extends Dialog<Budget> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please fill out the budget name");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
-  }
-
-  /**
-   * Displays an alert with the given exception's message.
-   *
-   * @param exception the exception containing the error message to display
-   */
-  private void generateExceptionAlert(Exception exception) {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText(exception.getMessage());
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
