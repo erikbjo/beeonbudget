@@ -23,6 +23,12 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 
+/**
+ * Controller class for registering new accounts in the budget application.
+ *
+ * @author Erik Bjørnsen
+ * @version 1.2
+ */
 public class RegisterNewAccountController {
 
   @FXML // ResourceBundle that was given to the FXMLLoader
@@ -47,6 +53,7 @@ public class RegisterNewAccountController {
   @FXML private Button backToLoginButton; // Value injected by FXMLLoader
   @FXML private ComboBox<String> securityQuestionComboBox; // Value injected by FXMLLoader
 
+  /** Initializes the view. */
   @FXML // This method is called by the FXMLLoader when initialization is complete
   void initialize() {
     configureSecurityQuestionComboBox();
@@ -57,6 +64,12 @@ public class RegisterNewAccountController {
     }
   }
 
+  /**
+   * Navigates back to the login screen.
+   *
+   * @param event The action event triggered by the user.
+   * @throws IOException If an error occurs while loading the login screen.
+   */
   @FXML
   void goBackToLogin(ActionEvent event) throws IOException {
     Parent root =
@@ -69,6 +82,7 @@ public class RegisterNewAccountController {
     scene.setRoot(root);
   }
 
+  /** Configures the behavior of the security question ComboBox. */
   private void configureSecurityQuestionComboBox() {
     securityQuestionComboBox
         .focusedProperty()
@@ -82,6 +96,12 @@ public class RegisterNewAccountController {
             });
   }
 
+  /**
+   * Attempts to register a new account with the provided information.
+   *
+   * @param event The action event triggered by the user.
+   * @throws IOException If an error occurs while loading the login screen.
+   */
   @FXML
   void registerNewAccount(ActionEvent event) throws IOException {
     if (assertAllFieldsValid()) {
@@ -107,6 +127,11 @@ public class RegisterNewAccountController {
     }
   }
 
+  /**
+   * Checks if all required fields are filled in.
+   *
+   * @return true if all fields are valid, false otherwise.
+   */
   private boolean assertAllFieldsValid() {
     return (!usernameTextField.getText().isEmpty()
         && !usernameTextField.getText().isBlank()
@@ -119,6 +144,12 @@ public class RegisterNewAccountController {
         && !securityQuestionAnswerTextField.getText().isBlank());
   }
 
+  /**
+   * Navigates to the login screen.
+   *
+   * @param event The event that triggered the navigation.
+   * @throws IOException If an error occurs while loading the login screen.
+   */
   private void goToLoginScreen(Event event) throws IOException {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/login.fxml")));
@@ -126,6 +157,12 @@ public class RegisterNewAccountController {
     scene.setRoot(root);
   }
 
+  /**
+   * Converts a security question string to its corresponding SecurityQuestion enum value.
+   *
+   * @param questionString The security question string.
+   * @return The corresponding SecurityQuestion enum value, or null if not found.
+   */
   private SecurityQuestion reverseStringToSecurityQuestion(String questionString) {
     for (SecurityQuestion securityQuestion : SecurityQuestion.values()) {
       if (securityQuestion.getSecurityQuestionString().equalsIgnoreCase(questionString)) {
@@ -135,6 +172,7 @@ public class RegisterNewAccountController {
     return null;
   }
 
+  /** Configures all text fields to have specific behaviors. */
   private void configureAllTextFields() {
     configurePinCodeTextField();
     configureSecurityQuestionAnswerTextField();
@@ -142,6 +180,7 @@ public class RegisterNewAccountController {
     makeTextFieldNotStartWithSpace(emailTextField);
   }
 
+  /** Configures the behavior of the pin code TextField. */
   private void configurePinCodeTextField() {
     pinCodeTextField
         .textProperty()
@@ -158,6 +197,7 @@ public class RegisterNewAccountController {
             });
   }
 
+  /** Configures the behavior of the security question answer TextField. */
   private void configureSecurityQuestionAnswerTextField() {
     securityQuestionAnswerTextField
         .textProperty()
@@ -171,6 +211,11 @@ public class RegisterNewAccountController {
             });
   }
 
+  /**
+   * Configures a TextField to not accept space as its first character.
+   *
+   * @param textField The TextField to configure.
+   */
   private void makeTextFieldNotStartWithSpace(TextField textField) {
     textField
         .textProperty()
@@ -182,6 +227,7 @@ public class RegisterNewAccountController {
             });
   }
 
+  /** Displays a dynamic feedback alert with information about missing/invalid fields. */
   @FXML
   private void generateDynamicFeedbackAlert() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
