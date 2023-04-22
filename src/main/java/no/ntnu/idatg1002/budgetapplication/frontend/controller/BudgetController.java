@@ -2,6 +2,8 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
@@ -576,8 +578,10 @@ public class BudgetController implements Initializable {
                       .getTotalExpense()));
       budgetDateLabel.setText(
           String.valueOf(
-              "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget().getStartDate()
-                  + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget().getEndDate()));
+              "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
+                  .getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+                  + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
+                  .getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))));
     } else {
       setDefaultBudgetMoneyText();
     }
