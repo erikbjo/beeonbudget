@@ -112,7 +112,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please fill out the budget name");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
@@ -127,7 +127,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
