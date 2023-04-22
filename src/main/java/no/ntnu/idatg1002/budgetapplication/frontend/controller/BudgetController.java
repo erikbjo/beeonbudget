@@ -42,8 +42,10 @@ public class BudgetController implements Initializable {
   @FXML private TableView<Income> incomeTableView;
   @FXML private TableColumn<Expense, ExpenseCategory> expenseCategoryColumn;
   @FXML private TableColumn<Expense, Integer> expenseColumn;
+  @FXML private TableColumn<Expense, RecurringType> expenseRecurringColumn;
   @FXML private TableColumn<Income, IncomeCategory> incomeCategoryColumn;
   @FXML private TableColumn<Income, Integer> incomeColumn;
+  @FXML private TableColumn<Income, RecurringType> incomeRecurringColumn;
   @FXML private Button newExpenseButton;
   @FXML private Button newIncomeButton;
   @FXML private Button backButtonBudget;
@@ -86,11 +88,15 @@ public class BudgetController implements Initializable {
     expenseColumn.setReorderable(false);
     expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("expenseCategoryString"));
     expenseCategoryColumn.setReorderable(false);
+    //expenseRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringTypeString"));
+    //expenseRecurringColumn.setReorderable(false);
 
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     incomeColumn.setReorderable(false);
     incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategoryString"));
     incomeCategoryColumn.setReorderable(false);
+    //incomeRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringTypeString"));
+    //incomeRecurringColumn.setReorderable(false);
 
     incomeTableView
         .getSelectionModel()

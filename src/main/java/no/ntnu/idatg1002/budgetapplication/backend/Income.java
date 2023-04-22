@@ -3,7 +3,6 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
-import java.text.DateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
@@ -75,7 +74,7 @@ public class Income extends MoneyAction {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
-    stringBuilder.append("Type: ").append(this.getRecurringType().getLabel()).append("\n");
+    stringBuilder.append("Type: ").append(this.getRecurringType().getRecurringType()).append("\n");
     stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
     stringBuilder.append("Income Date: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
         FormatStyle.SHORT)));

@@ -153,19 +153,21 @@
                                                 <Line endX="112.52507781982422" endY="4.85953426361084" startX="-87.43448638916016" startY="4.4" strokeLineJoin="ROUND" />
                                             </children>
                                         </VBox>
-                                        <TableView fx:id="incomeTableView" fixedCellSize="0.0" pickOnBounds="false" HBox.hgrow="SOMETIMES">
+                                        <TableView fx:id="incomeTableView" pickOnBounds="false" HBox.hgrow="SOMETIMES">
                                             <columns>
-                                                <TableColumn fx:id="incomeColumn" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" text="Income" />
-                                                <TableColumn fx:id="incomeCategoryColumn" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" sortable="false" text="Category" />
+                                                <TableColumn fx:id="incomeColumn" editable="false" maxWidth="-1.0" minWidth="75.0" prefWidth="-1.0" resizable="false" text="Income" />
+                                                <TableColumn fx:id="incomeCategoryColumn" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="Category" />
+                                    <TableColumn fx:id="incomeRecurringColumn" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="Type" />
                                             </columns>
-                                            <columnResizePolicy>
-                                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
-                                            </columnResizePolicy>
+                                 <HBox.margin>
+                                    <Insets right="10.0" />
+                                 </HBox.margin>
                                         </TableView>
-                                        <TableView fx:id="expenseTableView" fixedCellSize="0.0" HBox.hgrow="SOMETIMES">
+                                        <TableView fx:id="expenseTableView" HBox.hgrow="SOMETIMES">
                                             <columns>
-                                                <TableColumn fx:id="expenseColumn" editable="false" maxWidth="-1.0" minWidth="150.0" prefWidth="-1.0" resizable="false" text="Expense" />
-                                                <TableColumn fx:id="expenseCategoryColumn" editable="false" maxWidth="161.99997456868493" minWidth="150.0" prefWidth="161.99997456868493" resizable="false" sortable="false" text="Category" />
+                                                <TableColumn fx:id="expenseColumn" editable="false" maxWidth="-1.0" minWidth="75.0" prefWidth="-1.0" resizable="false" text="Expense" />
+                                                <TableColumn fx:id="expenseCategoryColumn" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="Category" />
+                                    <TableColumn fx:id="expenseRecurringColumn" editable="false" maxWidth="-1.0" minWidth="100.0" prefWidth="-1.0" resizable="false" sortable="false" text="Type" />
                                             </columns>
                                             <columnResizePolicy>
                                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />

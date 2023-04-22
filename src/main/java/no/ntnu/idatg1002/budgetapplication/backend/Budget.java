@@ -11,8 +11,10 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +37,10 @@ public class Budget {
   private Period intervalLength;
   private int totalIncome;
   private int totalExpense;
+  private long dayInterval;
+  private long weekInterval;
+  private long monthsInterval;
+  private long yearInterval;
 
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -124,10 +130,6 @@ public class Budget {
         FormatStyle.SHORT)));
   }
 
-  public Period getIntervalLength() {
-    return this.intervalLength;
-  }
-
   public void setIntervalLength() {
     this.intervalLength = this.startDate.until(this.endDate);
   }
@@ -165,14 +167,50 @@ public class Budget {
     for (MoneyAction income : incomeList) {
       switch (income.getRecurringType()) {
         case NONRECURRING -> totalIncome += income.getAmount();
-        case DAILY -> totalIncome += income.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getDays();
-        case WEEKLY -> totalIncome += (income.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getDays()/7);
-        case MONTHLY -> totalIncome += income.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getMonths();
-        case YEARLY -> totalIncome += income.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getYears();
+        case DAILY -> {
+          if (ChronoUnit.DAYS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+            totalIncome += income.getAmount() * ChronoUnit.DAYS.between(
+                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+                SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+          } else {
+            totalIncome += income.getAmount();
+          }
+        }
+        case WEEKLY -> {
+          if (ChronoUnit.WEEKS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+            totalIncome += income.getAmount() * ChronoUnit.WEEKS.between(
+                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+                SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+          } else {
+            totalIncome += income.getAmount();
+          }
+        }
+        case MONTHLY -> {
+          if (ChronoUnit.MONTHS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+            totalIncome += income.getAmount() * ChronoUnit.MONTHS.between(
+                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+                SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+          } else {
+            totalIncome += income.getAmount();
+          }
+        }
+        case YEARLY -> {
+          if (ChronoUnit.YEARS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+            totalIncome += income.getAmount() * ChronoUnit.YEARS.between(
+                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+                SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+          } else {
+            totalIncome += income.getAmount();
+          }
+        }
       }
     }
     return totalIncome;
@@ -188,14 +226,50 @@ public class Budget {
     for (MoneyAction expense : expenseList) {
       switch (expense.getRecurringType()) {
         case NONRECURRING -> totalExpense += expense.getAmount();
-        case DAILY -> totalExpense += expense.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getDays();
-        case WEEKLY -> totalExpense += (expense.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getDays()/7);
-        case MONTHLY -> totalExpense += expense.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getMonths();
-        case YEARLY -> totalExpense += expense.getAmount() * SessionAccount.getInstance()
-            .getAccount().getSelectedBudget().getIntervalLength().getYears();
+        case DAILY -> {
+          if (ChronoUnit.DAYS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+              totalExpense += expense.getAmount() * ChronoUnit.DAYS.between(
+                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+          } else {
+            totalExpense += expense.getAmount();
+          }
+        }
+        case WEEKLY -> {
+          if (ChronoUnit.WEEKS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+            totalExpense += expense.getAmount() * ChronoUnit.WEEKS.between(
+                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+                SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+          } else {
+            totalExpense += expense.getAmount();
+          }
+        }
+        case MONTHLY -> {
+          if (ChronoUnit.MONTHS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalExpense += expense.getAmount() * ChronoUnit.MONTHS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalExpense += expense.getAmount();
+        }
+      }
+        case YEARLY -> {
+          if (ChronoUnit.YEARS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalExpense += expense.getAmount() * ChronoUnit.YEARS.between(
+              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalExpense += expense.getAmount();
+        }
+       }
       }
     }
     return totalExpense;
