@@ -28,7 +28,7 @@ class AccountTest {
 
     budget = new Budget("Test budget");
     income =
-        new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE_INCOME);
+        new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE);
     expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);

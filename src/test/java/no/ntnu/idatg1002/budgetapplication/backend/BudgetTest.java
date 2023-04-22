@@ -17,7 +17,7 @@ class BudgetTest {
   void setUp() {
     budget = new Budget("Test");
     income =
-        new Income(200, "Test income", RecurringType.NONRECURRING, IncomeCategory.PROFIT_INCOME);
+        new Income(200, "Test income", RecurringType.NONRECURRING, IncomeCategory.GIFT);
     expense = new Expense(300, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.FOOD);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
@@ -74,7 +74,7 @@ class BudgetTest {
     Expense localExpense =
         new Expense(150, "Test expense 2", RecurringType.MONTHLY, ExpenseCategory.HEALTHCARE);
     Income localIncome =
-        new Income(200, "Test income 2", RecurringType.DAILY, IncomeCategory.PASSIVE_INCOME);
+        new Income(200, "Test income 2", RecurringType.DAILY, IncomeCategory.INVESTMENT_PROFIT);
     budget.addBudgetIncome(localIncome);
     budget.addBudgetExpenses(localExpense);
 
@@ -98,7 +98,7 @@ class BudgetTest {
     budget.removeBudgetExpenses(expense);
     budget.addBudgetIncome(
         new Income(
-            200, "Test income 2", RecurringType.NONRECURRING, IncomeCategory.CAPITAL_GAINS_INCOME));
+            200, "Test income 2", RecurringType.NONRECURRING, IncomeCategory.BUSINESS_PROFIT));
     budget.addBudgetExpenses(
         new Expense(150, "Test expense 2", RecurringType.MONTHLY, ExpenseCategory.HEALTHCARE));
 

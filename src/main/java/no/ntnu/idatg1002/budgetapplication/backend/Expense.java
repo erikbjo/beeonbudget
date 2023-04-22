@@ -36,7 +36,7 @@ public class Expense extends MoneyAction {
       int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
     super(amount, description, type);
     this.expenseCategory = expenseCategory;
-    this.dateAdded = setDateAdded();
+    this.dateAdded = setExpenseDateAdded();
   }
 
   public Expense() {
@@ -73,7 +73,7 @@ public class Expense extends MoneyAction {
     sb.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(dateAdded));
     return sb.toString();
   }
-  public Date setDateAdded() {
+  private Date setExpenseDateAdded() {
     dateAdded = new Date();
     return dateAdded;
   }

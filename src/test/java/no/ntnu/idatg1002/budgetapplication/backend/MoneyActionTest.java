@@ -13,7 +13,7 @@ class MoneyActionTest {
   @BeforeEach
   void setUp() {
     testAction =
-        new Income(50, "Test description", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME);
+        new Income(50, "Test description", RecurringType.YEARLY, IncomeCategory.PASSIVE);
     testExpense = new Expense(50, "Test expense", RecurringType.DAILY, ExpenseCategory.HOUSING);
   }
 
@@ -25,7 +25,7 @@ class MoneyActionTest {
     Exception thrownDescriptionError =
         assertThrows(
             IllegalArgumentException.class,
-            () -> new Income(100, " ", RecurringType.YEARLY, IncomeCategory.PASSIVE_INCOME));
+            () -> new Income(100, " ", RecurringType.YEARLY, IncomeCategory.PASSIVE));
     assertEquals("Description must not be empty or blank.", thrownDescriptionError.getMessage());
   }
 
