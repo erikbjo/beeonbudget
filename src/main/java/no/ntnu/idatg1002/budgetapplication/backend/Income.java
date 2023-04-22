@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 /**
  * Represents an income entry in the budget application. Inherits from the MoneyAction class. An
@@ -75,8 +77,8 @@ public class Income extends MoneyAction {
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
     stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
-    stringBuilder.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(
-        dateAdded));
+    stringBuilder.append("Date Added: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
+        FormatStyle.SHORT)));
     return stringBuilder.toString();
   }
 }
