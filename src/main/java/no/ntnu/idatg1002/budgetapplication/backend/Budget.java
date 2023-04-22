@@ -11,6 +11,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
 import java.time.LocalDate;
 import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -112,6 +114,12 @@ public class Budget {
 
   public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
+  }
+
+  public String getStartToEndString() {
+    return String.format("%s - %s", getStartDate().format(DateTimeFormatter.ofLocalizedDate(
+        FormatStyle.SHORT)), getEndDate().format(DateTimeFormatter.ofLocalizedDate(
+        FormatStyle.SHORT)));
   }
 
   public Period getIntervalLength() {

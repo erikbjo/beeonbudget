@@ -80,7 +80,7 @@ public class Expense extends MoneyAction {
     sb.append("Description: ").append(this.getDescription()).append("\n");
     sb.append("Type: ").append(this.getRecurringType()).append("\n");
     sb.append("Category: ").append(this.expenseCategory.getExpenseCategoryString()).append("\n");
-    sb.append("Date Added: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
+    sb.append("Expense Date: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
         FormatStyle.SHORT)));
     return sb.toString();
   }
