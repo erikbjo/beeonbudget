@@ -155,8 +155,10 @@ public class ResetPinCodeEnterNewPinCodeController {
    */
   private boolean assertAllFieldsValid() {
     return (!pinCodeTextField.getText().isEmpty()
+        && !pinCodeTextField.getText().isBlank()
         && pinCodeTextField.getText().length() == 4
-        && !securityQuestionAnswerTextField.getText().isEmpty());
+        && !securityQuestionAnswerTextField.getText().isEmpty()
+        && !securityQuestionAnswerTextField.getText().isBlank());
   }
 
   /**
@@ -203,10 +205,11 @@ public class ResetPinCodeEnterNewPinCodeController {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (securityQuestionAnswerTextField.getText().isEmpty()) {
+    if (securityQuestionAnswerTextField.getText().isEmpty()
+        || securityQuestionAnswerTextField.getText().isBlank()) {
       builder.append("Security question answer \n");
     }
-    if (pinCodeTextField.getText().isEmpty()) {
+    if (pinCodeTextField.getText().isEmpty() || pinCodeTextField.getText().isBlank()) {
       builder.append("Pin code \n");
     } else if (pinCodeTextField.getText().length() < 4) {
       builder.append("Full pin code \n");

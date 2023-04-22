@@ -36,10 +36,8 @@ public class LoginController {
   @FXML private Hyperlink forgotPinCodeHyperlink; // Value injected by FXMLLoader
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
-  public LoginController() {
 
-  }
-
+  public LoginController() {}
 
   @FXML // This method is called by the FXMLLoader when initialization is complete
   public void initialize() {
@@ -134,7 +132,9 @@ public class LoginController {
    * @return true if both fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return (!emailTextField.getText().isEmpty() && pinCodeTextField.getText().length() == 4);
+    return (!emailTextField.getText().isEmpty()
+        && !emailTextField.getText().isBlank()
+        && pinCodeTextField.getText().length() == 4);
   }
 
   /** Configures the pin code TextField to accept only numeric input and limit input to 4 digits. */
@@ -182,10 +182,10 @@ public class LoginController {
   private void generateDynamicFeedbackAlert(ActionEvent event) {
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (emailTextField.getText().isEmpty()) {
+    if (emailTextField.getText().isEmpty() || emailTextField.getText().isBlank()) {
       builder.append("Email \n");
     }
-    if (pinCodeTextField.getText().isEmpty()) {
+    if (pinCodeTextField.getText().isEmpty() || pinCodeTextField.getText().isBlank()) {
       builder.append("Pin code \n");
     } else {
       if (pinCodeTextField.getText().length() < 4) {
@@ -200,6 +200,5 @@ public class LoginController {
     alert.showAndWait();
   }
 
-  public void onPinCodeTextFieldKeyPressed(KeyEvent keyEvent) {
-  }
+  public void onPinCodeTextFieldKeyPressed(KeyEvent keyEvent) {}
 }

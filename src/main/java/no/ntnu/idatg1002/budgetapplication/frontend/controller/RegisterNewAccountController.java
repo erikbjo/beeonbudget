@@ -107,10 +107,14 @@ public class RegisterNewAccountController {
 
   private boolean assertAllFieldsValid() {
     return (!usernameTextField.getText().isEmpty()
+        && !usernameTextField.getText().isBlank()
         && !emailTextField.getText().isEmpty()
+        && !emailTextField.getText().isBlank()
         && !pinCodeTextField.getText().isEmpty()
+        && !pinCodeTextField.getText().isBlank()
         && !securityQuestionComboBox.getValue().isEmpty()
-        && !securityQuestionAnswerTextField.getText().isEmpty());
+        && !securityQuestionAnswerTextField.getText().isEmpty()
+        && !securityQuestionAnswerTextField.getText().isBlank());
   }
 
   private void goToLoginScreen(Event event) throws IOException {
@@ -184,19 +188,20 @@ public class RegisterNewAccountController {
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
-    if (usernameTextField.getText().isEmpty()) {
+    if (usernameTextField.getText().isEmpty() || usernameTextField.getText().isBlank()) {
       builder.append("Username \n");
     }
-    if (emailTextField.getText().isEmpty()) {
+    if (emailTextField.getText().isEmpty() || emailTextField.getText().isBlank()) {
       builder.append("Email \n");
     }
-    if (pinCodeTextField.getText().isEmpty()) {
+    if (pinCodeTextField.getText().isEmpty() || pinCodeTextField.getText().isBlank()) {
       builder.append("Pin code \n");
     }
     if (securityQuestionComboBox.getValue() == null) {
       builder.append("Security question \n");
     }
-    if (securityQuestionAnswerTextField.getText().isEmpty()) {
+    if (securityQuestionAnswerTextField.getText().isEmpty()
+        || securityQuestionAnswerTextField.getText().isBlank()) {
       builder.append("Security question answer \n");
     }
 
