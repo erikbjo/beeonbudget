@@ -55,46 +55,50 @@
             <children>
                 <HBox fillHeight="false" prefHeight="441.0" prefWidth="1000.0" spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                     <children>
-                        <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" prefHeight="493.0" prefWidth="145.0" HBox.hgrow="SOMETIMES">
-                            <children>
-                                <Label alignment="CENTER" text="Change Current Budget">
-                                    <font>
-                                        <Font name="System Bold" size="12.0" />
-                                    </font>
-                                    <VBox.margin>
-                                        <Insets bottom="10.0" />
-                                    </VBox.margin>
-                                </Label>
-                                <HBox alignment="CENTER">
-                                    <children>
-                                        <JFXButton fx:id="previousBudgetButton" onAction="#onPreviousBudget" text="Previous" />
-                                        <JFXButton fx:id="nextBudgetButton" onAction="#onNextBudget" text="Next" />
-                                    </children>
-                                </HBox>
-                                <Line endX="150.00001525878906" endY="73.33329010009766" startX="6.62622594833374" startY="73.33329010009766" />
-                                <AnchorPane>
-                                    <children>
-                                        <VBox fx:id="menuBudgetButtonVbox" alignment="CENTER" layoutY="23.0" spacing="10.0" AnchorPane.bottomAnchor="0.3333333333333144" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-                                            <children>
-                                                <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" text="New Income" textAlignment="CENTER" />
-                                                <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" text="New Expense" />
-                                                <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" text="Details" />
-                                                <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" text="Delete Item" />
-                                                <JFXButton fx:id="newBudgetButton" onAction="#onNewBudget" text="New Budget" />
-                                                <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" text="Delete Budget" />
-                                                <JFXButton fx:id="backButtonBudget" contentDisplay="CENTER" onAction="#switchToPrimaryFromBudget" text="Back" />
-                                            </children>
-                                            <opaqueInsets>
-                                                <Insets />
-                                            </opaqueInsets>
-                                        </VBox>
-                                    </children>
-                                </AnchorPane>
-                            </children>
-                            <effect>
-                                <InnerShadow />
-                            </effect>
-                        </VBox>
+                  <AnchorPane HBox.hgrow="SOMETIMES">
+                     <children>
+                              <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" layoutX="4.0" prefHeight="493.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                  <children>
+                                      <Label alignment="CENTER" text="Change Current Budget">
+                                          <font>
+                                              <Font name="System Bold" size="12.0" />
+                                          </font>
+                                          <VBox.margin>
+                                              <Insets bottom="10.0" />
+                                          </VBox.margin>
+                                      </Label>
+                                      <HBox alignment="CENTER">
+                                          <children>
+                                              <JFXButton fx:id="previousBudgetButton" onAction="#onPreviousBudget" text="Previous" />
+                                              <JFXButton fx:id="nextBudgetButton" onAction="#onNextBudget" text="Next" />
+                                          </children>
+                                      </HBox>
+                                      <Line endX="150.00001525878906" endY="73.33329010009766" startX="6.62622594833374" startY="73.33329010009766" />
+                                      <AnchorPane>
+                                          <children>
+                                              <VBox fx:id="menuBudgetButtonVbox" alignment="CENTER" layoutY="23.0" spacing="10.0" AnchorPane.bottomAnchor="0.3333333333333144" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                                                  <children>
+                                                      <JFXButton fx:id="newIncomeButton" onAction="#onNewIncome" text="New Income" textAlignment="CENTER" />
+                                                      <JFXButton fx:id="newExpenseButton" onAction="#onNewExpense" text="New Expense" />
+                                                      <JFXButton fx:id="moreInfoButton" onAction="#getInformationFromSelectedItem" text="Details" />
+                                                      <JFXButton fx:id="deleteItemButton" onAction="#deleteRowFromTable" text="Delete Item" />
+                                                      <JFXButton fx:id="newBudgetButton" onAction="#onNewBudget" text="New Budget" />
+                                                      <JFXButton fx:id="deleteBudgetButton" onAction="#deleteBudget" text="Delete Budget" />
+                                                      <JFXButton fx:id="backButtonBudget" contentDisplay="CENTER" onAction="#switchToPrimaryFromBudget" text="Back" />
+                                                  </children>
+                                                  <opaqueInsets>
+                                                      <Insets />
+                                                  </opaqueInsets>
+                                              </VBox>
+                                          </children>
+                                      </AnchorPane>
+                                  </children>
+                                  <effect>
+                                      <InnerShadow />
+                                  </effect>
+                              </VBox>
+                     </children>
+                  </AnchorPane>
                         <VBox alignment="CENTER" spacing="10.0" HBox.hgrow="SOMETIMES">
                             <padding>
                                 <Insets bottom="10.0" />

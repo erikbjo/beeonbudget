@@ -133,7 +133,6 @@ public class AddBudgetDialog extends Dialog<Budget> {
   }
 
   public DatePicker getStartDatePicker() {
-    startDatePicker.setValue(LocalDate.now());
     return startDatePicker;
   }
 
