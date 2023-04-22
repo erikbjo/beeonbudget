@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -36,6 +37,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML private Button submitButton;
   @FXML private DatePicker endDatePicker;
   @FXML private DatePicker startDatePicker;
+  @FXML private Button testsub;
 
   /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
   public AddBudgetDialog() {
@@ -125,18 +127,29 @@ public class AddBudgetDialog extends Dialog<Budget> {
   }
 
   public DatePicker getStartDatePicker() {
+    startDatePicker.setValue(LocalDate.now());
     return startDatePicker;
   }
 
   @FXML
-  public LocalDate getStartDate(ActionEvent event) {
+  public LocalDate getStartDate(){
     LocalDate startDate = getStartDatePicker().getValue();
     return startDate;
   }
 
   @FXML
-  public LocalDate getEndDate(ActionEvent event) {
+  public LocalDate getEndDate() {
     LocalDate endDate = getEndDatePicker().getValue();
     return endDate;
+  }
+
+  @FXML
+  public void testsubbutton(){
+    if (getStartDate().isBefore(getEndDate())) {
+      System.out.println("Valid");
+    } else {
+      System.out.println("Invalid");
+    }
+    System.out.println(getStartDate().datesUntil(getEndDate()));
   }
 }
