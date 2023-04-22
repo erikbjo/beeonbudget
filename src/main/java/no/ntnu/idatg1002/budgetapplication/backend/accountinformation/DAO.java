@@ -8,7 +8,6 @@ import java.util.Optional;
  * Data Access Object used to access data from a database.
  */
 public interface DAO<T> extends Iterable<T> {
-
   /**
    * Adds a new instance of an entity to the database.
    *
