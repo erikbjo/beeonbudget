@@ -110,7 +110,7 @@ public class ResetPinCodeEnterUserController {
 
   private boolean isValidEmail(String email) {
     boolean isValidEmail = false;
-    List<Account> accounts = AccountDAO.getInstance().getAllAccounts();
+    List<Account> accounts = AccountDAO.getInstance().getAll();
 
     for (Account account : accounts) {
       if (Objects.equals(account.getEmail(), email)) {

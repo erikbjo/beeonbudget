@@ -113,7 +113,7 @@ public class RegisterNewAccountController {
                 pinCodeTextField.getText(),
                 reverseStringToSecurityQuestion(securityQuestionComboBox.getValue()),
                 securityQuestionAnswerTextField.getText());
-        AccountDAO.getInstance().addAccount(newAccount);
+        AccountDAO.getInstance().add(newAccount);
         SessionAccount.getInstance().setAccount(newAccount);
         goToLoginScreen(event);
       } catch (IllegalArgumentException exception) {
