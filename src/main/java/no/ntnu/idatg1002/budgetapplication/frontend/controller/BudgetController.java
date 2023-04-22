@@ -25,6 +25,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
@@ -157,10 +158,8 @@ public class BudgetController implements Initializable {
           SessionAccount.getInstance().getAccount().selectNextBudget();
           updateAllInBudgetView();
         } catch (IndexOutOfBoundsException e) {
-          Alert alert = new Alert(AlertType.WARNING);
-          alert.initModality(Modality.APPLICATION_MODAL);
-          alert.setContentText("There is no next budget");
-          alert.showAndWait();
+          WarningAlert warningAlert = new WarningAlert("There is no next budget");
+          warningAlert.showAndWait();
         }
       } else {
         showNoBudgetErrorFromSelectNewBudget();
@@ -182,10 +181,8 @@ public class BudgetController implements Initializable {
           SessionAccount.getInstance().getAccount().selectPreviousBudget();
           updateAllInBudgetView();
         } catch (IndexOutOfBoundsException e) {
-          Alert alert = new Alert(AlertType.WARNING);
-          alert.setContentText("There is no previous budget");
-          alert.initModality(Modality.APPLICATION_MODAL);
-          alert.showAndWait();
+          WarningAlert warningAlert = new WarningAlert("There is no previous budget");
+          warningAlert.showAndWait();
         }
       } else {
         showNoBudgetErrorFromSelectNewBudget();
@@ -291,10 +288,8 @@ public class BudgetController implements Initializable {
         .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
       deleteExpenseFromTable();
     } else {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.initModality(Modality.APPLICATION_MODAL);
-      alert.setContentText("Please Select a item to Delete");
-      alert.showAndWait();
+      WarningAlert warningAlert = new WarningAlert("Please Select a item to Delete");
+      warningAlert.showAndWait();
     }
   }
 
@@ -376,10 +371,8 @@ public class BudgetController implements Initializable {
         .isSelected(expenseTableView.getSelectionModel().getSelectedIndex())) {
       getInformationFromSelectedExpense();
     } else {
-      Alert alert = new Alert(AlertType.WARNING);
-      alert.setContentText("Please Select An Item To Show More Info.");
-      alert.initModality(Modality.APPLICATION_MODAL);
-      alert.showAndWait();
+      WarningAlert warningAlert = new WarningAlert("Please Select An Item To Show More Info.");
+      warningAlert.showAndWait();
     }
   }
 
@@ -451,34 +444,24 @@ public class BudgetController implements Initializable {
   /** Displays an error alert when trying to add an expense or income without a budget. */
   @FXML
   private void showNoBudgetErrorFromNewMoneyAction() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please create a budget before adding an expense or income");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert =
+        new WarningAlert("Please create a budget before adding an expense or income");
+    warningAlert.showAndWait();
   }
 
   /** Displays an error alert when trying to switch budgets without any existing budgets. */
   @FXML
   private void showNoBudgetErrorFromSelectNewBudget() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please create a budget before trying to switch budget");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert =
+        new WarningAlert("Please create a budget before trying to switch budget");
+    warningAlert.showAndWait();
   }
 
   /** Displays an error alert when trying to delete a budget when no budgets are present. */
   @FXML
   private void showNoBudgetErrorFromDeleteBudget() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("There is no budget to be deleted");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert("There is no budget to be deleted");
+    warningAlert.showAndWait();
   }
 
   // UPDATE METHODS BELOW

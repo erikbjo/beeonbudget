@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -15,6 +16,7 @@ import jfxtras.scene.control.CalendarPicker;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Represents a custom dialog for adding a budget in the budget application. The dialog includes a
@@ -35,6 +37,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML private Button submitButton;
   @FXML private DatePicker endDatePicker;
   @FXML private DatePicker startDatePicker;
+  @FXML private Button testsub;
 
   /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
   public AddBudgetDialog() {
@@ -115,16 +118,11 @@ public class AddBudgetDialog extends Dialog<Budget> {
         && !endDatePicker.getEditor().getText().isEmpty();
   }
 
-
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please fill out the budget name and/or choose a start and end date");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert("Please fill out the budget name");
+    warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
+    warningAlert.showAndWait();
   }
 
   public DatePicker getEndDatePicker() {
@@ -132,6 +130,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
   }
 
   public DatePicker getStartDatePicker() {
+    startDatePicker.setValue(LocalDate.now());
     return startDatePicker;
   }
 
@@ -143,5 +142,15 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML
   public LocalDate getEndDate(ActionEvent event) {
     return getEndDatePicker().getValue();
+  }
+
+  @FXML
+  public void testsubbutton(){
+    if (getStartDate().isBefore(getEndDate())) {
+      System.out.println("Valid");
+    } else {
+      System.out.println("Invalid");
+    }
+    System.out.println(getStartDate().datesUntil(getEndDate()));
   }
 }

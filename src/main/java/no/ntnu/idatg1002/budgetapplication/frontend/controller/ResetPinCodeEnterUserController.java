@@ -20,6 +20,7 @@ import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 public class ResetPinCodeEnterUserController {
   @FXML public Text resetPinCodeText;
@@ -122,20 +123,12 @@ public class ResetPinCodeEnterUserController {
   }
 
   private void showEmptyTextFieldAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please fill out username or email");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert("Please fill out username or email");
+    warningAlert.showAndWait();
   }
 
   private void showInvalidLoginAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Invalid username or email");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert("Invalid username or email");
+    warningAlert.showAndWait();
   }
 }

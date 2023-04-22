@@ -1,6 +1,7 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -15,6 +16,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Represents a custom dialog for adding an expense in the budget application. The dialog includes
@@ -30,6 +32,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
   @FXML private TextField expenseDescriptionField;
   @FXML private ComboBox<String> categoryComboBox;
   @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
+  @FXML private DatePicker expenseDate;
   @FXML private Button cancelButton;
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
@@ -158,6 +161,11 @@ public class AddExpenseDialog extends Dialog<Expense> {
     return ExpenseCategory.valueOfLabel(categoryComboBox.getValue());
   }
 
+  private LocalDate getExpenseDate() {
+    LocalDate date = expenseDate.getValue();
+    return date;
+  }
+
   /**
    * Verifies that all input fields have valid values.
    *
@@ -185,9 +193,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    * </ul>
    */
   private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
+    WarningAlert warningAlert = new WarningAlert();
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
@@ -204,9 +210,8 @@ public class AddExpenseDialog extends Dialog<Expense> {
       builder.append("Category \n");
     }
 
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
+    warningAlert.setContentText(builder.toString());
+    warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
+    warningAlert.showAndWait();
   }
 }
