@@ -15,8 +15,7 @@ class AccountDAOTest {
   void setUp() {
     accountDAO = AccountDAO.getInstance();
     testAccount =
-        new Account(
-            "Test User", "test.user@example.com", "1234", SecurityQuestion.FAVORITE_FOOD, "test");
+        new Account("Erik B", "erbj@ntnu.no", "1234", SecurityQuestion.FAVORITE_FOOD, "Pizza");
     accountDAO.add(testAccount);
   }
 
@@ -43,10 +42,10 @@ class AccountDAOTest {
 
   @Test
   void testUpdate() {
-    testAccount.setName("Updated Test User");
+    testAccount.setName("Ozzy");
     accountDAO.update(testAccount);
     Optional<Account> foundAccount = accountDAO.find(testAccount.getId());
     assertTrue(foundAccount.isPresent());
-    assertEquals("Updated Test User", foundAccount.get().getName());
+    assertEquals("Ozzy", foundAccount.get().getName());
   }
 }
