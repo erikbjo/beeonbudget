@@ -38,7 +38,7 @@ class AccountTest {
 
   @AfterEach
   void tearDown() {
-    for (Account a : AccountDAO.getInstance().getAllAccounts()) {
+    for (Account a : AccountDAO.getInstance().getAll()) {
       a = null;
     }
   }
@@ -76,11 +76,11 @@ class AccountTest {
     @Test
     void emailAlreadyInUse() {
       Account testAccount = new Account("Erik", "simon@gmail.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
-      AccountDAO.getInstance().addAccount(testAccount);
+      AccountDAO.getInstance().add(testAccount);
           Exception thrown =
           assertThrows(IllegalArgumentException.class, () -> account.setEmail("simon@gmail.com"));
       assertEquals("Email already in use.", thrown.getMessage());
-      AccountDAO.getInstance().removeAccount(testAccount);
+      AccountDAO.getInstance().remove(testAccount);
       }
   }
 

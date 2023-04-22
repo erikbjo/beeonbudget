@@ -335,7 +335,7 @@ public class Account {
 
   /** Select next budget in budgets arraylist. */
   public void selectNextBudget() {
-    if (budgets.size() > 1){
+    if (budgets.size() > 1) {
       if (currentBudgetIndex < budgets.size() - 1) {
         currentBudgetIndex += 1;
       } else {
@@ -346,7 +346,7 @@ public class Account {
 
   /** Select previous budget in budgets arraylist. */
   public void selectPreviousBudget() {
-    if (budgets.size() > 1){
+    if (budgets.size() > 1) {
       if (currentBudgetIndex > 0) {
         currentBudgetIndex -= 1;
       } else {
@@ -377,7 +377,7 @@ public class Account {
 
   /** Select next savings plan in savings plan arraylist. */
   public void selectNextSavingsPlan() {
-    if (savingsPlans.size() > 1){
+    if (savingsPlans.size() > 1) {
       if (currentSavingsPlanIndex < savingsPlans.size() - 1) {
         currentSavingsPlanIndex += 1;
       } else {
