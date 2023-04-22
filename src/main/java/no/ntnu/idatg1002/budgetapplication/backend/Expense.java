@@ -5,6 +5,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import java.text.DateFormat;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 
 /**
@@ -40,6 +42,13 @@ public class Expense extends MoneyAction {
     this.dateAdded = dateAdded;
   }
 
+  public Expense(
+      int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
+    super(amount, description, type);
+    this.expenseCategory = expenseCategory;
+    this.dateAdded = LocalDate.now();
+  }
+
   public Expense() {
 
   }
@@ -71,7 +80,8 @@ public class Expense extends MoneyAction {
     sb.append("Description: ").append(this.getDescription()).append("\n");
     sb.append("Type: ").append(this.getRecurringType()).append("\n");
     sb.append("Category: ").append(this.expenseCategory.getExpenseCategoryString());
-    sb.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(dateAdded));
+    sb.append("Date Added: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
+        FormatStyle.SHORT)));
     return sb.toString();
   }
 }

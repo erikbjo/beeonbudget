@@ -56,6 +56,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
 
     this.setDialogPane(dialogPane);
     this.setTitle("Add Budget");
+    startDatePicker.setValue(LocalDate.now());
 
     configureBudgetNameAmountField();
   }
@@ -112,7 +113,9 @@ public class AddBudgetDialog extends Dialog<Budget> {
    * @return true if all fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank();
+    return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank()
+        && !startDatePicker.getEditor().getText().isEmpty()
+        && !endDatePicker.getEditor().getText().isEmpty();
   }
 
   /** Generates feedback for the user if the budget name field is invalid. */
@@ -132,15 +135,13 @@ public class AddBudgetDialog extends Dialog<Budget> {
   }
 
   @FXML
-  public LocalDate getStartDate(){
-    LocalDate startDate = getStartDatePicker().getValue();
-    return startDate;
+  public LocalDate getStartDate(ActionEvent event){
+      return getStartDatePicker().getValue();
   }
 
   @FXML
-  public LocalDate getEndDate() {
-    LocalDate endDate = getEndDatePicker().getValue();
-    return endDate;
+  public LocalDate getEndDate(ActionEvent event) {
+    return getEndDatePicker().getValue();
   }
 
   @FXML
