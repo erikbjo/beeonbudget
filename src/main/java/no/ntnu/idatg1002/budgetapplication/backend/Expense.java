@@ -78,8 +78,8 @@ public class Expense extends MoneyAction {
     StringBuilder sb = new StringBuilder();
     sb.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     sb.append("Description: ").append(this.getDescription()).append("\n");
-    sb.append("Type: ").append(this.getRecurringType()).append("\n");
-    sb.append("Category: ").append(this.expenseCategory.getExpenseCategoryString()).append("\n");
+    sb.append("Type: ").append(this.getRecurringType().getLabel()).append("\n");
+    sb.append("Category: ").append(this.getExpenseCategory().getExpenseCategoryString()).append("\n");
     sb.append("Expense Date: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
         FormatStyle.SHORT)));
     return sb.toString();
