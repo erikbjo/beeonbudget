@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -15,6 +16,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 

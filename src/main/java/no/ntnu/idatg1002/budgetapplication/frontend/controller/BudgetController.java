@@ -53,6 +53,7 @@ public class BudgetController implements Initializable {
   @FXML private Label budgetNameInBudget;
   @FXML private Label totalBudgetSum;
   @FXML private PieChart totalChart;
+  @FXML private Label budgetDateLabel;
   @FXML private Button nextBudgetButton;
   @FXML private Button previousBudgetButton;
 
@@ -573,6 +574,10 @@ public class BudgetController implements Initializable {
                       .getAccount()
                       .getSelectedBudget()
                       .getTotalExpense()));
+      budgetDateLabel.setText(
+          String.valueOf(
+              "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget().getStartDate()
+                  + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget().getEndDate()));
     } else {
       setDefaultBudgetMoneyText();
     }
