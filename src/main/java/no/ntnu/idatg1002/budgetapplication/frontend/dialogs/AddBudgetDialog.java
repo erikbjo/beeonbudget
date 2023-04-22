@@ -95,7 +95,9 @@ public class AddBudgetDialog extends Dialog<Budget> {
     Budget newBudget;
     if (assertAllFieldsValid()) {
       try {
-        newBudget = new Budget(budgetNameTextField.getText());
+        newBudget = new Budget(budgetNameTextField.getText(),
+            getStartDate(),
+            getEndDate());
         this.setResult(newBudget);
         this.close();
       } catch (Exception exception) {
@@ -135,13 +137,12 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return startDatePicker;
   }
 
-  @FXML
-  public LocalDate getStartDate(ActionEvent event){
+
+  public LocalDate getStartDate(){
       return getStartDatePicker().getValue();
   }
 
-  @FXML
-  public LocalDate getEndDate(ActionEvent event) {
+  public LocalDate getEndDate() {
     return getEndDatePicker().getValue();
   }
 }

@@ -83,7 +83,8 @@ public class AddExpenseDialog extends Dialog<Expense> {
                 Integer.parseInt(getExpenseAmountFieldText()),
                 getExpenseDescriptionFieldText(),
                 getRecurringIntervalComboBoxValue(),
-                getExpenseCategoryComboBoxValue());
+                getExpenseCategoryComboBoxValue(),
+                getExpenseDate());
         this.setResult(newExpense);
         this.close();
       } catch (Exception exception) {
