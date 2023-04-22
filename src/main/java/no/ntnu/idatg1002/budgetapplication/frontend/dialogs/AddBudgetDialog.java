@@ -16,6 +16,7 @@ import jfxtras.scene.control.CalendarPicker;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Represents a custom dialog for adding a budget in the budget application. The dialog includes a
@@ -114,16 +115,11 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank();
   }
 
-
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please fill out the budget name");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
+    WarningAlert warningAlert = new WarningAlert("Please fill out the budget name");
+    warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
+    warningAlert.showAndWait();
   }
 
   public DatePicker getEndDatePicker() {

@@ -16,6 +16,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Represents a custom dialog for adding an expense in the budget application. The dialog includes
@@ -192,9 +193,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    * </ul>
    */
   private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
+    WarningAlert warningAlert = new WarningAlert();
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
@@ -211,9 +210,8 @@ public class AddExpenseDialog extends Dialog<Expense> {
       builder.append("Category \n");
     }
 
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
+    warningAlert.setContentText(builder.toString());
+    warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
+    warningAlert.showAndWait();
   }
 }

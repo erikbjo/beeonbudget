@@ -25,6 +25,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
@@ -184,20 +185,17 @@ public class PrimaryController implements Initializable {
    */
   @FXML
   private void showNoBudgetCreateBudgetConfirmation(ActionEvent event) throws IOException {
-    System.out.println("Source: " + event.getSource());
-    Alert.AlertType type = AlertType.CONFIRMATION;
-    Alert alert = new Alert(type, "Delete Item");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.setTitle("No Budget");
-    alert.setContentText(
-        "You need to have a budget before adding an expense or income. "
-            + "\nYou have no budgets currently, do you want to make one?");
+    ConfirmationAlert confirmationAlert =
+        new ConfirmationAlert(
+            "No Budget",
+            "You need to have a budget before adding an expense or income. "
+                + "\nYou have no budgets currently, do you want to make one?");
 
-    Optional<ButtonType> result = alert.showAndWait();
+    Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
       showCreateBudgetDialogFromNoBudget(event);
     } else {
-      alert.close();
+      confirmationAlert.close();
     }
   }
 
@@ -293,9 +291,8 @@ public class PrimaryController implements Initializable {
           SessionAccount.getInstance().getAccount().selectPreviousBudget();
           updatePrimaryView();
         } catch (IndexOutOfBoundsException e) {
-          Alert alert = new Alert(AlertType.WARNING);
-          alert.setContentText("There is no previous budget");
-          alert.showAndWait();
+          WarningAlert warningAlert = new WarningAlert("There is no previous budget");
+          warningAlert.showAndWait();
         }
       } else {
         showNoBudgetErrorFromSelectNewBudget();
@@ -311,9 +308,8 @@ public class PrimaryController implements Initializable {
           SessionAccount.getInstance().getAccount().selectNextBudget();
           updatePrimaryView();
         } catch (IndexOutOfBoundsException e) {
-          Alert alert = new Alert(AlertType.WARNING);
-          alert.setContentText("There is no next budget");
-          alert.showAndWait();
+          WarningAlert warningAlert = new WarningAlert("There is no next budget");
+          warningAlert.showAndWait();
         }
       } else {
         showNoBudgetErrorFromSelectNewBudget();
@@ -323,12 +319,9 @@ public class PrimaryController implements Initializable {
 
   @FXML
   private void showNoBudgetErrorFromSelectNewBudget() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
-    alert.setContentText("Please create a budget before trying to switch budget");
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    WarningAlert warningAlert =
+        new WarningAlert("Please create a budget before trying to switch budget");
+    warningAlert.showAndWait();
   }
 
   @FXML
