@@ -7,8 +7,21 @@ public class WarningAlert extends Alert {
   public WarningAlert(String contentText) {
     super(AlertType.WARNING);
     this.setTitle("Error");
-    this.setHeaderText(null);
     this.setContentText(contentText);
+    this.initModality(Modality.APPLICATION_MODAL);
+  }
+
+  public WarningAlert(String contentText, String headerText) {
+    super(AlertType.WARNING);
+    this.setTitle("Error");
+    this.setHeaderText(headerText);
+    this.setContentText(contentText);
+    this.initModality(Modality.APPLICATION_MODAL);
+  }
+
+  public WarningAlert() {
+    super(AlertType.WARNING);
+    this.setTitle("Error");
     this.initModality(Modality.APPLICATION_MODAL);
   }
 }

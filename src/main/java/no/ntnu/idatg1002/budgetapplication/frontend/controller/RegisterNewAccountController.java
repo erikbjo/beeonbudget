@@ -22,6 +22,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Controller class for registering new accounts in the budget application.
@@ -230,9 +231,7 @@ public class RegisterNewAccountController {
   /** Displays a dynamic feedback alert with information about missing/invalid fields. */
   @FXML
   private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
+    WarningAlert warningAlert = new WarningAlert();
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
@@ -253,8 +252,7 @@ public class RegisterNewAccountController {
       builder.append("Security question answer \n");
     }
 
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.showAndWait();
+    warningAlert.setContentText(builder.toString());
+    warningAlert.showAndWait();
   }
 }

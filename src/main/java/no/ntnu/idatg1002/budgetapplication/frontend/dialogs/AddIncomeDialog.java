@@ -13,6 +13,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
+import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
  * Represents a custom dialog for adding an income in the budget application. The dialog includes
@@ -188,9 +189,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    * </ul>
    */
   private void generateDynamicFeedbackAlert() {
-    Alert alert = new Alert(Alert.AlertType.WARNING);
-    alert.setTitle("Error");
-    alert.setHeaderText(null);
+    WarningAlert warningAlert = new WarningAlert();
 
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
 
@@ -207,9 +206,8 @@ public class AddIncomeDialog extends Dialog<Income> {
       builder.append("Category \n");
     }
 
-    alert.setContentText(builder.toString());
-    alert.initModality(Modality.APPLICATION_MODAL);
-    alert.initOwner(this.getDialogPane().getScene().getWindow());
-    alert.showAndWait();
+    warningAlert.setContentText(builder.toString());
+    warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
+    warningAlert.showAndWait();
   }
 }
