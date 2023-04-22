@@ -32,7 +32,7 @@ public class AddIncomeDialog extends Dialog<Income> {
   @FXML private TextField incomeAmountField;
   @FXML private TextField incomeDescriptionField;
   @FXML private ComboBox<String> incomeCategoryComboBox;
-  @FXML private ComboBox<RecurringType> recurringIntervalComboBox;
+  @FXML private ComboBox<String> recurringIntervalComboBox;
   @FXML private DatePicker incomeDatePicker;
   @FXML private Button cancelButton;
 
@@ -163,7 +163,7 @@ public class AddIncomeDialog extends Dialog<Income> {
    * @return the selected recurring type of the income
    */
   private RecurringType getRecurringIntervalComboBoxValue() {
-    return recurringIntervalComboBox.getValue();
+    return RecurringType.valueOfLabel(recurringIntervalComboBox.getValue());
   }
 
   @FXML
@@ -250,7 +250,7 @@ public class AddIncomeDialog extends Dialog<Income> {
 
   @FXML
   public void initialize() {
-    recurringIntervalComboBox.getItems().addAll(RecurringType.values());
+    recurringIntervalComboBox.getItems().addAll(RecurringType.labelValues());
     incomeCategoryComboBox.getItems().addAll(IncomeCategory.labelValues());
     configureIncomeAmountField();
     configureIncomeDescriptionField();
