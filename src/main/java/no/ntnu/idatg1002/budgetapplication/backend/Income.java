@@ -3,6 +3,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import java.text.DateFormat;
 import java.util.Date;
 
 /**
@@ -67,7 +68,7 @@ public class Income extends MoneyAction {
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType()).append("\n");
     stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
-    stringBuilder.append("Date Added: ").append(this.incomeDate);
+    stringBuilder.append("Date Added: ").append(DateFormat.getDateInstance(DateFormat.MEDIUM).format(incomeDate));
     return stringBuilder.toString();
   }
 

@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -10,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import jfxtras.scene.control.CalendarPicker;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 
@@ -30,6 +32,8 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML private TextField budgetNameTextField;
   @FXML private Button cancelButton;
   @FXML private Button submitButton;
+  @FXML private DatePicker endDatePicker;
+  @FXML private DatePicker startDatePicker;
 
   /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
   public AddBudgetDialog() {
@@ -106,13 +110,14 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return !budgetNameTextField.getText().isEmpty();
   }
 
+
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText("Please fill out the budget name");
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
   }
@@ -127,8 +132,28 @@ public class AddBudgetDialog extends Dialog<Budget> {
     alert.setTitle("Error");
     alert.setHeaderText(null);
     alert.setContentText(exception.getMessage());
-    alert.initModality(Modality.NONE);
+    alert.initModality(Modality.APPLICATION_MODAL);
     alert.initOwner(this.getDialogPane().getScene().getWindow());
     alert.showAndWait();
+  }
+
+  public DatePicker getEndDatePicker() {
+    return endDatePicker;
+  }
+
+  public DatePicker getStartDatePicker() {
+    return startDatePicker;
+  }
+
+  @FXML
+  public LocalDate getStartDate(ActionEvent event){
+      LocalDate startDate = getStartDatePicker().getValue();
+      return startDate;
+  }
+
+  @FXML
+  public LocalDate getEndDate(ActionEvent event) {
+    LocalDate endDate = getEndDatePicker().getValue();
+    return endDate;
   }
 }
