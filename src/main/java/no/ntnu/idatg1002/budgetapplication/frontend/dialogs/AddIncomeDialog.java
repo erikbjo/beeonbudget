@@ -208,11 +208,6 @@ public class AddIncomeDialog extends Dialog<Income> {
     alert.showAndWait();
   }
 
-  /**
-   * Displays an alert with the given exception's message.
-   *
-   * @param exception the exception containing the error message to display
-   */
   private void generateExceptionAlert(Exception exception) {
     Alert alert = new Alert(Alert.AlertType.WARNING);
     alert.setTitle("Error");
