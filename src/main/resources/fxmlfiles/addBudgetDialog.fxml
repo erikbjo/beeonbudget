@@ -43,7 +43,6 @@
             </HBox>
                 <HBox alignment="CENTER" spacing="10.0">
                     <children>
-                  <Button fx:id="testsub" mnemonicParsing="false" onAction="#testsubbutton" text="Test sub" />
                         <Button fx:id="submitButton" defaultButton="true" mnemonicParsing="false" onAction="#handleSubmit" text="Submit" />
                         <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#closeDialog" text="Cancel">
                      <HBox.margin>

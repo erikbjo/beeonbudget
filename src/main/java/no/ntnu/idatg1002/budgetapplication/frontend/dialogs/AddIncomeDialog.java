@@ -87,7 +87,8 @@ public class AddIncomeDialog extends Dialog<Income> {
                 Integer.parseInt(getIncomeAmountFieldText()),
                 getIncomeDescriptionFieldText(),
                 getRecurringIntervalComboBoxValue(),
-                getIncomeCategoryComboBoxValue());
+                getIncomeCategoryComboBoxValue(),
+                getIncomeDate());
         this.setResult(newIncome);
         this.close();
       } catch (Exception exception) {

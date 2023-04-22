@@ -340,4 +340,12 @@ public class Budget {
     }
     return data;
   }
+
+  public StringBuilder getBudgetAssString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append(budgetName).append("\n");
+    sb.append(getStartDate()).append("\n");
+    sb.append(getEndDate());
+    return sb;
+  }
 }
