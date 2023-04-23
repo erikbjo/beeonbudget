@@ -11,14 +11,12 @@ import java.time.format.FormatStyle;
  * Represents an income entry in the budget application. Inherits from the MoneyAction class. An
  * Income object includes an amount, a description, a recurring type, and an income category.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Simon Houmb, Eskil Alstad
  * @version 2.0
  */
 @Entity
 public class Income extends MoneyAction {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
   private IncomeCategory incomeCategory;
   private LocalDate dateAdded;
 
@@ -31,7 +29,11 @@ public class Income extends MoneyAction {
    * @param type the recurring type of the income
    * @param incomeCategory the income category associated with the income
    */
-  public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory,
+  public Income(
+      int amount,
+      String description,
+      RecurringType type,
+      IncomeCategory incomeCategory,
       LocalDate dateAdded) {
     super(amount, description, type);
     this.incomeCategory = incomeCategory;
@@ -44,9 +46,7 @@ public class Income extends MoneyAction {
     this.dateAdded = LocalDate.now();
   }
 
-  public Income() {
-
-  }
+  public Income() {}
 
   /**
    * Returns the income category associated with this Income object.
@@ -62,8 +62,12 @@ public class Income extends MoneyAction {
    *
    * @param incomeCategory the new income category to be associated with this income
    */
-  public void setIncomeCategory(IncomeCategory incomeCategory) {
-    this.incomeCategory = incomeCategory;
+  public void setIncomeCategory(IncomeCategory incomeCategory) throws IllegalArgumentException {
+    if (incomeCategory == null) {
+      throw new IllegalArgumentException();
+    } else {
+      this.incomeCategory = incomeCategory;
+    }
   }
 
   public String getIncomeCategoryString() {
@@ -75,9 +79,13 @@ public class Income extends MoneyAction {
     stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");
     stringBuilder.append("Type: ").append(this.getRecurringType().getRecurringType()).append("\n");
-    stringBuilder.append("Category: ").append(this.incomeCategory.getIncomeCategoryLabel()).append("\n");
-    stringBuilder.append("Income Date: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
-        FormatStyle.SHORT)));
+    stringBuilder
+        .append("Category: ")
+        .append(this.incomeCategory.getIncomeCategoryLabel())
+        .append("\n");
+    stringBuilder
+        .append("Income Date: ")
+        .append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
     return stringBuilder.toString();
   }
 }
