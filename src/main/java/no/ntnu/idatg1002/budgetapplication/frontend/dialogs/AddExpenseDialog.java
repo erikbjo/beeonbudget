@@ -171,6 +171,9 @@ public class AddExpenseDialog extends Dialog<Expense> {
   }
 
   private LocalDate getExpenseDateValue() {
+    if (expenseDatePicker.getValue() == null) {
+      expenseDatePicker.setValue(LocalDate.now());
+    }
     LocalDate date = expenseDatePicker.getValue();
     return date;
   }

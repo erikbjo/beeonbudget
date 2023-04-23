@@ -3,7 +3,6 @@ package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 import java.io.IOException;
 import java.net.URL;
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Objects;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
@@ -12,9 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import jfxtras.scene.control.CalendarPicker;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
@@ -37,7 +34,6 @@ public class AddBudgetDialog extends Dialog<Budget> {
   @FXML private Button submitButton;
   @FXML private DatePicker endDatePicker;
   @FXML private DatePicker startDatePicker;
-  @FXML private Button testsub;
 
   /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
   public AddBudgetDialog() {
@@ -117,13 +113,25 @@ public class AddBudgetDialog extends Dialog<Budget> {
   private boolean assertAllFieldsValid() {
     return !budgetNameTextField.getText().isEmpty() && !budgetNameTextField.getText().isBlank()
         && !startDatePicker.getEditor().getText().isEmpty()
-        && !endDatePicker.getEditor().getText().isEmpty();
+        && !endDatePicker.getEditor().getText().isEmpty()
+        && getEndDate().isAfter(getStartDate());
   }
 
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert(
-        "Please fill out the budget name and/or choose the start and end date");
+    WarningAlert warningAlert = new WarningAlert();
+    StringBuilder builder = new StringBuilder("Something is wrong: \n");
+
+    if (getBudgetNameTextField().isEmpty() || getBudgetNameTextField().isBlank()) {
+      builder.append("Name is Empty Or Blank \n");
+    }
+    if (getEndDatePicker().getValue() == null) {
+      builder.append("You Need To chose a End Date \n");
+    }
+    if (getEndDate().isBefore(getStartDate()) && getEndDatePicker().getValue() != null) {
+      builder.append("End Date Cant Be Before Start Date \n");
+    }
+    warningAlert.setContentText(builder.toString());
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
   }
@@ -136,12 +144,21 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return startDatePicker;
   }
 
+  public String getBudgetNameTextField() {
+    return budgetNameTextField.getText();
+  }
 
   public LocalDate getStartDate(){
       return getStartDatePicker().getValue();
   }
 
   public LocalDate getEndDate() {
+    if (getEndDatePicker().getValue() == null) {
+      WarningAlert alert = new WarningAlert(""
+          + "End Date Is Empty");
+      alert.initModality(Modality.APPLICATION_MODAL);
+      alert.showAndWait();
+    }
     return getEndDatePicker().getValue();
   }
 }
