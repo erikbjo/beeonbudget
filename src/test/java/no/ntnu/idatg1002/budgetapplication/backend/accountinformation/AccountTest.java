@@ -29,7 +29,6 @@ class AccountTest {
 
   @BeforeEach
   void setUp() {
-    // accountDAO = AccountDAO.getInstance();
     accountDAO = new AccountDAO();
     sessionAccount = SessionAccount.getInstance();
 
@@ -62,26 +61,10 @@ class AccountTest {
 
   @AfterEach
   void tearDown() {
-    // removeTestAccounts();
-
-    /*
-    System.out.println("start of teardown:getAll(): " + accountDAO.getAll());
-    for (Account account : accountDAO.getAll()) {
-      if (testEmails.contains(account.getEmail())) {
-        if (account.getId() != null) {
-          accountDAO.remove(account);
-          System.out.println("removed" + account);
-        } else {
-          System.out.println("Account with null ID found: " + account);
-        }
-      }
-    }
-
-     */
-
     accountDAO.close();
-
-    // System.out.println("after teardown: " + accountDAO.getAllEmails());
+    accountDAO = new AccountDAO();
+    removeTestAccounts();
+    accountDAO.close();
   }
 
   private void removeTestAccounts() {
