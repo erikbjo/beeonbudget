@@ -475,12 +475,12 @@ public class BudgetController implements Initializable {
 
   // UPDATE METHODS BELOW
 
-  /** This method calls all the other update methods, so that all the whole UI is updated. */
+  /** This method calls all the other update methods, so that the entire UI is updated. */
   private void updateAllInBudgetView() {
     updateItems();
     updateAllPieCharts();
-    updateBudgetInfoText();
     updateBudgetMoneyText();
+    updateBudgetInfoText();
   }
 
   /**
@@ -583,11 +583,10 @@ public class BudgetController implements Initializable {
                       .getSelectedBudget()
                       .getTotalExpense()));
       budgetDateLabel.setText(
-          String.valueOf(
-              "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
-                  .getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-                  + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
-                  .getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))));
+          "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
+              .getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+              + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
+              .getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
     } else {
       setDefaultBudgetMoneyText();
     }
@@ -600,6 +599,7 @@ public class BudgetController implements Initializable {
   private void setDefaultBudgetInfoText() {
     String noBudgetSelected = "No budget selected";
     budgetNameInBudget.setText(noBudgetSelected);
+    budgetDateLabel.setText(noBudgetSelected);
   }
 
   /**
@@ -610,5 +610,6 @@ public class BudgetController implements Initializable {
     String noBudgetSelected = "No budget selected";
     totalIncomeInBudget.setText(noBudgetSelected);
     totalExpenseInBudget.setText(noBudgetSelected);
+    totalBudgetSum.setText(noBudgetSelected);
   }
 }

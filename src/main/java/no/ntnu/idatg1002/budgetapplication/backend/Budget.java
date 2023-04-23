@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.chrono.ChronoLocalDate;
@@ -37,11 +38,6 @@ public class Budget {
   private Period intervalLength;
   private int totalIncome;
   private int totalExpense;
-  private long dayInterval;
-  private long weekInterval;
-  private long monthsInterval;
-  private long yearInterval;
-
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
@@ -130,6 +126,10 @@ public class Budget {
         FormatStyle.SHORT)));
   }
 
+  public Period getIntervalLength() {
+    return this.intervalLength;
+  }
+
   public void setIntervalLength() {
     this.intervalLength = this.startDate.until(this.endDate);
   }
@@ -164,15 +164,14 @@ public class Budget {
    */
   public int getTotalIncome() {
     totalIncome = 0;
-    for (MoneyAction income : incomeList) {
+    for (Income income : incomeList) {
       switch (income.getRecurringType()) {
         case NONRECURRING -> totalIncome += income.getAmount();
         case DAILY -> {
           if (ChronoUnit.DAYS.between(
               SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-            totalIncome += income.getAmount() * ChronoUnit.DAYS.between(
-                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            totalIncome += income.getAmount() * ChronoUnit.DAYS.between(income.getDateAdded(),
                 SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
           } else {
             totalIncome += income.getAmount();
@@ -182,8 +181,7 @@ public class Budget {
           if (ChronoUnit.WEEKS.between(
               SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-            totalIncome += income.getAmount() * ChronoUnit.WEEKS.between(
-                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            totalIncome += income.getAmount() * ChronoUnit.WEEKS.between(income.getDateAdded(),
                 SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
           } else {
             totalIncome += income.getAmount();
@@ -193,8 +191,7 @@ public class Budget {
           if (ChronoUnit.MONTHS.between(
               SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-            totalIncome += income.getAmount() * ChronoUnit.MONTHS.between(
-                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            totalIncome += income.getAmount() * ChronoUnit.MONTHS.between(income.getDateAdded(),
                 SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
           } else {
             totalIncome += income.getAmount();
@@ -204,8 +201,7 @@ public class Budget {
           if (ChronoUnit.YEARS.between(
               SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-            totalIncome += income.getAmount() * ChronoUnit.YEARS.between(
-                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            totalIncome += income.getAmount() * ChronoUnit.YEARS.between(income.getDateAdded(),
                 SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
           } else {
             totalIncome += income.getAmount();
@@ -223,15 +219,14 @@ public class Budget {
    */
   public int getTotalExpense() {
     totalExpense = 0;
-    for (MoneyAction expense : expenseList) {
+    for (Expense expense : expenseList) {
       switch (expense.getRecurringType()) {
         case NONRECURRING -> totalExpense += expense.getAmount();
         case DAILY -> {
           if (ChronoUnit.DAYS.between(
               SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-              totalExpense += expense.getAmount() * ChronoUnit.DAYS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+              totalExpense += expense.getAmount() * ChronoUnit.DAYS.between(expense.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
           } else {
             totalExpense += expense.getAmount();
@@ -241,8 +236,7 @@ public class Budget {
           if (ChronoUnit.WEEKS.between(
               SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-            totalExpense += expense.getAmount() * ChronoUnit.WEEKS.between(
-                SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            totalExpense += expense.getAmount() * ChronoUnit.WEEKS.between(expense.getDateAdded(),
                 SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
           } else {
             totalExpense += expense.getAmount();
@@ -252,8 +246,7 @@ public class Budget {
           if (ChronoUnit.MONTHS.between(
             SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
             SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-          totalExpense += expense.getAmount() * ChronoUnit.MONTHS.between(
-              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+          totalExpense += expense.getAmount() * ChronoUnit.MONTHS.between(expense.getDateAdded(),
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
           totalExpense += expense.getAmount();
@@ -263,8 +256,7 @@ public class Budget {
           if (ChronoUnit.YEARS.between(
             SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
             SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
-          totalExpense += expense.getAmount() * ChronoUnit.YEARS.between(
-              SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+          totalExpense += expense.getAmount() * ChronoUnit.YEARS.between(expense.getDateAdded(),
               SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
           totalExpense += expense.getAmount();
@@ -381,10 +373,10 @@ public class Budget {
    * @return a list of PieChart.Data objects representing expenses by category
    */
   public List<PieChart.Data> getPieChartExpenseData() {
-    Map<String, Double> categories = new HashMap<>();
+    Map<String, Integer> categories = new HashMap<>();
     for (Expense expense : this.getExpenseList()) {
       String category = expense.getExpenseCategory().getExpenseCategoryString();
-      double amount = expense.getAmount();
+      int amount = getTotalExpense();
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);
       } else {
@@ -392,7 +384,7 @@ public class Budget {
       }
     }
     List<PieChart.Data> data = new ArrayList<>();
-    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+    for (Map.Entry<String, Integer> entry : categories.entrySet()) {
       data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;
@@ -404,10 +396,10 @@ public class Budget {
    * @return a list of PieChart.Data objects representing incomes by category
    */
   public List<PieChart.Data> getPieChartIncomeData() {
-    Map<String, Double> categories = new HashMap<>();
+    Map<String, Integer> categories = new HashMap<>();
     for (Income income : this.getIncomeList()) {
       String category = income.getIncomeCategory().getIncomeCategoryLabel();
-      double amount = income.getAmount();
+      int amount = getTotalIncome();
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);
       } else {
@@ -415,7 +407,7 @@ public class Budget {
       }
     }
     List<PieChart.Data> data = new ArrayList<>();
-    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+    for (Map.Entry<String, Integer> entry : categories.entrySet()) {
       data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;
