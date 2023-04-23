@@ -65,7 +65,11 @@ public class SettingsController implements Initializable {
   private void saveProfile(ActionEvent event) {
     if (!userName.getText().equals(SessionAccount.getInstance().getAccount().getName()) ||
     !userEmail.getText().equals(SessionAccount.getInstance().getAccount().getEmail()) ||
-    !userPassword.getText().equals(SessionAccount.getInstance().getAccount().getPinCode())) {
+    !userPassword.getText().equals(SessionAccount.getInstance().getAccount().getPinCode()) &&
+    !userName.getText().isEmpty() && !userName.getText().isBlank() &&
+    !userEmail.getText().isEmpty() && !userEmail.getText().isBlank() &&
+    !userPassword.getText().isEmpty() && !userPassword.getText().isBlank() &&
+        userPassword.getText().length() == 4) {
       ConfirmationAlert confirmationAlert = new ConfirmationAlert("Edit Profile",
           "Are You Sure You Want Save This Changes? ");
       Optional<ButtonType> result = confirmationAlert.showAndWait();
