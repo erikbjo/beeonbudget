@@ -3,6 +3,8 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
+import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,15 +14,29 @@ class BudgetTest {
   private Budget budget;
   private Income income;
   private Expense expense;
+  private SessionAccount sessionAccount;
+  private Account testAccount;
 
   @BeforeEach
   void setUp() {
+    sessionAccount = SessionAccount.getInstance();
+    testAccount =
+        new Account(
+            "Erik Bjørnsen", "erbj@budget.test", "1234", SecurityQuestion.FAVORITE_FOOD, "Pizza");
+    sessionAccount.setAccount(testAccount);
+
     budget = new Budget("Test");
-    income =
-        new Income(200, "Test income", RecurringType.NONRECURRING, IncomeCategory.GIFT);
+    income = new Income(200, "Test income", RecurringType.NONRECURRING, IncomeCategory.GIFT);
     expense = new Expense(300, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.FOOD);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
+
+    testAccount.addBudget(budget);
+  }
+
+  @AfterEach
+  void tearDown() {
+    sessionAccount.clearAccount();
   }
 
   @Test
@@ -105,7 +121,4 @@ class BudgetTest {
     int netBalance = budget.getNetBalance();
     assertEquals(50, netBalance);
   }
-
-  @AfterEach
-  void tearDown() {}
 }

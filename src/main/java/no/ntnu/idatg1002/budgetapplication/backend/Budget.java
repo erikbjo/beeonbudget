@@ -58,7 +58,8 @@ public class Budget {
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
    * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
    */
-  public Budget(String budgetName, LocalDate startDate, LocalDate endDate) throws IllegalArgumentException {
+  public Budget(String budgetName, LocalDate startDate, LocalDate endDate)
+      throws IllegalArgumentException {
     setBudgetName(budgetName);
     this.startDate = startDate;
     this.endDate = endDate;
@@ -121,9 +122,10 @@ public class Budget {
   }
 
   public String getStartToEndString() {
-    return String.format("%s - %s", getStartDate().format(DateTimeFormatter.ofLocalizedDate(
-        FormatStyle.SHORT)), getEndDate().format(DateTimeFormatter.ofLocalizedDate(
-        FormatStyle.SHORT)));
+    return String.format(
+        "%s - %s",
+        getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+        getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
   }
 
   public Period getIntervalLength() {
@@ -145,13 +147,15 @@ public class Budget {
    */
   private boolean checkIfBudgetNameIsTaken(String budgetName) {
     boolean nameTaken = false;
-    List<String> takenNames =
-        SessionAccount.getInstance().getAccount().getBudgets().stream()
-            .map(Budget::getBudgetName)
-            .toList();
-    for (String variableBudgetName : takenNames) {
-      if (budgetName.equalsIgnoreCase(variableBudgetName)) {
-        nameTaken = true;
+    if (!SessionAccount.getInstance().getAccount().getBudgets().isEmpty()) {
+      List<String> takenNames =
+          SessionAccount.getInstance().getAccount().getBudgets().stream()
+              .map(Budget::getBudgetName)
+              .toList();
+      for (String variableBudgetName : takenNames) {
+        if (budgetName.equalsIgnoreCase(variableBudgetName)) {
+          nameTaken = true;
+        }
       }
     }
     return nameTaken;
@@ -440,11 +444,13 @@ public class Budget {
     Map<String, Integer> incomeOrExpense = new HashMap<>();
     for (Income income : this.getIncomeList()) {
       String incomeString = "Income";
-      incomeOrExpense.put(incomeString, incomeOrExpense.getOrDefault(incomeString, 0) + getTotalIncome());
+      incomeOrExpense.put(
+          incomeString, incomeOrExpense.getOrDefault(incomeString, 0) + getTotalIncome());
     }
     for (Expense expense : this.getExpenseList()) {
       String expenseString = "Expense";
-      incomeOrExpense.put(expenseString, incomeOrExpense.getOrDefault(expenseString, 0) + getTotalExpense());
+      incomeOrExpense.put(
+          expenseString, incomeOrExpense.getOrDefault(expenseString, 0) + getTotalExpense());
     }
     List<PieChart.Data> data = new ArrayList<>();
     for (Map.Entry<String, Integer> entry : incomeOrExpense.entrySet()) {

@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class AccountTest {
-  private final AccountDAO accountDAO = AccountDAO.getInstance();
-  private final SessionAccount sessionAccount = SessionAccount.getInstance();
+  private AccountDAO accountDAO;
+  private SessionAccount sessionAccount;
   private Account erikAccount;
   private Account simonAccount;
   private Budget budget;
@@ -25,15 +25,20 @@ class AccountTest {
   private SavingsPlan savingsPlan;
 
   private final ArrayList<String> testEmails =
-      new ArrayList<>(List.of(new String[] {"erbj@ntnu.no", "simonhou@ntnu.no"}));
+      new ArrayList<>(List.of(new String[] {"erbj@ntnu.no.test", "simonhou@ntnu.no.test"}));
 
   @BeforeEach
   void setUp() {
+    accountDAO = new AccountDAO();
+    sessionAccount = SessionAccount.getInstance();
+
+    removeTestAccounts();
+
     erikAccount =
         new Account(
-            "Erik Bjørnsen", "erbj@ntnu.no", "1234", SecurityQuestion.FAVORITE_FOOD, "Pizza");
+            "Erik Bjørnsen", testEmails.get(0), "1234", SecurityQuestion.FAVORITE_FOOD, "Pizza");
     simonAccount =
-        new Account("Simon Houmb", "simonhou@ntnu.no", "1234", SecurityQuestion.CAR_BRAND, "BMW");
+        new Account("Simon Houmb", testEmails.get(1), "1234", SecurityQuestion.CAR_BRAND, "BMW");
 
     accountDAO.add(erikAccount);
     accountDAO.add(simonAccount);
@@ -43,24 +48,29 @@ class AccountTest {
     budget = new Budget("Test budget");
     income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE);
     expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
+
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
+    sessionAccount.getAccount().addBudget(budget);
+
     savingsPlan = new SavingsPlan("Test savingsplan");
-    System.out.println("after setup: " + AccountDAO.getInstance().getAllEmails());
   }
 
   @AfterEach
   void tearDown() {
-    for (Account account : accountDAO.getAll()) {
-      if (testEmails.contains(account.getEmail())) {
-        accountDAO.remove(account);
-        System.out.println("removed" + account);
-      }
-    }
+    accountDAO.close();
+    accountDAO = new AccountDAO();
+    removeTestAccounts();
+    accountDAO.close();
+  }
 
-    sessionAccount.clearAccount();
-    System.out.println("after teardown: " + AccountDAO.getInstance().getAllEmails());
+  private void removeTestAccounts() {
+    if (accountDAO.getAllEmails().contains(testEmails.get(0))
+        || accountDAO.getAllEmails().contains(testEmails.get(1))) {
+      accountDAO.remove(accountDAO.getAccountByEmail(testEmails.get(0)));
+      accountDAO.remove(accountDAO.getAccountByEmail(testEmails.get(1)));
+    }
   }
 
   @Nested
@@ -101,14 +111,10 @@ class AccountTest {
 
     @Test
     void emailAlreadyInUse() {
-      Account testAccount =
-          new Account("Test", "test@test.com", "4444", SecurityQuestion.FAVORITE_FOOD, "Pizza");
-      accountDAO.add(testAccount);
       Exception thrown =
           assertThrows(
-              IllegalArgumentException.class, () -> testAccount.setEmail("simon@gmail.com"));
+              IllegalArgumentException.class, () -> erikAccount.setEmail(testEmails.get(1)));
       assertEquals("Email already in use.", thrown.getMessage());
-      accountDAO.remove(testAccount);
     }
   }
 
@@ -160,12 +166,12 @@ class AccountTest {
   class simpleGettersAndSettersTest {
     @Test
     void getNameReturnsCorrectName() {
-      assertEquals("Test", sessionAccount.getAccount().getName());
+      assertEquals("Erik Bjørnsen", sessionAccount.getAccount().getName());
     }
 
     @Test
     void getEmailReturnsCorrectEmail() {
-      assertEquals("test@test.com", sessionAccount.getAccount().getEmail());
+      assertEquals(testEmails.get(0), sessionAccount.getAccount().getEmail());
     }
 
     @Nested
@@ -293,14 +299,12 @@ class AccountTest {
 
     @Test
     void addNewBudgetWithTakenName() {
-      sessionAccount.getAccount().addBudget(new Budget("My budget"));
       Budget testBudget = new Budget("My budget");
+      sessionAccount.getAccount().addBudget(testBudget);
       Exception thrown =
-          assertThrows(
-              IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().addBudget(testBudget));
+          assertThrows(IllegalArgumentException.class, () -> new Budget("My budget"));
       assertEquals("Budget name is taken.", thrown.getMessage());
-      assertFalse(sessionAccount.getAccount().getBudgets().contains(testBudget));
+      sessionAccount.getAccount().removeBudget(testBudget);
     }
 
     @Test
@@ -317,20 +321,19 @@ class AccountTest {
 
   @Test
   void removeBudgetPositiveTest() {
-    sessionAccount.getAccount().addBudget(budget);
     sessionAccount.getAccount().removeBudget(budget);
     assertFalse(sessionAccount.getAccount().getBudgets().contains(budget));
   }
 
   @Test
   void testThatSelectedBudgetIsInitializedCorrectly() {
-    sessionAccount.getAccount().addBudget(budget);
+    assertThrows(
+        IllegalArgumentException.class, () -> sessionAccount.getAccount().addBudget(budget));
     assertEquals(budget, sessionAccount.getAccount().getSelectedBudget());
   }
 
   @Test
   void testThatSelectedBudgetCanBeIncrementedAndLoops() {
-    sessionAccount.getAccount().addBudget(budget);
     sessionAccount.getAccount().addBudget(new Budget("Test budget 2"));
     sessionAccount.getAccount().addBudget(new Budget("Test budget 3"));
     assertEquals("Test budget 3", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
@@ -360,7 +363,6 @@ class AccountTest {
 
   @Test
   void testThatSelectedBudgetCanBeDecreasedAndLoops() {
-    sessionAccount.getAccount().addBudget(budget);
     sessionAccount.getAccount().addBudget(new Budget("Test budget 2"));
     assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
     // Selected decreases

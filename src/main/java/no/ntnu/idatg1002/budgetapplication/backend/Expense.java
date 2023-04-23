@@ -7,7 +7,6 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 
-
 /**
  * Represents an expense entry in the budget application. Inherits from the MoneyAction class. An
  * Expense object includes an amount, a description, a recurring type, and an expense category.
@@ -17,9 +16,7 @@ import java.time.format.FormatStyle;
  */
 @Entity
 public class Expense extends MoneyAction {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
 
   private ExpenseCategory expenseCategory;
   private LocalDate dateAdded;
@@ -34,7 +31,10 @@ public class Expense extends MoneyAction {
    * @param expenseCategory the expense category associated with the expense
    */
   public Expense(
-      int amount, String description, RecurringType type, ExpenseCategory expenseCategory,
+      int amount,
+      String description,
+      RecurringType type,
+      ExpenseCategory expenseCategory,
       LocalDate dateAdded) {
     super(amount, description, type);
     this.expenseCategory = expenseCategory;
@@ -48,9 +48,7 @@ public class Expense extends MoneyAction {
     this.dateAdded = LocalDate.now();
   }
 
-  public Expense() {
-
-  }
+  public Expense() {}
 
   /**
    * Returns the expense category associated with this Expense object.
@@ -66,9 +64,14 @@ public class Expense extends MoneyAction {
    *
    * @param expenseCategory the new expense category to be associated with this expenses
    */
-  public void setExpenseCategory(ExpenseCategory expenseCategory) {
-    this.expenseCategory = expenseCategory;
+  public void setExpenseCategory(ExpenseCategory expenseCategory) throws IllegalArgumentException {
+    if (expenseCategory == null) {
+      throw new IllegalArgumentException();
+    } else {
+      this.expenseCategory = expenseCategory;
+    }
   }
+
   public String getExpenseCategoryString() {
     return this.expenseCategory.getExpenseCategoryString();
   }
@@ -82,9 +85,11 @@ public class Expense extends MoneyAction {
     sb.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     sb.append("Description: ").append(this.getDescription()).append("\n");
     sb.append("Type: ").append(this.getRecurringType().getRecurringType()).append("\n");
-    sb.append("Category: ").append(this.getExpenseCategory().getExpenseCategoryString()).append("\n");
-    sb.append("Expense Date: ").append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(
-        FormatStyle.SHORT)));
+    sb.append("Category: ")
+        .append(this.getExpenseCategory().getExpenseCategoryString())
+        .append("\n");
+    sb.append("Expense Date: ")
+        .append(dateAdded.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
     return sb.toString();
   }
 }

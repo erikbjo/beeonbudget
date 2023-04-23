@@ -14,9 +14,7 @@ import jakarta.persistence.Id;
  */
 @Entity
 public abstract class MoneyAction {
-  @Id
-  @GeneratedValue
-  private Long id;
+  @Id @GeneratedValue private Long id;
   private int amount;
   private String description;
   private RecurringType type;
@@ -42,9 +40,7 @@ public abstract class MoneyAction {
     this.type = type;
   }
 
-  protected MoneyAction() {
-
-  }
+  protected MoneyAction() {}
 
   /**
    * Returns the amount associated with this MoneyAction.
@@ -104,8 +100,12 @@ public abstract class MoneyAction {
    *
    * @param type the reocurring type of this action
    */
-  public void setRecurringType(RecurringType type) {
-    this.type = type;
+  public void setRecurringType(RecurringType type) throws IllegalArgumentException {
+    if (type == null) {
+      throw new IllegalArgumentException();
+    } else {
+      this.type = type;
+    }
   }
 
   public void setId(Long id) {

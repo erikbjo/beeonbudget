@@ -8,9 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Data Access Object used to access Account data from the database.
- */
+/** Data Access Object used to access Account data from the database. */
 public class AccountDAO implements DAO<Account> {
   private final EntityManagerFactory emf;
   private EntityManager em;
@@ -47,7 +45,6 @@ public class AccountDAO implements DAO<Account> {
     }
   }
 
-  @Override
   public void remove(Account account) {
     Account foundAccount = em.find(Account.class, account.getId());
     em.getTransaction().begin();
@@ -104,8 +101,9 @@ public class AccountDAO implements DAO<Account> {
    * @return The account found.
    */
   public Account getAccountByEmail(String email) {
-    return em.createQuery("SELECT a FROM Account a WHERE a.email LIKE '" + email + "'",
-        Account.class).getSingleResult();
+    return em.createQuery(
+            "SELECT a FROM Account a WHERE a.email LIKE '" + email + "'", Account.class)
+        .getSingleResult();
   }
 
   /**
@@ -124,10 +122,14 @@ public class AccountDAO implements DAO<Account> {
   public void printAllDetails() {
     List<Account> accountList = getAll();
     for (Account account : accountList) {
-      System.out.println("Account Details"
-          + " :: " + account.getId()
-          + " :: " + account.getName()
-          + " :: " + account.getEmail());
+      System.out.println(
+          "Account Details"
+              + " :: "
+              + account.getId()
+              + " :: "
+              + account.getName()
+              + " :: "
+              + account.getEmail());
     }
   }
 
