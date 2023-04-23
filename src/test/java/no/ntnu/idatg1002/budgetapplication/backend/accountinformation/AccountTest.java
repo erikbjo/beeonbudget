@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 class AccountTest {
-  private final AccountDAO accountDAO = AccountDAO.getInstance();
-  private final SessionAccount sessionAccount = SessionAccount.getInstance();
+  private AccountDAO accountDAO;
+  private SessionAccount sessionAccount;
   private Account erikAccount;
   private Account simonAccount;
   private Budget budget;
@@ -29,6 +29,10 @@ class AccountTest {
 
   @BeforeEach
   void setUp() {
+    System.out.println("before setup: " + AccountDAO.getInstance().getAllEmails());
+    accountDAO = AccountDAO.getInstance();
+    sessionAccount = SessionAccount.getInstance();
+
     erikAccount =
         new Account(
             "Erik Bjørnsen", "erbj@ntnu.no", "1234", SecurityQuestion.FAVORITE_FOOD, "Pizza");
@@ -40,27 +44,37 @@ class AccountTest {
 
     sessionAccount.setAccount(erikAccount);
 
+    /*
     budget = new Budget("Test budget");
     income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE);
     expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
+
+
     savingsPlan = new SavingsPlan("Test savingsplan");
+     */
+
     System.out.println("after setup: " + AccountDAO.getInstance().getAllEmails());
   }
 
   @AfterEach
   void tearDown() {
+    System.out.println("start of teardown:getAll(): " + accountDAO.getAll());
     for (Account account : accountDAO.getAll()) {
       if (testEmails.contains(account.getEmail())) {
-        accountDAO.remove(account);
-        System.out.println("removed" + account);
+        if (account.getId() != null) {
+          accountDAO.remove(account);
+          System.out.println("removed" + account);
+        } else {
+          System.out.println("Account with null ID found: " + account);
+        }
       }
     }
 
     sessionAccount.clearAccount();
-    System.out.println("after teardown: " + AccountDAO.getInstance().getAllEmails());
+    System.out.println("after teardown: " + accountDAO.getAllEmails());
   }
 
   @Nested
