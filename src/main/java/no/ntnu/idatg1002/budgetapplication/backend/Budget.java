@@ -161,6 +161,13 @@ public class Budget {
     return nameTaken;
   }
 
+  /**
+   *This method calculates the correct amount for the expense based on the
+   * recurring type.
+   *
+   * @param expense the income given from gui.
+   * @return returns the calculated income based on recurring type as int.
+   */
   private int calculateTotalExpense(Expense expense) {
     totalExpense = expense.getAmount();
     switch (expense.getRecurringType()) {
@@ -209,6 +216,13 @@ public class Budget {
     return totalExpense;
   }
 
+  /**
+   *This method calculates the correct amount for the income based on the
+   * recurring type.
+   *
+   * @param income the income given from gui.
+   * @return returns the calculated income based on recurring type as int.
+   */
   private int calculateTotalIncome(Income income) {
     totalIncome = income.getAmount();
     switch (income.getRecurringType()) {
@@ -257,11 +271,8 @@ public class Budget {
     return totalIncome;
   }
 
-
   /**
-   * Gets total income based on what recurring type it is, example if the income is
-   * daily it will look in the budget and see how long the budget is and multiply it by
-   * how many days there is in the budget.
+   * Gets the total income uses the method calculateTotalIncome to get the correct amount
    *
    * @return the total income as int
    */
@@ -275,9 +286,7 @@ public class Budget {
 
 
   /**
-   * Gets total expense based on what recurring type it is, example if the expense is
-   * weekly it will look in the budget and see how long the budget is and multiply it by
-   * how many weeks there is.
+   * Gets the total Expense uses the method calculateTotalExpense to get the correct amount
    *
    * @return the total expense as int
    */
@@ -459,6 +468,11 @@ public class Budget {
     return data;
   }
 
+  /**
+   * Gets budget as string.
+   *
+   * @return the budget ass string
+   */
   public StringBuilder getBudgetAssString() {
     StringBuilder sb = new StringBuilder();
     sb.append(budgetName).append("\n");

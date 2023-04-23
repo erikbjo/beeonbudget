@@ -88,15 +88,15 @@ public class BudgetController implements Initializable {
     expenseColumn.setReorderable(false);
     expenseCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("expenseCategoryString"));
     expenseCategoryColumn.setReorderable(false);
-    //expenseRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringTypeString"));
-    //expenseRecurringColumn.setReorderable(false);
+    expenseRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringType"));
+    expenseRecurringColumn.setReorderable(false);
 
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     incomeColumn.setReorderable(false);
     incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategoryString"));
     incomeCategoryColumn.setReorderable(false);
-    //incomeRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringTypeString"));
-    //incomeRecurringColumn.setReorderable(false);
+    incomeRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringType"));
+    incomeRecurringColumn.setReorderable(false);
 
     incomeTableView
         .getSelectionModel()

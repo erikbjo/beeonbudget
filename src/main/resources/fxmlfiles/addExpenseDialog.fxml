@@ -68,7 +68,7 @@
             <VBox prefHeight="200.0" prefWidth="100.0" GridPane.rowIndex="4">
                <children>
                   <Label text="Expense date" />
-                  <DatePicker fx:id="expenseDatePicker" editable="false" />
+                  <DatePicker fx:id="expenseDatePicker" editable="false" promptText="Expense Date" />
                </children>
                <padding>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />

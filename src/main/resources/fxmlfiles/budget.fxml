@@ -57,7 +57,7 @@
                     <children>
                   <AnchorPane HBox.hgrow="SOMETIMES">
                      <children>
-                              <VBox fx:id="budgetButtonVbox" alignment="CENTER" fillWidth="false" layoutX="4.0" prefHeight="493.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <VBox fx:id="budgetButtonVbox" alignment="TOP_CENTER" fillWidth="false" layoutX="4.0" prefHeight="493.0" prefWidth="145.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                   <children>
                                       <Label alignment="CENTER" text="Change Current Budget">
                                           <font>
@@ -96,6 +96,9 @@
                                   <effect>
                                       <InnerShadow />
                                   </effect>
+                           <padding>
+                              <Insets top="10.0" />
+                           </padding>
                               </VBox>
                      </children>
                   </AnchorPane>
@@ -106,7 +109,7 @@
                             <children>
                                 <HBox alignment="CENTER" spacing="10.0" VBox.vgrow="SOMETIMES">
                                     <children>
-                                        <VBox alignment="CENTER" prefHeight="249.0" prefWidth="201.0" spacing="20.0" HBox.hgrow="SOMETIMES">
+                                        <VBox alignment="TOP_CENTER" prefHeight="249.0" prefWidth="201.0" spacing="20.0" HBox.hgrow="SOMETIMES">
                                             <children>
                                                 <Label text="Current Total Expense:">
                                                     <font>

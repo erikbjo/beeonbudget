@@ -168,6 +168,9 @@ public class AddIncomeDialog extends Dialog<Income> {
 
   @FXML
   private LocalDate getIncomeDateValue() {
+    if (incomeDatePicker.getValue() == null) {
+      incomeDatePicker.setValue(LocalDate.now());
+    }
     LocalDate date = incomeDatePicker.getValue();
     return date;
   }
