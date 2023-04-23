@@ -48,7 +48,7 @@
                         <VBox alignment="CENTER" spacing="20.0">
                            <children>
                               <JFXButton fx:id="editProfileButton" buttonType="RAISED" mnemonicParsing="false" onAction="#editProfile" text="Edit Profile" />
-                              <JFXButton fx:id="saveProfileButton" onAction="#saveProfile" text="Save Profile" />
+                              <JFXButton fx:id="saveProfileButton" disable="true" onAction="#saveProfile" text="Save Profile" />
                               <JFXButton fx:id="backToMenuButton" buttonType="RAISED" mnemonicParsing="false" onAction="#backToMenu" text="Back To Menu" />
                            </children>
                         </VBox>
