@@ -46,9 +46,7 @@ public class AccountDAO implements DAO<Account> {
   }
 
   public void remove(Account account) {
-    System.out.println("Removing account: " + account);
     Account foundAccount = em.find(Account.class, account.getId());
-    System.out.println("Found account: " + foundAccount);
     em.getTransaction().begin();
     em.remove(foundAccount);
     em.getTransaction().commit();

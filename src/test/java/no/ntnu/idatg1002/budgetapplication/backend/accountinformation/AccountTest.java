@@ -29,9 +29,11 @@ class AccountTest {
 
   @BeforeEach
   void setUp() {
-    System.out.println("before setup: " + AccountDAO.getInstance().getAllEmails());
-    accountDAO = AccountDAO.getInstance();
+    // accountDAO = AccountDAO.getInstance();
+    accountDAO = new AccountDAO();
     sessionAccount = SessionAccount.getInstance();
+
+    // removeTestAccounts();
 
     erikAccount =
         new Account(
@@ -44,23 +46,25 @@ class AccountTest {
 
     sessionAccount.setAccount(erikAccount);
 
-    /*
     budget = new Budget("Test budget");
     income = new Income(50, "Test income", RecurringType.NONRECURRING, IncomeCategory.PASSIVE);
     expense = new Expense(50, "Test expense", RecurringType.NONRECURRING, ExpenseCategory.HOUSING);
+
     budget.addBudgetIncome(income);
     budget.addBudgetExpenses(expense);
 
-
+    sessionAccount.getAccount().addBudget(budget);
 
     savingsPlan = new SavingsPlan("Test savingsplan");
-     */
 
-    System.out.println("after setup: " + AccountDAO.getInstance().getAllEmails());
+    System.out.println("after setup: " + accountDAO.getAll());
   }
 
   @AfterEach
   void tearDown() {
+    // removeTestAccounts();
+
+    /*
     System.out.println("start of teardown:getAll(): " + accountDAO.getAll());
     for (Account account : accountDAO.getAll()) {
       if (testEmails.contains(account.getEmail())) {
@@ -73,8 +77,21 @@ class AccountTest {
       }
     }
 
-    sessionAccount.clearAccount();
-    System.out.println("after teardown: " + accountDAO.getAllEmails());
+     */
+
+    accountDAO.close();
+
+    // System.out.println("after teardown: " + accountDAO.getAllEmails());
+  }
+
+  private void removeTestAccounts() {
+    if (accountDAO.getAllEmails().contains(testEmails.get(0))
+        || accountDAO.getAllEmails().contains(testEmails.get(1))) {
+      System.out.println("before removeTestAccounts(): " + accountDAO.getAll());
+      accountDAO.remove(accountDAO.getAccountByEmail(testEmails.get(0)));
+      accountDAO.remove(accountDAO.getAccountByEmail(testEmails.get(1)));
+      System.out.println("after removeTestAccounts(): " + accountDAO.getAll());
+    }
   }
 
   @Nested

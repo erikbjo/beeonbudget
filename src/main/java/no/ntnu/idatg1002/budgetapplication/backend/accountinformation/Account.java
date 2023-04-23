@@ -17,7 +17,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
-  @Id @GeneratedValue private String id;
+  @Id @GeneratedValue private String id = generateAccountNumber();
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "account_id")
@@ -272,7 +272,7 @@ public class Account {
    *     taken.
    */
   public void addBudget(Budget budget) throws IllegalArgumentException {
-    if (budgets.contains(budget)) {
+    if (!budgets.isEmpty() && budgets.contains(budget)) {
       throw new IllegalArgumentException("An instance of the budget already exists.");
     } else {
       this.budgets.add(budget);
