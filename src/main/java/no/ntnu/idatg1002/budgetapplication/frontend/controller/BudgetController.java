@@ -7,6 +7,7 @@ import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,10 +20,12 @@ import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
@@ -61,6 +64,8 @@ public class BudgetController implements Initializable {
   @FXML private Button nextBudgetButton;
   @FXML private Button previousBudgetButton;
 
+
+
   /**
    * Constructor for the BudgetController class.
    *
@@ -91,12 +96,14 @@ public class BudgetController implements Initializable {
     expenseRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringType"));
     expenseRecurringColumn.setReorderable(false);
 
+
     incomeColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
     incomeColumn.setReorderable(false);
     incomeCategoryColumn.setCellValueFactory(new PropertyValueFactory<>("incomeCategoryString"));
     incomeCategoryColumn.setReorderable(false);
     incomeRecurringColumn.setCellValueFactory(new PropertyValueFactory<>("recurringType"));
     incomeRecurringColumn.setReorderable(false);
+
 
     incomeTableView
         .getSelectionModel()
