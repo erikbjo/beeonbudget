@@ -4,6 +4,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -34,6 +35,21 @@ class AccountDAOTest {
   }
 
   @Test
+  void testAddAlreadyAddedAccount() {
+    assertThrows(IllegalArgumentException.class, () -> accountDAO.add(testAccount));
+  }
+
+  @Test
+  void testAddAccountWithTakenEmail() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            accountDAO.add(
+                new Account(
+                    "Test", "erbj@ntnu.no", "1234", SecurityQuestion.CAR_BRAND, "Porsche")));
+  }
+
+  @Test
   void testRemove() {
     accountDAO.remove(testAccount);
     Optional<Account> foundAccount = accountDAO.find(testAccount.getId());
@@ -47,5 +63,15 @@ class AccountDAOTest {
     Optional<Account> foundAccount = accountDAO.find(testAccount.getId());
     assertTrue(foundAccount.isPresent());
     assertEquals("Ozzy", foundAccount.get().getName());
+  }
+
+  @Test
+  void testLoginValid() {
+    assertTrue(accountDAO.loginIsValid("erbj@ntnu.no", "1234"));
+  }
+
+  @Test
+  void testLoginInvalid() {
+    assertFalse(accountDAO.loginIsValid("erbj@ntnu.no", "0987"));
   }
 }
