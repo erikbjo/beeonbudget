@@ -2,7 +2,8 @@
   -fx-text-fill: black;
 }
 #SummaryPane {
-  -fx-background-color: #dfdfdf;
+  -fx-background-color: #f5f5f5
+;
   -fx-border-color: black;
 }
 #menuPane{
