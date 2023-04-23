@@ -74,6 +74,10 @@ public class Income extends MoneyAction {
     return this.incomeCategory.getIncomeCategoryLabel();
   }
 
+  public LocalDate getDateAdded() {
+    return dateAdded;
+  }
+
   public String getIncomeAssString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");

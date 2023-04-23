@@ -9,6 +9,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.chrono.ChronoLocalDate;
@@ -37,10 +38,6 @@ public class Budget {
   private Period intervalLength;
   private int totalIncome;
   private int totalExpense;
-  private long dayInterval;
-  private long weekInterval;
-  private long monthsInterval;
-  private long yearInterval;
 
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
   @JoinColumn(name = "account_id")
@@ -131,6 +128,10 @@ public class Budget {
         getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
   }
 
+  public Period getIntervalLength() {
+    return this.intervalLength;
+  }
+
   public void setIntervalLength() {
     this.intervalLength = this.startDate.until(this.endDate);
   }
@@ -160,144 +161,130 @@ public class Budget {
     return nameTaken;
   }
 
-  /**
-   * Get the total income by adding up all the income objects in the incomeList.
-   *
-   * @return The total income of the user.
-   */
-  public int getTotalIncome() {
-    totalIncome = 0;
-    for (MoneyAction income : incomeList) {
-      switch (income.getRecurringType()) {
-        case NONRECURRING -> totalIncome += income.getAmount();
-        case DAILY -> {
-          if (ChronoUnit.DAYS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalIncome +=
-                income.getAmount()
-                    * ChronoUnit.DAYS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalIncome += income.getAmount();
-          }
+  private int calculateTotalExpense(Expense expense) {
+    totalExpense = expense.getAmount();
+    switch (expense.getRecurringType()) {
+      case NONRECURRING -> expense.getAmount();
+      case DAILY -> {
+        if (ChronoUnit.DAYS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalExpense *= ChronoUnit.DAYS.between(expense.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalExpense += expense.getAmount();
         }
-        case WEEKLY -> {
-          if (ChronoUnit.WEEKS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalIncome +=
-                income.getAmount()
-                    * ChronoUnit.WEEKS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalIncome += income.getAmount();
-          }
+      }
+      case WEEKLY -> {
+        if (ChronoUnit.WEEKS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalExpense *= ChronoUnit.WEEKS.between(expense.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalExpense += expense.getAmount();
         }
-        case MONTHLY -> {
-          if (ChronoUnit.MONTHS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalIncome +=
-                income.getAmount()
-                    * ChronoUnit.MONTHS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalIncome += income.getAmount();
-          }
+      }
+      case MONTHLY -> {
+        if (ChronoUnit.MONTHS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalExpense *= ChronoUnit.MONTHS.between(expense.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalExpense += expense.getAmount();
         }
-        case YEARLY -> {
-          if (ChronoUnit.YEARS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalIncome +=
-                income.getAmount()
-                    * ChronoUnit.YEARS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalIncome += income.getAmount();
-          }
+      }
+      case YEARLY -> {
+        if (ChronoUnit.YEARS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalExpense *= ChronoUnit.YEARS.between(expense.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalExpense += expense.getAmount();
+        }
+      }
+    }
+    return totalExpense;
+  }
+
+  private int calculateTotalIncome(Income income) {
+    totalIncome = income.getAmount();
+    switch (income.getRecurringType()) {
+      case NONRECURRING -> income.getAmount();
+      case DAILY -> {
+        if (ChronoUnit.DAYS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalIncome *= ChronoUnit.DAYS.between(income.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalIncome += income.getAmount();
+        }
+      }
+      case WEEKLY -> {
+        if (ChronoUnit.WEEKS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalIncome *= ChronoUnit.WEEKS.between(income.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalIncome += income.getAmount();
+        }
+      }
+      case MONTHLY -> {
+        if (ChronoUnit.MONTHS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalIncome *= ChronoUnit.MONTHS.between(income.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalIncome += income.getAmount();
+        }
+      }
+      case YEARLY -> {
+        if (ChronoUnit.YEARS.between(
+            SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
+            SessionAccount.getInstance().getAccount().getSelectedBudget().endDate) > 1) {
+          totalIncome *= ChronoUnit.YEARS.between(income.getDateAdded(),
+              SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
+        } else {
+          totalIncome += income.getAmount();
         }
       }
     }
     return totalIncome;
   }
 
+
   /**
-   * This function returns the total expense of all the expenses in the expense list.
+   * Gets total income based on what recurring type it is, example if the income is
+   * daily it will look in the budget and see how long the budget is and multiply it by
+   * how many days there is in the budget.
    *
-   * @return The total expense of the trip.
+   * @return the total income as int
+   */
+  public int getTotalIncome() {
+    totalIncome = 0;
+    for (Income income : this.getIncomeList()) {
+      totalIncome += calculateTotalIncome(income);
+    }
+    return totalIncome;
+  }
+
+
+  /**
+   * Gets total expense based on what recurring type it is, example if the expense is
+   * weekly it will look in the budget and see how long the budget is and multiply it by
+   * how many weeks there is.
+   *
+   * @return the total expense as int
    */
   public int getTotalExpense() {
     totalExpense = 0;
-    for (MoneyAction expense : expenseList) {
-      switch (expense.getRecurringType()) {
-        case NONRECURRING -> totalExpense += expense.getAmount();
-        case DAILY -> {
-          if (ChronoUnit.DAYS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalExpense +=
-                expense.getAmount()
-                    * ChronoUnit.DAYS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalExpense += expense.getAmount();
-          }
-        }
-        case WEEKLY -> {
-          if (ChronoUnit.WEEKS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalExpense +=
-                expense.getAmount()
-                    * ChronoUnit.WEEKS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalExpense += expense.getAmount();
-          }
-        }
-        case MONTHLY -> {
-          if (ChronoUnit.MONTHS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalExpense +=
-                expense.getAmount()
-                    * ChronoUnit.MONTHS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalExpense += expense.getAmount();
-          }
-        }
-        case YEARLY -> {
-          if (ChronoUnit.YEARS.between(
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                  SessionAccount.getInstance().getAccount().getSelectedBudget().endDate)
-              > 1) {
-            totalExpense +=
-                expense.getAmount()
-                    * ChronoUnit.YEARS.between(
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().startDate,
-                        SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
-          } else {
-            totalExpense += expense.getAmount();
-          }
-        }
-      }
+    for (Expense expense : this.expenseList) {
+      totalExpense += calculateTotalExpense(expense);
     }
     return totalExpense;
   }
@@ -408,10 +395,10 @@ public class Budget {
    * @return a list of PieChart.Data objects representing expenses by category
    */
   public List<PieChart.Data> getPieChartExpenseData() {
-    Map<String, Double> categories = new HashMap<>();
+    Map<String, Integer> categories = new HashMap<>();
     for (Expense expense : this.getExpenseList()) {
       String category = expense.getExpenseCategory().getExpenseCategoryString();
-      double amount = expense.getAmount();
+      int amount = calculateTotalExpense(expense);
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);
       } else {
@@ -419,7 +406,7 @@ public class Budget {
       }
     }
     List<PieChart.Data> data = new ArrayList<>();
-    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+    for (Map.Entry<String, Integer> entry : categories.entrySet()) {
       data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;
@@ -431,10 +418,10 @@ public class Budget {
    * @return a list of PieChart.Data objects representing incomes by category
    */
   public List<PieChart.Data> getPieChartIncomeData() {
-    Map<String, Double> categories = new HashMap<>();
+    Map<String, Integer> categories = new HashMap<>();
     for (Income income : this.getIncomeList()) {
       String category = income.getIncomeCategory().getIncomeCategoryLabel();
-      double amount = income.getAmount();
+      int amount = calculateTotalIncome(income);
       if (categories.containsKey(category)) {
         categories.put(category, categories.get(category) + amount);
       } else {
@@ -442,7 +429,7 @@ public class Budget {
       }
     }
     List<PieChart.Data> data = new ArrayList<>();
-    for (Map.Entry<String, Double> entry : categories.entrySet()) {
+    for (Map.Entry<String, Integer> entry : categories.entrySet()) {
       data.add(new PieChart.Data(entry.getKey(), entry.getValue()));
     }
     return data;

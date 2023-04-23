@@ -76,6 +76,10 @@ public class Expense extends MoneyAction {
     return this.expenseCategory.getExpenseCategoryString();
   }
 
+  public LocalDate getDateAdded() {
+    return dateAdded;
+  }
+
   public String getExpenseAssString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
