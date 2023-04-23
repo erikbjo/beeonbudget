@@ -40,6 +40,7 @@ public class PrimaryController implements Initializable {
   @FXML private PieChart budgetMenuChart;
   @FXML private JFXButton quitApplicationButton;
   @FXML private JFXButton logOutButton;
+  @FXML private JFXButton settingsButton;
   @FXML private Button nextBudgetButton;
   @FXML private Button previousBudgetButton;
   @FXML private AnchorPane contentPane;
@@ -61,6 +62,17 @@ public class PrimaryController implements Initializable {
    */
   public void switchToBudget(ActionEvent event) throws IOException {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/budget.fxml"));
+    Parent root = loader.load();
+    String css =
+        Objects.requireNonNull(this.getClass().getResource("/cssfiles/budget.css"))
+            .toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
+  @FXML
+  public void switchToSettings(ActionEvent event) throws IOException {
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/settings.fxml"));
     Parent root = loader.load();
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/budget.css"))
