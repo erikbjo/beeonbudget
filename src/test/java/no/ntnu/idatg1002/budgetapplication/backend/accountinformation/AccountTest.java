@@ -33,7 +33,7 @@ class AccountTest {
     accountDAO = new AccountDAO();
     sessionAccount = SessionAccount.getInstance();
 
-    // removeTestAccounts();
+    removeTestAccounts();
 
     erikAccount =
         new Account(
