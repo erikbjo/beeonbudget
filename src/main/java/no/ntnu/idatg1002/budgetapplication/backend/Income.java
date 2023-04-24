@@ -21,13 +21,14 @@ public class Income extends MoneyAction {
   private LocalDate dateAdded;
 
   /**
-   * Constructs an Income object with the specified amount, description, recurring type, and income
-   * category.
+   * Constructs an Income object with the specified amount, description, recurring type, income
+   * category, and the date of the income.
    *
    * @param amount the monetary amount, must be non-negative
    * @param description a non-empty, non-blank description of the income
    * @param type the recurring type of the income
    * @param incomeCategory the income category associated with the income
+   * @param dateAdded the date of the income.
    */
   public Income(
       int amount,
@@ -40,13 +41,23 @@ public class Income extends MoneyAction {
     this.dateAdded = dateAdded;
   }
 
+  /**
+   * Constructs an Income object with the specified amount, description, recurring type and income
+   * category. Sets the date added to current time.
+   *
+   * @param amount the monetary amount, must be non-negative
+   * @param description a non-empty, non-blank description of the income
+   * @param type the recurring type of the income
+   * @param incomeCategory the income category associated with the income
+   */
   public Income(int amount, String description, RecurringType type, IncomeCategory incomeCategory) {
     super(amount, description, type);
     this.incomeCategory = incomeCategory;
     this.dateAdded = LocalDate.now();
   }
 
-  public Income() {}
+  /** Default constructor for income */
+  private Income() {}
 
   /**
    * Returns the income category associated with this Income object.
@@ -70,14 +81,29 @@ public class Income extends MoneyAction {
     }
   }
 
+  /**
+   * Returns the income category as a string.
+   *
+   * @return the income category as a string.
+   */
   public String getIncomeCategoryString() {
     return this.incomeCategory.getIncomeCategoryLabel();
   }
 
+  /**
+   * Returns the date added.
+   *
+   * @return the date of the income.
+   */
   public LocalDate getDateAdded() {
     return dateAdded;
   }
 
+  /**
+   * Returns the income as a string. Adds all parameters of the income to the string.
+   *
+   * @return the income formatted as a string.
+   */
   public String getIncomeAsString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
