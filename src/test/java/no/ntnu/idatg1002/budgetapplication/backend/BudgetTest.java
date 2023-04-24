@@ -44,23 +44,18 @@ class BudgetTest {
   }
 
   @Test
-  void checkThatConstructorNeedsToHaveValidParameters() {
-    Exception thrownBudgetNameError =
-        assertThrows(IllegalArgumentException.class, () -> new Budget(" "));
-    assertEquals("Budget name must not be empty or blank.", thrownBudgetNameError.getMessage());
-  }
-
-  @Test
   void checkThatSetBudgetNameNeedsNotBlankString() {
-    Exception thrown =
-        assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(" "));
-    assertEquals("Budget name must not be empty or blank.", thrown.getMessage());
+    assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(" "));
   }
 
   @Test
   void checkThatSetBudgetNameNeedsNotEmptyString() {
-    Exception thrown = assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(""));
-    assertEquals("Budget name must not be empty or blank.", thrown.getMessage());
+    assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(""));
+  }
+
+  @Test
+  void checkThatSetBudgetNameNeedsNotNull() {
+    assertThrows(IllegalArgumentException.class, () -> budget.setBudgetName(null));
   }
 
   @Test
@@ -149,5 +144,39 @@ class BudgetTest {
 
     int netBalance = oneMonthBudget.getNetBalance();
     assertEquals(0, netBalance);
+  }
+
+  @Test
+  void testThatBudgetIntervalCannotBeSetSetToNegativeValue() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () ->
+            testAccount.addBudget(
+                new Budget("Bad budget", LocalDate.now(), LocalDate.now().minusYears(1))));
+  }
+
+  @Test
+  void testThatSetStartDateNeedNotNull() {
+    // NullPointer because setDate is @NotNull
+    assertThrows(NullPointerException.class, () -> budget.setStartDate(null));
+  }
+
+  @Test
+  void testThatSetEndDateNeedsNotNull() {
+    // NullPointer because setDate is @NotNull
+    assertThrows(NullPointerException.class, () -> budget.setEndDate(null));
+  }
+
+  @Test
+  void testThatSetStartDateCannotBeAfterEndDate() {
+    assertThrows(
+        IllegalArgumentException.class, () -> budget.setStartDate(budget.getEndDate().plusDays(1)));
+  }
+
+  @Test
+  void testThatSetEndDateCannotBeBeforeEndDate() {
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> budget.setEndDate(budget.getStartDate().minusDays(1)));
   }
 }

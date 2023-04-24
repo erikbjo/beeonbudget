@@ -27,7 +27,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAcc
  * Represents a budget, contains a list of expenses, a list of incomes, and a list of categories.
  *
  * @author Emil Klegvård-Slåttsveen, Erik Bjørnsen, Simon Husås Houmb, Eskil Alstad
- * @version 3.0
+ * @version 3.1
  */
 @Entity
 public class Budget {
@@ -57,6 +57,7 @@ public class Budget {
    * @param budgetName the budget name
    * @throws IllegalArgumentException "Budget name must not be empty or blank."
    * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
+   * @throws IllegalArgumentException if budget start date is after budget end date
    */
   public Budget(String budgetName, LocalDate startDate, LocalDate endDate)
       throws IllegalArgumentException {
@@ -110,6 +111,9 @@ public class Budget {
   }
 
   public void setStartDate(LocalDate startDate) {
+    if (startDate.isAfter(this.endDate)) {
+      throw new IllegalArgumentException("Start date cannot be after end date");
+    }
     this.startDate = startDate;
   }
 
@@ -118,6 +122,9 @@ public class Budget {
   }
 
   public void setEndDate(LocalDate endDate) {
+    if (endDate.isBefore(this.startDate)) {
+      throw new IllegalArgumentException("End date cannot be before start date");
+    }
     this.endDate = endDate;
   }
 
@@ -133,6 +140,9 @@ public class Budget {
   }
 
   public void setIntervalLength() {
+    if (this.startDate.isAfter(this.endDate)) {
+      throw new IllegalArgumentException("Start date cannot be after end date");
+    }
     this.intervalLength = this.startDate.until(this.endDate);
   }
 
