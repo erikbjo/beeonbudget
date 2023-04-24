@@ -116,7 +116,7 @@ class BudgetTest {
         new Income(
             200, "Test income 2", RecurringType.NONRECURRING, IncomeCategory.BUSINESS_PROFIT));
     budget.addBudgetExpenses(
-        new Expense(150, "Test expense 2", RecurringType.MONTHLY, ExpenseCategory.HEALTHCARE));
+        new Expense(150, "Test expense 2", RecurringType.NONRECURRING, ExpenseCategory.HEALTHCARE));
 
     int netBalance = budget.getNetBalance();
     assertEquals(50, netBalance);
