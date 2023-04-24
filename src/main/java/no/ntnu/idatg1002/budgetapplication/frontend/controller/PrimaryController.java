@@ -7,7 +7,6 @@ import java.util.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -16,11 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.WindowEvent;
 import no.ntnu.idatg1002.budgetapplication.backend.*;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
@@ -38,6 +34,7 @@ public class PrimaryController implements Initializable {
   @FXML private Label usernameLabel;
   @FXML private Label budgetLabel;
   @FXML private PieChart budgetMenuChart;
+  @FXML private JFXButton savingsPlanButton;
   @FXML private JFXButton quitApplicationButton;
   @FXML private JFXButton logOutButton;
   @FXML private JFXButton settingsButton;
@@ -144,11 +141,8 @@ public class PrimaryController implements Initializable {
    * @throws IOException if the savingsPlan.fxml file cannot be loaded.
    */
   public void switchToSavingPlan(ActionEvent event) throws IOException {
-    Parent root =
-        FXMLLoader.load(
-            Objects.requireNonNull(getClass().getResource("/fxmlfiles/savingsPlan.fxml")));
-    stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-    stage.setOnCloseRequest(windowEvent -> AccountDAO.getInstance().close());
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/savingsPlan.fxml"));
+    Parent root = loader.load();
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
             .toExternalForm();
@@ -220,6 +214,11 @@ public class PrimaryController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     updatePrimaryView();
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() == null) {
+      savingsPlanButton.setDisable(true);
+    } else {
+      savingsPlanButton.setDisable(false);
+    }
   }
 
   /**
