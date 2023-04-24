@@ -81,7 +81,7 @@ public class Budget {
   }
 
   /** Default constructor for Budget. */
-  private Budget() {}
+  public Budget() {}
 
   /**
    * Returns the name of the budget.

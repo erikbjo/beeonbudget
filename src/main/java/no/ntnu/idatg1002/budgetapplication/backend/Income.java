@@ -57,7 +57,7 @@ public class Income extends MoneyAction {
   }
 
   /** Default constructor for income */
-  private Income() {}
+  public Income() {}
 
   /**
    * Returns the income category associated with this Income object.

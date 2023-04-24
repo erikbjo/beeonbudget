@@ -59,7 +59,7 @@ public class Expense extends MoneyAction {
   }
 
   /** Default constructor for expense. */
-  private Expense() {}
+  public Expense() {}
 
   /**
    * Returns the expense category associated with this Expense object.
