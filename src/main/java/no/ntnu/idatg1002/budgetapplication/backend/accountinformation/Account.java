@@ -324,6 +324,15 @@ public class Account {
   }
 
   /**
+   * Getter for the current savings plan index.
+   *
+   * @return the current savings plan index.
+   */
+  public Integer getCurrentSavingsPlanIndex() {
+    return currentSavingsPlanIndex;
+  }
+
+  /**
    * Updates the selected savings plan based on the currentSavingsPlanIndex value. Takes appropriate
    * action if the savingsPlans list is empty or if the index is out of bounds.
    */
@@ -376,8 +385,10 @@ public class Account {
 
   /** Initialize selected savings plan. */
   public void initializeSelectedSavingsPlan() {
-    if (savingsPlans.size() == 1) { // means that the budget just entered is the first one
+    if (!savingsPlans.isEmpty()) { // means that the budget just entered is the first one
       currentSavingsPlanIndex = 0;
+    } else {
+      currentSavingsPlanIndex = null;
     }
   }
 

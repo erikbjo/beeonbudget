@@ -394,4 +394,24 @@ class AccountTest {
     sessionAccount.getAccount().addSavingsPlan(savingsPlan);
     assertEquals(savingsPlan, sessionAccount.getAccount().getSelectedSavingsPlan());
   }
+
+  @Test
+  void testThatInitSelectedSavingsPlanBecomesNullWhenTheresNoSavingsPlans() {
+    sessionAccount.getAccount().initializeSelectedSavingsPlan();
+    assertNull(sessionAccount.getAccount().getCurrentSavingsPlanIndex());
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> sessionAccount.getAccount().getSelectedSavingsPlan());
+  }
+
+  @Test
+  void testThatInitSelectedBudgetsBecomesNullWhenTheresNoBudgets() {
+    sessionAccount.getAccount().removeBudget(budget);
+
+    sessionAccount.getAccount().initializeSelectedBudget();
+
+    assertNull(sessionAccount.getAccount().getCurrentBudgetIndex());
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> sessionAccount.getAccount().getSelectedBudget());
+  }
 }
