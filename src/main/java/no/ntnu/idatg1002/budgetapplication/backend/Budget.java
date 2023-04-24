@@ -81,7 +81,7 @@ public class Budget {
   }
 
   /** Default constructor for Budget. */
-  public Budget() {}
+  private Budget() {}
 
   /**
    * Returns the name of the budget.
@@ -379,7 +379,7 @@ public class Budget {
     return getTotalIncome() - getTotalExpense();
   }
 
-  /** Updates the category list by */
+  /** Updates the expense category list by all the expense currently held in the budget. */
   private void updateExpenseCategoryList() {
     expenseCategoryList.clear();
     for (Expense expense : expenseList) {
