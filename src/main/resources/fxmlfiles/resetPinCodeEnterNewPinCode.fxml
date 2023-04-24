@@ -40,7 +40,7 @@
                         <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                             <children>
                                 <Button fx:id="setNewPinCodeButton" defaultButton="true" mnemonicParsing="false" onAction="#setNewPinCode" text="Set new pin code" />
-                                <Button fx:id="backToLoginButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToLogin" text="Back to login" />
+                                <Button fx:id="backToLoginButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToLogin" text="Back" />
                             </children>
                             <opaqueInsets>
                                 <Insets />

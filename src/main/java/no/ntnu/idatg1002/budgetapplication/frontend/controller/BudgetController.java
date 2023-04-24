@@ -314,7 +314,7 @@ public class BudgetController implements Initializable {
     ConfirmationAlert confirmationAlert =
         new ConfirmationAlert(
             "Delete item",
-            "Are you sure you want to delete this income?\n" + income.getIncomeAssString());
+            "Are you sure you want to delete this income?\n" + income.getIncomeAsString());
 
     Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && result.get() == ButtonType.OK) {
@@ -344,7 +344,7 @@ public class BudgetController implements Initializable {
     ConfirmationAlert confirmationAlert =
         new ConfirmationAlert(
             "Delete item",
-            "Are you sure you want to delete this income?\n" + expense.getExpenseAssString());
+            "Are you sure you want to delete this income?\n" + expense.getExpenseAsString());
 
     Optional<ButtonType> result = confirmationAlert.showAndWait();
     if (result.isPresent() && (result.get() == ButtonType.OK)) {
@@ -396,7 +396,7 @@ public class BudgetController implements Initializable {
     Income income =
         incomeTableView.getItems().get(incomeTableView.getSelectionModel().getSelectedIndex());
     alert.setTitle("Income Info");
-    alert.setContentText(income.getIncomeAssString());
+    alert.setContentText(income.getIncomeAsString());
     alert.getButtonTypes().add(ButtonType.CANCEL);
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.showAndWait();
@@ -413,7 +413,7 @@ public class BudgetController implements Initializable {
     Expense expense =
         expenseTableView.getItems().get(expenseTableView.getSelectionModel().getSelectedIndex());
     alert.setTitle("Expense Info");
-    alert.setContentText(expense.getExpenseAssString());
+    alert.setContentText(expense.getExpenseAsString());
     alert.initModality(Modality.APPLICATION_MODAL);
     alert.getButtonTypes().add(ButtonType.CANCEL);
     alert.showAndWait();
@@ -583,10 +583,18 @@ public class BudgetController implements Initializable {
                       .getSelectedBudget()
                       .getTotalExpense()));
       budgetDateLabel.setText(
-          "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
-              .getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-              + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedBudget()
-              .getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+          "Start Date: "
+              + SessionAccount.getInstance()
+                  .getAccount()
+                  .getSelectedBudget()
+                  .getStartDate()
+                  .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+              + "  End Date: "
+              + SessionAccount.getInstance()
+                  .getAccount()
+                  .getSelectedBudget()
+                  .getEndDate()
+                  .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
     } else {
       setDefaultBudgetMoneyText();
     }

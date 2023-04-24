@@ -22,13 +22,14 @@ public class Expense extends MoneyAction {
   private LocalDate dateAdded;
 
   /**
-   * Constructs an Expense object with the specified amount, description, recurring type, and
-   * expense category.
+   * Constructs an Expense object with the specified amount, description, recurring type, expense
+   * category, and date of the expense.
    *
    * @param amount the monetary amount, must be non-negative
    * @param description a non-empty, non-blank description of the expense
    * @param type the recurring type of the expense
    * @param expenseCategory the expense category associated with the expense
+   * @param dateAdded the date of the expense.
    */
   public Expense(
       int amount,
@@ -41,6 +42,15 @@ public class Expense extends MoneyAction {
     this.dateAdded = dateAdded;
   }
 
+  /**
+   * Constructs an Expense object with the specified amount, description, recurring type, and
+   * expense category. Sets the date added to current time.
+   *
+   * @param amount the monetary amount, must be non-negative
+   * @param description a non-empty, non-blank description of the expense
+   * @param type the recurring type of the expense
+   * @param expenseCategory the expense category associated with the expense
+   */
   public Expense(
       int amount, String description, RecurringType type, ExpenseCategory expenseCategory) {
     super(amount, description, type);
@@ -48,6 +58,7 @@ public class Expense extends MoneyAction {
     this.dateAdded = LocalDate.now();
   }
 
+  /** Default constructor for expense. */
   public Expense() {}
 
   /**
@@ -72,15 +83,30 @@ public class Expense extends MoneyAction {
     }
   }
 
+  /**
+   * Return the expenseCategory as a string.
+   *
+   * @return the expenseCategory as a string.
+   */
   public String getExpenseCategoryString() {
     return this.expenseCategory.getExpenseCategoryString();
   }
 
+  /**
+   * Returns the date of the expense.
+   *
+   * @return the date of the expense.
+   */
   public LocalDate getDateAdded() {
     return dateAdded;
   }
 
-  public String getExpenseAssString() {
+  /**
+   * Returns the expense as a string. Adds all parameters of the expense to the string.
+   *
+   * @return the expense formatted as a string.
+   */
+  public String getExpenseAsString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     sb.append("Description: ").append(this.getDescription()).append("\n");

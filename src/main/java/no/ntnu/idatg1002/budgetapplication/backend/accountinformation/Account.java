@@ -12,7 +12,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
  * Represents an account. Each account holds some information about that account.
  *
  * @author Simon Husås Houmb, Erik Bjørnsen
- * @version 1.0 (2023-03-15)
+ * @version 2.1
  */
 @Entity(name = "Account")
 @Table(name = "account")
@@ -48,6 +48,9 @@ public class Account {
    * @param pinCode 4-digit code chosen by account owner.
    * @param securityQuestion securityQuestion chosen by account owner.
    * @param securityAnswer answer to the securityQuestion.
+   * @throws IllegalArgumentException if the name is empty or blank. Or if the email is empty,
+   *     blank, does not contain "@", or already in use. Or if the pin code is not 4 digits or
+   *     contains non-numeric characters. Or if the security answer is empty or blank.
    */
   public Account(
       String name,
@@ -72,11 +75,10 @@ public class Account {
   }
 
   /**
-   * Sets the name of the account owner to the provided name.
+   * Sets the name for the account.
    *
    * @param name the name to be set.
-   * @throws IllegalArgumentException "Account name must not be empty or blank" if name is blank or
-   *     empty
+   * @throws IllegalArgumentException if the name is empty or blank.
    */
   public void setName(String name) throws IllegalArgumentException {
     if (name.isBlank() || name.isEmpty()) {
@@ -96,12 +98,11 @@ public class Account {
   }
 
   /**
-   * Sets the email of the account owner to the provided email.
+   * Sets the email for the account.
    *
    * @param email the email to be set.
-   * @throws IllegalArgumentException "Email must not be empty or blank." if email is empty or
-   *     blank. "Email does not contain '@'." if email does not contain '@'. "Email already in use."
-   *     if email is already in use.
+   * @throws IllegalArgumentException if the email is empty, blank, does not contain "@", or already
+   *     in use.
    */
   public void setEmail(String email) throws IllegalArgumentException {
     if (email.isBlank() || email.isEmpty()) {
@@ -125,13 +126,11 @@ public class Account {
   }
 
   /**
-   * Sets the pinCode of the account to the provided PinCode as long as it is 4 digits. If the pin
-   * code is not 4 digits, it returns false.
+   * Sets the pin code for the account.
    *
-   * @param pinCode the pinCode to be set.
-   * @throws IllegalArgumentException "Pin code must only consist of numbers." if pin code has
-   *     characters that are not numbers. "Pin code must consist of 4 digits." if pin code's length
-   *     is not 4 digits.
+   * @param pinCode the pin code to be set.
+   * @throws IllegalArgumentException if the pin code is not 4 digits or contains non-numeric
+   *     characters.
    */
   public void setPinCode(String pinCode) throws IllegalArgumentException {
     if (!pinCode.matches("\\d+")) {
@@ -171,11 +170,10 @@ public class Account {
   }
 
   /**
-   * Sets the securityAnswer to the provided security answer.
+   * Sets the security answer for the account.
    *
-   * @param securityAnswer the securityAnswer to be set.
-   * @throws IllegalArgumentException "Security answer must not be empty or blank." if security
-   *     answer is empty or blank.
+   * @param securityAnswer the security answer to be set.
+   * @throws IllegalArgumentException if the security answer is empty or blank.
    */
   public void setSecurityAnswer(String securityAnswer) throws IllegalArgumentException {
     if (securityAnswer.isBlank() || securityAnswer.isEmpty()) {
@@ -204,13 +202,11 @@ public class Account {
   }
 
   /**
-   * Adds a savings plan to the account's savingsPlans collection as long as the savings plan does
-   * not already exist or the savings plan name is not taken.
+   * Adds a new SavingsPlan to the savingsPlans list if it doesn't already exist.
    *
-   * @param savingsPlan the savingsPlan to be added.
-   * @throws IllegalArgumentException "An instance of the savings plan already exists." if an
-   *     instance of the savings plan already exists. "Savings plan goal name is taken." if name of
-   *     savings plan is already taken.
+   * @param savingsPlan the SavingsPlan to be added.
+   * @throws IllegalArgumentException if the savings plan already exists or if the goal name is
+   *     taken.
    */
   public void addSavingsPlan(SavingsPlan savingsPlan) throws IllegalArgumentException {
     if (savingsPlans.contains(savingsPlan)) {
@@ -223,6 +219,12 @@ public class Account {
     }
   }
 
+  /**
+   * Checks if a SavingsPlan with the same name already exists in the savingsPlans list.
+   *
+   * @param savingsPlan the SavingsPlan to check.
+   * @return true if the goal name is taken, otherwise false.
+   */
   private boolean checkIfSavingsPlanNameIsTaken(SavingsPlan savingsPlan) {
     boolean savingsPlanPresent = false;
     try {
@@ -263,13 +265,10 @@ public class Account {
   }
 
   /**
-   * Adds a budget to the account's budget collection as long as the budget does not already exist
-   * or the budget name is not taken.
+   * Adds a new Budget to the budgets list if it doesn't already exist.
    *
-   * @param budget the budget to be added.
-   * @throws IllegalArgumentException "An instance of the budget already exists." if an instance of
-   *     the budget already exists. "Budget name is taken." if the name of the budget is already
-   *     taken.
+   * @param budget the Budget to be added.
+   * @throws IllegalArgumentException if the budget already exists.
    */
   public void addBudget(Budget budget) throws IllegalArgumentException {
     if (!budgets.isEmpty() && budgets.contains(budget)) {
@@ -280,10 +279,11 @@ public class Account {
     }
   }
 
-  public Integer getCurrentSavingsPlanIndex() {
-    return currentSavingsPlanIndex;
-  }
-
+  /**
+   * Getter for the current budget index.
+   *
+   * @return the current budget index.
+   */
   public Integer getCurrentBudgetIndex() {
     return currentBudgetIndex;
   }
@@ -307,6 +307,10 @@ public class Account {
     updateSelectedBudget();
   }
 
+  /**
+   * Updates the selected budget based on the currentBudgetIndex value. Takes appropriate action if
+   * the budgets list is empty or if the index is out of bounds.
+   */
   private void updateSelectedBudget() {
     if (budgets.isEmpty()) {
       currentBudgetIndex = null;
@@ -319,6 +323,19 @@ public class Account {
     }
   }
 
+  /**
+   * Getter for the current savings plan index.
+   *
+   * @return the current savings plan index.
+   */
+  public Integer getCurrentSavingsPlanIndex() {
+    return currentSavingsPlanIndex;
+  }
+
+  /**
+   * Updates the selected savings plan based on the currentSavingsPlanIndex value. Takes appropriate
+   * action if the savingsPlans list is empty or if the index is out of bounds.
+   */
   private void updateSelectedSavingsPlan() {
     if (savingsPlans.isEmpty()) {
       currentSavingsPlanIndex = null;
@@ -368,8 +385,10 @@ public class Account {
 
   /** Initialize selected savings plan. */
   public void initializeSelectedSavingsPlan() {
-    if (savingsPlans.size() == 1) { // means that the budget just entered is the first one
+    if (!savingsPlans.isEmpty()) { // means that the budget just entered is the first one
       currentSavingsPlanIndex = 0;
+    } else {
+      currentSavingsPlanIndex = null;
     }
   }
 

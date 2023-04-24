@@ -28,7 +28,7 @@
                         <HBox alignment="CENTER" spacing="30.0">
                             <children>
                                 <Button fx:id="continueButton" defaultButton="true" mnemonicParsing="false" onAction="#continueResetPassword" text="Continue" />
-                                <Button fx:id="backToLoginButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToLogin" text="Back to login" />
+                                <Button fx:id="backToLoginButton" cancelButton="true" mnemonicParsing="false" onAction="#goBackToLogin" text="Back" />
                             </children>
                             <opaqueInsets>
                                 <Insets />

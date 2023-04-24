@@ -8,13 +8,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-/** Data Access Object used to access Account data from the database. */
+/**
+ * Provides access to account data stored in the database. This class implements the DAO interface
+ * for the Account class. It is a singleton class with instance methods for performing create, read,
+ * update and delete operations.
+ *
+ * @author Simon Houmb
+ */
 public class AccountDAO implements DAO<Account> {
   private final EntityManagerFactory emf;
   private EntityManager em;
 
   private static final AccountDAO instance = new AccountDAO();
 
+  /** Constructs an AccountDAO instance, initializing the EntityManagerFactory and EntityManager. */
   public AccountDAO() {
     this.emf = Persistence.createEntityManagerFactory("accountdb");
     this.em = this.emf.createEntityManager();
@@ -29,6 +36,14 @@ public class AccountDAO implements DAO<Account> {
     return instance;
   }
 
+  /**
+   * Adds a new account to the database if it does not already exist.
+   *
+   * @param account the account to be added.
+   * @throws IllegalArgumentException if the account already exists.
+   * @throws IllegalArgumentException if an account with the same account number exists.
+   * @throws IllegalArgumentException if an account with the same email exists.
+   */
   @Override
   public void add(Account account) {
     if (AccountDAO.getInstance().getAll().contains(account)) {
@@ -45,6 +60,11 @@ public class AccountDAO implements DAO<Account> {
     }
   }
 
+  /**
+   * Removes an account from the database.
+   *
+   * @param account the account to be removed.
+   */
   public void remove(Account account) {
     Account foundAccount = em.find(Account.class, account.getId());
     em.getTransaction().begin();
@@ -52,6 +72,11 @@ public class AccountDAO implements DAO<Account> {
     em.getTransaction().commit();
   }
 
+  /**
+   * Updates an existing account in the database.
+   *
+   * @param account the account to be updated.
+   */
   @Override
   public void update(Account account) {
     em.getTransaction().begin();
@@ -60,17 +85,33 @@ public class AccountDAO implements DAO<Account> {
     em.getTransaction().commit();
   }
 
+  /**
+   * Returns an iterator over all accounts in the database.
+   *
+   * @return an iterator over accounts.
+   */
   @Override
   public Iterator<Account> iterator() {
     TypedQuery<Account> query = this.em.createQuery("SELECT a FROM Account a", Account.class);
     return query.getResultList().iterator();
   }
 
+  /**
+   * Finds an account by its id.
+   *
+   * @param id the account id to search for.
+   * @return an Optional containing the account if found, otherwise empty.
+   */
   @Override
   public Optional<Account> find(String id) {
     return Optional.ofNullable(em.find(Account.class, id));
   }
 
+  /**
+   * Retrieves all accounts in the database.
+   *
+   * @return a list of all accounts.
+   */
   @Override
   public List<Account> getAll() {
     return em.createQuery("SELECT a FROM Account a", Account.class).getResultList();
@@ -118,6 +159,7 @@ public class AccountDAO implements DAO<Account> {
     return allEmails.contains(email) && getAccountByEmail(email).getPinCode().equals(pinCode);
   }
 
+  /** Prints details for all accounts in the database. */
   @Override
   public void printAllDetails() {
     List<Account> accountList = getAll();
@@ -133,15 +175,14 @@ public class AccountDAO implements DAO<Account> {
     }
   }
 
+  /** Closes the EntityManager and EntityManagerFactory. */
   @Override
   public void close() {
     if (em.isOpen()) {
       this.em.close();
-      System.out.println("EntityManager was closed.");
     }
     if (emf.isOpen()) {
       this.emf.close();
-      System.out.println("EntityManagerFactory was closed.");
     }
   }
 }
