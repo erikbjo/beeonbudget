@@ -78,7 +78,7 @@ public class Income extends MoneyAction {
     return dateAdded;
   }
 
-  public String getIncomeAssString() {
+  public String getIncomeAsString() {
     StringBuilder stringBuilder = new StringBuilder();
     stringBuilder.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     stringBuilder.append("Description: ").append(this.getDescription()).append("\n");

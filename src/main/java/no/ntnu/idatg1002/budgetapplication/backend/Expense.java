@@ -80,7 +80,7 @@ public class Expense extends MoneyAction {
     return dateAdded;
   }
 
-  public String getExpenseAssString() {
+  public String getExpenseAsString() {
     StringBuilder sb = new StringBuilder();
     sb.append("Amount: ").append(this.getAmount()).append(" kr").append("\n");
     sb.append("Description: ").append(this.getDescription()).append("\n");
