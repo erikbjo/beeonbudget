@@ -3,6 +3,9 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 /**
  * Represents a savings plan. Each savings plan holds some information about that plan.
@@ -18,9 +21,10 @@ public class SavingsPlan {
   private String goalName;
   private int totalGoalAmount;
   private int totalSaved;
+  private LocalDate startDate;
+  private LocalDate endDate;
   private int wantedSavingTime;
   private int wantedMonthlySavingAmount;
-  private int deposit;
 
   /**
    * Instantiates a new Savings plan.
@@ -29,13 +33,16 @@ public class SavingsPlan {
    * @throws IllegalArgumentException "Goal name must not be empty or blank." and/or ""Total goal
    *     amount must be above zero." for totalGoalAmount < 0
    */
-  public SavingsPlan(String goalName) throws IllegalArgumentException {
+  public SavingsPlan(String goalName, int totalGoalAmount, LocalDate startDate, LocalDate endDate) throws IllegalArgumentException {
 
     if (goalName == null || goalName.trim().isEmpty()) {
       throw new IllegalArgumentException("Goal name must not be empty or blank.");
     }
-
     this.goalName = goalName;
+    this.totalGoalAmount = totalGoalAmount;
+    this.startDate = startDate;
+    this.endDate = endDate;
+    this.totalSaved = 0;
   }
 
   public SavingsPlan() {
@@ -108,6 +115,10 @@ public class SavingsPlan {
     this.totalSaved = totalSaved;
   }
 
+  public double getTotalSavedPercentage() {
+    return (double) getTotalSaved() / getTotalGoalAmount();
+  }
+
   /**
    * Gets wanted saving time.
    *
@@ -115,6 +126,26 @@ public class SavingsPlan {
    */
   public int getWantedSavingTime() {
     return wantedSavingTime;
+  }
+
+  public LocalDate getStartDate() {
+    return startDate;
+  }
+
+  public void deposit(int amount) {
+    setTotalSaved(getTotalSaved() + amount);
+  }
+
+  public void setStartDate(LocalDate startDate) {
+    this.startDate = startDate;
+  }
+
+  public LocalDate getEndDate() {
+    return endDate;
+  }
+
+  public void setEndDate(LocalDate endDate) {
+    this.endDate = endDate;
   }
 
   /**
@@ -173,19 +204,11 @@ public class SavingsPlan {
     return totalGoalAmount / wantedSavingTime;
   }
 
-  /**
-   * Sets the deposit.
-   *
-   * @param deposit money deposited into savings.
-   */
-  public void setDeposit(int deposit) {
-    this.deposit = deposit;
-  }
 
-  /** Adds the previous savings and the deposit. Resets deposit to 0. */
-  public void addSavings() {
-    int newSavings = getTotalSaved() + deposit;
-    setTotalSaved(newSavings);
-    setDeposit(0);
+  public String getStartToEndString() {
+    return String.format(
+        "%s - %s",
+        getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)),
+        getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
   }
 }

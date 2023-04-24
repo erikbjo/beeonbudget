@@ -280,6 +280,10 @@ public class Account {
     }
   }
 
+  public Integer getCurrentSavingsPlanIndex() {
+    return currentSavingsPlanIndex;
+  }
+
   public Integer getCurrentBudgetIndex() {
     return currentBudgetIndex;
   }
