@@ -9,10 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.criteria.CriteriaBuilder.In;
 import java.time.LocalDate;
 import java.time.Period;
-import java.time.chrono.ChronoLocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
@@ -52,12 +50,13 @@ public class Budget {
   private final List<ExpenseCategory> expenseCategoryList = new ArrayList<>();
 
   /**
-   * Instantiates a new Budget.
+   * Constructor for Budget with a specified name, start date, and end date.
    *
-   * @param budgetName the budget name
-   * @throws IllegalArgumentException "Budget name must not be empty or blank."
-   * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
-   * @throws IllegalArgumentException if budget start date is after budget end date
+   * @param budgetName the name of the budget.
+   * @param startDate the start date of the budget.
+   * @param endDate the end date of the budget.
+   * @throws IllegalArgumentException if the budget name is invalid or taken. Or if the interval
+   *     length is negative.
    */
   public Budget(String budgetName, LocalDate startDate, LocalDate endDate)
       throws IllegalArgumentException {
@@ -67,6 +66,13 @@ public class Budget {
     setIntervalLength();
   }
 
+  /**
+   * Constructor for Budget with only a name, creates a budget with creation date as start date, and
+   * creation date + 30 days as end date.
+   *
+   * @param budgetName the name of the budget.
+   * @throws IllegalArgumentException if the budget name is invalid or taken.
+   */
   public Budget(String budgetName) {
     setBudgetName(budgetName);
     this.startDate = LocalDate.now();
@@ -74,24 +80,23 @@ public class Budget {
     setIntervalLength();
   }
 
+  /** Default constructor for Budget. */
   public Budget() {}
 
   /**
-   * This function returns the name of the budget.
+   * Returns the name of the budget.
    *
-   * @return The budget name.
+   * @return the name of the budget
    */
   public String getBudgetName() {
     return budgetName;
   }
 
   /**
-   * This function sets the budget name.
+   * Sets the name of the budget.
    *
-   * @param budgetName The name of the budget you want to create.
-   * @throws IllegalArgumentException "Budget name must not be empty or blank."
-   * @throws IllegalArgumentException "Budget name must not exceed 24 characters."
-   * @throws IllegalArgumentException "Budget name is taken."
+   * @param budgetName the name of the budget
+   * @throws IllegalArgumentException if the budget name is invalid or taken
    */
   public void setBudgetName(String budgetName) throws IllegalArgumentException {
     if (budgetName == null || budgetName.trim().isEmpty()) {
@@ -106,10 +111,21 @@ public class Budget {
     this.budgetName = budgetName;
   }
 
+  /**
+   * Returns the start date of the budget.
+   *
+   * @return the start date of the budget
+   */
   public LocalDate getStartDate() {
     return startDate;
   }
 
+  /**
+   * Sets the start date of the budget.
+   *
+   * @param startDate the start date of the budget
+   * @throws IllegalArgumentException if the start date is after the end date
+   */
   public void setStartDate(LocalDate startDate) {
     if (startDate.isAfter(this.endDate)) {
       throw new IllegalArgumentException("Start date cannot be after end date");
@@ -117,10 +133,21 @@ public class Budget {
     this.startDate = startDate;
   }
 
+  /**
+   * Returns the end date of the budget.
+   *
+   * @return the end date of the budget
+   */
   public LocalDate getEndDate() {
     return endDate;
   }
 
+  /**
+   * Sets the end date of the budget.
+   *
+   * @param endDate the end date of the budget
+   * @throws IllegalArgumentException if the end date is before the start date
+   */
   public void setEndDate(LocalDate endDate) {
     if (endDate.isBefore(this.startDate)) {
       throw new IllegalArgumentException("End date cannot be before start date");
@@ -128,6 +155,11 @@ public class Budget {
     this.endDate = endDate;
   }
 
+  /**
+   * Returns a formatted string containing the start and end dates of the budget.
+   *
+   * @return a formatted string containing the start and end dates
+   */
   public String getStartToEndString() {
     return String.format(
         "%s - %s",
@@ -135,10 +167,20 @@ public class Budget {
         getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.SHORT)));
   }
 
+  /**
+   * Returns the interval length of the budget.
+   *
+   * @return the interval length of the budget
+   */
   public Period getIntervalLength() {
     return this.intervalLength;
   }
 
+  /**
+   * Sets the interval length of the budget.
+   *
+   * @throws IllegalArgumentException if the start date is after the end date
+   */
   public void setIntervalLength() {
     if (this.startDate.isAfter(this.endDate)) {
       throw new IllegalArgumentException("Start date cannot be after end date");
@@ -147,12 +189,9 @@ public class Budget {
   }
 
   /**
-   * Checks if the given budget's name is already taken by any other budget in the list. This method
-   * iterates through the list of budgets and compares the names of each budget with the given
-   * budget's name. If a match is found, the method returns true. If no match is found, the method
-   * returns false.
+   * Checks if the given budget name is already taken by any existing budgets.
    *
-   * @param budgetName the Budget name that needs to be checked for uniqueness
+   * @param budgetName the budget name to check
    * @return true if the budget name is already taken, false otherwise
    */
   private boolean checkIfBudgetNameIsTaken(String budgetName) {
@@ -172,10 +211,11 @@ public class Budget {
   }
 
   /**
-   * This method calculates the correct amount for the expense based on the recurring type.
+   * Calculates the total expense of a given expense, considering its recurring type and the
+   * budget's start and end dates.
    *
-   * @param expense the income given from gui.
-   * @return returns the calculated income based on recurring type as int.
+   * @param expense the expense to calculate the total expense for
+   * @return the calculated total expense
    */
   private int calculateTotalExpense(Expense expense) {
     totalExpense = expense.getAmount();
@@ -238,10 +278,11 @@ public class Budget {
   }
 
   /**
-   * This method calculates the correct amount for the income based on the recurring type.
+   * Calculates the total income of a given income, considering its recurring type and the budget's
+   * start and end dates.
    *
-   * @param income the income given from gui.
-   * @return returns the calculated income based on recurring type as int.
+   * @param income the income to calculate the total income for
+   * @return the calculated total income
    */
   private int calculateTotalIncome(Income income) {
     totalIncome = income.getAmount();
@@ -304,9 +345,9 @@ public class Budget {
   }
 
   /**
-   * Gets the total income uses the method calculateTotalIncome to get the correct amount
+   * Returns the total income of the budget by calculating the sum of all incomes.
    *
-   * @return the total income as int
+   * @return the total income of the budget
    */
   public int getTotalIncome() {
     totalIncome = 0;
@@ -317,9 +358,9 @@ public class Budget {
   }
 
   /**
-   * Gets the total Expense uses the method calculateTotalExpense to get the correct amount
+   * Returns the total expense of the budget by calculating the sum of all expenses.
    *
-   * @return the total expense as int
+   * @return the total expense of the budget
    */
   public int getTotalExpense() {
     totalExpense = 0;
@@ -330,20 +371,16 @@ public class Budget {
   }
 
   /**
-   * This function returns the difference between the total income and the total expense.
+   * Returns the net balance of the budget by subtracting the total expenses from the total income.
    *
-   * @return The difference between the total income and the total expense.
+   * @return the net balance of the budget
    */
   public int getNetBalance() {
     return getTotalIncome() - getTotalExpense();
   }
 
-  /**
-   * This function updates the category list. It iterates through the expenses and incomes currently
-   * in the budget, and adds any category from them that is not currently in the budget, to the
-   * budget.
-   */
-  private void updateCategoryList() {
+  /** Updates the expense category list by all the expense currently held in the budget. */
+  private void updateExpenseCategoryList() {
     expenseCategoryList.clear();
     for (Expense expense : expenseList) {
       if (!expenseCategoryList.contains(expense.getExpenseCategory())) {
@@ -353,77 +390,75 @@ public class Budget {
   }
 
   /**
-   * This function adds an expense to the expense list.
+   * Adds an expense to the budget and updates the category list.
    *
-   * @param expense The expense object that you want to add to the list.
+   * @param expense the expense to add
    */
   public void addBudgetExpenses(Expense expense) {
     expenseList.add(expense);
-    updateCategoryList();
+    updateExpenseCategoryList();
   }
 
   /**
-   * This function adds an income to the incomeList.
+   * Adds an income to the budget and updates the category list.
    *
-   * @param income The income object to be added to the list.
+   * @param income the income to add
    */
   public void addBudgetIncome(Income income) {
     incomeList.add(income);
-    updateCategoryList();
   }
 
   /**
-   * This function removes an expense from the expense list.
+   * Removes an expense from the budget and updates the category list.
    *
-   * @param expense The expense object that you want to remove from the list.
-   * @throws IndexOutOfBoundsException "There is no such expense in the budget."
+   * @param expense the expense to remove
+   * @throws IndexOutOfBoundsException if the expense is not in the budget
    */
   public void removeBudgetExpenses(Expense expense) throws IndexOutOfBoundsException {
     if (expenseList.contains(expense)) {
       expenseList.remove(expense);
-      updateCategoryList();
+      updateExpenseCategoryList();
     } else {
       throw new IndexOutOfBoundsException("There is no such expense in the budget.");
     }
   }
 
   /**
-   * This function removes an income from the incomeList.
+   * Removes an income from the budget and updates the category list.
    *
-   * @param income The income object to be removed from the list.
-   * @throws IndexOutOfBoundsException "There is no such income in the budget"
+   * @param income the income to remove
+   * @throws IndexOutOfBoundsException if the income is not in the budget
    */
   public void removeBudgetIncome(Income income) throws IndexOutOfBoundsException {
     if (incomeList.contains(income)) {
       incomeList.remove(income);
-      updateCategoryList();
     } else {
       throw new IndexOutOfBoundsException("There is no such income in the budget");
     }
   }
 
   /**
-   * > This function returns the incomeList.
+   * Returns the list of incomes associated with the budget.
    *
-   * @return A list of income objects.
+   * @return the list of incomes
    */
   public List<Income> getIncomeList() {
     return incomeList;
   }
 
   /**
-   * This function returns the expenseList.
+   * Returns the list of expenses associated with the budget.
    *
-   * @return A list of expenses.
+   * @return the list of expenses
    */
   public List<Expense> getExpenseList() {
     return expenseList;
   }
 
   /**
-   * > This function returns a list of categories.
+   * Returns the list of expense categories associated with the budget.
    *
-   * @return A list of Enum objects.
+   * @return the list of expense categories
    */
   public List<ExpenseCategory> getCategoryList() {
     return expenseCategoryList;
