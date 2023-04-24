@@ -4,6 +4,7 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
@@ -73,5 +74,18 @@ class AccountDAOTest {
   @Test
   void testLoginInvalid() {
     assertFalse(accountDAO.loginIsValid("erbj@ntnu.no", "0987"));
+  }
+
+  @Test
+  void testThatIteratorReturnsAGoodIterator() {
+    Iterator<Account> iterator = accountDAO.iterator();
+
+    Account newAccount =
+        new Account("Test", "test@test.123", "0000", SecurityQuestion.CAR_BRAND, "Ferrari");
+    accountDAO.add(newAccount);
+
+    assertTrue(iterator.hasNext());
+
+    accountDAO.remove(newAccount);
   }
 }
