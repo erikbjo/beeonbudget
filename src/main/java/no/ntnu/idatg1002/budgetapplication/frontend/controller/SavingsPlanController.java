@@ -117,8 +117,18 @@ public class SavingsPlanController implements Initializable{
   }
 
   /** Displays the edit popup to allow users to change details of their savings plan. */
-  public void onEdit() {
-    throw new UnsupportedOperationException();
+  public void onEdit(ActionEvent event) {
+    AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+    Optional<SavingsPlan> result = dialog.showAndWait();
+    result.ifPresent(savingsPlan -> {
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());});
+    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+    updateAllInSavingsPlan();
   }
 
 
