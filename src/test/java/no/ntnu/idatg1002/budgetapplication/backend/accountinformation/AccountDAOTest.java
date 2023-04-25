@@ -42,12 +42,14 @@ class AccountDAOTest {
 
   @Test
   void testAddAccountWithTakenEmail() {
+    Account account = new Account("Test", "erbj@ntnu.no", "1234",
+        SecurityQuestion.CAR_BRAND, "Porsche");
     assertThrows(
         IllegalArgumentException.class,
-        () ->
-            accountDAO.add(
-                new Account(
-                    "Test", "erbj@ntnu.no", "1234", SecurityQuestion.CAR_BRAND, "Porsche")));
+        () -> accountDAO.add(account));
+    if (accountDAO.getAll().contains(account)) {
+      accountDAO.remove(account);
+    }
   }
 
   @Test

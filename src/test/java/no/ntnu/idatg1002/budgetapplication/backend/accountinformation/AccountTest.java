@@ -109,14 +109,6 @@ class AccountTest {
       assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals(" ", sessionAccount.getAccount().getEmail());
     }
-
-    @Test
-    void emailAlreadyInUse() {
-      Exception thrown =
-          assertThrows(
-              IllegalArgumentException.class, () -> erikAccount.setEmail(testEmails.get(1)));
-      assertEquals("Email already in use.", thrown.getMessage());
-    }
   }
 
   @Nested

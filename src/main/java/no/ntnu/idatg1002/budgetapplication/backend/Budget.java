@@ -217,7 +217,7 @@ public class Budget {
    * @param expense the expense to calculate the total expense for
    * @return the calculated total expense
    */
-  private int calculateTotalExpense(Expense expense) {
+  private int calculateTotalExpense(Expense expense) throws IllegalArgumentException {
     totalExpense = expense.getAmount();
     switch (expense.getRecurringType()) {
       case NONRECURRING -> totalExpense = expense.getAmount();
@@ -273,6 +273,7 @@ public class Budget {
           totalExpense += expense.getAmount();
         }
       }
+      default -> throw new IllegalArgumentException("No recurring type found.");
     }
     return totalExpense;
   }
@@ -284,7 +285,7 @@ public class Budget {
    * @param income the income to calculate the total income for
    * @return the calculated total income
    */
-  private int calculateTotalIncome(Income income) {
+  private int calculateTotalIncome(Income income) throws IllegalArgumentException {
     totalIncome = income.getAmount();
     switch (income.getRecurringType()) {
       case NONRECURRING -> totalIncome = income.getAmount();
@@ -340,6 +341,7 @@ public class Budget {
           totalIncome += income.getAmount();
         }
       }
+      default -> throw new IllegalArgumentException("No recurring type found.");
     }
     return totalIncome;
   }

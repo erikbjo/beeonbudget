@@ -8,7 +8,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
@@ -16,8 +21,8 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
- * Represents a custom dialog for adding a savings plan in the budget application. The dialog includes a
- * field for entering the plan name.
+ * Represents a custom dialog for adding a savings plan in the budget application.
+ * The dialog includes a field for entering the plan name.
  *
  * @author Simon Husås Houmb
  * @version 1.1
@@ -38,7 +43,8 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
 
   /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
   public AddSavingsPlanDialog() {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addSavingsPlanDialog.fxml"));
+    FXMLLoader loader = new FXMLLoader(
+        getClass().getResource("/fxmlfiles/addSavingsPlanDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
     try {
@@ -149,7 +155,8 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
    * @return true if all fields are valid, false otherwise
    */
   private boolean assertAllFieldsValid() {
-    return !savingsPlanNameTextField.getText().isEmpty() && !savingsPlanNameTextField.getText().isBlank()
+    return !savingsPlanNameTextField.getText().isEmpty()
+        && !savingsPlanNameTextField.getText().isBlank()
         && !startDatePicker.getEditor().getText().isEmpty()
         && !endDatePicker.getEditor().getText().isEmpty()
         && getEndDate().isAfter(getStartDate());
@@ -157,9 +164,7 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
 
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert();
     StringBuilder builder = new StringBuilder("Something is wrong: \n");
-
     if (getSavingsPlanNameTextField().isEmpty() || getSavingsPlanNameTextField().isBlank()) {
       builder.append("Name is Empty Or Blank \n");
     }
@@ -169,6 +174,7 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
     if (getEndDate().isBefore(getStartDate()) && getEndDatePicker().getValue() != null) {
       builder.append("End Date Cant Be Before Start Date \n");
     }
+    WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
@@ -186,10 +192,15 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
     return savingsPlanNameTextField.getText();
   }
 
-  public LocalDate getStartDate(){
+  public LocalDate getStartDate() {
     return getStartDatePicker().getValue();
   }
 
+  /**
+   * Returns end date from EndDatePicker.
+   *
+   * @return end date from EndDatePicker as LocalDate.
+   */
   public LocalDate getEndDate() {
     if (getEndDatePicker().getValue() == null) {
       WarningAlert alert = new WarningAlert(""

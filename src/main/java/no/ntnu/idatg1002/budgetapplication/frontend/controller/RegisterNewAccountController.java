@@ -11,12 +11,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
@@ -231,10 +229,7 @@ public class RegisterNewAccountController {
   /** Displays a dynamic feedback alert with information about missing/invalid fields. */
   @FXML
   private void generateDynamicFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert();
-
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
-
     if (usernameTextField.getText().isEmpty() || usernameTextField.getText().isBlank()) {
       builder.append("Username \n");
     }
@@ -251,7 +246,7 @@ public class RegisterNewAccountController {
         || securityQuestionAnswerTextField.getText().isBlank()) {
       builder.append("Security question answer \n");
     }
-
+    WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
     warningAlert.showAndWait();
   }

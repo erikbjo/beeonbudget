@@ -1,6 +1,16 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-import jakarta.persistence.*;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -18,6 +28,9 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
+  private String id;
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "account_id")
   private final List<SavingsPlan> savingsPlans = new ArrayList<>();
@@ -33,8 +46,8 @@ public class Account {
   private String securityAnswer;
   private Integer currentSavingsPlanIndex = null;
   private Integer currentBudgetIndex = null;
-  @Transient private Random rand;
-  @Id @GeneratedValue private final String id = generateAccountNumber();
+  @Transient
+  private Random rand;
 
   public Account() {}
 
@@ -104,10 +117,7 @@ public class Account {
    * @throws IllegalArgumentException if the email is invalid or already in use.
    */
   public void setEmail(String email) throws IllegalArgumentException {
-    if (AccountDAO.getInstance().getAllEmails().contains(email)) {
-      throw new IllegalArgumentException("Email already in use.");
-    }
-    if (checkIfEmailIsAValidEmail(email)) {
+    if (isValidEmail(email)) {
       this.email = email;
     } else {
       throw new IllegalArgumentException("Not a valid e-mail address.");
@@ -120,7 +130,7 @@ public class Account {
    * @param email the email to be checked.
    * @return true if the email is a valid email, false otherwise.
    */
-  private boolean checkIfEmailIsAValidEmail(String email) {
+  private boolean isValidEmail(String email) {
     String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
     return Pattern.compile(emailRegex).matcher(email).matches()
         && !email.isBlank()
@@ -427,27 +437,5 @@ public class Account {
     } else {
       currentSavingsPlanIndex = savingsPlans.size() - 1;
     }
-  }
-
-  /**
-   * Generates a random 14-digit AccountNumber as a String. The AccountNumber will be formatted in
-   * this way: ID-**************
-   *
-   * @return the random AccountNumber as a String
-   */
-  private String generateAccountNumber() {
-    rand = new Random();
-    boolean idTaken = true;
-    StringBuilder stringBuilderId;
-    do {
-      stringBuilderId = new StringBuilder("ID-");
-
-      for (int i = 0; i < 14; i++) {
-        int n = this.rand.nextInt(10);
-        stringBuilderId.append(n);
-      }
-      idTaken = false;
-    } while (idTaken);
-    return stringBuilderId.toString();
   }
 }

@@ -6,12 +6,14 @@ import java.util.Objects;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.Expense;
-import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
-import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
@@ -32,12 +34,14 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
   @FXML private ComboBox<String> recurringIntervalComboBox;
   @FXML private DatePicker depositDatePicker;
   @FXML private Button cancelButton;
+
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
    * validation.
    */
-  public AddSavingsDepositDialog() throws IOException {
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addSavingsDepositDialog.fxml"));
+  public AddSavingsDepositDialog() {
+    FXMLLoader loader = new FXMLLoader(
+        getClass().getResource("/fxmlfiles/addSavingsDepositDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
     try {
@@ -172,9 +176,11 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
         && !getDepositDescriptionFieldText().isBlank()
         && getRecurringIntervalComboBoxValue() != null
         && getDepositDateValue() != null
-        && !getDepositDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
+        && !getDepositDateValue().isBefore(
+            SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
         .getStartDate())
-        && !getDepositDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
+        && !getDepositDateValue().isAfter(
+            SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
         .getEndDate()));
   }
 
@@ -191,10 +197,7 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
    * </ul>
    */
   private void generateDynamicFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert();
-
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
-
     if (getDepositAmountFieldText().isEmpty() || getDepositAmountFieldText().isBlank()) {
       builder.append("Amount \n");
     }
@@ -207,20 +210,25 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
     if (getDepositDateValue() == null) {
       builder.append("Deposit date added \n");
     }
-    if (getDepositDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
+    if (getDepositDateValue().isBefore(
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
         .getStartDate())
-        || getDepositDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
+        || getDepositDateValue().isAfter(
+            SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
         .getEndDate())) {
       builder.append("Deposit date needs to be inside savings plan period: \n");
       builder.append(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
           .getStartToEndString());
     }
-
+    WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
   }
 
+  /**
+   * Initializes AddSavingsDepositDialog.
+   */
   @FXML
   public void initialize() {
     recurringIntervalComboBox.getItems().addAll(RecurringType.labelValues());

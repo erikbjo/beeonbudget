@@ -33,8 +33,8 @@ public class SavingsPlan {
    * @throws IllegalArgumentException "Goal name must not be empty or blank." and/or ""Total goal
    *     amount must be above zero." for totalGoalAmount < 0
    */
-  public SavingsPlan(String goalName, int totalGoalAmount, LocalDate startDate, LocalDate endDate) throws IllegalArgumentException {
-
+  public SavingsPlan(String goalName, int totalGoalAmount,
+      LocalDate startDate, LocalDate endDate) throws IllegalArgumentException {
     if (goalName == null || goalName.trim().isEmpty()) {
       throw new IllegalArgumentException("Goal name must not be empty or blank.");
     }
@@ -204,7 +204,11 @@ public class SavingsPlan {
     return totalGoalAmount / wantedSavingTime;
   }
 
-
+  /**
+   * Returns a string with both StartTime and EndTime.
+   *
+   * @return A text with both start date and end date as a String.
+   */
   public String getStartToEndString() {
     return String.format(
         "%s - %s",

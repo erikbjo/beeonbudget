@@ -10,18 +10,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
+/**
+ * Controller for Login GUI.
+ */
 public class LoginController {
 
   @FXML public Text emailText;
@@ -38,8 +38,10 @@ public class LoginController {
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
 
-  public LoginController() {}
 
+  /**
+   * Initializes the LoginController.
+   */
   @FXML // This method is called by the FXMLLoader when initialization is complete
   public void initialize() {
     SessionAccount.getInstance().clearAccount();
@@ -193,6 +195,4 @@ public class LoginController {
     warningAlert.setContentText(builder.toString());
     warningAlert.showAndWait();
   }
-
-  public void onPinCodeTextFieldKeyPressed(KeyEvent keyEvent) {}
 }

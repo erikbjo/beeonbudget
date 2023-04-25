@@ -12,16 +12,17 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
-import javafx.stage.Modality;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
+/**
+ * Represents the controller for the first view when resetting pin.
+ */
 public class ResetPinCodeEnterUserController {
   @FXML public Text resetPinCodeText;
   @FXML public TextField emailTextField;

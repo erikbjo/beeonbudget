@@ -8,7 +8,6 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,13 +16,23 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.*;
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
+import no.ntnu.idatg1002.budgetapplication.backend.Income;
+import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
+import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
@@ -34,7 +43,6 @@ import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
 /** Controller for the Budget GUI. */
 public class BudgetController implements Initializable {
-  private final ObservableList<String> budgetInformation;
   private Stage stage;
   private Scene scene;
 
@@ -67,7 +75,6 @@ public class BudgetController implements Initializable {
    * @throws IOException if an I/O error occurs.
    */
   public BudgetController() throws IOException {
-    this.budgetInformation = FXCollections.observableArrayList("assffsa");
     this.incomeTableView = new TableView<>();
     this.expenseTableView = new TableView<>();
     this.newExpenseButton = new Button();
@@ -126,16 +133,17 @@ public class BudgetController implements Initializable {
    * Switches to the primary view from the budget view.
    *
    * @param event The event that triggered this method.
-   * @throws IOException if an I/O error occurs.
+   * @throws IOException if primary.fxml file cannot be loaded.
    */
   @FXML
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(
+            getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 
   /**
@@ -148,9 +156,9 @@ public class BudgetController implements Initializable {
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 
   /**

@@ -3,7 +3,9 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
-import java.util.*;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.ResourceBundle;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -14,10 +16,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.PieChart;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.*;
+import no.ntnu.idatg1002.budgetapplication.backend.Budget;
+import no.ntnu.idatg1002.budgetapplication.backend.Expense;
+import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
@@ -26,7 +32,7 @@ import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddBudgetDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddExpenseDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddIncomeDialog;
 
-/** This class is the controller for the primary GUI. */
+/** Represents the controller for the primary GUI. */
 public class PrimaryController implements Initializable {
 
   @FXML private Label menuPaneLabel1;
@@ -49,7 +55,7 @@ public class PrimaryController implements Initializable {
    *
    * @throws IOException if the primary.fxml file cannot be loaded.
    */
-  public PrimaryController() throws IOException {}
+  //PrimaryController() throws IOException {}
 
   /**
    * Switches the view to the budget view.
@@ -63,10 +69,17 @@ public class PrimaryController implements Initializable {
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/budget.css"))
             .toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
+
+  /**
+   * Switches to profile settings view.
+   *
+   * @param event The event that triggered the method.
+   * @throws IOException if the settings.fxml file cannot be loaded.
+   */
   @FXML
   public void switchToSettings(ActionEvent event) throws IOException {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/settings.fxml"));
@@ -74,9 +87,9 @@ public class PrimaryController implements Initializable {
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/budget.css"))
             .toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 
   /**
@@ -146,9 +159,9 @@ public class PrimaryController implements Initializable {
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/savingsPlan.css"))
             .toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 
   private void updatePrimaryView() {
@@ -163,7 +176,8 @@ public class PrimaryController implements Initializable {
     }
     try {
       usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
-    } catch (Exception ignored) {
+    } catch (Exception e) {
+      e.printStackTrace();
     }
     try {
       budgetLabel.setText(
@@ -178,7 +192,8 @@ public class PrimaryController implements Initializable {
           String.format(
               "Budget spent: %dkr",
               SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
-    } catch (Exception ignored) {
+    } catch (Exception e) {
+      e.printStackTrace();
     }
   }
 
@@ -214,11 +229,8 @@ public class PrimaryController implements Initializable {
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     updatePrimaryView();
-    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() == null) {
-      savingsPlanButton.setDisable(true);
-    } else {
-      savingsPlanButton.setDisable(false);
-    }
+    savingsPlanButton.setDisable(
+        SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() == null);
   }
 
   /**
@@ -342,8 +354,8 @@ public class PrimaryController implements Initializable {
     String css =
         Objects.requireNonNull(this.getClass().getResource("/cssfiles/primary.css"))
             .toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 }

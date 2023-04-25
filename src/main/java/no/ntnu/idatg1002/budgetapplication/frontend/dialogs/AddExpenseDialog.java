@@ -1,15 +1,17 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.stream.Stream;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
@@ -35,11 +37,12 @@ public class AddExpenseDialog extends Dialog<Expense> {
   @FXML private ComboBox<String> recurringIntervalComboBox;
   @FXML private DatePicker expenseDatePicker;
   @FXML private Button cancelButton;
+
   /**
    * Constructs an AddExpenseDialog, setting up the user interface components and necessary input
    * validation.
    */
-  public AddExpenseDialog() throws IOException {
+  public AddExpenseDialog() {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/addExpenseDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
@@ -174,8 +177,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     if (expenseDatePicker.getValue() == null) {
       expenseDatePicker.setValue(LocalDate.now());
     }
-    LocalDate date = expenseDatePicker.getValue();
-    return date;
+    return expenseDatePicker.getValue();
   }
 
   /**
@@ -191,9 +193,11 @@ public class AddExpenseDialog extends Dialog<Expense> {
         && getRecurringIntervalComboBoxValue() != null
         && getExpenseCategoryComboBoxValue() != null
         && getExpenseDateValue() != null
-        && !getExpenseDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        && !getExpenseDateValue().isBefore(
+            SessionAccount.getInstance().getAccount().getSelectedBudget()
         .getStartDate())
-        && !getExpenseDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        && !getExpenseDateValue().isAfter(
+            SessionAccount.getInstance().getAccount().getSelectedBudget()
         .getEndDate()));
   }
 
@@ -210,10 +214,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
    * </ul>
    */
   private void generateDynamicFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert();
-
     StringBuilder builder = new StringBuilder("Please fill out the following field(s): \n");
-
     if (getExpenseAmountFieldText().isEmpty() || getExpenseAmountFieldText().isBlank()) {
       builder.append("Amount \n");
     }
@@ -229,20 +230,25 @@ public class AddExpenseDialog extends Dialog<Expense> {
     if (getExpenseDateValue() == null) {
       builder.append("Expense date added \n");
     }
-    if (getExpenseDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget()
+    if (getExpenseDateValue().isBefore(
+        SessionAccount.getInstance().getAccount().getSelectedBudget()
         .getStartDate())
-    || getExpenseDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        || getExpenseDateValue().isAfter(
+            SessionAccount.getInstance().getAccount().getSelectedBudget()
         .getEndDate())) {
       builder.append("Expense date need to be inside budget period: \n");
       builder.append(SessionAccount.getInstance().getAccount().getSelectedBudget()
           .getStartToEndString());
     }
-
+    WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
   }
 
+  /**
+   * Initializes AddExpenseDialog.
+   */
   @FXML
   public void initialize() {
     recurringIntervalComboBox.getItems().addAll(RecurringType.labelValues());

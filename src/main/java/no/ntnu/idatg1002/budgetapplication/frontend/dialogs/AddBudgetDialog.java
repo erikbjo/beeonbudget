@@ -8,7 +8,12 @@ import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
@@ -25,9 +30,7 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 public class AddBudgetDialog extends Dialog<Budget> {
 
   @FXML private ResourceBundle resources;
-
   @FXML private URL location;
-
   @FXML private Label budgetNameText;
   @FXML private TextField budgetNameTextField;
   @FXML private Button cancelButton;
@@ -70,6 +73,9 @@ public class AddBudgetDialog extends Dialog<Budget> {
             });
   }
 
+  /**
+   * Configures the date picker to open on focus.
+   */
   private void configureDatePickers() {
     startDatePicker
         .focusedProperty()
@@ -143,9 +149,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
 
   /** Generates feedback for the user if the budget name field is invalid. */
   private void generateFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert();
     StringBuilder builder = new StringBuilder("Something is wrong: \n");
-
     if (getBudgetNameTextField().isEmpty() || getBudgetNameTextField().isBlank()) {
       builder.append("Name is Empty Or Blank \n");
     }
@@ -155,6 +159,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     if (getEndDate().isBefore(getStartDate()) && getEndDatePicker().getValue() != null) {
       builder.append("End Date Cant Be Before Start Date \n");
     }
+    WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
     warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
     warningAlert.showAndWait();
@@ -172,10 +177,15 @@ public class AddBudgetDialog extends Dialog<Budget> {
     return budgetNameTextField.getText();
   }
 
-  public LocalDate getStartDate(){
-      return getStartDatePicker().getValue();
+  public LocalDate getStartDate() {
+    return getStartDatePicker().getValue();
   }
 
+  /**
+   * Returns end date from EndDatePicker.
+   *
+   * @return end date from EndDatePicker as LocalDate.
+   */
   public LocalDate getEndDate() {
     if (getEndDatePicker().getValue() == null) {
       WarningAlert alert = new WarningAlert(""
