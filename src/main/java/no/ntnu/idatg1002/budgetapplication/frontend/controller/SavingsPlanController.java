@@ -60,6 +60,15 @@ public class SavingsPlanController implements Initializable{
     primaryController = new PrimaryController();
   }
 
+  public void switchToPrimaryFromBudgetMouseEvent(MouseEvent event) throws IOException {
+    Parent root =
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
+    String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
+    Scene scene = ((Node) event.getSource()).getScene();
+    scene.getStylesheets().add(css);
+    scene.setRoot(root);
+  }
+
   /**
    * Switches the view to the primary view from the savings plan view.
    *
@@ -108,8 +117,18 @@ public class SavingsPlanController implements Initializable{
   }
 
   /** Displays the edit popup to allow users to change details of their savings plan. */
-  public void onEdit() {
-    throw new UnsupportedOperationException();
+  public void onEdit(ActionEvent event) {
+    AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
+    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+
+    Optional<SavingsPlan> result = dialog.showAndWait();
+    result.ifPresent(savingsPlan -> {
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
+        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());});
+    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+    updateAllInSavingsPlan();
   }
 
 
@@ -120,12 +139,36 @@ public class SavingsPlanController implements Initializable{
 
   @FXML
   public void onNextSavingsPlan(ActionEvent event) {
-    goalProgressIndicator.setProgress(goalProgressIndicator.getProgress() + 0.1);
+    if (SessionAccount.getInstance().getAccount().getSavingsPlans().size() > 1) {
+      if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
+        try {
+          SessionAccount.getInstance().getAccount().selectNextSavingsPlan();
+          updateAllInSavingsPlan();
+        } catch (IndexOutOfBoundsException e) {
+          WarningAlert warningAlert = new WarningAlert("There is no next savings plan");
+          warningAlert.showAndWait();
+        }
+      } else {
+        showNoSavingsPlanErrorFromSelectNewSavingsPlan();
+      }
+    }
   }
 
   @FXML
   public void onPreviousSavingsPlan(ActionEvent event) {
-    throw new UnsupportedOperationException();
+    if (SessionAccount.getInstance().getAccount().getSavingsPlans().size() > 1) {
+      if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
+        try {
+          SessionAccount.getInstance().getAccount().selectPreviousSavingsPlan();
+          updateAllInSavingsPlan();
+        } catch (IndexOutOfBoundsException e) {
+          WarningAlert warningAlert = new WarningAlert("There is no previous savings plan");
+          warningAlert.showAndWait();
+        }
+      } else {
+        showNoSavingsPlanErrorFromSelectNewSavingsPlan();
+      }
+    }
   }
 
   @FXML
@@ -150,11 +193,6 @@ public class SavingsPlanController implements Initializable{
     } else {
       showNoSavingsPlanErrorFromDeleteSavingsPlan();
     }
-  }
-
-  @FXML
-  public void switchToPrimaryFromBudgetMouseEvent(MouseEvent mouseEvent) {
-    throw new UnsupportedOperationException();
   }
 
   /** This method calls all the other update methods, so that the entire UI is updated. */
@@ -215,6 +253,13 @@ public class SavingsPlanController implements Initializable{
   @FXML
   private void showNoSavingsPlanErrorFromDeleteSavingsPlan() {
     WarningAlert warningAlert = new WarningAlert("There is no budget to be deleted");
+    warningAlert.showAndWait();
+  }
+
+  @FXML
+  private void showNoSavingsPlanErrorFromSelectNewSavingsPlan() {
+    WarningAlert warningAlert =
+        new WarningAlert("Please create a savings plan before trying to switch savings plan");
     warningAlert.showAndWait();
   }
 
