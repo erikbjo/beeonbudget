@@ -88,7 +88,7 @@ class AccountTest {
           assertThrows(
               IllegalArgumentException.class,
               () -> sessionAccount.getAccount().setEmail("erik.gmail.com"));
-      assertEquals("Email does not contain '@'.", thrown.getMessage());
+      assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals("erik.gmail.com", sessionAccount.getAccount().getEmail());
     }
 
@@ -97,7 +97,7 @@ class AccountTest {
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class, () -> sessionAccount.getAccount().setEmail(""));
-      assertEquals("Email must not be empty or blank.", thrown.getMessage());
+      assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals("", sessionAccount.getAccount().getEmail());
     }
 
@@ -106,7 +106,7 @@ class AccountTest {
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class, () -> sessionAccount.getAccount().setEmail(" "));
-      assertEquals("Email must not be empty or blank.", thrown.getMessage());
+      assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals(" ", sessionAccount.getAccount().getEmail());
     }
 
