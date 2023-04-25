@@ -108,10 +108,20 @@ public abstract class MoneyAction {
     }
   }
 
+  /**
+   * Sets the id of the moneyaction.
+   *
+   * @param id the id to be set.
+   */
   public void setId(Long id) {
     this.id = id;
   }
 
+  /**
+   * Returns the id of the moneyaction.
+   *
+   * @return the id of the moneyaction.
+   */
   public Long getId() {
     return id;
   }
