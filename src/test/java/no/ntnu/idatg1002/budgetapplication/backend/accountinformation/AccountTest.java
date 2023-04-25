@@ -55,7 +55,7 @@ class AccountTest {
 
     sessionAccount.getAccount().addBudget(budget);
 
-    savingsPlan = new SavingsPlan("Test savingsplan", 100, LocalDate.now(),LocalDate.now());
+    savingsPlan = new SavingsPlan("Test savingsplan", 100, LocalDate.now(), LocalDate.now());
   }
 
   @AfterEach
@@ -88,7 +88,7 @@ class AccountTest {
           assertThrows(
               IllegalArgumentException.class,
               () -> sessionAccount.getAccount().setEmail("erik.gmail.com"));
-      assertEquals("Email does not contain '@'.", thrown.getMessage());
+      assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals("erik.gmail.com", sessionAccount.getAccount().getEmail());
     }
 
@@ -97,7 +97,7 @@ class AccountTest {
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class, () -> sessionAccount.getAccount().setEmail(""));
-      assertEquals("Email must not be empty or blank.", thrown.getMessage());
+      assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals("", sessionAccount.getAccount().getEmail());
     }
 
@@ -106,7 +106,7 @@ class AccountTest {
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class, () -> sessionAccount.getAccount().setEmail(" "));
-      assertEquals("Email must not be empty or blank.", thrown.getMessage());
+      assertEquals("Not a valid e-mail address.", thrown.getMessage());
       assertNotEquals(" ", sessionAccount.getAccount().getEmail());
     }
 
@@ -253,15 +253,15 @@ class AccountTest {
   class addSavingsPlanTest {
     @Test
     void addNewSavingsPlanWithNotTakenName() {
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(),LocalDate.now());
+      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
       assertDoesNotThrow(() -> sessionAccount.getAccount().addSavingsPlan(testSavingsPlan));
       assertTrue(sessionAccount.getAccount().getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
     void addNewSavingsPlanWithTakenName() {
-      sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("My goal", 100, LocalDate.now(),LocalDate.now()));
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(),LocalDate.now());
+      sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now()));
+      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
@@ -272,7 +272,7 @@ class AccountTest {
 
     @Test
     void addExistingSavingsPlan() {
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(),LocalDate.now());
+      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
       sessionAccount.getAccount().addSavingsPlan(testSavingsPlan);
       Exception thrown =
           assertThrows(
@@ -349,8 +349,8 @@ class AccountTest {
   @Test
   void testThatSelectedSavingsPlanCanBeIncrementedAndLoops() {
     sessionAccount.getAccount().addSavingsPlan(savingsPlan);
-    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(),LocalDate.now()));
-    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 3", 100, LocalDate.now(),LocalDate.now()));
+    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(), LocalDate.now()));
+    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 3", 100, LocalDate.now(), LocalDate.now()));
     assertEquals("Test savingsplan 3", erikAccount.getSelectedSavingsPlan().getGoalName());
     // Selected loops
     sessionAccount.getAccount().selectNextSavingsPlan();
@@ -377,7 +377,7 @@ class AccountTest {
   @Test
   void testThatSelectedSavingsPlanCanBeDecreasedAndLoops() {
     sessionAccount.getAccount().addSavingsPlan(savingsPlan);
-    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(),LocalDate.now()));
+    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(), LocalDate.now()));
     assertEquals(
         "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
     // Selected decreases

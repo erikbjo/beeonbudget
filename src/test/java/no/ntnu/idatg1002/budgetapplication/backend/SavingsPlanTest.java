@@ -14,7 +14,7 @@ class SavingsPlanTest {
 
   @BeforeEach
   void setUp() {
-    goal = new SavingsPlan("test", 100, LocalDate.now(),LocalDate.now());
+    goal = new SavingsPlan("test", 100, LocalDate.now(), LocalDate.now());
   }
 
   @AfterEach
