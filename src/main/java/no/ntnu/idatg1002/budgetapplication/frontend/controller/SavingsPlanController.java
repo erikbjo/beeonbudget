@@ -6,17 +6,19 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.Optional;
-
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
-import javafx.fxml.*;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import no.ntnu.idatg1002.budgetapplication.backend.Expense;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
@@ -25,12 +27,13 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddSavingsDepositDialog;
 import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddSavingsPlanDialog;
 
-/** This class is the controller for SavingsPlan GUI
+/**
+ * This class is the controller for SavingsPlan GUI.
  *
- * @author Igor Dzugaj
+ * @author Igor Dzugaj, Simon Husås Houmb
  * @version 1.0
  */
-public class SavingsPlanController implements Initializable{
+public class SavingsPlanController implements Initializable {
 
   @FXML
   public ProgressIndicator goalProgressIndicator;
@@ -60,13 +63,20 @@ public class SavingsPlanController implements Initializable{
     primaryController = new PrimaryController();
   }
 
-  public void switchToPrimaryFromBudgetMouseEvent(MouseEvent event) throws IOException {
+  /**
+   * Switches to the primary view from the savings plan view.
+   *
+   * @param event The event that triggered the method.
+   * @throws IOException If the primary.fxml file cannot be loaded.
+   */
+  public void switchToPrimaryFromSavingsPlanMouseEvent(MouseEvent event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(
+            getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 
   /**
@@ -79,18 +89,25 @@ public class SavingsPlanController implements Initializable{
     Parent root =
         FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
-    Scene scene = ((Node) event.getSource()).getScene();
-    scene.getStylesheets().add(css);
-    scene.setRoot(root);
+    Scene newScene = ((Node) event.getSource()).getScene();
+    newScene.getStylesheets().add(css);
+    newScene.setRoot(root);
   }
 
+  /**
+   * This method handles the event when the user clicks the "New Plan" button. It displays a
+   * dialog box where the user can enter the details of the savings plan.
+   *
+   * @param event The event that triggered the method.
+   */
   @FXML
   public void onNewSavingsPlan(ActionEvent event) {
     AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
     Optional<SavingsPlan> result = dialog.showAndWait();
-    result.ifPresent(savingsPlan -> SessionAccount.getInstance().getAccount().addSavingsPlan(savingsPlan));
+    result.ifPresent(
+        savingsPlan -> SessionAccount.getInstance().getAccount().addSavingsPlan(savingsPlan));
     AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     updateAllInSavingsPlan();
   }
@@ -98,7 +115,7 @@ public class SavingsPlanController implements Initializable{
   /**
    * Updates the plan's deposit and total savings amount and displays the new total amount saved.
    */
-  public void onDeposit(ActionEvent event) throws IOException {
+  public void onDeposit(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       AddSavingsDepositDialog dialog = new AddSavingsDepositDialog();
       dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
@@ -123,10 +140,15 @@ public class SavingsPlanController implements Initializable{
 
     Optional<SavingsPlan> result = dialog.showAndWait();
     result.ifPresent(savingsPlan -> {
-        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
-        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
-        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
-        SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());});
+      SessionAccount.getInstance()
+          .getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
+      SessionAccount.getInstance().getAccount()
+          .getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
+      SessionAccount.getInstance().getAccount()
+          .getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
+      SessionAccount.getInstance().getAccount()
+          .getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());
+    });
     AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     updateAllInSavingsPlan();
   }
@@ -137,6 +159,15 @@ public class SavingsPlanController implements Initializable{
     updateAllInSavingsPlan();
   }
 
+  /**
+   * Handles the action event for the "Next Plan" button. This method attempts to select the next
+   * savings plan from the current account's savings plans.
+   * If successful, the savings plan view is updated to display
+   * the selected savings plan's information. If there is no next savings plan,
+   * a warning alert is shown to inform the user.
+   *
+   * @param event The event that triggered the method.
+   */
   @FXML
   public void onNextSavingsPlan(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getSavingsPlans().size() > 1) {
@@ -154,6 +185,15 @@ public class SavingsPlanController implements Initializable{
     }
   }
 
+  /**
+   * Handles the action event for the "Previous Plan" button. This method attempts to select the
+   * previous savings plan from the current account's savings plans.
+   * If successful, the savings plan view is updated to display
+   * the selected savings plan's information. If there is no previous savings plan,
+   * a warning alert is shown to inform the user.
+   *
+   * @param event The event that triggered the method.
+   */
   @FXML
   public void onPreviousSavingsPlan(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getSavingsPlans().size() > 1) {
@@ -171,6 +211,11 @@ public class SavingsPlanController implements Initializable{
     }
   }
 
+  /**
+   * Deletes the currently selected savings plan if one exists.
+   *
+   * @param event The event that triggered the method.
+   */
   @FXML
   public void onDelete(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
@@ -203,6 +248,9 @@ public class SavingsPlanController implements Initializable{
     updateProgressIndicator();
   }
 
+  /**
+   * Updates text about the current savings plan in the GUI.
+   */
   public void updateSavingsPlanInfoText() {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       planNameInSavingsPlan.setText(
@@ -213,6 +261,9 @@ public class SavingsPlanController implements Initializable{
     }
   }
 
+  /**
+   * Updates the text about the current savings plan money information.
+   */
   public void updateSavingsPlanMoneyText() {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       totalSavedLabel.setText(
@@ -220,11 +271,13 @@ public class SavingsPlanController implements Initializable{
               SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       totalLeftLabel.setText(
           String.valueOf(
-              SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalGoalAmount()
+              SessionAccount.getInstance().getAccount()
+                  .getSelectedSavingsPlan().getTotalGoalAmount()
           - SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       goalLabel.setText(
           String.valueOf(
-              SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalGoalAmount()));
+              SessionAccount.getInstance().getAccount()
+                  .getSelectedSavingsPlan().getTotalGoalAmount()));
       savingsPlanDateLabel.setText(
           "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
               .getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
@@ -235,9 +288,13 @@ public class SavingsPlanController implements Initializable{
     }
   }
 
+  /**
+   * Updates the current savings plan progress indicator.
+   */
   public void updateProgressIndicator() {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
-      goalProgressIndicator.setProgress(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSavedPercentage());
+      goalProgressIndicator.setProgress(SessionAccount.getInstance().getAccount()
+          .getSelectedSavingsPlan().getTotalSavedPercentage());
     } else {
       goalProgressIndicator.setProgress(0);
     }

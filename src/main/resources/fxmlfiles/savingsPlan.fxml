@@ -19,7 +19,7 @@
     <children>
       <AnchorPane style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" focusTraversable="true" layoutX="14.0" layoutY="5.0" onMouseClicked="#switchToPrimaryFromBudgetMouseEvent" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="837.0" AnchorPane.topAnchor="5.0">
+            <ImageView fx:id="HomePicture" fitHeight="49.0" fitWidth="55.0" focusTraversable="true" layoutX="14.0" layoutY="5.0" onMouseClicked="#switchToPrimaryFromSavingsPlanMouseEvent" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="4.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="837.0" AnchorPane.topAnchor="5.0">
                <image>
                   <Image url="@../images/simpleLogoBoY.png" />
                </image>

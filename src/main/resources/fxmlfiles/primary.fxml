@@ -70,7 +70,7 @@
                               </LinearGradient>
                           </ripplerFill>
                       </JFXButton>
-                      <JFXButton fx:id="addExpenseButton" buttonType="RAISED" cache="true" onAction="#onAddExpense" text="Add Expences">
+                      <JFXButton fx:id="addExpenseButton" buttonType="RAISED" cache="true" onAction="#onAddExpense" text="Add Expenses">
                           <ripplerFill>
                               <LinearGradient endX="1.0" endY="1.0">
                                   <stops>

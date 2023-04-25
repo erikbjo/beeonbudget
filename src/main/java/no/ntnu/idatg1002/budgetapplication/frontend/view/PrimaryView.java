@@ -8,6 +8,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+/**
+ * The view that is shown when the application launches.
+ */
 public class PrimaryView extends Application {
 
   public static void mainApp(String[] args) {
@@ -34,7 +37,6 @@ public class PrimaryView extends Application {
     primaryStage.setMaximized(true);
     primaryStage.setMinHeight(500);
     primaryStage.setMinWidth(1000);
-    // primaryStage.setFullScreen(true);
     primaryStage.show();
   }
 }

@@ -56,7 +56,7 @@ public class Income extends MoneyAction {
     this.dateAdded = LocalDate.now();
   }
 
-  /** Default constructor for income */
+  /** Default constructor for income. */
   public Income() {}
 
   /**

@@ -13,11 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ConfirmationAlert;
@@ -26,6 +22,9 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 import org.controlsfx.control.textfield.CustomPasswordField;
 import org.controlsfx.control.textfield.CustomTextField;
 
+/**
+ * Represents the controller for the settings view.
+ */
 public class SettingsController implements Initializable {
 
   @FXML private JFXButton backToMenuButton;
@@ -35,13 +34,17 @@ public class SettingsController implements Initializable {
   @FXML private CustomTextField userName;
   @FXML private CustomPasswordField userPassword;
 
-
-
-
+  /**
+   * Button that when pressed changes the view to the primary view.
+   *
+   * @param event The event that triggered the method.
+   * @throws IOException if the primary.fxml file cannot be loaded.
+   */
   @FXML
   public void backToMenu(ActionEvent event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(
+            getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
@@ -65,7 +68,7 @@ public class SettingsController implements Initializable {
   }
 
   @FXML
-  private void saveProfile(ActionEvent event) throws IOException {
+  private void saveProfile(ActionEvent event) {
     if (assertAllFieldsValid()) {
       try {
         ConfirmationAlert confirmationAlert = new ConfirmationAlert("Edit Profile",
@@ -102,21 +105,19 @@ public class SettingsController implements Initializable {
       AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
     }
   }
+
   private boolean assertAllFieldsValid() {
     return (!userName.getText().isEmpty()
         && !userName.getText().isBlank()
         && !userEmail.getText().isEmpty()
         && !userEmail.getText().isBlank()
         && !userPassword.getText().isEmpty()
-        && !userPassword.getText().isBlank()
-     );
+        && !userPassword.getText().isBlank());
   }
 
   @FXML
   private void generateDynamicFeedbackAlert() {
-    WarningAlert warningAlert = new WarningAlert();
     StringBuilder builder = new StringBuilder("Not Valid : \n");
-
     if (userName.getText().isEmpty() || userName.getText().isBlank()) {
       builder.append("Name, Cant be Blank or Empty \n");
     }
@@ -126,6 +127,7 @@ public class SettingsController implements Initializable {
     if (userPassword.getText().isEmpty() || userPassword.getText().isBlank()) {
       builder.append("Pin code \n");
     }
+    WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
     warningAlert.showAndWait();
   }

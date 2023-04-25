@@ -1,15 +1,17 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.dialogs;
 
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
@@ -171,8 +173,7 @@ public class AddIncomeDialog extends Dialog<Income> {
     if (incomeDatePicker.getValue() == null) {
       incomeDatePicker.setValue(LocalDate.now());
     }
-    LocalDate date = incomeDatePicker.getValue();
-    return date;
+    return incomeDatePicker.getValue();
   }
 
   /**
@@ -200,7 +201,8 @@ public class AddIncomeDialog extends Dialog<Income> {
         && !getIncomeDateValue().isBefore(
         SessionAccount.getInstance().getAccount().getSelectedBudget()
             .getStartDate())
-        && !getIncomeDateValue().isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget()
+        && !getIncomeDateValue().isAfter(
+            SessionAccount.getInstance().getAccount().getSelectedBudget()
         .getEndDate()));
   }
 
@@ -251,6 +253,9 @@ public class AddIncomeDialog extends Dialog<Income> {
     }
   }
 
+  /**
+   * Initializes AddIncomeDialog.
+   */
   @FXML
   public void initialize() {
     recurringIntervalComboBox.getItems().addAll(RecurringType.labelValues());

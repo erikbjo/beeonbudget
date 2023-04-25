@@ -61,7 +61,7 @@
                                     <Text fx:id="emailText" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" />
                                     <TextField fx:id="emailTextField" prefHeight="25.0" prefWidth="197.0" />
                                     <Text fx:id="pinCodeText" strokeType="OUTSIDE" strokeWidth="0.0" text="Pin code" />
-                                    <PasswordField fx:id="pinCodeTextField" onKeyPressed="#onPinCodeTextFieldKeyPressed" prefHeight="25.0" prefWidth="198.0" />
+                                    <PasswordField fx:id="pinCodeTextField" prefHeight="25.0" prefWidth="198.0" />
                                     <Hyperlink fx:id="forgotPinCodeHyperlink" onAction="#forgotPinCode" text="Forgot your pin code?" underline="true" />
                                     <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                                         <children>

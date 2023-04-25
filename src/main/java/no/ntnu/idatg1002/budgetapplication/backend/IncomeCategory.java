@@ -15,6 +15,8 @@ public enum IncomeCategory {
   SALARY("Salary"),
   /** Indicates income earned through a gift. */
   GIFT("Gift"),
+  /** Indicates income earned through a loan. */
+  LOAN("Loan"),
   /** Indicates income earned through renting properties or assets. */
   RENTAL_PROFIT("Rental Profit"),
   /** Indicates income earned through profits from a business. */
