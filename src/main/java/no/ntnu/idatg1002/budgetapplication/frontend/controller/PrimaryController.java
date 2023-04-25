@@ -51,13 +51,6 @@ public class PrimaryController implements Initializable {
   @FXML private Scene scene;
 
   /**
-   * Constructs a new instance of the PrimaryController class.
-   *
-   * @throws IOException if the primary.fxml file cannot be loaded.
-   */
-  //PrimaryController() throws IOException {}
-
-  /**
    * Switches the view to the budget view.
    *
    * @param event the event that triggered the method.
