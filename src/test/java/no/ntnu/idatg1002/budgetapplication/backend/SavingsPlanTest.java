@@ -2,6 +2,7 @@ package no.ntnu.idatg1002.budgetapplication.backend;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.time.LocalDate;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ class SavingsPlanTest {
 
   @BeforeEach
   void setUp() {
-    goal = new SavingsPlan("test");
+    goal = new SavingsPlan("test", 100, LocalDate.now(), LocalDate.now());
   }
 
   @AfterEach
