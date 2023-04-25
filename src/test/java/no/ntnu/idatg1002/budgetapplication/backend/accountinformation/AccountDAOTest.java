@@ -81,7 +81,7 @@ class AccountDAOTest {
     Iterator<Account> iterator = accountDAO.iterator();
 
     Account newAccount =
-        new Account("Test", "test@test.123", "0000", SecurityQuestion.CAR_BRAND, "Ferrari");
+        new Account("Test", "test@test.com", "0000", SecurityQuestion.CAR_BRAND, "Ferrari");
     accountDAO.add(newAccount);
 
     assertTrue(iterator.hasNext());
