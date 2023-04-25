@@ -170,7 +170,7 @@
                                           <Font name="System Bold" size="12.0" />
                                        </font>
                                     </Label>
-                                    <ProgressIndicator fx:id="goalProgressIndicator" focusTraversable="false" minHeight="250.0" minWidth="250.0" progress="0.0" />
+                                    <ProgressIndicator fx:id="goalProgressIndicator" focusTraversable="false" minHeight="250.0" minWidth="250.0" progress="0.0" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                            </children>
