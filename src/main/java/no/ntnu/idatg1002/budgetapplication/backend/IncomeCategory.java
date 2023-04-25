@@ -28,14 +28,29 @@ public enum IncomeCategory {
 
   private final String incomeCategoryLabel;
 
+  /**
+   * Constructs an IncomeCategory with the specified label.
+   *
+   * @param incomeCategoryLabel The label of the income category.
+   */
   IncomeCategory(String incomeCategoryLabel) {
     this.incomeCategoryLabel = incomeCategoryLabel;
   }
 
+  /**
+   * Returns the label of the income category.
+   *
+   * @return The label of the income category.
+   */
   public String getIncomeCategoryLabel() {
     return incomeCategoryLabel;
   }
 
+  /**
+   * Returns a list of labels for all IncomeCategory values.
+   *
+   * @return A list of labels for all IncomeCategory values.
+   */
   public static List<String> labelValues() {
     ArrayList<String> labelValues = new ArrayList<>();
     for (IncomeCategory category : IncomeCategory.values()) {
@@ -44,6 +59,12 @@ public enum IncomeCategory {
     return labelValues;
   }
 
+  /**
+   * Returns the IncomeCategory value corresponding to the specified label.
+   *
+   * @param label The label to find the corresponding IncomeCategory value.
+   * @return The IncomeCategory value corresponding to the label, or null if not found.
+   */
   public static IncomeCategory valueOfLabel(String label) {
     for (IncomeCategory category : values()) {
       if (category.getIncomeCategoryLabel().equals(label)) {
