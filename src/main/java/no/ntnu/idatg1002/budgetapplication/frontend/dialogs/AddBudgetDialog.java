@@ -54,6 +54,7 @@ public class AddBudgetDialog extends Dialog<Budget> {
     this.setTitle("Add Budget");
     startDatePicker.setValue(LocalDate.now());
 
+    configureDatePickers();
     configureBudgetNameAmountField();
   }
 
@@ -65,6 +66,29 @@ public class AddBudgetDialog extends Dialog<Budget> {
             (observableValue, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
                 budgetNameTextField.clear();
+              }
+            });
+  }
+
+  private void configureDatePickers() {
+    startDatePicker
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                startDatePicker.show();
+              } else {
+                startDatePicker.hide();
+              }
+            });
+    endDatePicker
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                endDatePicker.show();
+              } else {
+                endDatePicker.hide();
               }
             });
   }

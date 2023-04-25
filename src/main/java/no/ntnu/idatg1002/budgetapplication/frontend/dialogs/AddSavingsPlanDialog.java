@@ -56,6 +56,7 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
     startDatePicker.setValue(LocalDate.now());
 
     configureGoalAmountField();
+    configureDatePickers();
     configureSavingsPlanNameAmountField();
   }
 
@@ -67,6 +68,29 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
             (observableValue, oldValue, newValue) -> {
               if ((oldValue.isEmpty() || oldValue.isBlank()) && newValue.matches(" ")) {
                 savingsPlanNameTextField.clear();
+              }
+            });
+  }
+
+  private void configureDatePickers() {
+    startDatePicker
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                startDatePicker.show();
+              } else {
+                startDatePicker.hide();
+              }
+            });
+    endDatePicker
+        .focusedProperty()
+        .addListener(
+            (observableValue, oldPropertyValue, newPropertyValue) -> {
+              if (Boolean.TRUE.equals(newPropertyValue)) {
+                endDatePicker.show();
+              } else {
+                endDatePicker.hide();
               }
             });
   }

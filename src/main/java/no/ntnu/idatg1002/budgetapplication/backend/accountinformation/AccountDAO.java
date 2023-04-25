@@ -83,6 +83,7 @@ public class AccountDAO implements DAO<Account> {
     em.merge(account);
     em.flush();
     em.getTransaction().commit();
+    System.out.println("db updated...");
   }
 
   /**

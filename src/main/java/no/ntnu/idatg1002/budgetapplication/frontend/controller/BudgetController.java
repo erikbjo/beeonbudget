@@ -217,11 +217,11 @@ public class BudgetController implements Initializable {
       result.ifPresent(
           income -> {
             SessionAccount.getInstance().getAccount().getSelectedBudget().addBudgetIncome(income);
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
             updateItems();
             updateIncomePieChart();
             updateTotalPieChart();
             updateBudgetMoneyText();
-            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
           });
     } else {
       showNoBudgetErrorFromNewMoneyAction();
@@ -268,11 +268,11 @@ public class BudgetController implements Initializable {
                 .getAccount()
                 .getSelectedBudget()
                 .addBudgetExpenses(expense);
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
             updateItems();
             updateBudgetMoneyText();
             updateExpensePieChart();
             updateTotalPieChart();
-            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
           });
     } else {
       showNoBudgetErrorFromNewMoneyAction();
