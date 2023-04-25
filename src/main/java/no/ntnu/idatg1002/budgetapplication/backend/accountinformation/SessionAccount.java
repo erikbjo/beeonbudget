@@ -1,13 +1,11 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-/**
- * Singleton class to hold the current session's account logged in to the application.
- */
+/** Singleton class to hold the current session's account logged in to the application. */
 public class SessionAccount {
   private Account account;
   private static final SessionAccount instance = new SessionAccount();
 
-
+  /** Standard constructor. Used by DB. */
   private SessionAccount() {}
 
   /**
@@ -37,10 +35,7 @@ public class SessionAccount {
     this.account = account;
   }
 
-  /**
-   * Clears the Account used in the session. Could for example be used when logging out.
-   *
-   */
+  /** Clears the Account used in the session. Could for example be used when logging out. */
   public void clearAccount() {
     this.account = null;
   }
