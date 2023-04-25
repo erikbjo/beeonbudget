@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.regex.Pattern;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
@@ -17,8 +18,6 @@ import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 @Entity(name = "Account")
 @Table(name = "account")
 public class Account {
-  @Id @GeneratedValue private String id = generateAccountNumber();
-
   @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
   @JoinColumn(name = "account_id")
   private final List<SavingsPlan> savingsPlans = new ArrayList<>();
@@ -35,6 +34,7 @@ public class Account {
   private Integer currentSavingsPlanIndex = null;
   private Integer currentBudgetIndex = null;
   @Transient private Random rand;
+  @Id @GeneratedValue private final String id = generateAccountNumber();
 
   public Account() {}
 
@@ -101,19 +101,30 @@ public class Account {
    * Sets the email for the account.
    *
    * @param email the email to be set.
-   * @throws IllegalArgumentException if the email is empty, blank, does not contain "@", or already
-   *     in use.
+   * @throws IllegalArgumentException if the email is invalid or already in use.
    */
   public void setEmail(String email) throws IllegalArgumentException {
-    if (email.isBlank() || email.isEmpty()) {
-      throw new IllegalArgumentException("Email must not be empty or blank.");
-    } else if (!email.contains("@")) {
-      throw new IllegalArgumentException("Email does not contain '@'.");
-    } else if (AccountDAO.getInstance().getAllEmails().contains(email)) {
+    if (AccountDAO.getInstance().getAllEmails().contains(email)) {
       throw new IllegalArgumentException("Email already in use.");
-    } else {
-      this.email = email;
     }
+    if (checkIfEmailIsAValidEmail(email)) {
+      this.email = email;
+    } else {
+      throw new IllegalArgumentException("Not a valid e-mail address.");
+    }
+  }
+
+  /**
+   * Checks if the email is a valid email.
+   *
+   * @param email the email to be checked.
+   * @return true if the email is a valid email, false otherwise.
+   */
+  private boolean checkIfEmailIsAValidEmail(String email) {
+    String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+    return Pattern.compile(emailRegex).matcher(email).matches()
+        && !email.isBlank()
+        && !email.isEmpty();
   }
 
   /**
@@ -237,6 +248,7 @@ public class Account {
       for (SavingsPlan savingsPlanForLoop : savingsPlans) {
         if (savingsPlanForLoop.getGoalName().equals(savingsPlan.getGoalName())) {
           nameTaken = true;
+          break;
         }
       }
     }
