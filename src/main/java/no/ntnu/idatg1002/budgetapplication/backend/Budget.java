@@ -231,7 +231,7 @@ public class Budget {
                   expense.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalExpense += expense.getAmount();
+          totalExpense = expense.getAmount();
         }
       }
       case WEEKLY -> {
@@ -244,7 +244,7 @@ public class Budget {
                   expense.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalExpense += expense.getAmount();
+          totalExpense = expense.getAmount();
         }
       }
       case MONTHLY -> {
@@ -257,7 +257,7 @@ public class Budget {
                   expense.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalExpense += expense.getAmount();
+          totalExpense = expense.getAmount();
         }
       }
       case YEARLY -> {
@@ -270,7 +270,7 @@ public class Budget {
                   expense.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalExpense += expense.getAmount();
+          totalExpense = expense.getAmount();
         }
       }
       default -> throw new IllegalArgumentException("No recurring type found.");
@@ -299,7 +299,7 @@ public class Budget {
                   income.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalIncome += income.getAmount();
+          totalIncome = income.getAmount();
         }
       }
       case WEEKLY -> {
@@ -312,7 +312,7 @@ public class Budget {
                   income.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalIncome += income.getAmount();
+          totalIncome = income.getAmount();
         }
       }
       case MONTHLY -> {
@@ -325,7 +325,7 @@ public class Budget {
                   income.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalIncome += income.getAmount();
+          totalIncome = income.getAmount();
         }
       }
       case YEARLY -> {
@@ -338,7 +338,7 @@ public class Budget {
                   income.getDateAdded(),
                   SessionAccount.getInstance().getAccount().getSelectedBudget().endDate);
         } else {
-          totalIncome += income.getAmount();
+          totalIncome = income.getAmount();
         }
       }
       default -> throw new IllegalArgumentException("No recurring type found.");
