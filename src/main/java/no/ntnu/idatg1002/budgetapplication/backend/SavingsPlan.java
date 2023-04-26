@@ -30,13 +30,15 @@ public class SavingsPlan {
    * Instantiates a new Savings plan.
    *
    * @param goalName the goal name
-   * @throws IllegalArgumentException "Goal name must not be empty or blank." and/or ""Total goal
-   *     amount must be above zero." for totalGoalAmount < 0
+   * @throws IllegalArgumentException if goalName is null or empty or if startDate is after endDate
    */
   public SavingsPlan(String goalName, int totalGoalAmount,
       LocalDate startDate, LocalDate endDate) throws IllegalArgumentException {
     if (goalName == null || goalName.trim().isEmpty()) {
       throw new IllegalArgumentException("Goal name must not be empty or blank.");
+    }
+    if (startDate.isAfter(endDate)) {
+      throw new IllegalArgumentException("Start date must be before end date.");
     }
     this.goalName = goalName;
     this.totalGoalAmount = totalGoalAmount;
@@ -62,7 +64,7 @@ public class SavingsPlan {
    * Sets goal name.
    *
    * @param goalName the goal name
-   * @throws IllegalArgumentException "Goal name must not be empty or blank."
+   * @throws IllegalArgumentException if goalName is null or empty
    */
   public void setGoalName(String goalName) throws IllegalArgumentException {
     if (goalName == null || goalName.trim().isEmpty()) {
@@ -85,8 +87,7 @@ public class SavingsPlan {
    * Sets total goal amount.
    *
    * @param totalGoalAmount the total goal amount
-   * @throws IllegalArgumentException "Total goal amount must be above zero." for totalGoalAmount <=
-   *     0
+   * @throws IllegalArgumentException if totalGoalAmount is less than or equal to zero
    */
   public void setTotalGoalAmount(int totalGoalAmount) throws IllegalArgumentException {
     if (totalGoalAmount <= 0) {
@@ -152,8 +153,7 @@ public class SavingsPlan {
    * Sets wanted saving time.
    *
    * @param wantedSavingTime the wanted saving time
-   * @throws IllegalArgumentException "Wanted saving time amount must be above zero." for
-   *     wantedSavingTime <= 0
+   * @throws IllegalArgumentException if wantedSavingTime is less than or equal to zero
    */
   public void setWantedSavingTime(int wantedSavingTime) throws IllegalArgumentException {
     if (wantedSavingTime <= 0) {
@@ -175,8 +175,7 @@ public class SavingsPlan {
    * Sets wanted monthly saving amount.
    *
    * @param wantedMonthlySavingAmount the wanted monthly saving amount
-   * @throws IllegalArgumentException "Wanted monthly saving amount must be above zero." for
-   *     wantedMonthlySavingAmount <= 0
+   * @throws IllegalArgumentException if wantedMonthlySavingAmount is less than or equal to zero
    */
   public void setWantedMonthlySavingAmount(int wantedMonthlySavingAmount)
       throws IllegalArgumentException {

@@ -99,10 +99,11 @@ public abstract class MoneyAction {
    * Sets the reoccurring type associated with this MoneyAction.
    *
    * @param type the reocurring type of this action
+   * @throws IllegalArgumentException if the type is null
    */
   public void setRecurringType(RecurringType type) throws IllegalArgumentException {
     if (type == null) {
-      throw new IllegalArgumentException();
+      throw new IllegalArgumentException("Recurring type cannot be null");
     } else {
       this.type = type;
     }

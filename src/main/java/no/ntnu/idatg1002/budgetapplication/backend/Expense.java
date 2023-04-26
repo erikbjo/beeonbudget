@@ -74,6 +74,7 @@ public class Expense extends MoneyAction {
    * Sets the expense category for this Expense object.
    *
    * @param expenseCategory the new expense category to be associated with this expenses
+   * @throws IllegalArgumentException if the expense category is null
    */
   public void setExpenseCategory(ExpenseCategory expenseCategory) throws IllegalArgumentException {
     if (expenseCategory == null) {
