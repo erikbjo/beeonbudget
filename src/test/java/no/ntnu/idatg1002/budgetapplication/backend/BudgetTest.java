@@ -4,8 +4,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
-
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.Account;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import org.junit.jupiter.api.AfterEach;
@@ -152,11 +150,9 @@ class BudgetTest {
   void testThatBudgetIntervalCannotBeSetSetToNegativeValue() {
     LocalDate startDate = LocalDate.now();
     LocalDate endDate = LocalDate.now().minusYears(1);
-    Budget badBudget = new Budget("Bad budget", startDate, endDate);
+    Budget badBudget;
     assertThrows(
-        IllegalArgumentException.class,
-        () ->
-            testAccount.addBudget(badBudget));
+        IllegalArgumentException.class, () -> new Budget("Bad budget", startDate, endDate));
   }
 
   @Test
@@ -175,16 +171,13 @@ class BudgetTest {
   void testThatSetStartDateCannotBeAfterEndDate() {
     LocalDate endDate = budget.getEndDate();
     LocalDate badStartDate = endDate.plusDays(1);
-    assertThrows(
-        IllegalArgumentException.class, () -> budget.setStartDate(badStartDate));
+    assertThrows(IllegalArgumentException.class, () -> budget.setStartDate(badStartDate));
   }
 
   @Test
   void testThatSetEndDateCannotBeBeforeEndDate() {
     LocalDate startDate = budget.getStartDate();
     LocalDate badEndDate = startDate.minusDays(1);
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> budget.setEndDate(badEndDate));
+    assertThrows(IllegalArgumentException.class, () -> budget.setEndDate(badEndDate));
   }
 }
