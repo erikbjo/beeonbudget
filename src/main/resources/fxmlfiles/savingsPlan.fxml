@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
-<?import javafx.geometry.Insets?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ProgressIndicator?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.effect.InnerShadow?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Line?>
-<?import javafx.scene.text.Font?>
+<?import com.jfoenix.controls.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.SavingsPlanController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="no.ntnu.idatg1002.budgetapplication.frontend.controller.SavingsPlanController">
     <children>
       <AnchorPane style="-fx-background-color: #f3e60c;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -80,7 +74,6 @@
                                        <children>
                                           <JFXButton fx:id="depositButton" onAction="#onDeposit" text="Deposit" textAlignment="CENTER" />
                                           <JFXButton fx:id="editButton" onAction="#onEdit" text="Edit" />
-                                          <JFXButton fx:id="moreInfoButton" text="Details" />
                                           <JFXButton fx:id="newSavingsPlan" onAction="#onNewSavingsPlan" text="New Plan" />
                                           <JFXButton fx:id="delete" onAction="#onDelete" text="Delete Plan" />
                                           <JFXButton fx:id="backButtonSavingsPlan" contentDisplay="CENTER" onAction="#switchToPrimaryFromSavingPlan" text="Back" />
