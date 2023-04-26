@@ -150,7 +150,6 @@ class BudgetTest {
   void testThatBudgetIntervalCannotBeSetSetToNegativeValue() {
     LocalDate startDate = LocalDate.now();
     LocalDate endDate = LocalDate.now().minusYears(1);
-    Budget badBudget;
     assertThrows(
         IllegalArgumentException.class, () -> new Budget("Bad budget", startDate, endDate));
   }
