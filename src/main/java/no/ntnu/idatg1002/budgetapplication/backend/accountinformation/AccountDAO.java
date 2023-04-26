@@ -66,6 +66,7 @@ public class AccountDAO implements DAO<Account> {
    *
    * @param account the account to be removed.
    */
+  @Override
   public void remove(Account account) {
     Account foundAccount = em.find(Account.class, account.getId());
     em.getTransaction().begin();
