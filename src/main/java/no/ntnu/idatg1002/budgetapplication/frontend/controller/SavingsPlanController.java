@@ -33,7 +33,7 @@ import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddSavingsPlanDialog
  * @author Igor Dzugaj, Simon Husås Houmb
  * @version 1.0
  */
-public class SavingsPlanController implements Initializable {
+public class SavingsPlanController {
 
   @FXML
   public ProgressIndicator goalProgressIndicator;
@@ -52,16 +52,6 @@ public class SavingsPlanController implements Initializable {
   private Stage stage;
   private Scene scene;
   private Parent parent;
-  private final PrimaryController primaryController;
-
-  /**
-   * A constructor for the SavingsPlanController class.
-   *
-   * @throws IOException If an input or output exception occurs
-   */
-  public SavingsPlanController() throws IOException {
-    primaryController = new PrimaryController();
-  }
 
   /**
    * Switches to the primary view from the savings plan view.
@@ -107,9 +97,11 @@ public class SavingsPlanController implements Initializable {
 
     Optional<SavingsPlan> result = dialog.showAndWait();
     result.ifPresent(
-        savingsPlan -> SessionAccount.getInstance().getAccount().addSavingsPlan(savingsPlan));
-    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-    updateAllInSavingsPlan();
+        savingsPlan -> {
+          SessionAccount.getInstance().getAccount().addSavingsPlan(savingsPlan);
+          AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+          updateAllInSavingsPlan();
+        });
   }
 
   /**
@@ -125,8 +117,10 @@ public class SavingsPlanController implements Initializable {
           deposit -> {
             SessionAccount.getInstance()
                     .getAccount().getSelectedSavingsPlan().deposit(deposit);
-            updateAllInSavingsPlan();
             AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+            updateSavingsPlanMoneyText();
+            updateProgressIndicator();
+            updateSavingsPlanInfoText();
           });
     } else {
       showNoSavingsPlanErrorFromNewMoneyAction();
@@ -148,14 +142,14 @@ public class SavingsPlanController implements Initializable {
           .getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
       SessionAccount.getInstance().getAccount()
           .getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+      updateAllInSavingsPlan();
     });
-    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-    updateAllInSavingsPlan();
   }
 
 
-  @Override
-  public void initialize(URL url, ResourceBundle resourceBundle) {
+  @FXML
+  public void initialize() {
     updateAllInSavingsPlan();
   }
 
@@ -232,8 +226,8 @@ public class SavingsPlanController implements Initializable {
             .getAccount()
             .removeSavingsPlan(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan());
         SessionAccount.getInstance().getAccount().selectPreviousSavingsPlan();
-        updateAllInSavingsPlan();
         AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+        updateAllInSavingsPlan();
       }
     } else {
       showNoSavingsPlanErrorFromDeleteSavingsPlan();
@@ -245,7 +239,6 @@ public class SavingsPlanController implements Initializable {
     updateProgressIndicator();
     updateSavingsPlanInfoText();
     updateSavingsPlanMoneyText();
-    updateProgressIndicator();
   }
 
   /**
@@ -267,15 +260,13 @@ public class SavingsPlanController implements Initializable {
   public void updateSavingsPlanMoneyText() {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       totalSavedLabel.setText(
-          String.valueOf(
+          Integer.toString(
               SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       totalLeftLabel.setText(
-          String.valueOf(
-              SessionAccount.getInstance().getAccount()
-                  .getSelectedSavingsPlan().getTotalGoalAmount()
-          - SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
+          Integer.toString(10));
+              //SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalGoalAmount() - SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       goalLabel.setText(
-          String.valueOf(
+          Integer.toString(
               SessionAccount.getInstance().getAccount()
                   .getSelectedSavingsPlan().getTotalGoalAmount()));
       savingsPlanDateLabel.setText(
@@ -286,6 +277,7 @@ public class SavingsPlanController implements Initializable {
     } else {
       setDefaultSavingsPlanMoneyText();
     }
+    System.out.println(totalSavedLabel.getText() + " " + totalLeftLabel.getText() + " " + goalLabel.getText());
   }
 
   /**

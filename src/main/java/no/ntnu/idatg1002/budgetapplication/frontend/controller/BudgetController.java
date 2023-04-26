@@ -216,7 +216,7 @@ public class BudgetController implements Initializable {
    * @throws IOException if the AddIncomeDialog.fxml file cannot be loaded
    */
   @FXML
-  public void onNewIncome(ActionEvent event) throws IOException {
+  public void onNewIncome(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
       AddIncomeDialog dialog = new AddIncomeDialog();
       dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
@@ -250,9 +250,11 @@ public class BudgetController implements Initializable {
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
     Optional<Budget> result = dialog.showAndWait();
-    result.ifPresent(budget -> SessionAccount.getInstance().getAccount().addBudget(budget));
-    AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-    updateAllInBudgetView();
+    result.ifPresent(budget -> {
+      SessionAccount.getInstance().getAccount().addBudget(budget);
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+      updateAllInBudgetView();
+    });
   }
 
   /**
