@@ -6,6 +6,9 @@ import java.util.Optional;
 
 /**
  * Data Access Object used to access data from a database.
+ *
+ * @author Simon Husås Houmb
+ * @version 1.0
  */
 public interface DAO<T> extends Iterable<T> {
   /**

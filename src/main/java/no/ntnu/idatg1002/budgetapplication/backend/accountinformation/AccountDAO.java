@@ -13,7 +13,8 @@ import java.util.Optional;
  * for the Account class. It is a singleton class with instance methods for performing create, read,
  * update and delete operations.
  *
- * @author Simon Houmb
+ * @author Simon Husås Houmb
+ * @version 1.0
  */
 public class AccountDAO implements DAO<Account> {
   private final EntityManagerFactory emf;
