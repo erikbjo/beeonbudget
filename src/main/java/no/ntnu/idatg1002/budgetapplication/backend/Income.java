@@ -11,7 +11,7 @@ import java.time.format.FormatStyle;
  * Represents an income entry in the budget application. Inherits from the MoneyAction class. An
  * Income object includes an amount, a description, a recurring type, and an income category.
  *
- * @author Erik Bjørnsen, Simon Houmb, Eskil Alstad
+ * @author Erik Bjørnsen, Simon Husås Houmb, Eskil Alstad
  * @version 2.0
  */
 @Entity

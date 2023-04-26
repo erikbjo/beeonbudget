@@ -7,7 +7,7 @@ import java.util.List;
  * Represents the recurring types of MoneyActions in the budget application. The enum includes
  * yearly, monthly, weekly, daily, and non-recurring types.
  *
- * @author Erik Bjørnsen
+ * @author Erik Bjørnsen, Simon Husås Houmb
  * @version 1.2
  */
 public enum RecurringType {
