@@ -72,6 +72,7 @@ public class Income extends MoneyAction {
    * Sets the income category for this Income object.
    *
    * @param incomeCategory the new income category to be associated with this income
+   * @throws IllegalArgumentException if the income category is null
    */
   public void setIncomeCategory(IncomeCategory incomeCategory) throws IllegalArgumentException {
     if (incomeCategory == null) {

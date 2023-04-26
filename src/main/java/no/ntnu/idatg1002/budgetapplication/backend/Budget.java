@@ -128,7 +128,7 @@ public class Budget {
    */
   public void setStartDate(LocalDate startDate) {
     if (startDate.isAfter(this.endDate)) {
-      throw new IllegalArgumentException("Start date cannot be after end date");
+      throw new IllegalArgumentException("Start date cannot be after end date.");
     }
     this.startDate = startDate;
   }
@@ -150,7 +150,7 @@ public class Budget {
    */
   public void setEndDate(LocalDate endDate) {
     if (endDate.isBefore(this.startDate)) {
-      throw new IllegalArgumentException("End date cannot be before start date");
+      throw new IllegalArgumentException("End date cannot be before start date.");
     }
     this.endDate = endDate;
   }
@@ -183,7 +183,7 @@ public class Budget {
    */
   public void setIntervalLength() {
     if (this.startDate.isAfter(this.endDate)) {
-      throw new IllegalArgumentException("Start date cannot be after end date");
+      throw new IllegalArgumentException("Start date cannot be after end date.");
     }
     this.intervalLength = this.startDate.until(this.endDate);
   }
@@ -216,6 +216,7 @@ public class Budget {
    *
    * @param expense the expense to calculate the total expense for
    * @return the calculated total expense
+   * @throws IllegalArgumentException if no recurring type is found
    */
   private int calculateTotalExpense(Expense expense) throws IllegalArgumentException {
     totalExpense = expense.getAmount();
@@ -284,6 +285,7 @@ public class Budget {
    *
    * @param income the income to calculate the total income for
    * @return the calculated total income
+   * @throws IllegalArgumentException if no recurring type is found
    */
   private int calculateTotalIncome(Income income) throws IllegalArgumentException {
     totalIncome = income.getAmount();
