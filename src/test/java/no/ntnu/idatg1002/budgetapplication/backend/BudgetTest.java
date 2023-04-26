@@ -148,11 +148,11 @@ class BudgetTest {
 
   @Test
   void testThatBudgetIntervalCannotBeSetSetToNegativeValue() {
+    LocalDate startDate = LocalDate.now();
+    LocalDate endDate = LocalDate.now().minusYears(1);
+    Budget badBudget;
     assertThrows(
-        IllegalArgumentException.class,
-        () ->
-            testAccount.addBudget(
-                new Budget("Bad budget", LocalDate.now(), LocalDate.now().minusYears(1))));
+        IllegalArgumentException.class, () -> new Budget("Bad budget", startDate, endDate));
   }
 
   @Test
@@ -169,14 +169,15 @@ class BudgetTest {
 
   @Test
   void testThatSetStartDateCannotBeAfterEndDate() {
-    assertThrows(
-        IllegalArgumentException.class, () -> budget.setStartDate(budget.getEndDate().plusDays(1)));
+    LocalDate endDate = budget.getEndDate();
+    LocalDate badStartDate = endDate.plusDays(1);
+    assertThrows(IllegalArgumentException.class, () -> budget.setStartDate(badStartDate));
   }
 
   @Test
   void testThatSetEndDateCannotBeBeforeEndDate() {
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> budget.setEndDate(budget.getStartDate().minusDays(1)));
+    LocalDate startDate = budget.getStartDate();
+    LocalDate badEndDate = startDate.minusDays(1);
+    assertThrows(IllegalArgumentException.class, () -> budget.setEndDate(badEndDate));
   }
 }

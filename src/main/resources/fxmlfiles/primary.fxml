@@ -105,7 +105,7 @@
             <children>
             <VBox alignment="TOP_CENTER" fillWidth="false" layoutX="3.0" layoutY="3.0" prefHeight="362.0" prefWidth="271.0" spacing="20.0" AnchorPane.bottomAnchor="-2.0" AnchorPane.leftAnchor="2.0" AnchorPane.rightAnchor="198.99999999999994" AnchorPane.topAnchor="2.0">
                <children>
-                      <Label fx:id="budgetLabel" alignment="TOP_CENTER" focusTraversable="false" minWidth="-Infinity" prefHeight="22.0" prefWidth="169.0" text="Budget Name: N/A" textAlignment="CENTER">
+                      <Label fx:id="budgetLabel" alignment="TOP_CENTER" focusTraversable="false" minWidth="-Infinity" prefHeight="22.0" text="Budget Name: N/A" textAlignment="CENTER">
                           <font>
                               <Font name="System Bold" size="18.0" />
                           </font>

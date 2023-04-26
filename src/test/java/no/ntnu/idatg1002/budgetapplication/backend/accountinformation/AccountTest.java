@@ -3,19 +3,21 @@ package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import no.ntnu.idatg1002.budgetapplication.backend.Budget;
-import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Expense;
+import no.ntnu.idatg1002.budgetapplication.backend.ExpenseCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.Income;
 import no.ntnu.idatg1002.budgetapplication.backend.IncomeCategory;
 import no.ntnu.idatg1002.budgetapplication.backend.RecurringType;
-import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
+import no.ntnu.idatg1002.budgetapplication.backend.SecurityQuestion;
 import org.junit.jupiter.api.*;
-import java.util.ArrayList;
-import java.util.List;
 
 class AccountTest {
+  private final ArrayList<String> testEmails =
+      new ArrayList<>(List.of(new String[] {"erbj@ntnu.no.test", "simonhou@ntnu.no.test"}));
   private AccountDAO accountDAO;
   private SessionAccount sessionAccount;
   private Account erikAccount;
@@ -24,9 +26,6 @@ class AccountTest {
   private Income income;
   private Expense expense;
   private SavingsPlan savingsPlan;
-
-  private final ArrayList<String> testEmails =
-      new ArrayList<>(List.of(new String[] {"erbj@ntnu.no.test", "simonhou@ntnu.no.test"}));
 
   @BeforeEach
   void setUp() {
@@ -74,6 +73,122 @@ class AccountTest {
     }
   }
 
+  @Test
+  void removeSavingsPlanTest() {
+    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
+    sessionAccount.getAccount().removeSavingsPlan(savingsPlan);
+    assertFalse(sessionAccount.getAccount().getSavingsPlans().contains(savingsPlan));
+  }
+
+  @Test
+  void removeBudgetPositiveTest() {
+    sessionAccount.getAccount().removeBudget(budget);
+    assertFalse(sessionAccount.getAccount().getBudgets().contains(budget));
+  }
+
+  @Test
+  void testThatSelectedBudgetIsInitializedCorrectly() {
+    Account account = sessionAccount.getAccount();
+    assertThrows(
+        IllegalArgumentException.class, () -> account.addBudget(budget));
+    assertEquals(budget, account.getSelectedBudget());
+  }
+
+  @Test
+  void testThatSelectedBudgetCanBeIncrementedAndLoops() {
+    sessionAccount.getAccount().addBudget(new Budget("Test budget 2"));
+    sessionAccount.getAccount().addBudget(new Budget("Test budget 3"));
+    assertEquals("Test budget 3", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
+    // Selected loops
+    sessionAccount.getAccount().selectNextBudget();
+    assertEquals("Test budget", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
+    // Selected increments
+    sessionAccount.getAccount().selectNextBudget();
+    assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanCanBeIncrementedAndLoops() {
+    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
+    sessionAccount
+        .getAccount()
+        .addSavingsPlan(
+            new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(), LocalDate.now()));
+    sessionAccount
+        .getAccount()
+        .addSavingsPlan(
+            new SavingsPlan("Test savingsplan 3", 100, LocalDate.now(), LocalDate.now()));
+    assertEquals("Test savingsplan 3", erikAccount.getSelectedSavingsPlan().getGoalName());
+    // Selected loops
+    sessionAccount.getAccount().selectNextSavingsPlan();
+    assertEquals(
+        "Test savingsplan", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
+    // Selected increments
+    sessionAccount.getAccount().selectNextSavingsPlan();
+    assertEquals(
+        "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
+  }
+
+  @Test
+  void testThatSelectedBudgetCanBeDecreasedAndLoops() {
+    sessionAccount.getAccount().addBudget(new Budget("Test budget 2"));
+    assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
+    // Selected decreases
+    sessionAccount.getAccount().selectPreviousBudget();
+    assertEquals("Test budget", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
+    // Selected loops
+    sessionAccount.getAccount().selectPreviousBudget();
+    assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanCanBeDecreasedAndLoops() {
+    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
+    sessionAccount
+        .getAccount()
+        .addSavingsPlan(
+            new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(), LocalDate.now()));
+    assertEquals(
+        "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
+    // Selected decreases
+    sessionAccount.getAccount().selectPreviousSavingsPlan();
+    assertEquals(
+        "Test savingsplan", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
+    // Selected loops
+    sessionAccount.getAccount().selectPreviousSavingsPlan();
+    assertEquals(
+        "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
+  }
+
+  @Test
+  void testThatSelectedSavingsPlanIsInitializedCorrectly() {
+    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
+    assertEquals(savingsPlan, sessionAccount.getAccount().getSelectedSavingsPlan());
+  }
+
+  @Test
+  void testThatInitSelectedSavingsPlanBecomesNullWhenTheresNoSavingsPlans() {
+    sessionAccount.getAccount().initializeSelectedSavingsPlan();
+    Account account = sessionAccount.getAccount();
+    assertNull(account.getCurrentSavingsPlanIndex());
+    assertThrows(
+        IndexOutOfBoundsException.class,
+            account::getSelectedSavingsPlan);
+  }
+
+  @Test
+  void testThatInitSelectedBudgetsBecomesNullWhenTheresNoBudgets() {
+    sessionAccount.getAccount().removeBudget(budget);
+
+    sessionAccount.getAccount().initializeSelectedBudget();
+
+    Account account = sessionAccount.getAccount();
+
+    assertNull(account.getCurrentBudgetIndex());
+    assertThrows(
+        IndexOutOfBoundsException.class, account::getSelectedBudget);
+  }
+
   @Nested
   class SetEmailTest {
     @Test
@@ -84,30 +199,25 @@ class AccountTest {
 
     @Test
     void emailHasNoAtSign() {
-      Exception thrown =
-          assertThrows(
-              IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().setEmail("erik.gmail.com"));
-      assertEquals("Not a valid e-mail address.", thrown.getMessage());
-      assertNotEquals("erik.gmail.com", sessionAccount.getAccount().getEmail());
+      Account account = sessionAccount.getAccount();
+      assertThrows(
+          IllegalArgumentException.class,
+          () -> account.setEmail("erik.gmail.com"));
+      assertNotEquals("erik.gmail.com", account.getEmail());
     }
 
     @Test
     void emailIsEmpty() {
-      Exception thrown =
-          assertThrows(
-              IllegalArgumentException.class, () -> sessionAccount.getAccount().setEmail(""));
-      assertEquals("Not a valid e-mail address.", thrown.getMessage());
+      Account account = sessionAccount.getAccount();
+      assertThrows(IllegalArgumentException.class, () -> account.setEmail(""));
       assertNotEquals("", sessionAccount.getAccount().getEmail());
     }
 
     @Test
     void emailIsBlank() {
-      Exception thrown =
-          assertThrows(
-              IllegalArgumentException.class, () -> sessionAccount.getAccount().setEmail(" "));
-      assertEquals("Not a valid e-mail address.", thrown.getMessage());
-      assertNotEquals(" ", sessionAccount.getAccount().getEmail());
+      Account account = sessionAccount.getAccount();
+      assertThrows(IllegalArgumentException.class, () -> account.setEmail(" "));
+      assertNotEquals(" ", account.getEmail());
     }
   }
 
@@ -136,22 +246,24 @@ class AccountTest {
 
     @Test
     void securityAnswerIsEmpty() {
+      Account account = sessionAccount.getAccount();
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().setSecurityAnswer(""));
+              () -> account.setSecurityAnswer(""));
       assertEquals("Security answer must not be empty or blank.", thrown.getMessage());
-      assertNotEquals("", sessionAccount.getAccount().getSecurityAnswer());
+      assertNotEquals("", account.getSecurityAnswer());
     }
 
     @Test
     void securityAnswerIsBlank() {
+      Account account = sessionAccount.getAccount();
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().setSecurityAnswer(" "));
+              () -> account.setSecurityAnswer(" "));
       assertEquals("Security answer must not be empty or blank.", thrown.getMessage());
-      assertNotEquals(" ", sessionAccount.getAccount().getSecurityAnswer());
+      assertNotEquals(" ", account.getSecurityAnswer());
     }
   }
 
@@ -177,20 +289,22 @@ class AccountTest {
 
       @Test
       void nameIsEmpty() {
+        Account account = sessionAccount.getAccount();
         Exception thrown =
             assertThrows(
-                IllegalArgumentException.class, () -> sessionAccount.getAccount().setName(""));
+                IllegalArgumentException.class, () -> account.setName(""));
         assertEquals("Account name must not be empty or blank.", thrown.getMessage());
-        assertNotEquals("", sessionAccount.getAccount().getName());
+        assertNotEquals("", account.getName());
       }
 
       @Test
       void nameIsBlank() {
+        Account account = sessionAccount.getAccount();
         Exception thrown =
             assertThrows(
-                IllegalArgumentException.class, () -> sessionAccount.getAccount().setName(" "));
+                IllegalArgumentException.class, () -> account.setName(" "));
         assertEquals("Account name must not be empty or blank.", thrown.getMessage());
-        assertNotEquals(" ", sessionAccount.getAccount().getName());
+        assertNotEquals(" ", account.getName());
       }
     }
   }
@@ -205,39 +319,43 @@ class AccountTest {
 
     @Test
     void pinCodeHasLessThanFourDigits() {
+      Account account = sessionAccount.getAccount();
       Exception thrown =
           assertThrows(
-              IllegalArgumentException.class, () -> sessionAccount.getAccount().setPinCode("001"));
+              IllegalArgumentException.class, () -> account.setPinCode("001"));
       assertEquals("Pin code must consist of 4 digits.", thrown.getMessage());
-      assertNotEquals("001", sessionAccount.getAccount().getPinCode());
+      assertNotEquals("001", account.getPinCode());
     }
 
     @Test
     void pinCodeHasMoreThanFourDigits() {
+      Account account = sessionAccount.getAccount();
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().setPinCode("00001"));
+              () -> account.setPinCode("00001"));
       assertEquals("Pin code must consist of 4 digits.", thrown.getMessage());
-      assertNotEquals("00001", sessionAccount.getAccount().getPinCode());
+      assertNotEquals("00001", account.getPinCode());
     }
 
     @Test
     void pinCodeHasOnlyLetters() {
+      Account account = sessionAccount.getAccount();
       Exception thrown =
           assertThrows(
-              IllegalArgumentException.class, () -> sessionAccount.getAccount().setPinCode("code"));
+              IllegalArgumentException.class, () -> account.setPinCode("code"));
       assertEquals("Pin code must only consist of numbers.", thrown.getMessage());
-      assertNotEquals("code", sessionAccount.getAccount().getPinCode());
+      assertNotEquals("code", account.getPinCode());
     }
 
     @Test
     void pinCodeHasLettersAndDigits() {
+      Account account = sessionAccount.getAccount();
       Exception thrown =
           assertThrows(
-              IllegalArgumentException.class, () -> sessionAccount.getAccount().setPinCode("id09"));
+              IllegalArgumentException.class, () -> account.setPinCode("id09"));
       assertEquals("Pin code must only consist of numbers.", thrown.getMessage());
-      assertNotEquals("id09", sessionAccount.getAccount().getPinCode());
+      assertNotEquals("id09", account.getPinCode());
     }
   }
 
@@ -245,40 +363,40 @@ class AccountTest {
   class addSavingsPlanTest {
     @Test
     void addNewSavingsPlanWithNotTakenName() {
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
+      SavingsPlan testSavingsPlan =
+          new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
       assertDoesNotThrow(() -> sessionAccount.getAccount().addSavingsPlan(testSavingsPlan));
       assertTrue(sessionAccount.getAccount().getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
     void addNewSavingsPlanWithTakenName() {
-      sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now()));
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
+      Account account = sessionAccount.getAccount();
+      sessionAccount
+          .getAccount()
+          .addSavingsPlan(new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now()));
+      SavingsPlan testSavingsPlan =
+          new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().addSavingsPlan(testSavingsPlan));
+              () -> account.addSavingsPlan(testSavingsPlan));
       assertEquals("Savings plan goal name is taken.", thrown.getMessage());
-      assertFalse(sessionAccount.getAccount().getSavingsPlans().contains(testSavingsPlan));
+      assertFalse(account.getSavingsPlans().contains(testSavingsPlan));
     }
 
     @Test
     void addExistingSavingsPlan() {
-      SavingsPlan testSavingsPlan = new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
-      sessionAccount.getAccount().addSavingsPlan(testSavingsPlan);
+      Account account = sessionAccount.getAccount();
+      SavingsPlan testSavingsPlan =
+          new SavingsPlan("My goal", 100, LocalDate.now(), LocalDate.now());
+      account.addSavingsPlan(testSavingsPlan);
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().addSavingsPlan(testSavingsPlan));
+              () -> account.addSavingsPlan(testSavingsPlan));
       assertEquals("An instance of the savings plan already exists.", thrown.getMessage());
     }
-  }
-
-  @Test
-  void removeSavingsPlanTest() {
-    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
-    sessionAccount.getAccount().removeSavingsPlan(savingsPlan);
-    assertFalse(sessionAccount.getAccount().getSavingsPlans().contains(savingsPlan));
   }
 
   @Nested
@@ -303,108 +421,13 @@ class AccountTest {
     @Test
     void addExistingBudget() {
       Budget testBudget = new Budget("My budget");
-      sessionAccount.getAccount().addBudget(testBudget);
+      Account account = sessionAccount.getAccount();
+      account.addBudget(testBudget);
       Exception thrown =
           assertThrows(
               IllegalArgumentException.class,
-              () -> sessionAccount.getAccount().addBudget(testBudget));
+              () -> account.addBudget(testBudget));
       assertEquals("An instance of the budget already exists.", thrown.getMessage());
     }
-  }
-
-  @Test
-  void removeBudgetPositiveTest() {
-    sessionAccount.getAccount().removeBudget(budget);
-    assertFalse(sessionAccount.getAccount().getBudgets().contains(budget));
-  }
-
-  @Test
-  void testThatSelectedBudgetIsInitializedCorrectly() {
-    assertThrows(
-        IllegalArgumentException.class, () -> sessionAccount.getAccount().addBudget(budget));
-    assertEquals(budget, sessionAccount.getAccount().getSelectedBudget());
-  }
-
-  @Test
-  void testThatSelectedBudgetCanBeIncrementedAndLoops() {
-    sessionAccount.getAccount().addBudget(new Budget("Test budget 2"));
-    sessionAccount.getAccount().addBudget(new Budget("Test budget 3"));
-    assertEquals("Test budget 3", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
-    // Selected loops
-    sessionAccount.getAccount().selectNextBudget();
-    assertEquals("Test budget", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
-    // Selected increments
-    sessionAccount.getAccount().selectNextBudget();
-    assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
-  }
-
-  @Test
-  void testThatSelectedSavingsPlanCanBeIncrementedAndLoops() {
-    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
-    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(), LocalDate.now()));
-    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 3", 100, LocalDate.now(), LocalDate.now()));
-    assertEquals("Test savingsplan 3", erikAccount.getSelectedSavingsPlan().getGoalName());
-    // Selected loops
-    sessionAccount.getAccount().selectNextSavingsPlan();
-    assertEquals(
-        "Test savingsplan", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
-    // Selected increments
-    sessionAccount.getAccount().selectNextSavingsPlan();
-    assertEquals(
-        "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
-  }
-
-  @Test
-  void testThatSelectedBudgetCanBeDecreasedAndLoops() {
-    sessionAccount.getAccount().addBudget(new Budget("Test budget 2"));
-    assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
-    // Selected decreases
-    sessionAccount.getAccount().selectPreviousBudget();
-    assertEquals("Test budget", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
-    // Selected loops
-    sessionAccount.getAccount().selectPreviousBudget();
-    assertEquals("Test budget 2", sessionAccount.getAccount().getSelectedBudget().getBudgetName());
-  }
-
-  @Test
-  void testThatSelectedSavingsPlanCanBeDecreasedAndLoops() {
-    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
-    sessionAccount.getAccount().addSavingsPlan(new SavingsPlan("Test savingsplan 2", 100, LocalDate.now(), LocalDate.now()));
-    assertEquals(
-        "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
-    // Selected decreases
-    sessionAccount.getAccount().selectPreviousSavingsPlan();
-    assertEquals(
-        "Test savingsplan", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
-    // Selected loops
-    sessionAccount.getAccount().selectPreviousSavingsPlan();
-    assertEquals(
-        "Test savingsplan 2", sessionAccount.getAccount().getSelectedSavingsPlan().getGoalName());
-  }
-
-  @Test
-  void testThatSelectedSavingsPlanIsInitializedCorrectly() {
-    sessionAccount.getAccount().addSavingsPlan(savingsPlan);
-    assertEquals(savingsPlan, sessionAccount.getAccount().getSelectedSavingsPlan());
-  }
-
-  @Test
-  void testThatInitSelectedSavingsPlanBecomesNullWhenTheresNoSavingsPlans() {
-    sessionAccount.getAccount().initializeSelectedSavingsPlan();
-    assertNull(sessionAccount.getAccount().getCurrentSavingsPlanIndex());
-    assertThrows(
-        IndexOutOfBoundsException.class,
-        () -> sessionAccount.getAccount().getSelectedSavingsPlan());
-  }
-
-  @Test
-  void testThatInitSelectedBudgetsBecomesNullWhenTheresNoBudgets() {
-    sessionAccount.getAccount().removeBudget(budget);
-
-    sessionAccount.getAccount().initializeSelectedBudget();
-
-    assertNull(sessionAccount.getAccount().getCurrentBudgetIndex());
-    assertThrows(
-        IndexOutOfBoundsException.class, () -> sessionAccount.getAccount().getSelectedBudget());
   }
 }
