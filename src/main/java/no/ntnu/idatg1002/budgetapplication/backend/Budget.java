@@ -216,7 +216,7 @@ public class Budget {
    *
    * @param expense the expense to calculate the total expense for
    * @return the calculated total expense
-   * @throws IllegalArgumentException if no recurring type if found
+   * @throws IllegalArgumentException if no recurring type is found
    */
   private int calculateTotalExpense(Expense expense) throws IllegalArgumentException {
     totalExpense = expense.getAmount();
@@ -285,7 +285,7 @@ public class Budget {
    *
    * @param income the income to calculate the total income for
    * @return the calculated total income
-   * @throws IllegalArgumentException if no recurring type if found
+   * @throws IllegalArgumentException if no recurring type is found
    */
   private int calculateTotalIncome(Income income) throws IllegalArgumentException {
     totalIncome = income.getAmount();
