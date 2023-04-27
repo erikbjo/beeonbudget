@@ -164,29 +164,28 @@ public class PrimaryController implements Initializable {
 
   /** Updates the dynamic labels of the view. */
   public void updatePrimaryLabel() {
-    if (SessionAccount.getInstance().getAccount() == null) {
-      System.out.println("Account is null");
-    }
     try {
       usernameLabel.setText(SessionAccount.getInstance().getAccount().getName());
     } catch (Exception e) {
       e.printStackTrace();
     }
-    try {
-      budgetLabel.setText(
-          String.format(
-              "Budget: %s",
-              SessionAccount.getInstance().getAccount().getSelectedBudget().getBudgetName()));
-      menuPaneLabel1.setText(
-          String.format(
-              "Remaining: %dkr",
-              SessionAccount.getInstance().getAccount().getSelectedBudget().getNetBalance()));
-      menuPaneLabel2.setText(
-          String.format(
-              "Budget spent: %dkr",
-              SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
-    } catch (Exception e) {
-      e.printStackTrace();
+    if (SessionAccount.getInstance().getAccount().getCurrentBudgetIndex() != null) {
+      try {
+        budgetLabel.setText(
+            String.format(
+                "Budget: %s",
+                SessionAccount.getInstance().getAccount().getSelectedBudget().getBudgetName()));
+        menuPaneLabel1.setText(
+            String.format(
+                "Remaining: %dkr",
+                SessionAccount.getInstance().getAccount().getSelectedBudget().getNetBalance()));
+        menuPaneLabel2.setText(
+            String.format(
+                "Budget spent: %dkr",
+                SessionAccount.getInstance().getAccount().getSelectedBudget().getTotalExpense()));
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
     }
   }
 

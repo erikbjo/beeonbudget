@@ -253,7 +253,8 @@ public class BudgetController implements Initializable {
     result.ifPresent(budget -> {
       SessionAccount.getInstance().getAccount().addBudget(budget);
       AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-      updateAllInBudgetView();
+      //updateAllInBudgetView();
+      updateBudgetMoneyText();
     });
   }
 
@@ -451,7 +452,9 @@ public class BudgetController implements Initializable {
         SessionAccount.getInstance()
             .getAccount()
             .removeBudget(SessionAccount.getInstance().getAccount().getSelectedBudget());
-        SessionAccount.getInstance().getAccount().selectPreviousBudget();
+        if (!SessionAccount.getInstance().getAccount().getBudgets().isEmpty()) {
+          SessionAccount.getInstance().getAccount().selectPreviousBudget();
+        }
         updateAllInBudgetView();
         AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
       }
