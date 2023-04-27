@@ -19,6 +19,10 @@ project:
 mvn javafx:run
 ```
 
+## 📦 Releases 📦
+
+See releases [here](https://git.gvk.idi.ntnu.no/course/idatg1002/idatg1002-2023-workspace/idatg1002_grp1_eskil_erik_simon_emil/budgetapplication/-/releases)
+
 ## 📧 Support 💌
 
 If you have any questions or issues, please contact us at:
