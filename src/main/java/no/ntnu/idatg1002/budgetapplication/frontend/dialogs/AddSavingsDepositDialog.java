@@ -117,6 +117,9 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
             });
   }
 
+  /**
+   * Configures the deposit date picker to show or hide depending on its focus state.
+   */
   private void configureDepositDatePicker() {
     depositDatePicker
         .focusedProperty()
@@ -157,6 +160,11 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
     return RecurringType.valueOfLabel(recurringIntervalComboBox.getValue());
   }
 
+  /**
+   * Gets the deposit date
+   *
+   * @return deposit date
+   */
   private LocalDate getDepositDateValue() {
     if (depositDatePicker.getValue() == null) {
       depositDatePicker.setValue(LocalDate.now());
