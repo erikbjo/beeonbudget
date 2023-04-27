@@ -1,5 +1,6 @@
 package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
+import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
 import java.net.URL;
 import java.time.format.DateTimeFormatter;
@@ -43,6 +44,8 @@ public class SavingsPlanController {
   @FXML public Label totalSavedLabel;
   @FXML public Label totalLeftLabel;
   @FXML public Label goalLabel;
+
+  @FXML private JFXButton editButton;
   private Stage stage;
   private Scene scene;
   private Parent parent;
@@ -148,6 +151,7 @@ public class SavingsPlanController {
 
   @FXML
   public void initialize() {
+    editButton.setDisable(true);
     updateSavingsPlanInfoText();
     updateProgressIndicator();
     updateSavingsPlanMoneyText();
