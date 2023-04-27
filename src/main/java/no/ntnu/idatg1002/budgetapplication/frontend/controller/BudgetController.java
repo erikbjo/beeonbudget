@@ -115,18 +115,21 @@ public class BudgetController implements Initializable {
                 expenseTableView.getSelectionModel().clearSelection();
               }
             });
-    incomeTableView.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            getInformationFromSelectedItem();
-          }
-          incomeTableView.setOnKeyPressed(
-              event1 -> {
-                if (event1.getCode() == KeyCode.ENTER) {
-                  getInformationFromSelectedItem();
-                }
-              });
-        });
+    incomeTableView.setOnMouseClicked(event -> {
+      if (event.getClickCount() == 2) {
+        getInformationFromSelectedItem();
+      }
+      incomeTableView.setOnKeyPressed(event1 -> {
+        if (event1.getCode() == KeyCode.ENTER) {
+          getInformationFromSelectedItem();
+        }
+      });
+      incomeTableView.setOnKeyPressed(event1 -> {
+        if (event1.getCode() == KeyCode.DELETE) {
+          deleteRowFromTable(new ActionEvent());
+        }
+      });
+    });
 
     expenseTableView
         .getSelectionModel()
@@ -137,18 +140,21 @@ public class BudgetController implements Initializable {
                 incomeTableView.getSelectionModel().clearSelection();
               }
             });
-    expenseTableView.setOnMouseClicked(
-        event -> {
-          if (event.getClickCount() == 2) {
-            getInformationFromSelectedItem();
-          }
-          expenseTableView.setOnKeyPressed(
-              event1 -> {
-                if (event1.getCode() == KeyCode.ENTER) {
-                  getInformationFromSelectedItem();
-                }
-              });
-        });
+    expenseTableView.setOnMouseClicked(event -> {
+      if (event.getClickCount() == 2) {
+        getInformationFromSelectedItem();
+      }
+      expenseTableView.setOnKeyPressed(event1 -> {
+        if (event1.getCode() == KeyCode.ENTER) {
+          getInformationFromSelectedItem();
+        }
+      });
+      expenseTableView.setOnKeyPressed(event1 -> {
+        if (event1.getCode() == KeyCode.DELETE) {
+          deleteRowFromTable(new ActionEvent());
+        }
+      });
+    });
 
     userNameInBudget.setText(SessionAccount.getInstance().getAccount().getName());
     updateAllInBudgetView();
@@ -273,12 +279,12 @@ public class BudgetController implements Initializable {
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
     Optional<Budget> result = dialog.showAndWait();
-    result.ifPresent(
-        budget -> {
-          SessionAccount.getInstance().getAccount().addBudget(budget);
-          AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-          updateBudgetMoneyText();
-        });
+    result.ifPresent(budget -> {
+      SessionAccount.getInstance().getAccount().addBudget(budget);
+      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+      updateBudgetMoneyText();
+      updateBudgetInfoText();
+    });
   }
 
   /**
