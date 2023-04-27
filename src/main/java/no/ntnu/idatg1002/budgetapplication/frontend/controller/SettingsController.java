@@ -22,8 +22,9 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 import org.controlsfx.control.textfield.CustomPasswordField;
 import org.controlsfx.control.textfield.CustomTextField;
 
-/**
- * Represents the controller for the settings view.
+/** Represents the controller for the settings view.
+ *
+ * @author Eskil Alstad
  */
 public class SettingsController implements Initializable {
 
@@ -43,14 +44,19 @@ public class SettingsController implements Initializable {
   @FXML
   public void backToMenu(ActionEvent event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(
-            getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     Scene scene = ((Node) event.getSource()).getScene();
     scene.getStylesheets().add(css);
     scene.setRoot(root);
   }
 
+  /**
+   * This method is called by the FXMLLoader when initialization is complete.
+   *
+   * @param url not used
+   * @param resourceBundle not used
+   */
   @Override
   public void initialize(URL url, ResourceBundle resourceBundle) {
     userName.setText(SessionAccount.getInstance().getAccount().getName());
@@ -59,6 +65,11 @@ public class SettingsController implements Initializable {
     configurePinCodeTextField();
   }
 
+  /**
+   * Disables the save profile button and makes the text fields editable.
+   *
+   * @param event the event that triggered the method
+   */
   @FXML
   private void editProfile(ActionEvent event) {
     saveProfileButton.setDisable(false);
@@ -67,12 +78,15 @@ public class SettingsController implements Initializable {
     userPassword.setEditable(true);
   }
 
+  /**
+   * @param event the event that triggered the method
+   */
   @FXML
   private void saveProfile(ActionEvent event) {
     if (assertAllFieldsValid()) {
       try {
-        ConfirmationAlert confirmationAlert = new ConfirmationAlert("Edit Profile",
-            "Are You Sure You Want Save This Changes? ");
+        ConfirmationAlert confirmationAlert =
+            new ConfirmationAlert("Edit Profile", "Are You Sure You Want Save This Changes? ");
         Optional<ButtonType> result = confirmationAlert.showAndWait();
         if (result.isPresent() && result.get() == ButtonType.OK) {
           editedProfileTemp();
@@ -88,6 +102,7 @@ public class SettingsController implements Initializable {
     }
   }
 
+  /** Updates the account information in the database. */
   private void editedProfileTemp() {
     if (!userName.getText().equals(SessionAccount.getInstance().getAccount().getName())) {
       SessionAccount.getInstance().getAccount().setName(userName.getText());
@@ -106,6 +121,11 @@ public class SettingsController implements Initializable {
     }
   }
 
+  /**
+   * Checks if all the fields are valid.
+   *
+   * @return true if all the fields are valid, false otherwise.
+   */
   private boolean assertAllFieldsValid() {
     return (!userName.getText().isEmpty()
         && !userName.getText().isBlank()
@@ -115,6 +135,7 @@ public class SettingsController implements Initializable {
         && !userPassword.getText().isBlank());
   }
 
+  /** Generates a dynamic feedback alert that tells the user which fields are not valid. */
   @FXML
   private void generateDynamicFeedbackAlert() {
     StringBuilder builder = new StringBuilder("Not Valid : \n");
@@ -132,6 +153,7 @@ public class SettingsController implements Initializable {
     warningAlert.showAndWait();
   }
 
+  /** Configures the pin code text field to only accept numeric values and max 4 digits. */
   private void configurePinCodeTextField() {
     userPassword
         .textProperty()

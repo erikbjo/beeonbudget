@@ -29,7 +29,10 @@ public class SavingsPlan {
   /**
    * Instantiates a new Savings plan.
    *
-   * @param goalName the goal name
+   * @param goalName the goal name.
+   * @param totalGoalAmount the total goal amount.
+   * @param startDate the start date of the savings plan.
+   * @param endDate the end date of the savings plan.
    * @throws IllegalArgumentException if goalName is null or empty or if startDate is after endDate
    */
   public SavingsPlan(String goalName, int totalGoalAmount,
@@ -116,6 +119,12 @@ public class SavingsPlan {
     this.totalSaved = totalSaved;
   }
 
+  /**
+   * Returns the percentage of the amount saved compared to the goal.
+   * The value is between 1 and 0, where e.g. 45% would be 0.45.
+   *
+   * @return the percentage saved as an int.
+   */
   public double getTotalSavedPercentage() {
     return (double) getTotalSaved() / getTotalGoalAmount();
   }
@@ -129,22 +138,47 @@ public class SavingsPlan {
     return wantedSavingTime;
   }
 
+  /**
+   * Returns the start date of the savings plan.
+   *
+   * @return the start date of the savings plan as LocalDate.
+   */
   public LocalDate getStartDate() {
     return startDate;
   }
 
+  /**
+   * Deposits an amount in the savings plan.
+   *
+   * @param amount the amount to deposit as an int.
+   */
   public void deposit(int amount) {
     setTotalSaved(getTotalSaved() + amount);
   }
 
+  /**
+   * Sets the start date of the savings plan.
+   *
+   * @param startDate the start date to set.
+   */
   public void setStartDate(LocalDate startDate) {
     this.startDate = startDate;
   }
 
+  /**
+   * Returns the end date of the savings plan.
+   *
+   * @return the end date of the savings plan as LocalDate.
+   */
   public LocalDate getEndDate() {
     return endDate;
   }
 
+  /**
+   * Sets the end date of the savings plan.
+   *
+   * @param endDate the end date to set.
+   */
   public void setEndDate(LocalDate endDate) {
     this.endDate = endDate;
   }
