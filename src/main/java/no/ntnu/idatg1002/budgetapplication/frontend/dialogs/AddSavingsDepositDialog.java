@@ -117,6 +117,10 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
             });
   }
 
+  /**
+   * Configures the deposit date picker to show when the input field is focused and hide when it
+   * loses focus.
+   */
   private void configureDepositDatePicker() {
     depositDatePicker
         .focusedProperty()
@@ -157,6 +161,12 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
     return RecurringType.valueOfLabel(recurringIntervalComboBox.getValue());
   }
 
+  /**
+   * Gets the value of the date picker. If the date picker has no value, the current date is set as
+   * the value.
+   *
+   * @return the date of the expense
+   */
   private LocalDate getDepositDateValue() {
     if (depositDatePicker.getValue() == null) {
       depositDatePicker.setValue(LocalDate.now());

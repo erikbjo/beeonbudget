@@ -16,7 +16,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressIndicator;
 import javafx.scene.input.MouseEvent;
-import javafx.stage.Stage;
 import no.ntnu.idatg1002.budgetapplication.backend.SavingsPlan;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO;
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
@@ -42,9 +41,6 @@ public class SavingsPlanController {
   @FXML public Label goalLabel;
 
   @FXML private JFXButton editButton;
-  private Stage stage;
-  private Scene scene;
-  private Parent parent;
 
   /**
    * Switches to the primary view from the savings plan view.
@@ -54,8 +50,7 @@ public class SavingsPlanController {
    */
   public void switchToPrimaryFromSavingsPlanMouseEvent(MouseEvent event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(
-            getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     Scene newScene = ((Node) event.getSource()).getScene();
     newScene.getStylesheets().add(css);
@@ -78,8 +73,8 @@ public class SavingsPlanController {
   }
 
   /**
-   * This method handles the event when the user clicks the "New Plan" button. It displays a
-   * dialog box where the user can enter the details of the savings plan.
+   * This method handles the event when the user clicks the "New Plan" button. It displays a dialog
+   * box where the user can enter the details of the savings plan.
    *
    * @param event The event that triggered the method.
    */
@@ -110,8 +105,7 @@ public class SavingsPlanController {
       Optional<Integer> result = dialog.showAndWait();
       result.ifPresent(
           deposit -> {
-            SessionAccount.getInstance()
-                    .getAccount().getSelectedSavingsPlan().deposit(deposit);
+            SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().deposit(deposit);
             AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
             updateSavingsPlanMoneyText();
             updateProgressIndicator();
@@ -122,7 +116,9 @@ public class SavingsPlanController {
     }
   }
 
-  /** Displays the edit popup to allow users to change details of their savings plan.
+  /**
+   * Displays the edit popup to allow users to change details of their savings plan.
+   *
    * @param event the event that triggered the method.
    */
   public void onEdit(ActionEvent event) {
@@ -130,27 +126,34 @@ public class SavingsPlanController {
       AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
       dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
       Optional<SavingsPlan> result = dialog.showAndWait();
-      result.ifPresent(savingsPlan -> {
-        SessionAccount.getInstance()
-            .getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
-        SessionAccount.getInstance().getAccount()
-            .getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
-        SessionAccount.getInstance().getAccount()
-            .getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
-        SessionAccount.getInstance().getAccount()
-            .getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());
-        AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-        updateAllInSavingsPlan();
-      });
+      result.ifPresent(
+          savingsPlan -> {
+            SessionAccount.getInstance()
+                .getAccount()
+                .getSelectedSavingsPlan()
+                .setGoalName(savingsPlan.getGoalName());
+            SessionAccount.getInstance()
+                .getAccount()
+                .getSelectedSavingsPlan()
+                .setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
+            SessionAccount.getInstance()
+                .getAccount()
+                .getSelectedSavingsPlan()
+                .setStartDate(savingsPlan.getStartDate());
+            SessionAccount.getInstance()
+                .getAccount()
+                .getSelectedSavingsPlan()
+                .setEndDate(savingsPlan.getEndDate());
+            AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+            updateAllInSavingsPlan();
+          });
     } else {
       WarningAlert alert = new WarningAlert("You need to Create a Savings Plan");
       alert.showAndWait();
     }
   }
 
-  /**
-   * Initializes the SavingsPlanController.
-   */
+  /** Initializes the SavingsPlanController. */
   @FXML
   public void initialize() {
     editButton.setDisable(true);
@@ -161,10 +164,9 @@ public class SavingsPlanController {
 
   /**
    * Handles the action event for the "Next Plan" button. This method attempts to select the next
-   * savings plan from the current account's savings plans.
-   * If successful, the savings plan view is updated to display
-   * the selected savings plan's information. If there is no next savings plan,
-   * a warning alert is shown to inform the user.
+   * savings plan from the current account's savings plans. If successful, the savings plan view is
+   * updated to display the selected savings plan's information. If there is no next savings plan, a
+   * warning alert is shown to inform the user.
    *
    * @param event The event that triggered the method.
    */
@@ -187,10 +189,9 @@ public class SavingsPlanController {
 
   /**
    * Handles the action event for the "Previous Plan" button. This method attempts to select the
-   * previous savings plan from the current account's savings plans.
-   * If successful, the savings plan view is updated to display
-   * the selected savings plan's information. If there is no previous savings plan,
-   * a warning alert is shown to inform the user.
+   * previous savings plan from the current account's savings plans. If successful, the savings plan
+   * view is updated to display the selected savings plan's information. If there is no previous
+   * savings plan, a warning alert is shown to inform the user.
    *
    * @param event The event that triggered the method.
    */
@@ -249,9 +250,7 @@ public class SavingsPlanController {
     updateSavingsPlanMoneyText();
   }
 
-  /**
-   * Updates text about the current savings plan in the GUI.
-   */
+  /** Updates text about the current savings plan in the GUI. */
   public void updateSavingsPlanInfoText() {
     userNameInSavingsPlan.setText(SessionAccount.getInstance().getAccount().getName());
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
@@ -262,9 +261,7 @@ public class SavingsPlanController {
     }
   }
 
-  /**
-   * Updates the text about the current savings plan money information.
-   */
+  /** Updates the text about the current savings plan money information. */
   public void updateSavingsPlanMoneyText() {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       totalSavedLabel.setText(
@@ -272,47 +269,70 @@ public class SavingsPlanController {
               SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       totalLeftLabel.setText(
           Integer.toString(
-              SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalGoalAmount()
-                  - SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
+              SessionAccount.getInstance()
+                      .getAccount()
+                      .getSelectedSavingsPlan()
+                      .getTotalGoalAmount()
+                  - SessionAccount.getInstance()
+                      .getAccount()
+                      .getSelectedSavingsPlan()
+                      .getTotalSaved()));
       goalLabel.setText(
           Integer.toString(
-              SessionAccount.getInstance().getAccount()
-                  .getSelectedSavingsPlan().getTotalGoalAmount()));
+              SessionAccount.getInstance()
+                  .getAccount()
+                  .getSelectedSavingsPlan()
+                  .getTotalGoalAmount()));
       savingsPlanDateLabel.setText(
-          "Start Date: " + SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
-              .getStartDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
-              + "  End Date: " + SessionAccount.getInstance().getAccount().getSelectedSavingsPlan()
-              .getEndDate().format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
+          "Start Date: "
+              + SessionAccount.getInstance()
+                  .getAccount()
+                  .getSelectedSavingsPlan()
+                  .getStartDate()
+                  .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
+              + "  End Date: "
+              + SessionAccount.getInstance()
+                  .getAccount()
+                  .getSelectedSavingsPlan()
+                  .getEndDate()
+                  .format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM)));
     } else {
       setDefaultSavingsPlanMoneyText();
     }
   }
 
-  /**
-   * Updates the current savings plan progress indicator.
-   */
+  /** Updates the current savings plan progress indicator. */
   public void updateProgressIndicator() {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
-      goalProgressIndicator.setProgress(SessionAccount.getInstance().getAccount()
-          .getSelectedSavingsPlan().getTotalSavedPercentage());
+      goalProgressIndicator.setProgress(
+          SessionAccount.getInstance()
+              .getAccount()
+              .getSelectedSavingsPlan()
+              .getTotalSavedPercentage());
     } else {
       goalProgressIndicator.setProgress(0);
     }
   }
 
+  /** Shows a warning alert if the user tries to deposit money without having a savings plan. */
   @FXML
   private void showNoSavingsPlanErrorFromNewMoneyAction() {
-    WarningAlert warningAlert =
-        new WarningAlert("Please create a savings plan before depositing");
+    WarningAlert warningAlert = new WarningAlert("Please create a savings plan before depositing");
     warningAlert.showAndWait();
   }
 
+  /**
+   * Shows a warning alert if the user tries to delete a savings plan without having a savings plan.
+   */
   @FXML
   private void showNoSavingsPlanErrorFromDeleteSavingsPlan() {
-    WarningAlert warningAlert = new WarningAlert("There is no budget to be deleted");
+    WarningAlert warningAlert = new WarningAlert("There is no savings plan to be deleted");
     warningAlert.showAndWait();
   }
 
+  /**
+   * Shows a warning alert if the user tries to switch savings plans without having a savings plan.
+   */
   @FXML
   private void showNoSavingsPlanErrorFromSelectNewSavingsPlan() {
     WarningAlert warningAlert =
@@ -320,12 +340,14 @@ public class SavingsPlanController {
     warningAlert.showAndWait();
   }
 
+  /** Sets the default text for the savings plan information. */
   private void setDefaultSavingsPlanInfoText() {
     String noPlanSelected = "No plan selected";
     planNameInSavingsPlan.setText(noPlanSelected);
     savingsPlanDateLabel.setText(noPlanSelected);
   }
 
+  /** Sets the default text for the savings plan money information. */
   private void setDefaultSavingsPlanMoneyText() {
     String noPlanSelected = "No plan selected";
     totalSavedLabel.setText(noPlanSelected);

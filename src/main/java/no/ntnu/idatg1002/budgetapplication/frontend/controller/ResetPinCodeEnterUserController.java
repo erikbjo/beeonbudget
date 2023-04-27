@@ -20,21 +20,14 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
-/**
- * Represents the controller for the first view when resetting pin.
- */
+/** Represents the controller for the first view when resetting pin. */
 public class ResetPinCodeEnterUserController {
   @FXML public Text resetPinCodeText;
   @FXML public TextField emailTextField;
-  @FXML // ResourceBundle that was given to the FXMLLoader
-  private ResourceBundle resources;
-
-  @FXML // URL location of the FXML file that was given to the FXMLLoader
-  private URL location;
-
+  @FXML private ResourceBundle resources;
+  @FXML private URL location;
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text resetPasswordText; // Value injected by FXMLLoader
-
   @FXML private Button backToLoginButton; // Value injected by FXMLLoader
   @FXML private Button continueButton; // Value injected by FXMLLoader
 
@@ -43,9 +36,16 @@ public class ResetPinCodeEnterUserController {
     configureUsernameTextField();
   }
 
+  /**
+   * Checks if the user's email is valid. If it is, the user is allowed to continue to the next
+   * view.
+   *
+   * @param event The event that triggered the method call.
+   * @throws IOException If the FXML file for the next view is not found.
+   */
   @FXML
   void continueResetPassword(ActionEvent event) throws IOException {
-    if (assertAllFieldsValid() && (isValidUser(emailTextField.getText()))) {
+    if (assertAllFieldsValid() && (isValidEmail(emailTextField.getText()))) {
       SessionAccount.getInstance()
           .setAccount(AccountDAO.getInstance().getAccountByEmail(emailTextField.getText()));
       switchToEnterNewPinCode(event);
@@ -56,6 +56,12 @@ public class ResetPinCodeEnterUserController {
     }
   }
 
+  /**
+   * Sends the user to the reset pin code view.
+   *
+   * @param event The event that triggered the method call.
+   * @throws IOException If the FXML file for the next view is not found.
+   */
   private void switchToEnterNewPinCode(Event event) throws IOException {
     Parent root =
         FXMLLoader.load(
@@ -69,6 +75,12 @@ public class ResetPinCodeEnterUserController {
     scene.setRoot(root);
   }
 
+  /**
+   * Sends the user to the login view.
+   *
+   * @param event the event that triggered the method call
+   * @throws IOException the exception that is thrown if the FXML file for the next view is not
+   */
   @FXML
   void goBackToLogin(ActionEvent event) throws IOException {
     Parent root =
@@ -81,6 +93,10 @@ public class ResetPinCodeEnterUserController {
     scene.setRoot(root);
   }
 
+  /**
+   * Configures the username text field so that it is not possible to enter a space as the first
+   * character.
+   */
   private void configureUsernameTextField() {
     emailTextField
         .textProperty()
@@ -92,24 +108,21 @@ public class ResetPinCodeEnterUserController {
             });
   }
 
-  private boolean isValidUser(String user) {
-    boolean valid = false;
-
-    if (isEmail(user)) {
-      valid = isValidEmail(user);
-    }
-
-    return valid;
-  }
-
+  /**
+   * Checks if all the fields are valid.
+   *
+   * @return True if all the fields are valid, false otherwise.
+   */
   private boolean assertAllFieldsValid() {
     return (!emailTextField.getText().isEmpty() && !emailTextField.getText().isBlank());
   }
 
-  private boolean isEmail(String stringToBeChecked) {
-    return stringToBeChecked.contains("@");
-  }
-
+  /**
+   * Checks if the user's email is registered in the database.
+   *
+   * @param email The email to be checked.
+   * @return True if the email is valid, false otherwise.
+   */
   private boolean isValidEmail(String email) {
     boolean isValidEmail = false;
     List<Account> accounts = AccountDAO.getInstance().getAll();
@@ -123,11 +136,13 @@ public class ResetPinCodeEnterUserController {
     return isValidEmail;
   }
 
+  /** Shows an alert if the user has not filled out the username or email text field. */
   private void showEmptyTextFieldAlert() {
     WarningAlert warningAlert = new WarningAlert("Please fill out username or email");
     warningAlert.showAndWait();
   }
 
+  /** Shows an alert if the user has entered an invalid username or email. */
   private void showInvalidLoginAlert() {
     WarningAlert warningAlert = new WarningAlert("Invalid username or email");
     warningAlert.showAndWait();
