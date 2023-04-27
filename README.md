@@ -4,7 +4,7 @@ Bee on Budget is a budget application that allows users to track their expenses 
 and log in to view their budget. It allows for users to add expenses and income to their budget and
 view their budget as a pie chart.
 
-Another key feature of Bee on Budget is the Savings Calculator. The Savings Plan allows users to calculate how
+Another key feature of Bee on Budget is the Savings Plan. The Savings Plan allows users to calculate how
 much they need to save each month to reach their savings goal. Users can also view their savings goal in a pie chart.
 
 ## Installation
