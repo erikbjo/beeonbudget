@@ -126,6 +126,11 @@ public class BudgetController implements Initializable {
           getInformationFromSelectedItem();
         }
       });
+      incomeTableView.setOnKeyPressed(event1 -> {
+        if (event1.getCode() == KeyCode.DELETE) {
+          deleteRowFromTable(new ActionEvent());
+        }
+      });
     });
 
     expenseTableView
@@ -144,6 +149,11 @@ public class BudgetController implements Initializable {
       expenseTableView.setOnKeyPressed(event1 -> {
         if (event1.getCode() == KeyCode.ENTER) {
           getInformationFromSelectedItem();
+        }
+      });
+      expenseTableView.setOnKeyPressed(event1 -> {
+        if (event1.getCode() == KeyCode.DELETE) {
+          deleteRowFromTable(new ActionEvent());
         }
       });
     });
@@ -276,8 +286,8 @@ public class BudgetController implements Initializable {
     result.ifPresent(budget -> {
       SessionAccount.getInstance().getAccount().addBudget(budget);
       AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-      //updateAllInBudgetView();
       updateBudgetMoneyText();
+      updateBudgetInfoText();
     });
   }
 
