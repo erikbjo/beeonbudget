@@ -9,7 +9,7 @@ much they need to save each month to reach their savings goal. Users can also vi
 
 ## Installation
 
-The application is distributed as a .msi file. To install the application, download the .msi file and follow the
+The application is distributed as a .msi or .exe file. To install the application, download the .msi file and follow the
 installation manual.
 
 To run the application from source, clone the repository and run the following command in the root directory of the
