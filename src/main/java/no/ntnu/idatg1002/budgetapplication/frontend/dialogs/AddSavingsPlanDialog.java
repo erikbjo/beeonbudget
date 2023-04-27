@@ -78,7 +78,9 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
             });
   }
 
-  /** Configures the date pickers to show only when they are focused. */
+  /**
+   * Configures the start and end date pickers to show or hide depending on their focus state.
+   */
   private void configureDatePickers() {
     startDatePicker
         .focusedProperty()
@@ -103,7 +105,7 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
   }
 
   /**
-   * Configures the goal amount text field to only accept integers.
+   * Configures the goal amount text field to only accept numerical input.
    */
   private void configureGoalAmountField() {
     goalAmountTextField

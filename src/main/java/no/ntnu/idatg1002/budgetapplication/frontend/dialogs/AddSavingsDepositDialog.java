@@ -162,10 +162,9 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
   }
 
   /**
-   * Gets the value of the date picker. If the date picker has no value, the current date is set as
-   * the value.
+   * Gets the deposit date
    *
-   * @return the date of the expense
+   * @return deposit date
    */
   private LocalDate getDepositDateValue() {
     if (depositDatePicker.getValue() == null) {
