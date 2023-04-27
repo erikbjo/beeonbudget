@@ -1,6 +1,10 @@
 package no.ntnu.idatg1002.budgetapplication.backend.accountinformation;
 
-/** Singleton class to hold the current session's account logged in to the application. */
+/**
+ * Singleton class to hold the current session's account logged in to the application.
+ * @author Simon Husås Houmb
+ * @version 1.0
+ */
 public class SessionAccount {
   private Account account;
   private static final SessionAccount instance = new SessionAccount();
