@@ -39,7 +39,7 @@ The application is currently a closed project and is therefore open for contribu
 
 ## 📜 License 📃
 
-[NTNU](https://www.ntnu.edu/)
+[License](LICENSE)
 
 ## 👷‍♂️ Project status 👨‍💻
 
