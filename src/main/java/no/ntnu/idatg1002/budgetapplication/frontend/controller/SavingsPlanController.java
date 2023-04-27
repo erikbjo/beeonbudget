@@ -7,6 +7,7 @@ import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -35,20 +36,13 @@ import no.ntnu.idatg1002.budgetapplication.frontend.dialogs.AddSavingsPlanDialog
  */
 public class SavingsPlanController {
 
-  @FXML
-  public ProgressIndicator goalProgressIndicator;
-  @FXML
-  public Label userNameInSavingsPlan;
-  @FXML
-  public Label planNameInSavingsPlan;
-  @FXML
-  public Label savingsPlanDateLabel;
-  @FXML
-  public Label totalSavedLabel;
-  @FXML
-  public Label totalLeftLabel;
-  @FXML
-  public Label goalLabel;
+  @FXML public ProgressIndicator goalProgressIndicator;
+  @FXML public Label userNameInSavingsPlan;
+  @FXML public Label planNameInSavingsPlan;
+  @FXML public Label savingsPlanDateLabel;
+  @FXML public Label totalSavedLabel;
+  @FXML public Label totalLeftLabel;
+  @FXML public Label goalLabel;
   private Stage stage;
   private Scene scene;
   private Parent parent;
@@ -98,9 +92,9 @@ public class SavingsPlanController {
     Optional<SavingsPlan> result = dialog.showAndWait();
     result.ifPresent(
         savingsPlan -> {
+          updateAllInSavingsPlan();
           SessionAccount.getInstance().getAccount().addSavingsPlan(savingsPlan);
           AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-          updateAllInSavingsPlan();
         });
   }
 
@@ -129,28 +123,34 @@ public class SavingsPlanController {
 
   /** Displays the edit popup to allow users to change details of their savings plan. */
   public void onEdit(ActionEvent event) {
-    AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
-    dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
-
-    Optional<SavingsPlan> result = dialog.showAndWait();
-    result.ifPresent(savingsPlan -> {
-      SessionAccount.getInstance()
-          .getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
-      SessionAccount.getInstance().getAccount()
-          .getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
-      SessionAccount.getInstance().getAccount()
-          .getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
-      SessionAccount.getInstance().getAccount()
-          .getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());
-      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-      updateAllInSavingsPlan();
-    });
+    if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
+      AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
+      dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
+      Optional<SavingsPlan> result = dialog.showAndWait();
+      result.ifPresent(savingsPlan -> {
+        SessionAccount.getInstance()
+            .getAccount().getSelectedSavingsPlan().setGoalName(savingsPlan.getGoalName());
+        SessionAccount.getInstance().getAccount()
+            .getSelectedSavingsPlan().setTotalGoalAmount(savingsPlan.getTotalGoalAmount());
+        SessionAccount.getInstance().getAccount()
+            .getSelectedSavingsPlan().setStartDate(savingsPlan.getStartDate());
+        SessionAccount.getInstance().getAccount()
+            .getSelectedSavingsPlan().setEndDate(savingsPlan.getEndDate());
+        AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+        updateAllInSavingsPlan();
+      });
+    } else {
+      WarningAlert alert = new WarningAlert("You need to Create a Savings Plan");
+      alert.showAndWait();
+    }
   }
 
 
   @FXML
   public void initialize() {
-    updateAllInSavingsPlan();
+    updateSavingsPlanInfoText();
+    updateProgressIndicator();
+    updateSavingsPlanMoneyText();
   }
 
   /**
@@ -225,7 +225,9 @@ public class SavingsPlanController {
         SessionAccount.getInstance()
             .getAccount()
             .removeSavingsPlan(SessionAccount.getInstance().getAccount().getSelectedSavingsPlan());
-        SessionAccount.getInstance().getAccount().selectPreviousSavingsPlan();
+        if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
+          SessionAccount.getInstance().getAccount().selectPreviousSavingsPlan();
+        }
         AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
         updateAllInSavingsPlan();
       }
@@ -245,10 +247,10 @@ public class SavingsPlanController {
    * Updates text about the current savings plan in the GUI.
    */
   public void updateSavingsPlanInfoText() {
+    userNameInSavingsPlan.setText(SessionAccount.getInstance().getAccount().getName());
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       planNameInSavingsPlan.setText(
           SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getGoalName());
-      userNameInSavingsPlan.setText(SessionAccount.getInstance().getAccount().getName());
     } else {
       setDefaultSavingsPlanInfoText();
     }
@@ -263,8 +265,9 @@ public class SavingsPlanController {
           Integer.toString(
               SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       totalLeftLabel.setText(
-          Integer.toString(10));
-              //SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalGoalAmount() - SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
+          Integer.toString(
+              SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalGoalAmount()
+                  - SessionAccount.getInstance().getAccount().getSelectedSavingsPlan().getTotalSaved()));
       goalLabel.setText(
           Integer.toString(
               SessionAccount.getInstance().getAccount()
@@ -277,7 +280,6 @@ public class SavingsPlanController {
     } else {
       setDefaultSavingsPlanMoneyText();
     }
-    System.out.println(totalSavedLabel.getText() + " " + totalLeftLabel.getText() + " " + goalLabel.getText());
   }
 
   /**
