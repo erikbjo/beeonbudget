@@ -2,17 +2,13 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import com.jfoenix.controls.JFXButton;
 import java.io.IOException;
-import java.net.URL;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -103,6 +99,8 @@ public class SavingsPlanController {
 
   /**
    * Updates the plan's deposit and total savings amount and displays the new total amount saved.
+   *
+   * @param event the event that triggered the method.
    */
   public void onDeposit(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
@@ -124,7 +122,9 @@ public class SavingsPlanController {
     }
   }
 
-  /** Displays the edit popup to allow users to change details of their savings plan. */
+  /** Displays the edit popup to allow users to change details of their savings plan.
+   * @param event the event that triggered the method.
+   */
   public void onEdit(ActionEvent event) {
     if (SessionAccount.getInstance().getAccount().getCurrentSavingsPlanIndex() != null) {
       AddSavingsPlanDialog dialog = new AddSavingsPlanDialog();
@@ -148,7 +148,9 @@ public class SavingsPlanController {
     }
   }
 
-
+  /**
+   * Initializes the SavingsPlanController.
+   */
   @FXML
   public void initialize() {
     editButton.setDisable(true);

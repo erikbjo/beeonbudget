@@ -180,26 +180,46 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
     warningAlert.showAndWait();
   }
 
+  /**
+   * Returns the endDatePicker.
+   *
+   * @return the endDatePicker.
+   */
   public DatePicker getEndDatePicker() {
     return endDatePicker;
   }
 
+  /**
+   * Returns the startDatePicker.
+   *
+   * @return the startDatePicker.
+   */
   public DatePicker getStartDatePicker() {
     return startDatePicker;
   }
 
+  /**
+   * Returns the text from the savingsPlanNameTextField.
+   *
+   * @return the text from the savingsPlanNameTextField as a String.
+   */
   public String getSavingsPlanNameTextField() {
     return savingsPlanNameTextField.getText();
   }
 
+  /**
+   * Returns the value selected in the startDatePicker.
+   *
+   * @return the value selected in the startDatePicker as a LocalDate.
+   */
   public LocalDate getStartDate() {
     return getStartDatePicker().getValue();
   }
 
   /**
-   * Returns end date from EndDatePicker.
+   * Returns the value selected in the EndDatePicker.
    *
-   * @return end date from EndDatePicker as LocalDate.
+   * @return the value selected in the endDatePicker as a LocalDate.
    */
   public LocalDate getEndDate() {
     if (getEndDatePicker().getValue() == null) {

@@ -7,6 +7,7 @@ import java.util.Optional;
 /**
  * Data Access Object used to access data from a database.
  *
+ * @param <T> the type of the entity to be stored in the database.
  * @author Simon Husås Houmb
  * @version 1.0
  */
