@@ -236,7 +236,6 @@ public class BudgetController implements Initializable {
    * income, it is added to the currently selected budget.
    *
    * @param event The ActionEvent that triggers the method call
-   * @throws IOException if the AddIncomeDialog.fxml file cannot be loaded
    */
   @FXML
   public void onNewIncome(ActionEvent event) {

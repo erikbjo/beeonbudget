@@ -165,18 +165,38 @@ public class AddBudgetDialog extends Dialog<Budget> {
     warningAlert.showAndWait();
   }
 
+  /**
+   * Returns the endDatePicker.
+   *
+   * @return the endDatePicker.
+   */
   public DatePicker getEndDatePicker() {
     return endDatePicker;
   }
 
+  /**
+   * Returns the startDatePicker.
+   *
+   * @return the startDatePicker.
+   */
   public DatePicker getStartDatePicker() {
     return startDatePicker;
   }
 
+  /**
+   * Returns the budget name from budgetNameTextField.
+   *
+   * @return the budget name from budgetNameTextField as a String.
+   */
   public String getBudgetNameTextField() {
     return budgetNameTextField.getText();
   }
 
+  /**
+   * Returns the selected value in the startDatePicker.
+   *
+   * @return the selected value in the startDatePicker as LocalDate.
+   */
   public LocalDate getStartDate() {
     return getStartDatePicker().getValue();
   }
