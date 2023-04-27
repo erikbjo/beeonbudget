@@ -21,8 +21,8 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.ExceptionAlert;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
 /**
- * Represents a custom dialog for adding a savings plan in the budget application.
- * The dialog includes a field for entering the plan name.
+ * Represents a custom dialog for adding a savings plan in the budget application. The dialog
+ * includes a field for entering the plan name.
  *
  * @author Simon Husås Houmb
  * @version 1.1
@@ -43,8 +43,8 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
 
   /** Constructs an AddBudgetDialog, loading the FXML and configuring the budget name text field. */
   public AddSavingsPlanDialog() {
-    FXMLLoader loader = new FXMLLoader(
-        getClass().getResource("/fxmlfiles/addSavingsPlanDialog.fxml"));
+    FXMLLoader loader =
+        new FXMLLoader(getClass().getResource("/fxmlfiles/addSavingsPlanDialog.fxml"));
     loader.setController(this);
     DialogPane dialogPane = new DialogPane();
     try {
@@ -140,10 +140,12 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
     SavingsPlan newSavingsPlan;
     if (assertAllFieldsValid()) {
       try {
-        newSavingsPlan = new SavingsPlan(savingsPlanNameTextField.getText(),
-            Integer.parseInt(goalAmountTextField.getText()),
-            getStartDate(),
-            getEndDate());
+        newSavingsPlan =
+            new SavingsPlan(
+                savingsPlanNameTextField.getText(),
+                Integer.parseInt(goalAmountTextField.getText()),
+                getStartDate(),
+                getEndDate());
         this.setResult(newSavingsPlan);
         this.close();
       } catch (Exception exception) {
@@ -229,8 +231,7 @@ public class AddSavingsPlanDialog extends Dialog<SavingsPlan> {
    */
   public LocalDate getEndDate() {
     if (getEndDatePicker().getValue() == null) {
-      WarningAlert alert = new WarningAlert(""
-          + "End Date Is Empty");
+      WarningAlert alert = new WarningAlert("End Date Is Empty");
       alert.initModality(Modality.APPLICATION_MODAL);
       alert.showAndWait();
     }

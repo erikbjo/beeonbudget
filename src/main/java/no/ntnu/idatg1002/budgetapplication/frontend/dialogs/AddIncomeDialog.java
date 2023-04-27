@@ -63,7 +63,6 @@ public class AddIncomeDialog extends Dialog<Income> {
     this.setTitle("Add Income");
   }
 
-
   /** Closes the dialog when the "Cancel" button is clicked. */
   @FXML
   private void closeDialog() {
@@ -128,6 +127,10 @@ public class AddIncomeDialog extends Dialog<Income> {
             });
   }
 
+  /**
+   * Configure the incomeDatePicker to show when the input field is focused and hide when it is
+   * unfocused.
+   */
   private void configureIncomeDatePicker() {
     incomeDatePicker
         .focusedProperty()
@@ -168,6 +171,12 @@ public class AddIncomeDialog extends Dialog<Income> {
     return RecurringType.valueOfLabel(recurringIntervalComboBox.getValue());
   }
 
+  /**
+   * Returns the selected value from the income date picker. If no date is selected, the current
+   * date is returned.
+   *
+   * @return the selected date of the income
+   */
   @FXML
   private LocalDate getIncomeDateValue() {
     if (incomeDatePicker.getValue() == null) {
@@ -198,12 +207,10 @@ public class AddIncomeDialog extends Dialog<Income> {
         && getRecurringIntervalComboBoxValue() != null
         && getIncomeCategoryComboBoxValue() != null
         && getIncomeDateValue() != null
-        && !getIncomeDateValue().isBefore(
-        SessionAccount.getInstance().getAccount().getSelectedBudget()
-            .getStartDate())
-        && !getIncomeDateValue().isAfter(
-            SessionAccount.getInstance().getAccount().getSelectedBudget()
-        .getEndDate()));
+        && !getIncomeDateValue()
+            .isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget().getStartDate())
+        && !getIncomeDateValue()
+            .isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget().getEndDate()));
   }
 
   /**
@@ -238,14 +245,13 @@ public class AddIncomeDialog extends Dialog<Income> {
     if (getIncomeDateValue() == null) {
       builder.append("Income date added \n");
     }
-    if (getIncomeDateValue().isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget()
-        .getStartDate())
-        || getIncomeDateValue().isAfter(
-        SessionAccount.getInstance().getAccount().getSelectedBudget()
-            .getEndDate())) {
+    if (getIncomeDateValue()
+            .isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget().getStartDate())
+        || getIncomeDateValue()
+            .isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget().getEndDate())) {
       builder.append("Income date need to be inside budget period: \n");
-      builder.append(SessionAccount.getInstance().getAccount().getSelectedBudget()
-          .getStartToEndString());
+      builder.append(
+          SessionAccount.getInstance().getAccount().getSelectedBudget().getStartToEndString());
 
       warningAlert.setContentText(builder.toString());
       warningAlert.initOwner(this.getDialogPane().getScene().getWindow());
@@ -253,9 +259,7 @@ public class AddIncomeDialog extends Dialog<Income> {
     }
   }
 
-  /**
-   * Initializes AddIncomeDialog.
-   */
+  /** Initializes AddIncomeDialog. */
   @FXML
   public void initialize() {
     recurringIntervalComboBox.getItems().addAll(RecurringType.labelValues());

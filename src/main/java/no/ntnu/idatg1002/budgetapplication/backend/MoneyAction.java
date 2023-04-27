@@ -40,6 +40,9 @@ public abstract class MoneyAction {
     this.type = type;
   }
 
+  /**
+   * Default constructor for MoneyAction. Used by DB.
+   */
   protected MoneyAction() {}
 
   /**

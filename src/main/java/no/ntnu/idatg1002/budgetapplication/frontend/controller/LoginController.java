@@ -19,17 +19,13 @@ import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.AccountDAO
 import no.ntnu.idatg1002.budgetapplication.backend.accountinformation.SessionAccount;
 import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 
-/**
- * Controller for Login GUI.
- */
+/** Controller for Login GUI. */
 public class LoginController {
 
   @FXML public Text emailText;
   @FXML public TextField emailTextField;
-  @FXML // ResourceBundle that was given to the FXMLLoader
-  private ResourceBundle resources;
-  @FXML // URL location of the FXML file that was given to the FXMLLoader
-  private URL location;
+  @FXML private ResourceBundle resources;
+  @FXML private URL location;
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text loginOrRegisterText; // Value injected by FXMLLoader
   @FXML private Text pinCodeText; // Value injected by FXMLLoader
@@ -38,10 +34,7 @@ public class LoginController {
   @FXML private Button loginButton; // Value injected by FXMLLoader
   @FXML private Button registerNewAccountButton; // Value injected by FXMLLoader
 
-
-  /**
-   * Initializes the LoginController.
-   */
+  /** Initializes the LoginController. */
   @FXML // This method is called by the FXMLLoader when initialization is complete
   public void initialize() {
     SessionAccount.getInstance().clearAccount();

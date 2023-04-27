@@ -2,7 +2,6 @@ package no.ntnu.idatg1002.budgetapplication.frontend.controller;
 
 import java.io.IOException;
 import java.net.URL;
-import java.security.Key;
 import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.Objects;
@@ -26,7 +25,6 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -117,16 +115,18 @@ public class BudgetController implements Initializable {
                 expenseTableView.getSelectionModel().clearSelection();
               }
             });
-    incomeTableView.setOnMouseClicked(event -> {
-      if (event.getClickCount() == 2) {
-        getInformationFromSelectedItem();
-      }
-      incomeTableView.setOnKeyPressed(event1 -> {
-        if (event1.getCode() == KeyCode.ENTER) {
-          getInformationFromSelectedItem();
-        }
-      });
-    });
+    incomeTableView.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            getInformationFromSelectedItem();
+          }
+          incomeTableView.setOnKeyPressed(
+              event1 -> {
+                if (event1.getCode() == KeyCode.ENTER) {
+                  getInformationFromSelectedItem();
+                }
+              });
+        });
 
     expenseTableView
         .getSelectionModel()
@@ -137,16 +137,18 @@ public class BudgetController implements Initializable {
                 incomeTableView.getSelectionModel().clearSelection();
               }
             });
-    expenseTableView.setOnMouseClicked(event -> {
-      if (event.getClickCount() == 2) {
-        getInformationFromSelectedItem();
-      }
-      expenseTableView.setOnKeyPressed(event1 -> {
-        if (event1.getCode() == KeyCode.ENTER) {
-          getInformationFromSelectedItem();
-        }
-      });
-    });
+    expenseTableView.setOnMouseClicked(
+        event -> {
+          if (event.getClickCount() == 2) {
+            getInformationFromSelectedItem();
+          }
+          expenseTableView.setOnKeyPressed(
+              event1 -> {
+                if (event1.getCode() == KeyCode.ENTER) {
+                  getInformationFromSelectedItem();
+                }
+              });
+        });
 
     userNameInBudget.setText(SessionAccount.getInstance().getAccount().getName());
     updateAllInBudgetView();
@@ -161,8 +163,7 @@ public class BudgetController implements Initializable {
   @FXML
   public void switchToPrimaryFromBudget(ActionEvent event) throws IOException {
     Parent root =
-        FXMLLoader.load(Objects.requireNonNull(
-            getClass().getResource("/fxmlfiles/primary.fxml")));
+        FXMLLoader.load(Objects.requireNonNull(getClass().getResource("/fxmlfiles/primary.fxml")));
     String css = this.getClass().getResource("/cssfiles/primary.css").toExternalForm();
     Scene newScene = ((Node) event.getSource()).getScene();
     newScene.getStylesheets().add(css);
@@ -272,12 +273,12 @@ public class BudgetController implements Initializable {
     dialog.initOwner(((Node) event.getSource()).getScene().getWindow());
 
     Optional<Budget> result = dialog.showAndWait();
-    result.ifPresent(budget -> {
-      SessionAccount.getInstance().getAccount().addBudget(budget);
-      AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
-      //updateAllInBudgetView();
-      updateBudgetMoneyText();
-    });
+    result.ifPresent(
+        budget -> {
+          SessionAccount.getInstance().getAccount().addBudget(budget);
+          AccountDAO.getInstance().update(SessionAccount.getInstance().getAccount());
+          updateBudgetMoneyText();
+        });
   }
 
   /**

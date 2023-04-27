@@ -118,7 +118,8 @@ public class AddSavingsDepositDialog extends Dialog<Integer> {
   }
 
   /**
-   * Configures the deposit date picker to show or hide depending on its focus state.
+   * Configures the deposit date picker to show when the input field is focused and hide when it
+   * loses focus.
    */
   private void configureDepositDatePicker() {
     depositDatePicker

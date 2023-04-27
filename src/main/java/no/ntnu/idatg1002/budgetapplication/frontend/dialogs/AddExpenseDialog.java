@@ -124,6 +124,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
             });
   }
 
+  /** Configures the date picker to show when the input field is focused and hide when it is not. */
   private void configureExpenseDatePicker() {
     expenseDatePicker
         .focusedProperty()
@@ -173,6 +174,12 @@ public class AddExpenseDialog extends Dialog<Expense> {
     return ExpenseCategory.valueOfLabel(categoryComboBox.getValue());
   }
 
+  /**
+   * Gets the selected date from the expense date picker. If no date is selected, the current date
+   * is returned.
+   *
+   * @return the selected date of the expense date picker
+   */
   private LocalDate getExpenseDateValue() {
     if (expenseDatePicker.getValue() == null) {
       expenseDatePicker.setValue(LocalDate.now());
@@ -193,12 +200,10 @@ public class AddExpenseDialog extends Dialog<Expense> {
         && getRecurringIntervalComboBoxValue() != null
         && getExpenseCategoryComboBoxValue() != null
         && getExpenseDateValue() != null
-        && !getExpenseDateValue().isBefore(
-            SessionAccount.getInstance().getAccount().getSelectedBudget()
-        .getStartDate())
-        && !getExpenseDateValue().isAfter(
-            SessionAccount.getInstance().getAccount().getSelectedBudget()
-        .getEndDate()));
+        && !getExpenseDateValue()
+            .isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget().getStartDate())
+        && !getExpenseDateValue()
+            .isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget().getEndDate()));
   }
 
   /**
@@ -230,15 +235,13 @@ public class AddExpenseDialog extends Dialog<Expense> {
     if (getExpenseDateValue() == null) {
       builder.append("Expense date added \n");
     }
-    if (getExpenseDateValue().isBefore(
-        SessionAccount.getInstance().getAccount().getSelectedBudget()
-        .getStartDate())
-        || getExpenseDateValue().isAfter(
-            SessionAccount.getInstance().getAccount().getSelectedBudget()
-        .getEndDate())) {
+    if (getExpenseDateValue()
+            .isBefore(SessionAccount.getInstance().getAccount().getSelectedBudget().getStartDate())
+        || getExpenseDateValue()
+            .isAfter(SessionAccount.getInstance().getAccount().getSelectedBudget().getEndDate())) {
       builder.append("Expense date need to be inside budget period: \n");
-      builder.append(SessionAccount.getInstance().getAccount().getSelectedBudget()
-          .getStartToEndString());
+      builder.append(
+          SessionAccount.getInstance().getAccount().getSelectedBudget().getStartToEndString());
     }
     WarningAlert warningAlert = new WarningAlert();
     warningAlert.setContentText(builder.toString());
@@ -246,9 +249,7 @@ public class AddExpenseDialog extends Dialog<Expense> {
     warningAlert.showAndWait();
   }
 
-  /**
-   * Initializes AddExpenseDialog.
-   */
+  /** Initializes AddExpenseDialog. */
   @FXML
   public void initialize() {
     recurringIntervalComboBox.getItems().addAll(RecurringType.labelValues());

@@ -8,15 +8,20 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
-/**
- * The view that is shown when the application launches.
- */
+/** The view that is shown when the application launches. */
 public class PrimaryView extends Application {
 
+  /** Launches the application. */
   public static void mainApp(String[] args) {
     launch();
   }
 
+  /**
+   * Starts the application.
+   *
+   * @param primaryStage the primary stage
+   * @throws Exception if there is an issue loading the FXML file
+   */
   @Override
   public void start(Stage primaryStage) throws Exception {
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxmlfiles/login.fxml"));

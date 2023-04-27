@@ -27,10 +27,8 @@ import no.ntnu.idatg1002.budgetapplication.frontend.alerts.WarningAlert;
 public class ResetPinCodeEnterNewPinCodeController {
 
   @FXML public TextField emailTextField;
-  @FXML // ResourceBundle that was given to the FXMLLoader
-  private ResourceBundle resources;
-  @FXML // URL location of the FXML file that was given to the FXMLLoader
-  private URL location;
+  @FXML private ResourceBundle resources;
+  @FXML private URL location;
   @FXML private Text budgetApplicationText; // Value injected by FXMLLoader
   @FXML private Text newPinCodeText; // Value injected by FXMLLoader
   @FXML private Text resetPasswordText; // Value injected by FXMLLoader
