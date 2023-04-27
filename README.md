@@ -1,4 +1,4 @@
-# Bee on Budget
+# 🐝 Bee on Budget 🐝
 
 Bee on Budget is a budget application that allows users to track their expenses and incomes. Users can create an account
 and log in to view their budget. It allows for users to add expenses and income to their budget and
@@ -7,7 +7,7 @@ view their budget as a pie chart.
 Another key feature of Bee on Budget is the Savings Plan. The Savings Plan allows users to calculate how
 much they need to save each month to reach their savings goal. Users can also view their savings goal in a pie chart.
 
-## Installation
+## 💾 Installation 💾 
 
 The application is distributed as a .msi or .exe file. To install the application, download the .msi file and follow the
 installation manual.
@@ -19,7 +19,7 @@ project:
 mvn javafx:run
 ```
 
-## Support
+## 📧 Support 💌
 
 If you have any questions or issues, please contact us at:
 
@@ -29,14 +29,14 @@ If you have any questions or issues, please contact us at:
 - <simonhou@stud.ntnu.no>
 - <emilkle@stud.ntnu.no>
 
-## Contributing
+##  🔨 Contributing 🔧
 
 The application is currently a closed project and is therefore open for contributions.
 
-## License
+## 📜 License 📃
 
 [NTNU](https://www.ntnu.edu/)
 
-## Project status
+## 👷‍♂️ Project status 👨‍💻
 
 The project is completed and is no longer being developed.
