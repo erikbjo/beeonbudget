@@ -35,7 +35,7 @@ If you have any questions or issues, please contact us at:
 
 ##  🔨 Contributing 🔧
 
-The application is currently a closed project and is therefore open for contributions.
+The application is currently a closed project and is therefore not open for contributions.
 
 ## 📜 License 📃
 
