@@ -7,6 +7,8 @@ view their budget as a pie chart.
 Another key feature of Bee on Budget is the Savings Plan. The Savings Plan allows users to calculate how
 much they need to save each month to reach their savings goal. Users can also view their savings goal in a pie chart.
 
+_The project is finished and archived._
+
 ## 💾 Installation 💾 
 
 The application is distributed as a .msi or .exe file. To install the application, download the .msi file and follow the
@@ -21,7 +23,7 @@ mvn javafx:run
 
 ## 📦 Releases 📦
 
-See releases [here](https://git.gvk.idi.ntnu.no/course/idatg1002/idatg1002-2023-workspace/idatg1002_grp1_eskil_erik_simon_emil/budgetapplication/-/releases)
+See releases
 
 ## 📧 Support 💌
 
